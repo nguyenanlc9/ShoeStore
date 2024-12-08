@@ -1,0 +1,1877 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\ShoeStore.bundle.scp.css",
+      "PackagePath": "staticwebassets\\ShoeStore.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\demo.css",
+      "PackagePath": "staticwebassets\\css\\demo.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\demo.css.map",
+      "PackagePath": "staticwebassets\\css\\demo.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\fonts.css",
+      "PackagePath": "staticwebassets\\css\\fonts.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\fonts.min.css",
+      "PackagePath": "staticwebassets\\css\\fonts.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\kaiadmin.css",
+      "PackagePath": "staticwebassets\\css\\kaiadmin.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\kaiadmin.css.map",
+      "PackagePath": "staticwebassets\\css\\kaiadmin.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\kaiadmin.min.css",
+      "PackagePath": "staticwebassets\\css\\kaiadmin.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\plugins.css",
+      "PackagePath": "staticwebassets\\css\\plugins.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\plugins.css.map",
+      "PackagePath": "staticwebassets\\css\\plugins.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\plugins.min.css",
+      "PackagePath": "staticwebassets\\css\\plugins.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-brands-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-brands-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-regular-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-regular-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-regular-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-solid-900.eot"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-solid-900.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\fontawesome\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\simple-line-icons\\Simple-Line-Icons.eot",
+      "PackagePath": "staticwebassets\\fonts\\simple-line-icons\\Simple-Line-Icons.eot"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\simple-line-icons\\Simple-Line-Icons.svg",
+      "PackagePath": "staticwebassets\\fonts\\simple-line-icons\\Simple-Line-Icons.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\simple-line-icons\\Simple-Line-Icons.ttf",
+      "PackagePath": "staticwebassets\\fonts\\simple-line-icons\\Simple-Line-Icons.ttf"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\simple-line-icons\\Simple-Line-Icons.woff",
+      "PackagePath": "staticwebassets\\fonts\\simple-line-icons\\Simple-Line-Icons.woff"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\simple-line-icons\\Simple-Line-Icons.woff2",
+      "PackagePath": "staticwebassets\\fonts\\simple-line-icons\\Simple-Line-Icons.woff2"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\summernote\\summernote.eot",
+      "PackagePath": "staticwebassets\\fonts\\summernote\\summernote.eot"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\summernote\\summernote.ttf",
+      "PackagePath": "staticwebassets\\fonts\\summernote\\summernote.ttf"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\summernote\\summernote.woff",
+      "PackagePath": "staticwebassets\\fonts\\summernote\\summernote.woff"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\fonts\\summernote\\summernote.woff2",
+      "PackagePath": "staticwebassets\\fonts\\summernote\\summernote.woff2"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\arashmil.jpg",
+      "PackagePath": "staticwebassets\\img\\arashmil.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\bg-404.jpeg",
+      "PackagePath": "staticwebassets\\img\\bg-404.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\blogpost.jpg",
+      "PackagePath": "staticwebassets\\img\\blogpost.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\chadengle.jpg",
+      "PackagePath": "staticwebassets\\img\\chadengle.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example1-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example1-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example1.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example1.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example10-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example10-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example10.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example10.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example11-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example11-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example11.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example11.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example12-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example12-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example12.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example12.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example2-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example2-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example2.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example2.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example3-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example3-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example3.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example3.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example4-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example4-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example4.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example4.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example5-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example5-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example5.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example5.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example6-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example6-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example6.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example6.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example7-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example7-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example7.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example7.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example8-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example8-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example8.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example8.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example9-300x300.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\example9-300x300.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\example9.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\example9.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\logo.svg",
+      "PackagePath": "staticwebassets\\img\\examples\\logo.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\logo1.svg",
+      "PackagePath": "staticwebassets\\img\\examples\\logo1.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\logo2.svg",
+      "PackagePath": "staticwebassets\\img\\examples\\logo2.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\logoinvoice.svg",
+      "PackagePath": "staticwebassets\\img\\examples\\logoinvoice.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product1.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product10.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\product10.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product11.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\product11.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product12.jpeg",
+      "PackagePath": "staticwebassets\\img\\examples\\product12.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product2.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product3.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product4.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product5.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product6.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product7.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\examples\\product8.jpg",
+      "PackagePath": "staticwebassets\\img\\examples\\product8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ad.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ad.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ae.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ae.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\af.png",
+      "PackagePath": "staticwebassets\\img\\flags\\af.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ag.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ag.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ai.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ai.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\al.png",
+      "PackagePath": "staticwebassets\\img\\flags\\al.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\am.png",
+      "PackagePath": "staticwebassets\\img\\flags\\am.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\an.png",
+      "PackagePath": "staticwebassets\\img\\flags\\an.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ao.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ao.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ar.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ar.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\as.png",
+      "PackagePath": "staticwebassets\\img\\flags\\as.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\at.png",
+      "PackagePath": "staticwebassets\\img\\flags\\at.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\au.png",
+      "PackagePath": "staticwebassets\\img\\flags\\au.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\aw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\aw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ax.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ax.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\az.png",
+      "PackagePath": "staticwebassets\\img\\flags\\az.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ba.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ba.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bb.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bb.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bd.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bd.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\be.png",
+      "PackagePath": "staticwebassets\\img\\flags\\be.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bi.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bi.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bj.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bj.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bo.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bo.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\br.png",
+      "PackagePath": "staticwebassets\\img\\flags\\br.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bs.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bs.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\by.png",
+      "PackagePath": "staticwebassets\\img\\flags\\by.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\bz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\bz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ca.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ca.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\catalonia.png",
+      "PackagePath": "staticwebassets\\img\\flags\\catalonia.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cd.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cd.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ch.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ch.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ci.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ci.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ck.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ck.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\co.png",
+      "PackagePath": "staticwebassets\\img\\flags\\co.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cs.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cs.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cx.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cx.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cy.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cy.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\cz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\cz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\de.png",
+      "PackagePath": "staticwebassets\\img\\flags\\de.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\dj.png",
+      "PackagePath": "staticwebassets\\img\\flags\\dj.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\dk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\dk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\dm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\dm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\do.png",
+      "PackagePath": "staticwebassets\\img\\flags\\do.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\dz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\dz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ec.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ec.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ee.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ee.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\eg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\eg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\eh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\eh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\england.png",
+      "PackagePath": "staticwebassets\\img\\flags\\england.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\er.png",
+      "PackagePath": "staticwebassets\\img\\flags\\er.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\es.png",
+      "PackagePath": "staticwebassets\\img\\flags\\es.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\et.png",
+      "PackagePath": "staticwebassets\\img\\flags\\et.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\europeanunion.png",
+      "PackagePath": "staticwebassets\\img\\flags\\europeanunion.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fam.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fam.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fi.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fi.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fj.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fj.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fo.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fo.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\fr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\fr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ga.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ga.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gb.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gb.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gd.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gd.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ge.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ge.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gi.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gi.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gp.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gp.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gq.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gq.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gs.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gs.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\gy.png",
+      "PackagePath": "staticwebassets\\img\\flags\\gy.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\hk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\hk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\hm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\hm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\hn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\hn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\hr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\hr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ht.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ht.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\hu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\hu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\id.png",
+      "PackagePath": "staticwebassets\\img\\flags\\id.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ie.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ie.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\il.png",
+      "PackagePath": "staticwebassets\\img\\flags\\il.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\in.png",
+      "PackagePath": "staticwebassets\\img\\flags\\in.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\io.png",
+      "PackagePath": "staticwebassets\\img\\flags\\io.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\iq.png",
+      "PackagePath": "staticwebassets\\img\\flags\\iq.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ir.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ir.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\is.png",
+      "PackagePath": "staticwebassets\\img\\flags\\is.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\it.png",
+      "PackagePath": "staticwebassets\\img\\flags\\it.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\jm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\jm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\jo.png",
+      "PackagePath": "staticwebassets\\img\\flags\\jo.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\jp.png",
+      "PackagePath": "staticwebassets\\img\\flags\\jp.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ke.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ke.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ki.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ki.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\km.png",
+      "PackagePath": "staticwebassets\\img\\flags\\km.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kp.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kp.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ky.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ky.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\kz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\kz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\la.png",
+      "PackagePath": "staticwebassets\\img\\flags\\la.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lb.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lb.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\li.png",
+      "PackagePath": "staticwebassets\\img\\flags\\li.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ls.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ls.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\lv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\lv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ly.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ly.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ma.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ma.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\md.png",
+      "PackagePath": "staticwebassets\\img\\flags\\md.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\me.png",
+      "PackagePath": "staticwebassets\\img\\flags\\me.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ml.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ml.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mo.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mo.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mp.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mp.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mq.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mq.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ms.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ms.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mx.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mx.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\my.png",
+      "PackagePath": "staticwebassets\\img\\flags\\my.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\mz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\mz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\na.png",
+      "PackagePath": "staticwebassets\\img\\flags\\na.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ne.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ne.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ng.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ng.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ni.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ni.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\no.png",
+      "PackagePath": "staticwebassets\\img\\flags\\no.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\np.png",
+      "PackagePath": "staticwebassets\\img\\flags\\np.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\nz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\nz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\om.png",
+      "PackagePath": "staticwebassets\\img\\flags\\om.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pa.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pa.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pe.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pe.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ph.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ph.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ps.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ps.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\pw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\pw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\py.png",
+      "PackagePath": "staticwebassets\\img\\flags\\py.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\qa.png",
+      "PackagePath": "staticwebassets\\img\\flags\\qa.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\re.png",
+      "PackagePath": "staticwebassets\\img\\flags\\re.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\readme.txt",
+      "PackagePath": "staticwebassets\\img\\flags\\readme.txt"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ro.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ro.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\rs.png",
+      "PackagePath": "staticwebassets\\img\\flags\\rs.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ru.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ru.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\rw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\rw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sa.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sa.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sb.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sb.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\scotland.png",
+      "PackagePath": "staticwebassets\\img\\flags\\scotland.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sd.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sd.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\se.png",
+      "PackagePath": "staticwebassets\\img\\flags\\se.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sh.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sh.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\si.png",
+      "PackagePath": "staticwebassets\\img\\flags\\si.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sj.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sj.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\so.png",
+      "PackagePath": "staticwebassets\\img\\flags\\so.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\st.png",
+      "PackagePath": "staticwebassets\\img\\flags\\st.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sy.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sy.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\sz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\sz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\td.png",
+      "PackagePath": "staticwebassets\\img\\flags\\td.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\th.png",
+      "PackagePath": "staticwebassets\\img\\flags\\th.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tj.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tj.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tk.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tk.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tl.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tl.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\to.png",
+      "PackagePath": "staticwebassets\\img\\flags\\to.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tr.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tr.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tv.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tv.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\tz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\tz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ua.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ua.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ug.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ug.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\um.png",
+      "PackagePath": "staticwebassets\\img\\flags\\um.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\us.png",
+      "PackagePath": "staticwebassets\\img\\flags\\us.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\uy.png",
+      "PackagePath": "staticwebassets\\img\\flags\\uy.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\uz.png",
+      "PackagePath": "staticwebassets\\img\\flags\\uz.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\va.png",
+      "PackagePath": "staticwebassets\\img\\flags\\va.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\vc.png",
+      "PackagePath": "staticwebassets\\img\\flags\\vc.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ve.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ve.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\vg.png",
+      "PackagePath": "staticwebassets\\img\\flags\\vg.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\vi.png",
+      "PackagePath": "staticwebassets\\img\\flags\\vi.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\vn.png",
+      "PackagePath": "staticwebassets\\img\\flags\\vn.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\vu.png",
+      "PackagePath": "staticwebassets\\img\\flags\\vu.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\wales.png",
+      "PackagePath": "staticwebassets\\img\\flags\\wales.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\wf.png",
+      "PackagePath": "staticwebassets\\img\\flags\\wf.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ws.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ws.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\ye.png",
+      "PackagePath": "staticwebassets\\img\\flags\\ye.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\yt.png",
+      "PackagePath": "staticwebassets\\img\\flags\\yt.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\za.png",
+      "PackagePath": "staticwebassets\\img\\flags\\za.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\zm.png",
+      "PackagePath": "staticwebassets\\img\\flags\\zm.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\flags\\zw.png",
+      "PackagePath": "staticwebassets\\img\\flags\\zw.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\img-shadow.png",
+      "PackagePath": "staticwebassets\\img\\img-shadow.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\jm_denis.jpg",
+      "PackagePath": "staticwebassets\\img\\jm_denis.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo1.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo1.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo2.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo2.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo3.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo3.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo4.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo4.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo5.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo5.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo6.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo6.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo7.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo7.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo8.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo8.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\demo9.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\demo9.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\favicon.ico",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\favicon.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\favicon.svg",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\favicon.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\icon.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\icon.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\icon.svg",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\icon.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\logo_dark.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\logo_dark.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\logo_dark.svg",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\logo_dark.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\logo_documentation.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\logo_documentation.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\logo_light.png",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\logo_light.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\kaiadmin\\logo_light.svg",
+      "PackagePath": "staticwebassets\\img\\kaiadmin\\logo_light.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\logoproduct.svg",
+      "PackagePath": "staticwebassets\\img\\logoproduct.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\logoproduct2.svg",
+      "PackagePath": "staticwebassets\\img\\logoproduct2.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\logoproduct3.svg",
+      "PackagePath": "staticwebassets\\img\\logoproduct3.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\mlane.jpg",
+      "PackagePath": "staticwebassets\\img\\mlane.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\profile.jpg",
+      "PackagePath": "staticwebassets\\img\\profile.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\profile2.jpg",
+      "PackagePath": "staticwebassets\\img\\profile2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\sauro.jpg",
+      "PackagePath": "staticwebassets\\img\\sauro.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\talha.jpg",
+      "PackagePath": "staticwebassets\\img\\talha.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_Hello_qnas.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_Hello_qnas.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_Taken_if77.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_Taken_if77.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_blank_canvas_3rbb.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_blank_canvas_3rbb.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_creative_team_r90h.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_creative_team_r90h.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_empty_xct9.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_empty_xct9.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_no_data_qbuo.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_no_data_qbuo.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_not_found_60pq.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_not_found_60pq.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_page_not_found_su7k.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_page_not_found_su7k.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_sign_in_e6hj.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_sign_in_e6hj.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_tabs_jf82.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_tabs_jf82.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_update_uxn2.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_update_uxn2.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\undraw\\undraw_upgrade_06a0.svg",
+      "PackagePath": "staticwebassets\\img\\undraw\\undraw_upgrade_06a0.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\img\\visa.svg",
+      "PackagePath": "staticwebassets\\img\\visa.svg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\core\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\core\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\core\\jquery-3.7.1.min.js",
+      "PackagePath": "staticwebassets\\js\\core\\jquery-3.7.1.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\core\\popper.min.js",
+      "PackagePath": "staticwebassets\\js\\core\\popper.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\demo.js",
+      "PackagePath": "staticwebassets\\js\\demo.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\kaiadmin.js",
+      "PackagePath": "staticwebassets\\js\\kaiadmin.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\kaiadmin.min.js",
+      "PackagePath": "staticwebassets\\js\\kaiadmin.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\bootstrap-notify\\bootstrap-notify.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\bootstrap-notify\\bootstrap-notify.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\bootstrap-tagsinput\\bootstrap-tagsinput.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\bootstrap-tagsinput\\bootstrap-tagsinput.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\bootstrap-toggle\\bootstrap-toggle.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\bootstrap-toggle\\bootstrap-toggle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\chart-circle\\circles.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\chart-circle\\circles.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\chart.js\\chart.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\chart.js\\chart.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\datatables\\datatables.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\datatables\\datatables.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\datepicker\\bootstrap-datetimepicker.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\datepicker\\bootstrap-datetimepicker.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\dropzone\\dropzone.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\dropzone\\dropzone.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\fullcalendar\\fullcalendar.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\fullcalendar\\fullcalendar.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\gmaps\\gmaps.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\gmaps\\gmaps.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jquery-scrollbar\\jquery.scrollbar.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jquery-scrollbar\\jquery.scrollbar.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jquery.magnific-popup\\jquery.magnific-popup.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jquery.magnific-popup\\jquery.magnific-popup.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jquery.sparkline\\jquery.sparkline.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jquery.sparkline\\jquery.sparkline.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jquery.validate\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jquery.validate\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jsvectormap\\jsvectormap.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jsvectormap\\jsvectormap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\jsvectormap\\world.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\jsvectormap\\world.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\list.js\\list.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\list.js\\list.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\moment\\moment.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\moment\\moment.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\owl-carousel\\ajax-loader.gif",
+      "PackagePath": "staticwebassets\\js\\plugin\\owl-carousel\\ajax-loader.gif"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\owl-carousel\\owl.carousel.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\owl-carousel\\owl.carousel.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\owl-carousel\\owl.video.play.png",
+      "PackagePath": "staticwebassets\\js\\plugin\\owl-carousel\\owl.video.play.png"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\select2\\select2.full.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\select2\\select2.full.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\sortable\\sortable.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\sortable\\sortable.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\sticky-sidebar\\sticky-sidebar.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\sticky-sidebar\\sticky-sidebar.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\summernote\\summernote-lite.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\summernote\\summernote-lite.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\sweetalert\\sweetalert.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\sweetalert\\sweetalert.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\plugin\\webfont\\webfont.min.js",
+      "PackagePath": "staticwebassets\\js\\plugin\\webfont\\webfont.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\setting-demo.js",
+      "PackagePath": "staticwebassets\\js\\setting-demo.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\setting-demo2.js",
+      "PackagePath": "staticwebassets\\js\\setting-demo2.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ShoeStore.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ShoeStore.props",
+      "PackagePath": "build\\ShoeStore.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ShoeStore.props",
+      "PackagePath": "buildMultiTargeting\\ShoeStore.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ShoeStore.props",
+      "PackagePath": "buildTransitive\\ShoeStore.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
