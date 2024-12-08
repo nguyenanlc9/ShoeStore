@@ -54,7 +54,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BrandId,Name,Description")] Brand brand)
+        public async Task<IActionResult> Create([Bind("BrandId,Name")] Brand brand)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BrandId,Name,Description")] Brand brand)
+        public async Task<IActionResult> Edit(int id, [Bind("BrandId,Name")] Brand brand)
         {
             if (id != brand.BrandId)
             {

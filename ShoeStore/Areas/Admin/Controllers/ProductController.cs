@@ -22,8 +22,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/Product
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Brand).Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Products.ToListAsync());
         }
 
         // GET: Admin/Product/Details/5
@@ -35,8 +34,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -49,8 +46,6 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/Product/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name");
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
             return View();
         }
 
@@ -59,7 +54,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,ImagePath,StockQuantity,BrandId,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,Description,ImagePath,StockQuantity")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +62,6 @@ namespace ShoeStore.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -85,8 +78,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -95,7 +86,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price,ImagePath,StockQuantity,BrandId,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price,Description,ImagePath,StockQuantity")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -122,8 +113,6 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -136,8 +125,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {

@@ -7,14 +7,9 @@ namespace ShoeStore.Models
     public class Brand
     {
         [Key]
-        public int BrandId { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        // Navigation property
-        public ICollection<Product> Products { get; set; }
+        public int BrandId { get; set; } // Display as ID
+        public string Name { get; set; } // Display as Name
+        public virtual ICollection<Product>? Products { get; set; }
     }
+
 }

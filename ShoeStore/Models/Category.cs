@@ -7,14 +7,10 @@ namespace ShoeStore.Models
     public class Category
     {
         [Key]
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } // Display as ID
+        public string Name { get; set; } // Display as Name
 
-        [Required]
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        // Navigation property
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product>? Products { get; set; }
     }
+
 }
