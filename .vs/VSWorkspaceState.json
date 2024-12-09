@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ShoeStore",
+    "\\ShoeStore\\Areas",
+    "\\ShoeStore\\Areas\\Admin",
+    "\\ShoeStore\\Areas\\Admin\\Controllers"
+  ],
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\HomeController.cs",
+  "PreviewInSolutionExplorer": false
+}

@@ -7,6 +7,7 @@ namespace ShoeStore.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["ActiveMenu"] = "dashboard";
             return View();
         }
     }

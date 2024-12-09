@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeStore.Models
@@ -7,13 +8,22 @@ namespace ShoeStore.Models
     public class Product
     {
         [Key]
-        public int ProductId { get; set; } // Display as Product ID
-        public string Name { get; set; }   // Display as Name
-        public decimal Price { get; set; } // Display as Price
-        public string Description { get; set; } // Display as Description
-        public string ImagePath { get; set; }   // Display as Image Path
-        public int StockQuantity { get; set; }  // Display as Stock Quantity
+        public int ProductId { get; set; }
 
+
+        public int CategoryId { get; set; }
+
+
+        public string Name { get; set; }   
+        public decimal Price { get; set; } 
+        public string Description { get; set; }
+
+        public decimal DiscountPrice { get; set; }
+        public string ImagePath { get; set; }  
+        public int StockQuantity { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
 
 
         [ForeignKey("CategoryId")]

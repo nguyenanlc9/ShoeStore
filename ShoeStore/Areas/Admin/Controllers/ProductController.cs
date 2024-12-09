@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
+using ShoeStore.Models.DTO.Requset;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -19,10 +20,36 @@ namespace ShoeStore.Areas.Admin.Controllers
             _context = context;
         }
 
+        // Thêm phương thức helper để xử lý upload file
+        private async Task<string> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            return "/images/products/" + uniqueFileName;
+        }
+
+
         // GET: Admin/Product
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            ViewData["ActiveMenu"] = "product";
+
+            var applicationDbContext = _context.Products.Include(p => p.Categories);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Admin/Product/Details/5
@@ -34,6 +61,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Categories)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -46,6 +74,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/Product/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
             return View();
         }
 
@@ -54,15 +83,33 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,Description,ImagePath,StockQuantity")] Product product)
+        public async Task<IActionResult> Create(ProductDTO productDTO)
         {
             if (ModelState.IsValid)
             {
+                var product = new Product
+                {
+                    CategoryId = productDTO.CategoryId,
+                    Name = productDTO.Name,
+                    Price = productDTO.Price,
+                    DiscountPrice = productDTO.DiscountPrice,
+                    Description = productDTO.Description,
+                    StockQuantity = productDTO.StockQuantity,
+                    UpdatedDate = DateTime.Now,
+                    UpdatedBy = "Admin"
+                };
+
+                if (productDTO.ImagePath != null)
+                {
+                    product.ImagePath = await UploadFile(productDTO.ImagePath);
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", productDTO.CategoryId);
+            return View(productDTO);
         }
 
         // GET: Admin/Product/Edit/5
@@ -78,6 +125,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
             return View(product);
         }
 
@@ -86,9 +134,9 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price,Description,ImagePath,StockQuantity")] Product product)
+        public async Task<IActionResult> Edit(int id, ProductDTO productDTO)
         {
-            if (id != product.ProductId)
+            if (id != productDTO.ProductId)
             {
                 return NotFound();
             }
@@ -97,12 +145,46 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    // Tìm sản phẩm hiện tại từ database
+                    var existingProduct = await _context.Products.FindAsync(id);
+                    if (existingProduct == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Cập nhật thông tin cơ bản
+                    existingProduct.Name = productDTO.Name;
+                    existingProduct.Price = productDTO.Price;
+                    existingProduct.DiscountPrice = productDTO.DiscountPrice;
+                    existingProduct.Description = productDTO.Description;
+                    existingProduct.StockQuantity = productDTO.StockQuantity;
+                    existingProduct.CategoryId = productDTO.CategoryId;
+                    existingProduct.UpdatedDate = DateTime.Now;
+                    existingProduct.UpdatedBy = "Admin";
+
+                    if (productDTO.ImagePath != null && productDTO.ImagePath.Length > 0)
+                    {
+                        if (!string.IsNullOrEmpty(existingProduct.ImagePath))
+                        {
+                            string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingProduct.ImagePath.TrimStart('/'));
+                            if (System.IO.File.Exists(oldFilePath))
+                            {
+                                System.IO.File.Delete(oldFilePath);
+                            }
+                        }
+
+                        existingProduct.ImagePath = await UploadFile(productDTO.ImagePath);
+                    }
+
+                    // Cập nhật sản phẩm vào database
+                    _context.Update(existingProduct);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProductId))
+                    if (!ProductExists(productDTO.ProductId))
                     {
                         return NotFound();
                     }
@@ -111,9 +193,11 @@ namespace ShoeStore.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(product);
+
+            // Nếu ModelState không hợp lệ, trả lại View với danh sách Category
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", productDTO.CategoryId);
+            return View(productDTO);
         }
 
         // GET: Admin/Product/Delete/5
@@ -125,6 +209,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Categories)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
