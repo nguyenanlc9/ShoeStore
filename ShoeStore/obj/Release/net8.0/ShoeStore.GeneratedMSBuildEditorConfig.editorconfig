@@ -26,6 +26,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Brand/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQnJhbmRcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -66,6 +74,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Home/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -92,6 +104,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shared/_LoginLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9Mb2dpbkxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]

@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Tổng quan</li>
+    </ol>
+
+    <div class="row">
+        <!-- Các thẻ thống kê tổng quan -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h4>@ViewBag.TotalRevenue.ToString("N0") đ</h4>
+                    <div>Doanh thu</div>
+                </div>
+            </div>
+        </div>
+        <!-- Thêm các thẻ khác tương tự -->
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Đây là nơi render biểu đồ -->
+            <div id="revenueChart"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/recharts/umd/Recharts.min.js"></script>
+    <script>
+        // Code để fetch dữ liệu và render biểu đồ
+        $(document).ready(function () {
+            loadRevenueData(2024);
+        });
+
+        function loadRevenueData(year) {
+            $.get('/Admin/Dashboard/GetRevenueStatistics', { year: year }, function (data) {
+                // Render biểu đồ với dữ liệu nhận được
+                renderChart(data);
+            });
+        }
+    </script>
+}

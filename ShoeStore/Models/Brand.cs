@@ -9,6 +9,8 @@ namespace ShoeStore.Models
     {
         [Key]
         public int BrandId { get; set; } // Display as ID
+
+        [DisplayName("Brand Name")]
         public required string Name { get; set; }
         [DisplayName("DisplayOrder")]
         public int DisplayOrder { get; set; }

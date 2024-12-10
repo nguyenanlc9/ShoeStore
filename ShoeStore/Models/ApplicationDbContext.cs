@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using ShoesStore.Models;
 using System.Collections.Generic;
 
 namespace ShoeStore.Models
@@ -17,5 +18,8 @@ namespace ShoeStore.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<AdminUser> AdminUsers { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

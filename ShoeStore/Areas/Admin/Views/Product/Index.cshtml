@@ -1,87 +1,246 @@
 ﻿@model IEnumerable<ShoeStore.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản lý sản phẩm";
+    ViewData["ActiveMenu"] = "product";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Quản lý sản phẩm</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <span>Sản phẩm</span>
+            </li>
+        </ul>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Categories.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiscountPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedBy)
-            </th>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">
+                            <i class="fas fa-box-open mr-2"></i>
+                            Danh sách sản phẩm
+                        </h4>
+                        <a asp-action="Create" class="btn btn-primary btn-round ml-auto">
+                            <i class="fa fa-plus mr-2"></i>
+                            Thêm sản phẩm mới
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="productTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px">Hình ảnh</th>
+                                    <th>Thông tin sản phẩm</th>
+                                    <th style="width: 150px">Giá</th>
+                                    <th style="width: 100px">Kho</th>
+                                    <th style="width: 150px">Cập nhật</th>
+                                    <th style="width: 120px">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "/images/no-image.png" : item.ImagePath)"
+                                                 alt="@item.Name"
+                                                 class="img-thumbnail product-image"
+                                                 data-toggle="tooltip"
+                                                 title="@item.Name" />
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1 font-weight-bold">@item.Name</h6>
+                                            <div class="product-meta">
+                                                <span class="badge badge-info">
+                                                    <i class="fas fa-tag mr-1"></i>@item.Brands.Name
+                                                </span>
+                                                <span class="badge badge-secondary ml-2">
+                                                    <i class="fas fa-folder mr-1"></i>@item.Categories.Name
+                                                </span>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(item.Description))
+                                            {
+                                                <p class="text-muted small mt-2 mb-0">
+                                                    @(item.Description?.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
+                                                </p>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="price-info">
+                                                <span class="current-price">@String.Format("{0:N0}đ", item.Price)</span>
+                                                @if (item.DiscountPrice > 0)
+                                                {
+                                                    <span class="discount-price">@String.Format("{0:N0}đ", item.DiscountPrice)</span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.StockQuantity > 0)
+                                            {
+                                                <span class="badge badge-success">
+                                                    <i class="fas fa-check-circle mr-1"></i>
+                                                    @item.StockQuantity
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">
+                                                    <i class="fas fa-times-circle mr-1"></i>
+                                                    Hết hàng
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="update-info">
+                                                <span class="update-date">
+                                                    <i class="far fa-clock mr-1"></i>
+                                                    @String.Format("{0:dd/MM/yyyy HH:mm}", item.UpdatedDate)
+                                                </span>
+                                                <span class="update-by">
+                                                    <i class="far fa-user mr-1"></i>
+                                                    @item.UpdatedBy
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-button-action">
+                                                <a asp-action="Edit" asp-route-id="@item.ProductId"
+                                                   class="btn btn-link btn-primary" data-toggle="tooltip"
+                                                   data-original-title="Sửa">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.ProductId"
+                                                   class="btn btn-link btn-info" data-toggle="tooltip"
+                                                   data-original-title="Chi tiết">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.ProductId"
+                                                   class="btn btn-link btn-danger" data-toggle="tooltip"
+                                                   data-original-title="Xóa"
+                                                   onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categories.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiscountPrice)
-            </td>
-            <td>
-               @*  @Html.DisplayFor(modelItem => item.ImagePath) *@
-                    <img src="@item.ImagePath" alt="@item.Name" class="img-thumbnail" style="max-width: 100px;" />
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedBy)
-            </td>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "pageLength": 10,
+                "order": [[1, "asc"]],
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "zeroRecords": "Không tìm thấy dữ liệu",
+                    "info": "Hiển thị trang _PAGE_ của _PAGES_",
+                    "infoEmpty": "Không có dữ liệu",
+                    "infoFiltered": "(lọc từ _MAX_ mục)",
+                    "search": "Tìm kiếm:",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                }
+            });
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 }
-    </tbody>
-</table>
+
+@section Styles {
+    <style>
+        .product-image {
+            max-width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .product-meta {
+            margin-top: 5px;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .current-price {
+            font-weight: bold;
+            color: #2196F3;
+            font-size: 1.1em;
+        }
+
+        .discount-price {
+            color: #dc3545;
+            text-decoration: line-through;
+            font-size: 0.9em;
+        }
+
+        .update-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.9em;
+        }
+
+        .update-date, .update-by {
+            color: #6c757d;
+            margin-bottom: 3px;
+        }
+
+        .form-button-action {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-link {
+            padding: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+        }
+
+            .btn-link i {
+                font-size: 16px;
+                color: white;
+            }
+
+        .badge {
+            padding: 5px 10px;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
+}

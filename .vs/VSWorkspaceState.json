@@ -6,6 +6,6 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\HomeController.cs",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ShoesStore.Models;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Requset;
+using ShoesStore.Utils;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AdminAuthentication]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,7 +51,12 @@ namespace ShoeStore.Areas.Admin.Controllers
         {
             ViewData["ActiveMenu"] = "product";
 
-            var applicationDbContext = _context.Products.Include(p => p.Categories);
+            var applicationDbContext = _context.Products
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .OrderByDescending(p => p.ProductId)                                           
+                ;
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -74,7 +82,17 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/Product/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+
+            // Kiểm tra xem có brands nào không
+            var brands = _context.Brands.ToList();
+            if (brands.Count == 0)
+            {
+                // Log hoặc thông báo nếu không có brands
+                System.Diagnostics.Debug.WriteLine("No brands found in database!");
+            }
+
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
+            ViewData["BrandId"] = new SelectList(_context.Brands.OrderBy(b => b.DisplayOrder), "BrandId", "Name");
             return View();
         }
 
@@ -85,18 +103,22 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductDTO productDTO)
         {
+            var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+            var userName = "";
+            if (userInfo != null) userName = userInfo.Username;
             if (ModelState.IsValid)
             {
                 var product = new Product
                 {
                     CategoryId = productDTO.CategoryId,
+                    BrandId = productDTO.BrandId,
                     Name = productDTO.Name,
                     Price = productDTO.Price,
                     DiscountPrice = productDTO.DiscountPrice,
                     Description = productDTO.Description,
                     StockQuantity = productDTO.StockQuantity,
                     UpdatedDate = DateTime.Now,
-                    UpdatedBy = "Admin"
+                    UpdatedBy = userName
                 };
 
                 if (productDTO.ImagePath != null)
@@ -125,7 +147,11 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
+
+            // Thêm dòng này để set SelectList cho Brand
+            ViewData["BrandId"] = new SelectList(_context.Brands.OrderBy(b => b.DisplayOrder), "BrandId", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", product.CategoryId);
+
             return View(product);
         }
 
@@ -135,7 +161,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductDTO productDTO)
-        {
+            {
             if (id != productDTO.ProductId)
             {
                 return NotFound();
@@ -145,22 +171,24 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    // Tìm sản phẩm hiện tại từ database
+                    var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+                    var username = userInfo != null ? userInfo.Username : "";
+
                     var existingProduct = await _context.Products.FindAsync(id);
                     if (existingProduct == null)
                     {
                         return NotFound();
                     }
 
-                    // Cập nhật thông tin cơ bản
                     existingProduct.Name = productDTO.Name;
+                    existingProduct.BrandId = productDTO.BrandId;
                     existingProduct.Price = productDTO.Price;
                     existingProduct.DiscountPrice = productDTO.DiscountPrice;
                     existingProduct.Description = productDTO.Description;
                     existingProduct.StockQuantity = productDTO.StockQuantity;
                     existingProduct.CategoryId = productDTO.CategoryId;
                     existingProduct.UpdatedDate = DateTime.Now;
-                    existingProduct.UpdatedBy = "Admin";
+                    existingProduct.UpdatedBy = username;
 
                     if (productDTO.ImagePath != null && productDTO.ImagePath.Length > 0)
                     {
@@ -176,7 +204,6 @@ namespace ShoeStore.Areas.Admin.Controllers
                         existingProduct.ImagePath = await UploadFile(productDTO.ImagePath);
                     }
 
-                    // Cập nhật sản phẩm vào database
                     _context.Update(existingProduct);
                     await _context.SaveChangesAsync();
 
