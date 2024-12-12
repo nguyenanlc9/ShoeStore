@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using ShoeStore.Models;
+using ShoesStore.Models;
 using System.Diagnostics;
 
-namespace ShoeStore.Controllers
+namespace Project_BE.Controllers
 {
     public class HomeController : Controller
     {
@@ -12,7 +12,14 @@ namespace ShoeStore.Controllers
         {
             _logger = logger;
         }
-
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
@@ -23,10 +30,6 @@ namespace ShoeStore.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }
