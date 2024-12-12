@@ -1,0 +1,107 @@
+﻿@model ShoeStore.Models.Coupon
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Chỉnh sửa Coupon</h2>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form asp-action="Edit" class="border rounded p-4 shadow-sm bg-light">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <input type="hidden" asp-for="CouponId" />
+
+                <div class="mb-3">
+                    <label asp-for="CouponName" class="form-label">Tên Coupon</label>
+                    <input asp-for="CouponName" class="form-control" />
+                    <span asp-validation-for="CouponName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DateStart" class="form-label">Ngày bắt đầu</label>
+                    <input asp-for="DateStart" type="date" class="form-control" />
+                    <span asp-validation-for="DateStart" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DateEnd" class="form-label">Ngày kết thúc</label>
+                    <input asp-for="DateEnd" type="date" class="form-control" />
+                    <span asp-validation-for="DateEnd" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label">Số lượng</label>
+                    <input asp-for="Quantity" type="number" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-check-label">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </label>
+                    <input class="form-check-input" asp-for="Status" style="float: right; margin-left: 10px;" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Header {
+    <link rel="stylesheet" href="~/Admin/plugins/ckeditor5/ckeditor5.css">
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "/Admin/plugins/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "/Admin/plugins/ckeditor5/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font
+        } from 'ckeditor5';
+
+        ClassicEditor
+            .create(document.querySelector('#Description'), {
+                plugins: [Essentials, Paragraph, Bold, Italic, Font],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                ]
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

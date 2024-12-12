@@ -1,0 +1,66 @@
+﻿@model ShoeStore.Models.Coupon
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center my-4">Chi Tiết Coupon</h1>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Thông Tin Coupon</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CouponName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CouponName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.Raw(Model.Description)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DateStart)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DateStart)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DateEnd)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DateEnd)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-right">
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.CouponId">Chỉnh Sửa</a>
+            <a class="btn btn-secondary" asp-action="Index">Quay Lại Danh Sách</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-top: 20px;
+    }
+</style>
