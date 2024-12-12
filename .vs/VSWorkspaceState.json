@@ -4,8 +4,10 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Controllers"
+    "\\ShoeStore\\Areas\\Admin\\Controllers",
+    "\\ShoeStore\\Areas\\Admin\\Views",
+    "\\ShoeStore\\Areas\\Admin\\Views\\Shared"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
