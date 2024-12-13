@@ -1,0 +1,111 @@
+﻿@model ShoeStore.Models.Order
+
+@{
+    ViewData["Title"] = "Create Order";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Thêm Đơn Hàng Mới</h2>
+    <form asp-action="Create" class="border rounded p-4 shadow-sm bg-light">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <!-- Tên Người Đặt Hàng -->
+        <div class="mb-3">
+            <label asp-for="OrderUsName" class="form-label">Tên Người Đặt Hàng</label>
+            <input asp-for="OrderUsName" class="form-control" placeholder="Nhập tên người đặt hàng..." />
+            <span asp-validation-for="OrderUsName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OrderCode" class="form-label">Mã Đơn Hàng</label>
+            <input asp-for="OrderCode" class="form-control" placeholder="Nhập mã đơn hàng..." />
+            <span asp-validation-for="OrderCode" class="text-danger"></span>
+        </div>
+
+        <!-- Mô Tả -->
+        <div class="mb-3">
+            <label asp-for="OrderDescription" class="control-label"></label>
+            <textarea asp-for="OrderDescription" class="form-control"></textarea>
+            <span asp-validation-for="OrderDescription" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OrderCoupon" class="form-label">Mã Giảm Giá</label>
+            <input asp-for="OrderCoupon" class="form-control" placeholder="Nhập mã giảm giá (nếu có)..." />
+            <span asp-validation-for="OrderCoupon" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PaymentMethod" class="form-label">Phương Thức Thanh Toán</label>
+            <select asp-for="PaymentMethod" class="form-select">
+                <option value="" disabled selected>Chọn phương thức thanh toán</option>
+                <option value="1">Tiền mặt</option>
+                <option value="2">Chuyển khoản</option>
+                <option value="3">Thanh toán qua thẻ</option>
+                <option value="4">Ví điện tử</option>
+            </select>
+            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+        </div>
+
+        <!-- Trạng Thái Đơn Hàng -->
+        <div class="mb-3">
+            <label asp-for="OrderStatus" class="form-label">Trạng Thái</label>
+            <select asp-for="OrderStatus" class="form-select">
+                <option value="true">Hoạt động</option>
+                <option value="false">Không hoạt động</option>
+            </select>
+            <span asp-validation-for="OrderStatus" class="text-danger"></span>
+        </div>
+
+        <!-- Nút -->
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            <button type="submit" class="btn btn-primary">Thêm mới</button>
+        </div>
+    </form>
+</div>
+
+@section Header {
+    <link rel="stylesheet" href="~/Admin/plugins/ckeditor5/ckeditor5.css">
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "/Admin/plugins/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "/Admin/plugins/ckeditor5/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font
+        } from 'ckeditor5';
+
+        ClassicEditor
+            .create(document.querySelector('#OrderDescription'), {
+                plugins: [Essentials, Paragraph, Bold, Italic, Font],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                ]
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

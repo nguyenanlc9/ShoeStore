@@ -1,0 +1,66 @@
+﻿@model ShoeStore.Models.Order
+
+@{
+    ViewData["Title"] = "Chi Tiết Đơn Hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center my-4">Chi Tiết Đơn Hàng</h1>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Thông Tin Đơn Hàng</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OrderUsName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OrderUsName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OrderCode)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OrderCode)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OrderDescription)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.Raw(Model.OrderDescription)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OrderCoupon)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OrderCoupon)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.PaymentMethod)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.PaymentMethod)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OrderStatus)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-right">
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.OrderId">Chỉnh Sửa</a>
+            <a class="btn btn-secondary" asp-action="Index">Quay Lại Danh Sách</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-top: 20px;
+    }
+</style>
