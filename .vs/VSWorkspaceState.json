@@ -6,8 +6,10 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\Areas\\Admin\\Views",
-    "\\ShoeStore\\Areas\\Admin\\Views\\Shared"
+    "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Shared"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
