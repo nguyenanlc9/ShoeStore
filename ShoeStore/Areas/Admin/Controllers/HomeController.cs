@@ -12,5 +12,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             ViewData["ActiveMenu"] = "dashboard";
             return View();
         }
+
     }
 }

@@ -61,7 +61,6 @@
                                 <tr>
                                     <th>Tên khách hàng</th>
                                     <th>Mã đơn hàng</th>
-                                    <th>Mô tả</th>
                                     <th>Khuyến mãi</th>
                                     <th>Phương thức thanh toán</th>
                                     <th>Trạng thái</th>
@@ -74,7 +73,6 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.OrderUsName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OrderCode)</td>
-                                        <td>@Html.Raw(item.OrderDescription)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OrderCoupon)</td>
                                         <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OrderStatus)</td>

@@ -23,5 +23,6 @@ namespace ShoeStore.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

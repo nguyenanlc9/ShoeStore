@@ -1,0 +1,61 @@
+﻿@model ShoeStore.Models.Contact
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center my-4">Chi Tiết Liên Hệ</h1>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Thông Tin Liên Hệ</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ContactMap)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ContactMap)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ContactPhone)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ContactPhone)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ContactEmail)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ContactEmail)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ContactDescription)
+                </dt>
+                <
+                <dd class="col-sm-9">
+                    @Html.Raw(Model.ContactDescription)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.UpdatedDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.UpdatedDate)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-right">
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.ContactName">Chỉnh Sửa</a>
+            <a class="btn btn-secondary" asp-action="Index">Quay Lại Danh Sách</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-top: 20px;
+    }
+</style>
