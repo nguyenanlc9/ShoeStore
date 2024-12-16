@@ -1,0 +1,183 @@
+﻿@model IEnumerable<ShoeStore.Models.Slider>
+
+@{
+    ViewData["Title"] = "Quản lý Slider";
+    ViewData["ActiveMenu"] = "slider";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Quản lý Slider</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <span>Slider</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">
+                            <i class="fas fa-box-open mr-2"></i>
+                            Danh sách Slider
+                        </h4>
+                        <a asp-action="Create" class="btn btn-primary btn-round ml-auto">
+                            <i class="fa fa-plus mr-2"></i>
+                            Thêm Slider mới
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="sliderTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px">Hình ảnh</th>
+                                    <th>Thông tin Slider</th>
+                                    <th style="width: 150px">Link</th>
+                                    <th style="width: 150px" class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            <img src="@(string.IsNullOrEmpty(item.Img) ? "/images/no-image.png" : item.Img)"
+                                                 alt="@item.Name"
+                                                 class="img-thumbnail product-image"
+                                                 data-toggle="tooltip"
+                                                 title="@item.Name" />
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1 font-weight-bold">@item.Name</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="#" class="text-info">@item.Link</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-button-action">
+                                                <a asp-action="Edit" asp-route-id="@item.Slider_ID"
+                                                   class="btn btn-link btn-primary btn-sm" data-toggle="tooltip"
+                                                   data-original-title="Sửa">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.Slider_ID"
+                                                   class="btn btn-link btn-info btn-sm" data-toggle="tooltip"
+                                                   data-original-title="Chi tiết">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.Slider_ID"
+                                                   class="btn btn-link btn-danger btn-sm" data-toggle="tooltip"
+                                                   data-original-title="Xóa"
+                                                   onclick="return confirm('Bạn có chắc muốn xóa slider này?');">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#sliderTable').DataTable({
+                "pageLength": 10,
+                "order": [[1, "asc"]],
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "zeroRecords": "Không tìm thấy dữ liệu",
+                    "info": "Hiển thị trang _PAGE_ của _PAGES_",
+                    "infoEmpty": "Không có dữ liệu",
+                    "infoFiltered": "(lọc từ _MAX_ mục)",
+                    "search": "Tìm kiếm:",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                }
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+
+@section Styles {
+    <style>
+        .product-image {
+            max-width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .product-meta {
+            margin-top: 5px;
+        }
+
+        .form-button-action {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-link {
+            padding: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            color: white;
+        }
+
+            .btn-link.btn-primary {
+                background-color: #007bff;
+            }
+
+            .btn-link.btn-info {
+                background-color: #17a2b8;
+            }
+
+            .btn-link.btn-danger {
+                background-color: #dc3545;
+            }
+
+            .btn-link i {
+                font-size: 16px;
+                color: #fff;
+            }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .text-info {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+    </style>
+}

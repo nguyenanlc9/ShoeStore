@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ShoesStore.Models;
 using System.Collections.Generic;
+using ShoeStore.Models;
 
 namespace ShoeStore.Models
 {
@@ -24,5 +25,6 @@ namespace ShoeStore.Models
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ShoeStore.Models.Slider> Slider { get; set; } = default!;
     }
 }
