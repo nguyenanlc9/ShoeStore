@@ -40352,6 +40352,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\d4928997-8873-4c24-a2ab-7778454ed127_53a51c92-d1c1-4513-a67b-9a55379e3eb1.webp))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/products/f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\shoe.png))">
       <SourceType>Package</SourceType>
       <SourceId>ShoeStore</SourceId>
@@ -40399,6 +40415,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\0bc8159a-4ff0-4bc9-b813-aca38413932d_images.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/sliders/2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\9a2f0f4b-7885-443a-ba1e-2f006e97e85a_4-549196.jpeg))">
       <SourceType>Package</SourceType>

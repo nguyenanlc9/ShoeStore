@@ -25,6 +25,7 @@ namespace ShoeStore.Models
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<ShoeStore.Models.Slider> Slider { get; set; } = default!;
     }
 }

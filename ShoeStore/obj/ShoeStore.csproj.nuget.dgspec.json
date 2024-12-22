@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {}
+    "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {
+    "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
+        "projectUniqueName": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
         "projectName": "ShoeStore",
-        "projectPath": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\obj\\",
+        "projectPath": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
+        "packagesPath": "C:\\Users\\thanhphong\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanhphong\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
