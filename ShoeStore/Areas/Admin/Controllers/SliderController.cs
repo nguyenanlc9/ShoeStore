@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ShoesStore.Models;
+using ShoesStore.Utils;
 using ShoeStore.Models;
+using ShoeStore.Models.DTO.Requset;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -17,6 +21,29 @@ namespace ShoeStore.Areas.Admin.Controllers
         public SliderController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        // Thêm phương thức helper để xử lý upload file
+
+        private async Task<string> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "sliders");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            return "/images/sliders/" + uniqueFileName;
         }
 
         // GET: Admin/Slider
@@ -54,16 +81,39 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Slider_ID,Name,Link,Img")] Slider slider)
+        public async Task<IActionResult> Create(SliderDTO sliderDTO)
         {
+            var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+            var userName = "";
+            if (userInfo != null) userName = userInfo.Username;
+
             if (ModelState.IsValid)
             {
+                // Tạo đối tượng Slider từ DTO
+                var slider = new Slider
+                {
+                    Name = sliderDTO.Name,
+                    Link = sliderDTO.Link,
+                    Img = null, // Sẽ được cập nhật sau khi upload ảnh
+                };
+
+                // Kiểm tra và upload ảnh
+                if (sliderDTO.Img != null)
+                {
+                    slider.Img = await UploadFile(sliderDTO.Img);
+                }
+
+                // Lưu slider vào database
                 _context.Add(slider);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(slider);
+
+            // Nếu ModelState không hợp lệ, trả lại view cùng dữ liệu sliderDTO
+            return View(sliderDTO);
         }
+
 
         // GET: Admin/Slider/Edit/5
         public async Task<IActionResult> Edit(int? id)
