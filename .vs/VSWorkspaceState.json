@@ -11,6 +11,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\ContactController.cs",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\CouponController.cs",
   "PreviewInSolutionExplorer": false
 }

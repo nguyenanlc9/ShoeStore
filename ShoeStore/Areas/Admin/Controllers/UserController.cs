@@ -6,77 +6,67 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
+using ShoesStore.Models;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CouponController : Controller
+    public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CouponController(ApplicationDbContext context)
+        public UserController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Coupon
+        // GET: Admin/User
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Coupons.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Admin/Coupon/Details/5
+        // GET: Admin/User/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
-            }   
+            }
 
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(m => m.CouponId == id);
-            if (coupon == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(coupon);
+            return View(user);
         }
 
-        // GET: Admin/Coupon/Create
+        // GET: Admin/User/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Coupon/Create
+        // POST: Admin/User/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Coupon request)
+        public async Task<IActionResult> Create([Bind("UserID,Username,Password,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin")] User user)
         {
             if (ModelState.IsValid)
-
             {
-                var coupon = new Coupon
-                {
-                    CouponName = request.CouponName,
-                    Description = request.Description,
-                    DateStart = request.DateStart,
-                    DateEnd = request.DateEnd,
-                    Quantity = request.Quantity,
-                    Status = request.Status
-                };
-
-                _context.Add(request);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(request);
+            return View(user);
         }
-        // GET: Admin/Coupon/Edit/5
+
+        // GET: Admin/User/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,22 +74,22 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var coupon = await _context.Coupons.FindAsync(id);
-            if (coupon == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(coupon);
+            return View(user);
         }
 
-        // POST: Admin/Coupon/Edit/5
+        // POST: Admin/User/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CouponId,CouponName,Description,DateStart,DateEnd,Quantity,Status")] Coupon coupon)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,Password,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin")] User user)
         {
-            if (id != coupon.CouponId)
+            if (id != user.UserID)
             {
                 return NotFound();
             }
@@ -108,12 +98,12 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(coupon);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CouponExists(coupon.CouponId))
+                    if (!UserExists(user.UserID))
                     {
                         return NotFound();
                     }
@@ -124,10 +114,10 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(coupon);
+            return View(user);
         }
 
-        // GET: Admin/Coupon/Delete/5
+        // GET: Admin/User/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,34 +125,34 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(m => m.CouponId == id);
-            if (coupon == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(coupon);
+            return View(user);
         }
 
-        // POST: Admin/Coupon/Delete/5
+        // POST: Admin/User/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var coupon = await _context.Coupons.FindAsync(id);
-            if (coupon != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                _context.Coupons.Remove(coupon);
+                _context.Users.Remove(user);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CouponExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.Coupons.Any(e => e.CouponId == id);
+            return _context.Users.Any(e => e.UserID == id);
         }
     }
 }

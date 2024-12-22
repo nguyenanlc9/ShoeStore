@@ -9969,6 +9969,10 @@
       "PackagePath": "staticwebassets\\images\\products\\11ce80f7-30d3-41ae-b36f-c0a6269a8ffd_2-1698164655929284721743 (1).webp"
     },
     {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\184a99e9-9569-4822-9758-02f8ba07a888_images.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\184a99e9-9569-4822-9758-02f8ba07a888_images.jpg"
+    },
+    {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\18a5ea69-8134-42da-85ff-f9b1c6dad7f0_4-549196.jpeg",
       "PackagePath": "staticwebassets\\images\\products\\18a5ea69-8134-42da-85ff-f9b1c6dad7f0_4-549196.jpeg"
     },
@@ -10009,8 +10013,16 @@
       "PackagePath": "staticwebassets\\images\\products\\3c6f24b2-ecd3-4c95-93cf-396f875b2b0e_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
     },
     {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\47a0004f-812b-4b24-8c98-3bff63c0ede5_4-549196.jpeg",
+      "PackagePath": "staticwebassets\\images\\products\\47a0004f-812b-4b24-8c98-3bff63c0ede5_4-549196.jpeg"
+    },
+    {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\58d93663-1271-433b-ac24-80e3528cb23e_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
       "PackagePath": "staticwebassets\\images\\products\\58d93663-1271-433b-ac24-80e3528cb23e_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
+    },
+    {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\658ba1b4-a613-426a-8d19-8c2108e3f133_images.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\658ba1b4-a613-426a-8d19-8c2108e3f133_images.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6d629961-b367-4c6b-9885-5b5299ff2abe_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
@@ -10041,12 +10053,20 @@
       "PackagePath": "staticwebassets\\images\\products\\96655bc9-af6d-4833-929d-a173d5d64153_4-549196.jpeg"
     },
     {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9afe4cbe-a899-4672-b5d4-2cab548e23ee_4-549196.jpeg",
+      "PackagePath": "staticwebassets\\images\\products\\9afe4cbe-a899-4672-b5d4-2cab548e23ee_4-549196.jpeg"
+    },
+    {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9bf44efd-2c71-4140-a0ff-7dd3938ea567_4-549196.jpeg",
       "PackagePath": "staticwebassets\\images\\products\\9bf44efd-2c71-4140-a0ff-7dd3938ea567_4-549196.jpeg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9f954dc7-c17a-4394-bdc6-1f422b2ecc82_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
       "PackagePath": "staticwebassets\\images\\products\\9f954dc7-c17a-4394-bdc6-1f422b2ecc82_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
+    },
+    {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\acf18a08-bb0c-4773-8d33-e13bab209e81_images.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\acf18a08-bb0c-4773-8d33-e13bab209e81_images.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\ad75b1db-85a2-478b-8858-fbdbc19b2f61_4-549196.jpeg",
@@ -10059,6 +10079,10 @@
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\c6e03a9a-7f0d-47a0-8bd1-65f8335b68fc_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
       "PackagePath": "staticwebassets\\images\\products\\c6e03a9a-7f0d-47a0-8bd1-65f8335b68fc_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
+    },
+    {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\d093b29c-0876-44c0-8cc9-1c36a7fd8490_4-549196.jpeg",
+      "PackagePath": "staticwebassets\\images\\products\\d093b29c-0876-44c0-8cc9-1c36a7fd8490_4-549196.jpeg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\d25bb158-c65f-4213-a052-142ab63d04ed_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
@@ -10079,6 +10103,10 @@
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\0bc8159a-4ff0-4bc9-b813-aca38413932d_images.jpg",
       "PackagePath": "staticwebassets\\images\\sliders\\0bc8159a-4ff0-4bc9-b813-aca38413932d_images.jpg"
+    },
+    {
+      "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\9a2f0f4b-7885-443a-ba1e-2f006e97e85a_4-549196.jpeg",
+      "PackagePath": "staticwebassets\\images\\sliders\\9a2f0f4b-7885-443a-ba1e-2f006e97e85a_4-549196.jpeg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\f70a676b-f66d-4f29-9f5e-5206bec27da7_AnhNhom10(2).jpg",

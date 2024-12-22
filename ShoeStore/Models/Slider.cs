@@ -11,6 +11,5 @@ namespace ShoeStore.Models
         public string? Name { get; set; }
         public string? Link { get; set; }
         public string? Img { get; set; }
-
     }
 }
