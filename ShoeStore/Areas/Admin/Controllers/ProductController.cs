@@ -104,10 +104,17 @@ namespace ShoeStore.Areas.Admin.Controllers
         public async Task<IActionResult> Create(ProductDTO productDTO)
         {
             var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
-            var userName = "";
-            if (userInfo != null) userName = userInfo.Username;
+            var userName = userInfo?.Username ?? string.Empty;
+
             if (ModelState.IsValid)
             {
+                // Loại bỏ thẻ <p> và </p> khỏi Description nếu có
+                var description = productDTO.Description?.Trim();
+                if (!string.IsNullOrEmpty(description) && description.StartsWith("<p>") && description.EndsWith("</p>"))
+                {
+                    description = description.Substring(3, description.Length - 7); // Cắt bỏ <p> và </p>
+                }
+
                 var product = new Product
                 {
                     CategoryId = productDTO.CategoryId,
@@ -115,7 +122,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                     Name = productDTO.Name,
                     Price = productDTO.Price,
                     DiscountPrice = productDTO.DiscountPrice,
-                    Description = productDTO.Description,
+                    Description = description, // Gán giá trị đã xử lý
                     StockQuantity = productDTO.StockQuantity,
                     UpdatedDate = DateTime.Now,
                     UpdatedBy = userName
@@ -130,6 +137,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", productDTO.CategoryId);
             return View(productDTO);
         }
