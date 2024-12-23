@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ShoesStore.Models
+namespace ShoeStore.Models
 {
+    [Table("Users")]
+
     public class User
     {
         [Key]
@@ -11,6 +14,8 @@ namespace ShoesStore.Models
         [Required(ErrorMessage = "Username không được để trống")]
         [StringLength(50)]
         public string Username { get; set; }
+
+
 
         [Required(ErrorMessage = "Password không được để trống")]
         [StringLength(255)]
@@ -42,5 +47,12 @@ namespace ShoesStore.Models
 
         [Display(Name = "Lần đăng nhập cuối")]
         public DateTime? LastLogin { get; set; }
+
+        [Display(Name = "Ngày tạo")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        
+        public int RoleID { get; set; }
+        public Role? Role { get; set; }
     }
 }

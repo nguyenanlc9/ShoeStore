@@ -10,6 +10,7 @@ namespace ShoeStore.Models
         [Key]
         public int CategoryId { get; set; } // Display as ID
 
+        [StringLength(50, ErrorMessage = "Tên sản phẩm không được vượt quá 50 ký tự.")]
         [DisplayName("CategoryName")]
         public required string Name { get; set; }
         [DisplayName("DisplayOrder")]

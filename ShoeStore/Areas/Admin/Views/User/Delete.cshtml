@@ -1,4 +1,4 @@
-﻿@model ShoesStore.Models.User
+﻿@model ShoeStore.Models.User
 
 @{
     ViewData["Title"] = "Delete";
@@ -65,6 +65,18 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LastLogin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role.RoleName)
         </dd>
     </dl>
     

@@ -30,9 +30,6 @@
                     <h4 class="card-title">
                         <i class="fas fa-shopping-cart mr-2"></i> Danh sách đơn hàng
                     </h4>
-                    <a asp-action="Create" class="btn btn-primary btn-round">
-                        <i class="fa fa-plus mr-1"></i> Thêm đơn hàng mới
-                    </a>
                 </div>
                 <div class="card-body">
                     <!-- Tìm kiếm và lọc -->
@@ -78,18 +75,12 @@
                                         <td>@Html.DisplayFor(modelItem => item.OrderStatus)</td>
                                         <td>
                                             <div class="form-button-action">
-                                                <a asp-action="Edit" asp-route-id="@item.OrderId"
-                                                   class="btn btn-link btn-primary btn-sm" data-toggle="tooltip" title="Sửa">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                                
                                                 <a asp-action="Details" asp-route-id="@item.OrderId"
                                                    class="btn btn-link btn-info btn-sm" data-toggle="tooltip" title="Chi tiết">
                                                     <i class="fa fa-info-circle"></i>
                                                 </a>
-                                                <a asp-action="Delete" asp-route-id="@item.OrderId"
-                                                   class="btn btn-link btn-danger btn-sm" data-toggle="tooltip" title="Xóa">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
+                                                
                                             </div>
                                         </td>
                                     </tr>

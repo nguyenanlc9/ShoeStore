@@ -1,7 +1,7 @@
-﻿@using ShoesStore.Models
-@using ShoesStore.Utils
+﻿@using ShoeStore.Models
+@using ShoeStore.Utils
 @{
-    var userInfo = Context.Session.Get<AdminUser>("userInfo");
+    var userInfo = Context.Session.Get<User>("userInfo");
 }
 
 <!DOCTYPE html>
@@ -112,7 +112,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../../documentation/index.html">
+                            <a asp-area="admin" asp-controller="Role" asp-action="Index" class="nav-link">
                                 <i class="fas fa-file"></i>
                                 <p>Role</p>
                                 <span class="badge badge-secondary"></span>

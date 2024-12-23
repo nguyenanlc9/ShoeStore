@@ -1,4 +1,4 @@
-﻿namespace ShoeStore.Areas.Admin.DTOs.Request
+﻿namespace ShoeStore.Areas.Admin.DTOs.Request    
 {
     public class LoginDTO
     {

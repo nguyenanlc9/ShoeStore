@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ShoesStore.Models;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Requset;
-using ShoesStore.Utils;
+using ShoeStore.Utils;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -103,7 +102,17 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductDTO productDTO)
         {
-            var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+            if (productDTO.Price < 0 || productDTO.DiscountPrice < 0 || productDTO.StockQuantity < 0)
+            {
+                ModelState.AddModelError("", "Giá trị không thể thấp hơn 0.");
+            }
+
+            if (productDTO.StockQuantity < 1)
+            {
+                ModelState.AddModelError("Quantity", "Số lượng không thể thấp hơn 1.");
+            }
+
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
             var userName = userInfo?.Username ?? string.Empty;
 
             if (ModelState.IsValid)
@@ -175,11 +184,21 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            if (productDTO.Price < 0 || productDTO.DiscountPrice < 0 || productDTO.StockQuantity < 0)
+            {
+                ModelState.AddModelError("", "Giá trị không thể thấp hơn 0.");
+            }
+
+            if (productDTO.StockQuantity < 1)
+            {
+                ModelState.AddModelError("Quantity", "Số lượng không thể thấp hơn 1.");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+                    var userInfo = HttpContext.Session.Get<User>("userInfo");
                     var username = userInfo != null ? userInfo.Username : "";
 
                     var existingProduct = await _context.Products.FindAsync(id);

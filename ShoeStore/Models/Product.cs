@@ -17,12 +17,22 @@ namespace ShoeStore.Models
         [DisplayName("Brand")]
         public int BrandId { get; set; }
 
-        public string? Name { get; set; }   
+        [StringLength(50, ErrorMessage = "Tên sản phẩm không được vượt quá 50 ký tự.")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Số lượng là bắt buộc.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải là số lớn hơn 0.")]
         public decimal Price { get; set; } 
         public string Description { get; set; }
 
+        [StringLength(5)]
         public decimal DiscountPrice { get; set; }
-        public string? ImagePath { get; set; }  
+        public string? ImagePath { get; set; }
+
+        [Required(ErrorMessage = "Số lượng là bắt buộc.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải là số lớn hơn 0.")]
+
+        [StringLength(5)]
         public int StockQuantity { get; set; }
 
         public DateTime? UpdatedDate { get; set; }

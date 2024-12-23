@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ShoesStore.Models;
-using ShoesStore.Utils;
 using ShoeStore.Models;
+using ShoeStore.Utils;
 using ShoeStore.Models.DTO.Requset;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AdminAuthentication]
+
     public class SliderController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -83,7 +84,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SliderDTO sliderDTO)
         {
-            var userInfo = HttpContext.Session.Get<AdminUser>("userInfo");
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
             var userName = "";
             if (userInfo != null) userName = userInfo.Username;
 

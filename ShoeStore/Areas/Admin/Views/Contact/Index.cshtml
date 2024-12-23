@@ -30,11 +30,8 @@
                 <div class="card-body">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">
-                            <i class="fas fa-tags mr-2"></i> Danh sách khuyến mãi
+                            <i class="fas fa-tags mr-2"></i> Danh sách Lien He
                         </h4>
-                        <a asp-action="Create" class="btn btn-primary btn-round">
-                            <i class="fa fa-plus mr-1"></i> Thêm khuyến mãi mới
-                        </a>
                     </div>
                     <!-- Tìm kiếm và lọc -->
                     <div class="mb-3 d-flex justify-content-between align-items-center">
@@ -84,10 +81,6 @@
                                                 <a asp-action="Details" asp-route-id="@item.ContactName"
                                                    class="btn btn-link btn-info btn-sm" data-toggle="tooltip" title="Chi tiết">
                                                     <i class="fa fa-info-circle"></i>
-                                                </a>
-                                                <a asp-action="Delete" asp-route-id="@item.ContactName"
-                                                   class="btn btn-link btn-danger btn-sm" data-toggle="tooltip" title="Xóa">
-                                                    <i class="fa fa-trash"></i>
                                                 </a>
                                             </div>
                                         </td>

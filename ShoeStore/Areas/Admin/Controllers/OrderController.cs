@@ -10,6 +10,8 @@ using ShoeStore.Models;
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AdminAuthentication]
+
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;

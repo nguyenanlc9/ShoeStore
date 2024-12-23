@@ -20,25 +20,28 @@
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.ContactMap)
                 </dd>
+
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.ContactPhone)
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.ContactPhone)
                 </dd>
+
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.ContactEmail)
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.ContactEmail)
                 </dd>
+
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.ContactDescription)
                 </dt>
-                <
                 <dd class="col-sm-9">
                     @Html.Raw(Model.ContactDescription)
                 </dd>
+
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.UpdatedDate)
                 </dt>
@@ -47,6 +50,7 @@
                 </dd>
             </dl>
         </div>
+
         <div class="card-footer text-right">
             <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.ContactName">Chỉnh Sửa</a>
             <a class="btn btn-secondary" asp-action="Index">Quay Lại Danh Sách</a>
@@ -57,5 +61,14 @@
 <style>
     .card {
         margin-top: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin-top: 50px;
+    }
+
+    .btn {
+        margin: 5px;
     }
 </style>

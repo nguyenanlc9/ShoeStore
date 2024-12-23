@@ -1,19 +1,29 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
-namespace ShoesStore.Utils
+namespace ShoeStore.Utils
 {
     public static class SessionExtensions
     {
         public static void Set<T>(this ISession session, string key, T value)
         {
-            session.SetString(key, JsonSerializer.Serialize(value));
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            };
+            session.SetString(key, JsonSerializer.Serialize(value, options));
         }
 
         public static T? Get<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+            if (value == null) return default;
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            };
+            return JsonSerializer.Deserialize<T>(value, options);
         }
     }
 }

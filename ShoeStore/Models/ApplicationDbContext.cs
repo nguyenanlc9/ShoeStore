@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using ShoesStore.Models;
-using System.Collections.Generic;
 using ShoeStore.Models;
+using System.Collections.Generic;
 
 namespace ShoeStore.Models
 {
@@ -20,11 +19,13 @@ namespace ShoeStore.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
 
-        public DbSet<AdminUser> AdminUsers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+
         public DbSet<ShoeStore.Models.Slider> Slider { get; set; } = default!;
+
+        public DbSet<Role> Roles { get; set; }
     }
 }

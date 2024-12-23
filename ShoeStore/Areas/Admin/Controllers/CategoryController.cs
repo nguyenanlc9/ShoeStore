@@ -144,10 +144,18 @@ namespace ShoeStore.Areas.Admin.Controllers
             var category = await _context.Categories.FindAsync(id);
             if (category != null)
             {
+                // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
+                var products = await _context.Products.Where(p => p.CategoryId == id).ToListAsync();
+                if (products.Any())
+                {
+                    TempData["ErrorMessage"] = "Khong the xoa vi san pham nay con o trong kho.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

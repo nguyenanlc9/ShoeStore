@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 
-namespace ShoesStore.Controllers
+namespace ShoeStore.Controllers
 {
     public class ShopController : Controller
     {

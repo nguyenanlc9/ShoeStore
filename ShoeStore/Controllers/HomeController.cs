@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ShoesStore.Models;
+using ShoeStore.Models;
 using System.Diagnostics;
 
 namespace Project_BE.Controllers

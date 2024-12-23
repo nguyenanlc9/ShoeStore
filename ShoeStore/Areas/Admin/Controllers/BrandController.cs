@@ -144,10 +144,17 @@ namespace ShoeStore.Areas.Admin.Controllers
             var brand = await _context.Brands.FindAsync(id);
             if (brand != null)
             {
+                var products = await _context.Products.Where(p => p.BrandId == id).ToListAsync();
+                if (products.Any())
+                {
+                    TempData["ErrorMessage"] = "Khong the xoa vi thuong hieu nay con o trong kho.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Brands.Remove(brand);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

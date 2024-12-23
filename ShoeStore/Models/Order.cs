@@ -12,6 +12,7 @@ namespace ShoeStore.Models
     {
         [Key]
         public int OrderId { get; set; }
+        [StringLength(50, ErrorMessage = "Tên sản phẩm không được vượt quá 50 ký tự.")]
         public string? OrderUsName { get; set; }
         public string? OrderCode { get; set; }
         public string? OrderDescription { get; set; }

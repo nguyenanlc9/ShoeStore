@@ -201,7 +201,7 @@ namespace ShoeStore.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ShoesStore.Models.AdminUser", b =>
+            modelBuilder.Entity("ShoeStore.Models.AdminUser", b =>
                 {
                     b.Property<int>("AdminID")
                         .ValueGeneratedOnAdd()
@@ -243,7 +243,7 @@ namespace ShoeStore.Migrations
                     b.ToTable("AdminUsers");
                 });
 
-            modelBuilder.Entity("ShoesStore.Models.User", b =>
+            modelBuilder.Entity("ShoeStore.Models.User", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()

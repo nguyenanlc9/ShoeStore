@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Areas.Admin.DTOs.Request;
 using Microsoft.AspNetCore.Http;
-using ShoesStore.Utils;
-using ShoesStore.Models;
+using ShoeStore.Utils;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -23,12 +22,12 @@ namespace ShoeStore.Areas.Admin.Controllers
             var login = Request.Cookies.Get<LoginDTO>("UserCredential");
             if (login != null)
             {
-                var result = _context.AdminUsers.AsNoTracking()
+                var result = _context.Users.AsNoTracking()
                     .FirstOrDefault(x => x.Username == login.UserName &&
                             x.Password == login.Password);
                 if (result != null)
                 {
-                    HttpContext.Session.Set<AdminUser>("userInfo", result);
+                    HttpContext.Session.Set<User>("userInfo", result);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -39,24 +38,33 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDTO login)
         {
-            var result = await _context.AdminUsers.AsNoTracking()
+            var result = await _context.Users
+                .Include(u => u.Role)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Username == login.UserName &&
                     x.Password == login.Password);
 
             if (result != null)
             {
-                if (login.RememberMe)
+                if (result.Role.RoleName == "Admin")
                 {
-                    Response.Cookies.Append("UserCredential", login , new CookieOptions
+                    if (login.RememberMe)
                     {
-                        Expires = DateTimeOffset.UtcNow.AddYears(7),
-                        HttpOnly = true,
-                        IsEssential = true
-                    });
-                }
+                        Response.Cookies.Append("UserCredential", login, new CookieOptions
+                        {
+                            Expires = DateTimeOffset.UtcNow.AddYears(7),
+                            HttpOnly = true,
+                            IsEssential = true
+                        });
+                    }
 
-                HttpContext.Session.Set<AdminUser>("userInfo", result);
-                return RedirectToAction("Index", "Home");
+                    HttpContext.Session.Set<User>("userInfo", result);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewData["Message"] = "Bạn không có quyền truy cập!";
+                }
             }
             else
             {
