@@ -30,26 +30,9 @@
                 <div class="card-body">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">
-                            <i class="fas fa-tags mr-2"></i> Danh sách Lien He
+                            <i class="fas fa-tags mr-2"></i> Thông Tin Liên Hệ
                         </h4>
                     </div>
-                    <!-- Tìm kiếm và lọc -->
-                    <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <!-- Tìm kiếm -->
-                        <div class="form-group">
-                            <input id="searchBox" type="text" class="form-control" placeholder="Tìm kiếm liên hệ..." onkeyup="filterTable()" />
-                        </div>
-
-                        <!-- Chọn số lượng hiển thị -->
-                        <div class="form-group">
-                            <label for="recordsPerPage" class="mr-2">Hiển thị:</label>
-                            <select id="recordsPerPage" class="form-control" onchange="changePageSize()">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="table-responsive">
                         <table id="contactTable" class="table table-striped table-hover">
@@ -89,13 +72,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Pagination -->
-                    <nav aria-label="Page navigation">
-                        <ul id="pagination" class="pagination justify-content-end">
-                            <!-- Pagination items sẽ được tạo bằng JavaScript -->
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -103,74 +79,6 @@
 </div>
 
 @section Scripts {
-    <script>
-        // Số bản ghi hiển thị mỗi trang
-        let recordsPerPage = 5;
-        let currentPage = 1;
-
-        // Lấy danh sách tất cả các hàng
-        const rows = document.querySelectorAll("#contactTable tbody tr");
-
-        // Cập nhật bảng hiển thị
-        function updateTable() {
-            const totalRecords = rows.length;
-            const totalPages = Math.ceil(totalRecords / recordsPerPage);
-
-            // Ẩn tất cả các hàng
-            rows.forEach(row => row.style.display = "none");
-
-            // Hiển thị các hàng thuộc trang hiện tại
-            const startIndex = (currentPage - 1) * recordsPerPage;
-            const endIndex = startIndex + recordsPerPage;
-            for (let i = startIndex; i < endIndex && i < totalRecords; i++) {
-                rows[i].style.display = "";
-            }
-
-            // Cập nhật phân trang
-            updatePagination(totalPages);
-        }
-
-        // Cập nhật phân trang
-        function updatePagination(totalPages) {
-            const pagination = document.getElementById("pagination");
-            pagination.innerHTML = "";
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement("li");
-                pageItem.className = "page-item" + (i === currentPage ? " active" : "");
-                pageItem.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>`;
-                pagination.appendChild(pageItem);
-            }
-        }
-
-        // Điều hướng đến trang khác
-        function goToPage(page) {
-            currentPage = page;
-            updateTable();
-        }
-
-        // Thay đổi số bản ghi hiển thị mỗi trang
-        function changePageSize() {
-            recordsPerPage = parseInt(document.getElementById("recordsPerPage").value);
-            currentPage = 1; // Quay lại trang đầu tiên
-            updateTable();
-        }
-
-        // Tìm kiếm
-        function filterTable() {
-            const searchQuery = document.getElementById("searchBox").value.toLowerCase();
-            rows.forEach(row => {
-                const cells = row.querySelectorAll("td");
-                const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(searchQuery));
-                row.style.display = match ? "" : "none";
-            });
-        }
-
-        // Khởi tạo bảng hiển thị ban đầu
-        document.addEventListener("DOMContentLoaded", () => {
-            updateTable();
-        });
-    </script>
     <style>
         .form-button-action a {
             font-size: 1.2rem;

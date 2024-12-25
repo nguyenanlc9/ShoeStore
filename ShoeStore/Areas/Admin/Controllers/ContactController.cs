@@ -46,30 +46,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             return View(contact);
         }
 
-        // GET: Admin/Contact/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/Contact/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactName,ContactMap,ContactPhone,ContactEmail,ContactDescription,UpdatedDate")] Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                contact.UpdatedDate = DateTime.Now;
-
-                _context.Add(contact);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contact);
-        }
-
         // GET: Admin/Contact/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -86,9 +62,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             return View(contact);
         }
 
-        // POST: Admin/Contact/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ContactName,ContactMap,ContactPhone,ContactEmail,ContactDescription,UpdatedDate")] Contact contact)
@@ -120,40 +93,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
             return View(contact);
         }
-
-        // GET: Admin/Contact/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var contact = await _context.Contacts
-                .FirstOrDefaultAsync(m => m.ContactName == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-
-            return View(contact);
-        }
-
-        // POST: Admin/Contact/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact != null)
-            {
-                _context.Contacts.Remove(contact);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool ContactExists(string id)
         {
             return _context.Contacts.Any(e => e.ContactName == id);

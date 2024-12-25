@@ -4,14 +4,13 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\Areas\\Admin\\Views",
-    "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Areas\\Admin\\Views\\Coupon",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\UserController.cs",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Edit.cshtml",
   "PreviewInSolutionExplorer": false
 }
