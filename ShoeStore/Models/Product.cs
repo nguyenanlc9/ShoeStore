@@ -45,7 +45,5 @@ namespace ShoeStore.Models
         [ForeignKey("BrandId")]
         public virtual Brand? Brands { get; set; }
 
-
-
     }
 }

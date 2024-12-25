@@ -35,7 +35,6 @@ namespace ShoeStore.Models
 
         public bool Status { get; set; }
 
-        // Phương thức kiểm tra trạng thái hợp lệ của mã giảm giá
         public bool IsValid()
         {
             return Status &&
