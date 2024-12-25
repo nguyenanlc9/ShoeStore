@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using ShoeStore.Models
+@using ShoeStore.Utils
+
+@{
+    var userInfo = Context.Session.Get<User>("userInfo");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,7 +49,23 @@
                     <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                         <div class="site-top-icons">
                             <ul>
-                                <li><a href="#"><span class="icon icon-person"></span></a></li>
+                                @if (userInfo != null)
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="icon icon-person"></span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                            <span class="dropdown-item">@userInfo.FullName</span>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Profile">Thông tin cá nhân</a>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Account" asp-action="Login"><span class="icon icon-person"></span> Đăng nhập</a></li>
+                                }
                                 <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                                 <li>
                                         <a asp-controller="Cart" asp-action="Index" class="site-cart">

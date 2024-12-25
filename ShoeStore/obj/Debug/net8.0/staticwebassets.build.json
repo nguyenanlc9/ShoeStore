@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "n6Amnecu+SOM4r5daVm6lAJZF8GD5hOoO3UIl4KBuyI=",
+  "Hash": "e5sZN2Ol4GY7PZYx4aBuzvlZ3UgLZKIgW8Mr/aluRP0=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -48106,6 +48106,25 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\d4928997-8873-4c24-a2ab-7778454ed127_53a51c92-d1c1-4513-a67b-9a55379e3eb1.webp"
     },
     {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\f11cc0c4-ce15-406a-ada9-5bd75ce47959_giaynikeairforce1.jpg"
+    },
+    {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\f2de48c0-f591-436c-9a16-5d93c9fc912a_2-1698164655929284721743 (1).webp",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -48180,6 +48199,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\sliders\\0bc8159a-4ff0-4bc9-b813-aca38413932d_images.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/sliders/2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg"
     },
     {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\58d8fafc-9c14-472d-9831-cdf921a9ae8e_HF0737-111-1.webp",

@@ -67,8 +67,7 @@ namespace ShoeStore.Migrations
             modelBuilder.Entity("ShoeStore.Models.Contact", b =>
                 {
                     b.Property<string>("ContactName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContactDescription")
                         .IsRequired()
@@ -101,8 +100,8 @@ namespace ShoeStore.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponId"));
 
                     b.Property<string>("CouponName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("DateEnd")
                         .HasColumnType("datetime2");
@@ -114,6 +113,7 @@ namespace ShoeStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
+                        .HasMaxLength(5)
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -277,14 +277,10 @@ namespace ShoeStore.Migrations
                     b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()

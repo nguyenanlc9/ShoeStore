@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ShoeStore.Models
 {
     [Table("Users")]
-
     public class User
     {
         [Key]
@@ -15,12 +14,9 @@ namespace ShoeStore.Models
         [StringLength(50)]
         public string Username { get; set; }
 
-
-
-        [Required(ErrorMessage = "Password không được để trống")]
+        [Required]
         [StringLength(255)]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
 
         [Display(Name = "Họ và tên")]
         [StringLength(100)]
@@ -51,7 +47,6 @@ namespace ShoeStore.Models
         [Display(Name = "Ngày tạo")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        
         public int RoleID { get; set; }
         public Role? Role { get; set; }
     }

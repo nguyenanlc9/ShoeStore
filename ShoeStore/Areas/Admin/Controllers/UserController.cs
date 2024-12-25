@@ -79,7 +79,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                     return View(user);
                 }
 
-                // Lưu mật khẩu trực tiếp (không mã hóa)
+                // Mã hóa mật khẩu trước khi lưu
+                user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -110,7 +111,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,Password,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,PasswordHash,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
         {
             if (id != user.UserID)
             {
@@ -121,7 +122,22 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    // Cập nhật thông tin người dùng (bao gồm mật khẩu không mã hóa)
+                    var existingUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserID == id);
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Chỉ mã hóa mật khẩu nếu nó đã được thay đổi
+                    if (!string.IsNullOrEmpty(user.PasswordHash) && user.PasswordHash != existingUser.PasswordHash)
+                    {
+                        user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
+                    }
+                    else
+                    {
+                        user.PasswordHash = existingUser.PasswordHash; // Giữ nguyên mật khẩu cũ nếu không thay đổi
+                    }
+
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }

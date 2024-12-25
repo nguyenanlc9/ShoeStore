@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
-using ShoeStore.Areas.Admin.DTOs.Request;
 using Microsoft.AspNetCore.Http;
 using ShoeStore.Utils;
+using ShoeStore.Models.DTO.Request;
+using ShoeStore.Filters;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AdminAuthorize]
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +21,12 @@ namespace ShoeStore.Areas.Admin.Controllers
 
         public IActionResult Login()
         {
-            var login = Request.Cookies.Get<LoginDTO>("UserCredential");
+            var login = Request.Cookies.Get<AdminLoginDTO>("UserCredential");
             if (login != null)
             {
                 var result = _context.Users.AsNoTracking()
                     .FirstOrDefault(x => x.Username == login.UserName &&
-                            x.Password == login.Password);
+                            PasswordHelper.VerifyPassword(login.Password, x.PasswordHash));
                 if (result != null)
                 {
                     HttpContext.Session.Set<User>("userInfo", result);
@@ -36,13 +38,13 @@ namespace ShoeStore.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginDTO login)
+        public async Task<IActionResult> Login(AdminLoginDTO login)
         {
             var result = await _context.Users
                 .Include(u => u.Role)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Username == login.UserName &&
-                    x.Password == login.Password);
+                    PasswordHelper.VerifyPassword(login.Password, x.PasswordHash));
 
             if (result != null)
             {
