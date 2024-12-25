@@ -1,4 +1,5 @@
-﻿@model ShoeStore.Models.Coupon
+﻿
+@model ShoeStore.Models.Coupon
 
 @{
     ViewData["Title"] = "Edit";
@@ -16,9 +17,21 @@
                 <input type="hidden" asp-for="CouponId" />
 
                 <div class="mb-3">
+                    <label asp-for="CouponCode" class="form-label">Mã giảm giá</label>
+                    <input asp-for="CouponCode" class="form-control" />
+                    <span asp-validation-for="CouponCode" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
                     <label asp-for="CouponName" class="form-label">Tên Coupon</label>
                     <input asp-for="CouponName" class="form-control" />
                     <span asp-validation-for="CouponName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DiscountPercentage" class="form-label">Phần Trăm</label>
+                    <input asp-for="DiscountPercentage" class="form-control" />
+                    <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
@@ -89,7 +102,7 @@
             Font
         } from 'ckeditor5';
 
-        ClassicEditor   
+        ClassicEditor
             .create(document.querySelector('#Description'), {
                 plugins: [Essentials, Paragraph, Bold, Italic, Font],
                 toolbar: [

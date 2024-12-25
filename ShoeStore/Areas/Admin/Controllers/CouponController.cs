@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ShoeStore.Filters;
 using ShoeStore.Models;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthorize]
-
     public class CouponController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,10 +29,9 @@ namespace ShoeStore.Areas.Admin.Controllers
             if (id == null)
             {
                 return NotFound();
-            }   
+            }
 
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(m => m.CouponId == id);
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(m => m.CouponId == id);
             if (coupon == null)
             {
                 return NotFound();
@@ -53,18 +47,24 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         // POST: Admin/Coupon/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Coupon request)
         {
             if (ModelState.IsValid)
-
             {
+                // Kiểm tra logic ngày bắt đầu và ngày kết thúc
+                if (request.DateStart > request.DateEnd)
+                {
+                    ModelState.AddModelError("DateEnd", "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+                    return View(request);
+                }
+
                 var coupon = new Coupon
                 {
+                    CouponCode = request.CouponCode,
                     CouponName = request.CouponName,
+                    DiscountPercentage = request.DiscountPercentage,
                     Description = request.Description,
                     DateStart = request.DateStart,
                     DateEnd = request.DateEnd,
@@ -72,13 +72,16 @@ namespace ShoeStore.Areas.Admin.Controllers
                     Status = request.Status
                 };
 
-                _context.Add(request);
+                _context.Add(coupon);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Thêm mã giảm giá thành công!";
                 return RedirectToAction(nameof(Index));
             }
 
             return View(request);
         }
+
         // GET: Admin/Coupon/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,11 +99,9 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         // POST: Admin/Coupon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CouponId,CouponName,Description,DateStart,DateEnd,Quantity,Status")] Coupon coupon)
+        public async Task<IActionResult> Edit(int id, [Bind("CouponId,CouponCode,CouponName,DiscountPercentage,Description,DateStart,DateEnd,Quantity,Status")] Coupon coupon)
         {
             if (id != coupon.CouponId)
             {
@@ -109,10 +110,20 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                // Kiểm tra logic ngày bắt đầu và ngày kết thúc
+                if (coupon.DateStart > coupon.DateEnd)
+                {
+                    ModelState.AddModelError("DateEnd", "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+                    return View(coupon);
+                }
+
                 try
                 {
                     _context.Update(coupon);
                     await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Cập nhật mã giảm giá thành công!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +136,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(coupon);
         }
 
@@ -138,8 +149,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(m => m.CouponId == id);
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(m => m.CouponId == id);
             if (coupon == null)
             {
                 return NotFound();
@@ -157,9 +167,10 @@ namespace ShoeStore.Areas.Admin.Controllers
             if (coupon != null)
             {
                 _context.Coupons.Remove(coupon);
-            }
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Mã giảm giá đã được xóa thành công!";
+            }
             return RedirectToAction(nameof(Index));
         }
 

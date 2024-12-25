@@ -1,4 +1,5 @@
-﻿@model ShoeStore.Models.Coupon
+﻿
+@model ShoeStore.Models.Coupon
 
 @{
     ViewData["Title"] = "Create";
@@ -6,20 +7,41 @@
 }
 
 
-<div class=" mt-5">
+<div class="mt-5">
     <h2 class="text-center mb-4">Thêm mới Coupon</h2>
+
+    <!-- Hiển thị thông báo khi thêm thành công -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
     <form asp-action="Create" class="border rounded p-4 shadow-sm bg-light">
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
         <div class="mb-3">
+            <label asp-for="CouponCode" class="form-label">Mã Coupon</label>
+            <input asp-for="CouponCode" class="form-control" placeholder="VD: SALE2024" />
+            <span asp-validation-for="CouponCode" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
             <label asp-for="CouponName" class="form-label">Tên Coupon</label>
-            <input asp-for="CouponName" class="form-control" placeholder="Nhập tên coupon..." />
+            <input asp-for="CouponName" class="form-control" placeholder="VD: Giảm giá cuối năm" />
             <span asp-validation-for="CouponName" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Description" class="control-label"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
+            <label asp-for="DiscountPercentage" class="form-label">Phần trăm giảm giá</label>
+            <input asp-for="DiscountPercentage" type="number" class="form-control" min="1" max="100" placeholder="VD: 20 (cho 20%)" />
+            <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Mô tả</label>
+            <textarea asp-for="Description" id="Description" class="form-control" placeholder="Mô tả nội dung coupon..."></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
@@ -37,11 +59,11 @@
 
         <div class="mb-3">
             <label asp-for="Quantity" class="form-label">Số lượng</label>
-            <input asp-for="Quantity" type="number" class="form-control" placeholder="Nhập số lượng..." />
+            <input asp-for="Quantity" type="number" class="form-control" min="1" placeholder="VD: 100" />
             <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
 
-        <div class="mb-3 my-6">
+        <div class="mb-3">
             <label asp-for="Status" class="form-label">Trạng thái</label>
             <select asp-for="Status" class="form-select">
                 <option value="true">Hoạt động</option>
@@ -100,3 +122,4 @@
             });
     </script>
 }
+

@@ -4,6 +4,7 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
+    "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
     "\\ShoeStore\\Models",
@@ -11,6 +12,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\ShoeStore.sln",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\UserController.cs",
   "PreviewInSolutionExplorer": false
 }
