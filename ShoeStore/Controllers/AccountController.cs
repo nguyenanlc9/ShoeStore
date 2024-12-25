@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Request;
 using ShoeStore.Utils;
@@ -55,40 +56,40 @@ namespace ShoeStore.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Register(RegisterViewModel model)
-{
-    if (ModelState.IsValid)
-    {
-        var existingUser = await _context.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Username == model.Username);
-
-        if (existingUser != null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ModelState.AddModelError("Username", "Tên đăng nhập đã tồn tại.");
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _context.Users
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Username == model.Username);
+
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Username", "Tên đăng nhập đã tồn tại.");
+                    return View(model);
+                }
+
+                var user = new User
+                {
+                    Username = model.Username,
+                    PasswordHash = PasswordHelper.HashPassword(model.Password),
+                    RegisterDate = DateTime.Now,
+                    Address = model.Address ?? string.Empty,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Phone = model.Phone,
+                    Status = true,
+                    RoleID = 1
+                };
+
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login");
+            }
             return View(model);
         }
-
-        var user = new User
-        {
-            Username = model.Username,
-            PasswordHash = PasswordHelper.HashPassword(model.Password),
-            RegisterDate = DateTime.Now,
-            Address = model.Address ?? string.Empty,
-            Email = model.Email,
-            FullName = model.FullName,
-            Phone = model.Phone,
-            Status = true,
-            RoleID = 2
-        };
-
-        _context.Add(user);
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Login");
-    }
-    return View(model);
-}
 
         // GET: /Account/ForgotPassword
         public IActionResult ForgotPassword()
@@ -127,6 +128,7 @@ public async Task<IActionResult> Register(RegisterViewModel model)
             return View(userInfo);
         }
 
+        [HttpGet]
         public IActionResult EditProfile()
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
@@ -134,33 +136,69 @@ public async Task<IActionResult> Register(RegisterViewModel model)
             {
                 return RedirectToAction("Login");
             }
-            return View(userInfo);
+
+            var user = _context.Users.Find(userInfo.UserID);
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProfile(User model)
+        public async Task<IActionResult> EditProfile(User user)
         {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+            if (userInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.FindAsync(model.UserID);
-                if (user == null)
+                try
                 {
-                    return NotFound();
+                    var existingUser = await _context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
+
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Cập nhật thông tin cơ bản
+                    user.Username = existingUser.Username; // Không cho phép đổi username
+                    user.RoleID = existingUser.RoleID;
+                    user.Status = existingUser.Status;
+                    user.RegisterDate = existingUser.RegisterDate;
+                    user.LastLogin = existingUser.LastLogin;
+                    user.CreatedDate = existingUser.CreatedDate;
+
+                    // Xử lý mật khẩu
+                    if (!string.IsNullOrEmpty(user.NewPassword))
+                    {
+                        user.PasswordHash = PasswordHelper.HashPassword(user.NewPassword);
+                    }
+                    else
+                    {
+                        user.PasswordHash = existingUser.PasswordHash;
+                    }
+
+                    _context.Entry(existingUser).State = EntityState.Detached;
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    // Cập nhật lại session
+                    HttpContext.Session.Set("userInfo", user);
+
+                    TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+                    return RedirectToAction("Index", "Home");
                 }
-
-                user.FullName = model.FullName;
-                user.Email = model.Email;
-                user.Phone = model.Phone;
-                user.Address = model.Address;
-
-                _context.Update(user);
-                await _context.SaveChangesAsync();
-
-                HttpContext.Session.Set<User>("userInfo", user); // Cập nhật session
-                return RedirectToAction("Profile");
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message);
+                }
             }
-            return View(model);
+
+            return View(user);
         }
 
         public IActionResult ChangePassword()

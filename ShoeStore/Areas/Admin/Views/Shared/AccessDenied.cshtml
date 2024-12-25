@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Từ chối truy cập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <div class="error-template">
+            <h1 class="display-4 text-danger">
+                <i class="fas fa-exclamation-triangle"></i> Từ chối truy cập
+            </h1>
+            <h2 class="text-danger">403 - Forbidden</h2>
+            <div class="error-details my-4">
+                Bạn không có quyền truy cập vào trang quản trị!
+            </div>
+            <div class="error-actions mt-4">
+                <a href="javascript:history.back()" class="btn btn-primary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+                <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-home"></i> Về trang chủ
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .error-template {
+        padding: 40px 15px;
+    }
+    
+    .error-actions {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .error-actions .btn {
+        margin-right: 10px;
+    }
+</style> 

@@ -10,12 +10,12 @@ using ShoeStore.Models;
 using System.Security.Cryptography;
 using System.Text;
 using ShoeStore.Utils;
+using ShoeStore.Filters;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthentication]
-
+    [AdminAuthorize]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,8 +28,10 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/User
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Users.Include(u => u.Role);
-            return View(await applicationDbContext.ToListAsync());
+            var users = await _context.Users
+                .Include(u => u.Role)
+                .ToListAsync();
+            return View(users);
         }
 
         // GET: Admin/User/Details/5
@@ -63,10 +65,23 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create([Bind("Username,PasswordHash,FullName,Email,Phone,Address,RoleID")] User user)
         {
-            if (ModelState.IsValid)
+            try 
             {
+                // Kiểm tra ModelState và in ra lỗi để debug
+                if (!ModelState.IsValid)
+                {
+                    foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            // Log hoặc in ra lỗi
+                            System.Diagnostics.Debug.WriteLine(error.ErrorMessage);
+                        }
+                    }
+                }
+
                 // Kiểm tra tên đăng nhập đã tồn tại
                 var existingUser = await _context.Users
                     .AsNoTracking()
@@ -79,12 +94,29 @@ namespace ShoeStore.Areas.Admin.Controllers
                     return View(user);
                 }
 
-                // Mã hóa mật khẩu trước khi lưu
-                user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
-                _context.Add(user);
+                // Thiết lập các giá trị mặc định
+                user.RegisterDate = DateTime.Now;
+                user.CreatedDate = DateTime.Now;
+                user.Status = true;
+                user.LastLogin = null;
+
+                // Mã hóa mật khẩu
+                if (!string.IsNullOrEmpty(user.PasswordHash))
+                {
+                    user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
+                }
+
+                _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                // Log lỗi
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                ModelState.AddModelError("", "Có lỗi xảy ra khi lưu dữ liệu: " + ex.Message);
+            }
+
             ViewData["RoleID"] = new SelectList(_context.Roles, "RoleID", "RoleName", user.RoleID);
             return View(user);
         }
@@ -111,49 +143,46 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,PasswordHash,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,PasswordHash,NewPassword,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
         {
             if (id != user.UserID)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var existingUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserID == id);
-                    if (existingUser == null)
-                    {
-                        return NotFound();
-                    }
+                var existingUser = await _context.Users
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.UserID == id);
 
-                    // Chỉ mã hóa mật khẩu nếu nó đã được thay đổi
-                    if (!string.IsNullOrEmpty(user.PasswordHash) && user.PasswordHash != existingUser.PasswordHash)
-                    {
-                        user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
-                    }
-                    else
-                    {
-                        user.PasswordHash = existingUser.PasswordHash; // Giữ nguyên mật khẩu cũ nếu không thay đổi
-                    }
-
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                if (existingUser == null)
                 {
-                    if (!UserExists(user.UserID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
+
+                // Xử lý mật khẩu
+                if (!string.IsNullOrEmpty(user.NewPassword))
+                {
+                    // Nếu có nhập mật khẩu mới thì mã hóa và cập nhật
+                    user.PasswordHash = PasswordHelper.HashPassword(user.NewPassword);
+                }
+                // Nếu không nhập mật khẩu mới thì giữ nguyên mật khẩu cũ
+                
+                user.RegisterDate = existingUser.RegisterDate;
+                user.CreatedDate = existingUser.CreatedDate;
+                user.LastLogin = existingUser.LastLogin;
+
+                _context.Entry(existingUser).State = EntityState.Detached;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật dữ liệu: " + ex.Message);
+            }
+
             ViewData["RoleID"] = new SelectList(_context.Roles, "RoleID", "RoleName", user.RoleID);
             return View(user);
         }

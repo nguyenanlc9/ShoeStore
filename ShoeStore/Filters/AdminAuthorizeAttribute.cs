@@ -7,13 +7,23 @@ namespace ShoeStore.Filters
 {
     public class AdminAuthorizeAttribute : ActionFilterAttribute
     {
+        private const string AdminSessionKey = "AdminUserInfo";
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var userInfo = context.HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null || userInfo.RoleID == 2 || userInfo.Role.RoleName == "User")
+            var adminInfo = context.HttpContext.Session.Get<User>(AdminSessionKey);
+            if (adminInfo == null)
             {
-                context.Result = new RedirectToActionResult("Login", "Account", new { area = "" });
+                context.Result = new RedirectToActionResult("Login", "Account", new { area = "Admin" });
+                return;
             }
+            
+            if (adminInfo.RoleID != 2) 
+            {
+                context.Result = new RedirectToActionResult("AccessDenied", "Account", new { area = "Admin" });
+                return;
+            }
+
             base.OnActionExecuting(context);
         }
     }

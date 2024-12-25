@@ -9,11 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Utils;
 using ShoeStore.Models.DTO.Requset;
+using ShoeStore.Filters;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthentication]
+    [AdminAuthorize]
 
     public class SliderController : Controller
     {

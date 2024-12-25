@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = "Từ chối truy cập";
+}
+
+<div class="text-center">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <h2 class="text-danger">Bạn không có quyền truy cập trang này!</h2>
+    <hr />
+    <a href="javascript:history.back()" class="btn btn-primary">Quay lại</a>
+    <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-secondary">Về trang chủ</a>
+</div> 

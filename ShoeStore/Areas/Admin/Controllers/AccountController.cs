@@ -5,31 +5,39 @@ using Microsoft.AspNetCore.Http;
 using ShoeStore.Utils;
 using ShoeStore.Models.DTO.Request;
 using ShoeStore.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthorize]
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private const string AdminSessionKey = "AdminUserInfo";
 
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        [AllowAnonymous]
         public IActionResult Login()
         {
-            var login = Request.Cookies.Get<AdminLoginDTO>("UserCredential");
+            var adminInfo = HttpContext.Session.Get<User>(AdminSessionKey);
+            if (adminInfo?.RoleID == 2)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+
+            var login = Request.Cookies.Get<AdminLoginDTO>("AdminCredential");
             if (login != null)
             {
                 var result = _context.Users.AsNoTracking()
                     .FirstOrDefault(x => x.Username == login.UserName &&
                             PasswordHelper.VerifyPassword(login.Password, x.PasswordHash));
-                if (result != null)
+                if (result != null && result.RoleID == 2)
                 {
-                    HttpContext.Session.Set<User>("userInfo", result);
+                    HttpContext.Session.Set(AdminSessionKey, result);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -43,16 +51,15 @@ namespace ShoeStore.Areas.Admin.Controllers
             var result = await _context.Users
                 .Include(u => u.Role)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Username == login.UserName &&
-                    PasswordHelper.VerifyPassword(login.Password, x.PasswordHash));
+                .FirstOrDefaultAsync(x => x.Username == login.UserName);
 
-            if (result != null)
+            if (result != null && PasswordHelper.VerifyPassword(login.Password, result.PasswordHash))
             {
-                if (result.Role.RoleName == "Admin")
+                if (result.RoleID == 2)
                 {
                     if (login.RememberMe)
                     {
-                        Response.Cookies.Append("UserCredential", login, new CookieOptions
+                        Response.Cookies.Append("AdminCredential", login, new CookieOptions
                         {
                             Expires = DateTimeOffset.UtcNow.AddYears(7),
                             HttpOnly = true,
@@ -60,7 +67,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                         });
                     }
 
-                    HttpContext.Session.Set<User>("userInfo", result);
+                    HttpContext.Session.Set(AdminSessionKey, result);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -77,9 +84,20 @@ namespace ShoeStore.Areas.Admin.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            Response.Cookies.Delete("UserCredential");
+            HttpContext.Session.Remove(AdminSessionKey);
+            Response.Cookies.Delete("AdminCredential");
             return RedirectToAction("Login");
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            var adminInfo = HttpContext.Session.Get<User>(AdminSessionKey);
+            if (adminInfo?.RoleID == 2)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+            return View();
         }
     }
 }

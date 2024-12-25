@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoeStore.Filters;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthentication]
-
+    [AdminAuthorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

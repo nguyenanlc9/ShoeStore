@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ShoeStore.Filters;
 using ShoeStore.Models;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthentication]
+    [AdminAuthorize]
 
     public class ContactController : Controller
     {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Requset;
 using ShoeStore.Utils;
@@ -12,7 +13,7 @@ using ShoeStore.Utils;
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [AdminAuthentication]
+    [AdminAuthorize]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;

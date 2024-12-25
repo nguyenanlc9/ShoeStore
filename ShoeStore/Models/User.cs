@@ -18,6 +18,9 @@ namespace ShoeStore.Models
         [StringLength(255)]
         public string PasswordHash { get; set; }
 
+        [NotMapped]
+        public string? NewPassword { get; set; }
+
         [Display(Name = "Họ và tên")]
         [StringLength(100)]
         public string FullName { get; set; }
@@ -47,7 +50,11 @@ namespace ShoeStore.Models
         [Display(Name = "Ngày tạo")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        [Required]
+        [Display(Name = "Vai trò")]
         public int RoleID { get; set; }
-        public Role? Role { get; set; }
+
+        [ForeignKey("RoleID")]
+        public Role Role { get; set; }
     }
 }
