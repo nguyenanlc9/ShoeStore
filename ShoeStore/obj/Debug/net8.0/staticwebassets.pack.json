@@ -9757,6 +9757,10 @@
       "PackagePath": "staticwebassets\\css\\plugins.min.css"
     },
     {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\product-label.css",
+      "PackagePath": "staticwebassets\\css\\product-label.css"
+    },
+    {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -9991,6 +9995,10 @@
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\1b546bde-f31b-47ca-9b71-19e69a2f59aa_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
       "PackagePath": "staticwebassets\\images\\products\\1b546bde-f31b-47ca-9b71-19e69a2f59aa_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp",
+      "PackagePath": "staticwebassets\\images\\products\\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\2e618218-3018-4563-a583-107730ebb7ac_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",

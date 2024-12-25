@@ -47,9 +47,11 @@
                                     <th style="width: 120px">Hình ảnh</th>
                                     <th>Thông tin sản phẩm</th>
                                     <th style="width: 150px">Giá</th>
-                                    <th style="width: 100px">Kho</th>
                                     <th style="width: 150px">Cập nhật</th>
                                     <th style="width: 120px">Thao tác</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,28 +84,16 @@
                                         </td>
                                         <td>
                                             <div class="price-info">
-                                                <span class="current-price">@String.Format("{0:N0}đ", item.Price)</span>
                                                 @if (item.DiscountPrice > 0)
                                                 {
-                                                    <span class="discount-price">@String.Format("{0:N0}đ", item.DiscountPrice)</span>
+                                                    <span class="current-price">@String.Format("{0:N0}đ", item.Price - item.DiscountPrice)</span>
+                                                    <span class="discount-price">@String.Format("{0:N0}đ", item.Price)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="current-price">@String.Format("{0:N0}đ", item.Price)</span>
                                                 }
                                             </div>
-                                        </td>
-                                        <td class="text-center">
-                                            @if (item.StockQuantity > 0)
-                                            {
-                                                <span class="badge badge-success">
-                                                    <i class="fas fa-check-circle mr-1"></i>
-                                                    @item.StockQuantity
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-danger">
-                                                    <i class="fas fa-times-circle mr-1"></i>
-                                                    Hết hàng
-                                                </span>
-                                            }
                                         </td>
                                         <td>
                                             <div class="update-info">
@@ -136,6 +126,9 @@
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </div>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
                                         </td>
                                     </tr>
                                 }

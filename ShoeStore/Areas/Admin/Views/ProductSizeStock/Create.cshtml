@@ -1,0 +1,54 @@
+﻿@model ShoeStore.Models.ProductSizeStock
+
+@{
+    ViewData["Title"] = "Create Product Size Stock";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Thêm mới Product Size Stock</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <!-- Product Dropdown -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ProductID" class="form-label font-weight-bold">Sản phẩm</label>
+                    <select asp-for="ProductID" class="form-control" asp-items="ViewBag.ProductID">
+                        <option value="">-- Chọn sản phẩm --</option>
+                    </select>
+                    <span asp-validation-for="ProductID" class="text-danger"></span>
+                </div>
+
+                <!-- Size Dropdown -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SizeID" class="form-label font-weight-bold">Kích thước</label>
+                    <select asp-for="SizeID" class="form-control" asp-items="ViewBag.SizeID">
+                        <option value="">-- Chọn size --</option>
+                    </select>
+                    <span asp-validation-for="SizeID" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Stock Quantity -->
+            <div class="mb-3">
+                <label asp-for="StockQuantity" class="form-label font-weight-bold">Số lượng tồn kho</label>
+                <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

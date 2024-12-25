@@ -175,21 +175,26 @@ namespace ShoeStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DiscountPrice")
-                        .HasMaxLength(5)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("StockQuantity")
-                        .HasMaxLength(5)
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
@@ -205,6 +210,65 @@ namespace ShoeStore.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.ProductSizeStock", b =>
+                {
+                    b.Property<int>("ProductSizeStockID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductSizeStockID"));
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductSizeStockID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("SizeID");
+
+                    b.ToTable("ProductSizeStocks");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Role", b =>
@@ -225,6 +289,22 @@ namespace ShoeStore.Migrations
                     b.HasKey("RoleID");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Size", b =>
+                {
+                    b.Property<int>("SizeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeID"));
+
+                    b.Property<decimal>("SizeValue")
+                        .HasColumnType("decimal(3,1)");
+
+                    b.HasKey("SizeID");
+
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Slider", b =>
@@ -329,6 +409,44 @@ namespace ShoeStore.Migrations
                     b.Navigation("Categories");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.ProductSizeStock", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Product", "Product")
+                        .WithMany("ProductSizeStocks")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoeStore.Models.Size", "Size")
+                        .WithMany("ProductSizeStocks")
+                        .HasForeignKey("SizeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Size");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Review", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoeStore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.User", b =>
                 {
                     b.HasOne("ShoeStore.Models.Role", "Role")
@@ -350,9 +468,19 @@ namespace ShoeStore.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.Product", b =>
+                {
+                    b.Navigation("ProductSizeStocks");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Size", b =>
+                {
+                    b.Navigation("ProductSizeStocks");
                 });
 #pragma warning restore 612, 618
         }

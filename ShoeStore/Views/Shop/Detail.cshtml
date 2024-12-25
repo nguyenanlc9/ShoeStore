@@ -23,112 +23,248 @@
             <div class="col-md-6">
                 <h2 class="text-black">@Model.Name</h2>
                 <p>@Model.Description</p>
-                <p><strong class="text-primary h4">$@Model.Price</strong></p>
-                <div class="mb-1 d-flex">
-                    <label for="option-sm" class="d-flex mr-3 mb-3">
-                        <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">39</span>
-                    </label>
-                    <label for="option-md" class="d-flex mr-3 mb-3">
-                        <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">40</span>
-                    </label>
-                    <label for="option-lg" class="d-flex mr-3 mb-3">
-                        <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">41</span>
-                    </label>
-                    <label for="option-xl" class="d-flex mr-3 mb-3">
-                        <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> 42</span>
-                    </label>
-                </div>
+                
+                <!-- Hiển thị giá -->
                 <div class="mb-5">
-                    <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                    </div>
+                    @switch (Model.Status)
+                    {
+                        case ProductStatus.Available:
+                            @if (Model.DiscountPrice > 0)
+                            {
+                                <p class="price">
+                                    <del class="old-price">@String.Format("{0:N0}đ", Model.Price)</del>
+                                    <span class="text-primary h4 font-weight-bold">@String.Format("{0:N0}đ", Model.Price - Model.DiscountPrice)</span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="price"><span class="text-primary h4 font-weight-bold">@String.Format("{0:N0}đ", Model.Price)</span></p>
+                            }
 
-                </div>
-                <p><a href="cart.html" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                            <!-- Hiển thị form chọn size và số lượng khi còn hàng -->
+                            <div class="mb-1 d-flex">
+                                <label for="size" class="mr-3">Size</label>
+                                <select class="form-control w-25" id="size">
+                                    @foreach (var sizeStock in Model.ProductSizeStocks.OrderBy(x => x.Size.SizeValue))
+                                    {
+                                        <option value="@sizeStock.SizeID" data-stock="@sizeStock.StockQuantity">@sizeStock.Size.SizeValue</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted">Số lượng tồn kho: </span>
+                                <span id="stockDisplay" class="font-weight-bold"></span>
+                            </div>
+                            <div class="mb-5">
+                                <div class="input-group mb-3" style="max-width: 120px;">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                    </div>
+                                    <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                            break;
 
-            </div>
-        </div>
-    </div>
-</div>
+                        case ProductStatus.OutOfStock:
+                            <div class="status-label out-of-stock mb-3">Hết hàng</div>
+                            <p class="text-muted">Sản phẩm này hiện đang hết hàng. Vui lòng quay lại sau.</p>
+                            break;
 
-<div class="site-section block-3 site-blocks-2 bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 site-section-heading text-center pt-4">
-                <h2>Featured Products</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="nonloop-block-3 owl-carousel">
-                    <div class="item">
-                        <div class="block-4 text-center">
-                            <figure class="block-4-image">
-                                <img src="~/images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                            </figure>
-                            <div class="block-4-text p-4">
-                                <h3><a href="#">Tank Top</a></h3>
-                                <p class="mb-0">Finding perfect t-shirt</p>
-                                <p class="text-primary font-weight-bold">$50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="block-4 text-center">
-                            <figure class="block-4-image">
-                                <img src="~/images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                            </figure>
-                            <div class="block-4-text p-4">
-                                <h3><a href="#">Corater</a></h3>
-                                <p class="mb-0">Finding perfect products</p>
-                                <p class="text-primary font-weight-bold">$50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="block-4 text-center">
-                            <figure class="block-4-image">
-                                <img src="~/images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                            </figure>
-                            <div class="block-4-text p-4">
-                                <h3><a href="#">Polo Shirt</a></h3>
-                                <p class="mb-0">Finding perfect products</p>
-                                <p class="text-primary font-weight-bold">$50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="block-4 text-center">
-                            <figure class="block-4-image">
-                                <img src="~/images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                            </figure>
-                            <div class="block-4-text p-4">
-                                <h3><a href="#">T-Shirt Mockup</a></h3>
-                                <p class="mb-0">Finding perfect products</p>
-                                <p class="text-primary font-weight-bold">$50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="block-4 text-center">
-                            <figure class="block-4-image">
-                                <img src="~/images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                            </figure>
-                            <div class="block-4-text p-4">
-                                <h3><a href="#">Corater</a></h3>
-                                <p class="mb-0">Finding perfect products</p>
-                                <p class="text-primary font-weight-bold">$50</p>
-                            </div>
-                        </div>
-                    </div>
+                        case ProductStatus.Discontinued:
+                            <div class="status-label discontinued mb-3">Ngừng kinh doanh</div>
+                            <p class="text-muted">Sản phẩm này đã ngừng kinh doanh.</p>
+                            break;
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h3 class="mb-4">Đánh giá sản phẩm</h3>
+        
+        <!-- Form đánh giá (chỉ hiện khi đã đăng nhập) -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="review-form mb-4">
+                <form id="reviewForm">
+                    <input type="hidden" id="productId" value="@Model.ProductId" />
+                    <div class="form-group">
+                        <label>Đánh giá của bạn:</label>
+                        <div class="rating-input">
+                            @for (int i = 5; i >= 1; i--)
+                            {
+                                <input type="radio" id="star@(i)" name="rating" value="@i" />
+                                <label for="star@(i)"><i class="far fa-star"></i></label>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Nhận xét:</label>
+                        <textarea class="form-control" id="comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <p>Vui lòng <a asp-controller="Account" asp-action="Login">đăng nhập</a> để đánh giá sản phẩm</p>
+        }
+
+        <!-- Danh sách đánh giá -->
+        <div id="reviewsList">
+            @foreach (var review in ViewBag.Reviews)
+            {
+                <div class="review-item mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= review.Rating)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+                        </div>
+                        <span class="ml-2">bởi @review.User.FullName</span>
+                        <small class="text-muted ml-2">@review.CreatedAt.ToString("dd/MM/yyyy")</small>
+                    </div>
+                    <p class="mb-0">@review.Comment</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-decoration-line-through {
+        text-decoration: line-through;
+    }
+    
+    .price-block {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1rem;
+    }
+
+    .size-option {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 1rem;
+        cursor: pointer;
+    }
+
+    .size-option.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .size-label {
+        margin: 0 0.5rem;
+    }
+
+    .out-of-stock {
+        color: #dc3545;
+    }
+
+    .gap-2 {
+        gap: 0.5rem;
+    }
+</style> 
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Hàm cập nhật số lượng tồn
+            function updateStockDisplay() {
+                var selectedOption = $('#size option:selected');
+                var stock = selectedOption.data('stock');
+                $('#stockDisplay').text(stock);
+                
+                // Cập nhật max cho input số lượng
+                var quantityInput = $('.form-control.text-center');
+                quantityInput.attr('max', stock);
+                
+                // Nếu số lượng hiện tại lớn hơn tồn kho, giảm xuống
+                if (parseInt(quantityInput.val()) > stock) {
+                    quantityInput.val(stock);
+                }
+            }
+
+            // Cập nhật lần đầu khi trang load
+            updateStockDisplay();
+
+            // Cập nhật khi thay đổi size
+            $('#size').change(function() {
+                updateStockDisplay();
+            });
+
+            // Xử lý nút tăng giảm số lượng
+            $('.js-btn-plus').click(function(e) {
+                e.preventDefault();
+                var input = $(this).closest('.input-group').find('.form-control');
+                var max = parseInt(input.attr('max'));
+                var value = parseInt(input.val());
+                if (value < max) {
+                    input.val(value + 1);
+                }
+            });
+
+            $('.js-btn-minus').click(function(e) {
+                e.preventDefault();
+                var input = $(this).closest('.input-group').find('.form-control');
+                var value = parseInt(input.val());
+                if (value > 1) {
+                    input.val(value - 1);
+                }
+            });
+
+            // Kiểm tra input số lượng khi người dùng nhập trực tiếp
+            $('.form-control.text-center').on('input', function() {
+                var max = parseInt($(this).attr('max'));
+                var value = parseInt($(this).val());
+                if (value > max) {
+                    $(this).val(max);
+                }
+                if (value < 1 || isNaN(value)) {
+                    $(this).val(1);
+                }
+            });
+
+            $('#reviewForm').submit(function(e) {
+                e.preventDefault();
+                
+                var rating = $('input[name="rating"]:checked').val();
+                if (!rating) {
+                    alert('Vui lòng chọn số sao đánh giá');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Shop/AddReview',
+                    type: 'POST',
+                    data: {
+                        productId: $('#productId').val(),
+                        rating: rating,
+                        comment: $('#comment').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload(); // Tải lại trang để hiện đánh giá mới
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+} 

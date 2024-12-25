@@ -1,0 +1,77 @@
+.product-label-group {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+.product-label {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ff0000;
+    color: white;
+}
+
+.block-4-image {
+    position: relative;
+}
+
+.status-label {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.status-label.out-of-stock {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-label.discontinued {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.rating-input input {
+    display: none;
+}
+
+.rating-input label {
+    cursor: pointer;
+    font-size: 25px;
+    color: #ddd;
+    margin: 0 2px;
+}
+
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label {
+    color: #ffc107;
+}
+
+.rating-input label:hover i,
+.rating-input label:hover ~ label i,
+.rating-input input:checked ~ label i {
+    content: "\f005";
+    font-weight: 900;
+}
+
+.review-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.stars .fas {
+    color: #ffc107;
+} 

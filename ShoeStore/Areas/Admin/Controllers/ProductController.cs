@@ -101,46 +101,24 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProductDTO productDTO)
+        public async Task<IActionResult> Create([Bind("ProductId,CategoryId,BrandId,Name,Price,Description,DiscountPrice,Status")] Product product, IFormFile ImageFile)
         {
-            if (productDTO.Price < 0 || productDTO.DiscountPrice < 0 || productDTO.StockQuantity < 0)
-            {
-                ModelState.AddModelError("", "Giá trị không thể thấp hơn 0.");
-            }
-
-            if (productDTO.StockQuantity < 1)
-            {
-                ModelState.AddModelError("Quantity", "Số lượng không thể thấp hơn 1.");
-            }
-
-            var userInfo = HttpContext.Session.Get<User>("userInfo");
-            var userName = userInfo?.Username ?? string.Empty;
-
             if (ModelState.IsValid)
             {
                 // Loại bỏ thẻ <p> và </p> khỏi Description nếu có
-                var description = productDTO.Description?.Trim();
+                var description = product.Description?.Trim();
                 if (!string.IsNullOrEmpty(description) && description.StartsWith("<p>") && description.EndsWith("</p>"))
                 {
-                    description = description.Substring(3, description.Length - 7); // Cắt bỏ <p> và </p>
+                    description = description.Substring(3, description.Length - 7);
                 }
 
-                var product = new Product
-                {
-                    CategoryId = productDTO.CategoryId,
-                    BrandId = productDTO.BrandId,
-                    Name = productDTO.Name,
-                    Price = productDTO.Price,
-                    DiscountPrice = productDTO.DiscountPrice,
-                    Description = description, // Gán giá trị đã xử lý
-                    StockQuantity = productDTO.StockQuantity,
-                    UpdatedDate = DateTime.Now,
-                    UpdatedBy = userName
-                };
+                product.Description = description;
+                product.UpdatedDate = DateTime.Now;
+                product.UpdatedBy = HttpContext.Session.Get<User>("AdminUserInfo")?.Username ?? string.Empty;
 
-                if (productDTO.ImagePath != null)
+                if (ImageFile != null && ImageFile.Length > 0)
                 {
-                    product.ImagePath = await UploadFile(productDTO.ImagePath);
+                    product.ImagePath = await UploadFile(ImageFile);
                 }
 
                 _context.Add(product);
@@ -148,8 +126,9 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", productDTO.CategoryId);
-            return View(productDTO);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name", product.BrandId);
+            return View(product);
         }
 
         // GET: Admin/Product/Edit/5
@@ -178,48 +157,37 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ProductDTO productDTO)
-            {
-            if (id != productDTO.ProductId)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,CategoryId,BrandId,Name,Price,Description,DiscountPrice,Status,UpdatedDate,UpdatedBy,ImagePath")] Product product, IFormFile? ImageFile)
+        {
+            if (id != product.ProductId)
             {
                 return NotFound();
-            }
-
-            if (productDTO.Price < 0 || productDTO.DiscountPrice < 0 || productDTO.StockQuantity < 0)
-            {
-                ModelState.AddModelError("", "Giá trị không thể thấp hơn 0.");
-            }
-
-            if (productDTO.StockQuantity < 1)
-            {
-                ModelState.AddModelError("Quantity", "Số lượng không thể thấp hơn 1.");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var userInfo = HttpContext.Session.Get<User>("userInfo");
-                    var username = userInfo != null ? userInfo.Username : "";
-
                     var existingProduct = await _context.Products.FindAsync(id);
                     if (existingProduct == null)
                     {
                         return NotFound();
                     }
 
-                    existingProduct.Name = productDTO.Name;
-                    existingProduct.BrandId = productDTO.BrandId;
-                    existingProduct.Price = productDTO.Price;
-                    existingProduct.DiscountPrice = productDTO.DiscountPrice;
-                    existingProduct.Description = productDTO.Description;
-                    existingProduct.StockQuantity = productDTO.StockQuantity;
-                    existingProduct.CategoryId = productDTO.CategoryId;
+                    existingProduct.Name = product.Name;
+                    existingProduct.BrandId = product.BrandId;
+                    existingProduct.Price = product.Price;
+                    existingProduct.DiscountPrice = product.DiscountPrice;
+                    existingProduct.Description = product.Description;
+                    existingProduct.CategoryId = product.CategoryId;
+                    existingProduct.Status = product.Status;
                     existingProduct.UpdatedDate = DateTime.Now;
-                    existingProduct.UpdatedBy = username;
+                    existingProduct.UpdatedBy = HttpContext.Session.Get<User>("AdminUserInfo")?.Username ?? string.Empty;
 
-                    if (productDTO.ImagePath != null && productDTO.ImagePath.Length > 0)
+                    // Chỉ cập nhật ảnh khi có file mới được upload
+                    if (ImageFile != null && ImageFile.Length > 0)
                     {
+                        // Xóa ảnh cũ nếu có
                         if (!string.IsNullOrEmpty(existingProduct.ImagePath))
                         {
                             string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingProduct.ImagePath.TrimStart('/'));
@@ -228,18 +196,22 @@ namespace ShoeStore.Areas.Admin.Controllers
                                 System.IO.File.Delete(oldFilePath);
                             }
                         }
-
-                        existingProduct.ImagePath = await UploadFile(productDTO.ImagePath);
+                        // Upload và lưu đường dẫn ảnh mới
+                        existingProduct.ImagePath = await UploadFile(ImageFile);
+                    }
+                    else
+                    {
+                        // Giữ nguyên đường dẫn ảnh cũ
+                        existingProduct.ImagePath = existingProduct.ImagePath;
                     }
 
                     _context.Update(existingProduct);
                     await _context.SaveChangesAsync();
-
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(productDTO.ProductId))
+                    if (!ProductExists(product.ProductId))
                     {
                         return NotFound();
                     }
@@ -250,9 +222,9 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
             }
 
-            // Nếu ModelState không hợp lệ, trả lại View với danh sách Category
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", productDTO.CategoryId);
-            return View(productDTO);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "Name", product.BrandId);
+            return View(product);
         }
 
         // GET: Admin/Product/Delete/5

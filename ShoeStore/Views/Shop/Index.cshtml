@@ -50,14 +50,64 @@
                         <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                             <div class="block-4 text-center border">
                                 <figure class="block-4-image">
+                                    @if (product.DiscountPrice > 0)
+                                    {
+                                        <div class="product-label-group">
+                                            <div class="product-label">
+                                                <span>-@Math.Round((product.DiscountPrice / product.Price) * 100, 0)%</span>
+                                            </div>
+                                        </div>
+                                    }
                                     <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">
                                         <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
                                     </a>
                                 </figure>
                                 <div class="block-4-text p-4">
                                     <h3><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a></h3>
-                                    <p class="mb-0">@product.Description</p>
-                                    <p class="text-primary font-weight-bold">$@product.Price</p>
+                                    
+                                    <!-- Rating Stars -->
+                                    <div class="product-rating mb-2">
+                                        <div class="stars">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= product.Rating)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="far fa-star"></i>
+                                                }
+                                            }
+                                        </div>
+                                        <small class="text-muted">(@product.ReviewCount)</small>
+                                    </div>
+
+                                    <!-- Price & Status -->
+                                    @switch (product.Status)
+                                    {
+                                        case ProductStatus.Available:
+                                            @if (product.DiscountPrice > 0)
+                                            {
+                                                <div class="price-wrapper">
+                                                    <span class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price - product.DiscountPrice)</span>
+                                                    <del class="old-price">@String.Format("{0:N0}đ", product.Price)</del>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price)</p>
+                                            }
+                                            break;
+
+                                        case ProductStatus.OutOfStock:
+                                            <div class="status-label out-of-stock">Hết hàng</div>
+                                            break;
+
+                                        case ProductStatus.Discontinued:
+                                            <div class="status-label discontinued">Ngừng kinh doanh</div>
+                                            break;
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -84,11 +134,20 @@
                 <div class="border p-4 rounded mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
                     <ul class="list-unstyled mb-0">
+                        <li class="mb-1">
+                            <a asp-controller="Shop" asp-action="Index" 
+                               class="d-flex @(ViewBag.SelectedCategoryId == null ? "text-primary" : "")">
+                                <span>All Categories</span>
+                                <span class="text-black ml-auto">(@Model.Count())</span>
+                            </a>
+                        </li>
                         @foreach (var category in ViewBag.Categories)
                         {
                             <li class="mb-1">
-                                <a href="#" class="d-flex">
-                                    <span>@category.Name</span> 
+                                <a asp-controller="Shop" asp-action="Index" 
+                                   asp-route-categoryId="@category.CategoryId"
+                                   class="d-flex @(ViewBag.SelectedCategoryId == category.CategoryId ? "text-primary" : "")">
+                                    <span>@category.Name</span>
                                     <span class="text-black ml-auto">(@category.ProductCount)</span>
                                 </a>
                             </li>
