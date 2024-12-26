@@ -29,7 +29,6 @@ namespace ShoeStore.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<ShoeStore.Models.ProductSizeStock> ProductSizeStock { get; set; } = default!;
         public DbSet<ShoeStore.Models.Size> Size { get; set; } = default!;
-
         public DbSet<Review> Reviews { get; set; }
     }
 }

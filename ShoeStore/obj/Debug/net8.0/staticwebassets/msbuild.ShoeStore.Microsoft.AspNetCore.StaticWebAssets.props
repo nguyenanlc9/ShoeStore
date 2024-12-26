@@ -39968,22 +39968,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\1b546bde-f31b-47ca-9b71-19e69a2f59aa_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp))">
-      <SourceType>Package</SourceType>
-      <SourceId>ShoeStore</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/ShoeStore</BasePath>
-      <RelativePath>images/products/270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\2e618218-3018-4563-a583-107730ebb7ac_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp))">
       <SourceType>Package</SourceType>
       <SourceId>ShoeStore</SourceId>

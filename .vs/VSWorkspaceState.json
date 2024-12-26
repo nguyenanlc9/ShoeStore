@@ -6,11 +6,12 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Migrations",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Shop\\Index.cshtml",
+  "SelectedNode": "\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
