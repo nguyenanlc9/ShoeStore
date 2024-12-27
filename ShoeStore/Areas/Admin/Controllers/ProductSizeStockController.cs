@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
+using ShoeStore.Filters;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AdminAuthorize]
     public class ProductSizeStockController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,74 +21,92 @@ namespace ShoeStore.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/ProductSizeStock
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ProductSizeStock.Include(p => p.Product).Include(p => p.Size);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Admin/ProductSizeStock/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productSizeStock = await _context.ProductSizeStock
+            var stocks = await _context.ProductSizeStocks
                 .Include(p => p.Product)
                 .Include(p => p.Size)
-                .FirstOrDefaultAsync(m => m.ProductSizeStockID == id);
-            if (productSizeStock == null)
-            {
-                return NotFound();
-            }
-
-            return View(productSizeStock);
+                .ToListAsync();
+            return View(stocks);
         }
 
-        // GET: Admin/ProductSizeStock/Create
         public IActionResult Create()
         {
-            // Lấy danh sách sản phẩm với tên
-            ViewData["ProductID"] = new SelectList(_context.Products
-                .Select(p => new 
+            ViewBag.Products = new SelectList(_context.Products
+                .Select(p => new
                 {
                     ProductID = p.ProductId,
-                    DisplayText = $"{p.Name} - {p.Price:N0}đ"
-                }), "ProductID", "DisplayText");
+                    DisplayName = $"{p.Name} - {p.Price:N0}đ"
+                }), "ProductID", "DisplayName");
 
-            // Lấy danh sách size với giá trị
-            ViewData["SizeID"] = new SelectList(_context.Size
+            ViewBag.Sizes = new SelectList(_context.Size
                 .Select(s => new
                 {
                     SizeID = s.SizeID,
-                    DisplayText = $"Size {s.SizeValue}"
-                }), "SizeID", "DisplayText");
+                    DisplayValue = $"Size {s.SizeValue}"
+                }), "SizeID", "DisplayValue");
 
             return View();
         }
 
-        // POST: Admin/ProductSizeStock/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductSizeStockID,ProductID,SizeID,StockQuantity")] ProductSizeStock productSizeStock)
+        public async Task<IActionResult> Create([Bind("ProductID,SizeID,StockQuantity")] ProductSizeStock stock)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(productSizeStock);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Thêm logging
+                Console.WriteLine($"Creating stock - ProductID: {stock.ProductID}, SizeID: {stock.SizeID}, Quantity: {stock.StockQuantity}");
+                
+                if (!ModelState.IsValid)
+                {
+                    foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        Console.WriteLine($"Model Error: {modelError.ErrorMessage}");
+                    }
+                }
+
+                // Kiểm tra xem combination đã tồn tại chưa
+                var existingStock = await _context.ProductSizeStocks
+                    .FirstOrDefaultAsync(s => s.ProductID == stock.ProductID && s.SizeID == stock.SizeID);
+
+                if (existingStock != null)
+                {
+                    ModelState.AddModelError("", "Sản phẩm này đã có size này trong kho!");
+                }
+                else
+                {
+                    _context.Add(stock);
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "Thêm số lượng tồn kho thành công";
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductId", "ProductId", productSizeStock.ProductID);
-            ViewData["SizeID"] = new SelectList(_context.Set<Size>(), "SizeID", "SizeID", productSizeStock.SizeID);
-            return View(productSizeStock);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating stock: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+            }
+
+            // Nếu có lỗi, tạo lại SelectList
+            ViewBag.Products = new SelectList(_context.Products
+                .Select(p => new
+                {
+                    ProductID = p.ProductId,
+                    DisplayName = $"{p.Name} - {p.Price:N0}đ"
+                }), "ProductID", "DisplayName", stock.ProductID);
+
+            ViewBag.Sizes = new SelectList(_context.Size
+                .Select(s => new
+                {
+                    SizeID = s.SizeID,
+                    DisplayValue = $"Size {s.SizeValue}"
+                }), "SizeID", "DisplayValue", stock.SizeID);
+
+            return View(stock);
         }
 
-        // GET: Admin/ProductSizeStock/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,106 +114,99 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var productSizeStock = await _context.ProductSizeStock.FindAsync(id);
-            if (productSizeStock == null)
-            {
-                return NotFound();
-            }
-
-            // Lấy danh sách sản phẩm với tên
-            ViewData["ProductID"] = new SelectList(_context.Products
-                .Select(p => new 
-                {
-                    ProductID = p.ProductId,
-                    DisplayText = $"{p.Name} - {p.Price:N0}đ"
-                }), "ProductID", "DisplayText", productSizeStock.ProductID);
-
-            // Lấy danh sách size với giá trị
-            ViewData["SizeID"] = new SelectList(_context.Size
-                .Select(s => new
-                {
-                    SizeID = s.SizeID,
-                    DisplayText = $"Size {s.SizeValue}"
-                }), "SizeID", "DisplayText", productSizeStock.SizeID);
-
-            return View(productSizeStock);
-        }
-
-        // POST: Admin/ProductSizeStock/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductSizeStockID,ProductID,SizeID,StockQuantity")] ProductSizeStock productSizeStock)
-        {
-            if (id != productSizeStock.ProductSizeStockID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(productSizeStock);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductSizeStockExists(productSizeStock.ProductSizeStockID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductId", "ProductId", productSizeStock.ProductID);
-            ViewData["SizeID"] = new SelectList(_context.Set<Size>(), "SizeID", "SizeID", productSizeStock.SizeID);
-            return View(productSizeStock);
-        }
-
-        // GET: Admin/ProductSizeStock/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productSizeStock = await _context.ProductSizeStock
+            var stock = await _context.ProductSizeStocks
                 .Include(p => p.Product)
                 .Include(p => p.Size)
                 .FirstOrDefaultAsync(m => m.ProductSizeStockID == id);
-            if (productSizeStock == null)
+
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            return View(productSizeStock);
+            ViewBag.Products = new SelectList(_context.Products
+                .Select(p => new
+                {
+                    ProductID = p.ProductId,
+                    DisplayName = $"{p.Name} - {p.Price:N0}đ"
+                }), "ProductID", "DisplayName", stock.ProductID);
+
+            ViewBag.Sizes = new SelectList(_context.Size
+                .Select(s => new
+                {
+                    SizeID = s.SizeID,
+                    DisplayValue = $"Size {s.SizeValue}"
+                }), "SizeID", "DisplayValue", stock.SizeID);
+
+            return View(stock);
         }
 
-        // POST: Admin/ProductSizeStock/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductSizeStockID,ProductID,SizeID,StockQuantity")] ProductSizeStock stock)
         {
-            var productSizeStock = await _context.ProductSizeStock.FindAsync(id);
-            if (productSizeStock != null)
+            if (id != stock.ProductSizeStockID)
             {
-                _context.ProductSizeStock.Remove(productSizeStock);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                Console.WriteLine($"Editing stock - ProductID: {stock.ProductID}, SizeID: {stock.SizeID}, Quantity: {stock.StockQuantity}");
+
+                if (!ModelState.IsValid)
+                {
+                    foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        Console.WriteLine($"Model Error: {modelError.ErrorMessage}");
+                    }
+                }
+
+                // Kiểm tra xem combination mới đã tồn tại chưa
+                var existingStock = await _context.ProductSizeStocks
+                    .FirstOrDefaultAsync(s => s.ProductID == stock.ProductID && 
+                                            s.SizeID == stock.SizeID && 
+                                            s.ProductSizeStockID != id);
+
+                if (existingStock != null)
+                {
+                    ModelState.AddModelError("", "Sản phẩm này đã có size này trong kho!");
+                }
+                else
+                {
+                    _context.Update(stock);
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "Cập nhật số lượng tồn kho thành công";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error editing stock: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+            }
+
+            ViewBag.Products = new SelectList(_context.Products
+                .Select(p => new
+                {
+                    ProductID = p.ProductId,
+                    DisplayName = $"{p.Name} - {p.Price:N0}đ"
+                }), "ProductID", "DisplayName", stock.ProductID);
+
+            ViewBag.Sizes = new SelectList(_context.Size
+                .Select(s => new
+                {
+                    SizeID = s.SizeID,
+                    DisplayValue = $"Size {s.SizeValue}"
+                }), "SizeID", "DisplayValue", stock.SizeID);
+
+            return View(stock);
         }
 
         private bool ProductSizeStockExists(int id)
         {
-            return _context.ProductSizeStock.Any(e => e.ProductSizeStockID == id);
+            return _context.ProductSizeStocks.Any(e => e.ProductSizeStockID == id);
         }
     }
 }

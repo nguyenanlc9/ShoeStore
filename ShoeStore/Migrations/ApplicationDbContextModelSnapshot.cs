@@ -40,7 +40,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>
@@ -74,7 +74,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Category", b =>
@@ -95,7 +95,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Contact", b =>
@@ -122,7 +122,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("ContactName");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Coupon", b =>
@@ -164,7 +164,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CouponId");
 
-                    b.ToTable("Coupon", (string)null);
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Order", b =>
@@ -233,7 +233,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.OrderDetail", b =>
@@ -267,7 +267,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Product", b =>
@@ -326,7 +326,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductSizeStock", b =>
@@ -352,7 +352,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeID");
 
-                    b.ToTable("ProductSizeStocks", (string)null);
+                    b.ToTable("ProductSizeStocks");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Review", b =>
@@ -385,27 +385,37 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Role", b =>
                 {
                     b.Property<int>("RoleID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("RoleID");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
 
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("RoleName");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("RoleID");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleID = 1,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            RoleID = 2,
+                            RoleName = "User"
+                        });
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Size", b =>
@@ -421,7 +431,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("SizeID");
 
-                    b.ToTable("Sizes", (string)null);
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Slider", b =>
@@ -444,7 +454,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Slider_ID");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.User", b =>
@@ -504,7 +514,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>

@@ -8,14 +8,14 @@ namespace ShoeStore.Models
     public class Role
     {
         [Key]
-        [Column("RoleID")]
         public int RoleID { get; set; }
 
-        [Required(ErrorMessage = "Role Name không được để trống")]
+        [Required]
         [StringLength(50)]
-        [Column("RoleName")]
         public string RoleName { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+
+        // Navigation property
+        public virtual ICollection<User> Users { get; set; }
     }
 } 

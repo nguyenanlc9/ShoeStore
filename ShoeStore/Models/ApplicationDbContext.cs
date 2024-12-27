@@ -18,30 +18,33 @@ namespace ShoeStore.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-
-        public DbSet<ShoeStore.Models.Slider> Slider { get; set; } = default!;
-
+        public DbSet<Slider> Slider { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<ShoeStore.Models.ProductSizeStock> ProductSizeStock { get; set; } = default!;
-        public DbSet<ShoeStore.Models.Size> Size { get; set; } = default!;
-        public DbSet<Review> Reviews { get; set; }
-
-        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<ProductSizeStock> ProductSizeStocks { get; set; }
-
-        public DbSet<Coupon> Coupon { get; set; }
-
+        public DbSet<Size> Size { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Cấu hình Role-User relationship
+            modelBuilder.Entity<Role>()
+                .HasMany(r => r.Users)
+                .WithOne(u => u.Role)
+                .HasForeignKey(u => u.RoleID);
+
+            // Seed data cho Role
+            modelBuilder.Entity<Role>().HasData(
+                new Role { RoleID = 1, RoleName = "Admin" },
+                new Role { RoleID = 2, RoleName = "User" }
+            );
 
             // Cấu hình cho CartItem
             modelBuilder.Entity<CartItem>()
