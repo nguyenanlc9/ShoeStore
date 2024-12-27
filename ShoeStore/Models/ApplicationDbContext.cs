@@ -31,5 +31,37 @@ namespace ShoeStore.Models
         public DbSet<ShoeStore.Models.Size> Size { get; set; } = default!;
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<ProductSizeStock> ProductSizeStocks { get; set; }
+
+        public DbSet<Coupon> Coupon { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Cấu hình cho CartItem
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.User)
+                .WithMany()
+                .HasForeignKey(ci => ci.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Product)
+                .WithMany()
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Size)
+                .WithMany()
+                .HasForeignKey(ci => ci.SizeId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

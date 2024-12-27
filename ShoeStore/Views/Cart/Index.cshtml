@@ -1,145 +1,192 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<CartItem>
+@using ShoeStore.Utils
 @{
-   ViewData["Title"] = "Cart Page";
+    ViewData["Title"] = "Giỏ hàng";
+    var userInfo = Context.Session.Get<User>("userInfo");
+    var appliedCoupon = Context.Session.Get<Coupon>("AppliedCoupon");
+    
+    decimal subtotal = Model?.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity) ?? 0;
+    decimal discount = appliedCoupon != null ? (subtotal * appliedCoupon.DiscountPercentage / 100) : 0;
+    decimal total = subtotal - discount;
 }
- <div class="bg-light py-3">
-      <div class="container">
+
+<div class="bg-light py-3">
+    <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Giỏ hàng</strong>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-5">
-          <form class="col-md-12" method="post">
-            <div class="site-blocks-table">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Top Up T-Shirt</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
+<div class="site-section">
+    <div class="container">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
 
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
-
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/cloth_2.jpg" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Polo Shirt</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6">
+        @if (Model != null && Model.Any())
+        {
             <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
-              </div>
-              <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
-              </div>
+                <div class="col-md-12">
+                    <div class="site-blocks-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">Hình ảnh</th>
+                                    <th class="product-name">Sản phẩm</th>
+                                    <th class="product-size">Size</th>
+                                    <th class="product-price">Giá</th>
+                                    <th class="product-quantity">Số lượng</th>
+                                    <th class="product-total">Tổng</th>
+                                    <th class="product-remove">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name" class="img-fluid">
+                                        </td>
+                                        <td class="product-name">
+                                            <h2 class="h5 text-black">@item.Product.Name</h2>
+                                        </td>
+                                        <td>@item.Size.SizeValue</td>
+                                        <td>@String.Format("{0:N0}đ", item.Product.Price - item.Product.DiscountPrice)</td>
+                                        <td>
+                                            <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                                <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                                <div class="input-group" style="max-width: 120px;">
+                                                    <input type="number" name="quantity" class="form-control text-center" 
+                                                           value="@item.Quantity" min="1" 
+                                                           max="@item.Product.ProductSizeStocks.FirstOrDefault(x => x.SizeID == item.SizeId)?.StockQuantity">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-outline-primary">Cập nhật</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <td>@String.Format("{0:N0}đ", (item.Product.Price - item.Product.DiscountPrice) * item.Quantity)</td>
+                                        <td>
+                                            <form asp-action="RemoveItem" method="post" class="d-inline">
+                                                <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                                <button type="submit" class="btn btn-primary btn-sm" 
+                                                        onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">X</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="text-black h4" for="coupon">Coupon</label>
-                <p>Enter your coupon code if you have one.</p>
-              </div>
-              <div class="col-md-8 mb-3 mb-md-0">
-                <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary btn-sm">Apply Coupon</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 pl-5">
-            <div class="row justify-content-end">
-              <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Total</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
-                  </div>
-                </div>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <a asp-controller="Shop" asp-action="Index" class="btn btn-outline-primary btn-sm btn-block">
+                                Tiếp tục mua sắm
+                            </a>
+                        </div>
+                    </div>
+                    @if (appliedCoupon == null)
+                    {
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/Cart/Checkout'">
-                                    Proceed To Checkout
-                                </button>
+                                <label class="text-black h4" for="coupon">Mã giảm giá</label>
+                                <p>Nhập mã giảm giá nếu bạn có.</p>
+                            </div>
+                            <div class="col-md-8 mb-3 mb-md-0">
+                                <form asp-action="ApplyCoupon" method="post" class="d-flex">
+                                    <input type="text" class="form-control py-3" name="couponCode" placeholder="Nhập mã giảm giá">
+                                    <button type="submit" class="btn btn-primary ml-2">Áp dụng</button>
+                                </form>
                             </div>
                         </div>
-              </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-success d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>Mã giảm giá đã áp dụng:</strong> @appliedCoupon.Code (@appliedCoupon.DiscountPercentage%)
+                                    </div>
+                                    <form asp-action="RemoveCoupon" method="post">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hủy</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-6 pl-5">
+                    <div class="row justify-content-end">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-12 text-right border-bottom mb-5">
+                                    <h3 class="text-black h4 text-uppercase">Tổng giỏ hàng</h3>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <span class="text-black">Tạm tính</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-black">@String.Format("{0:N0}đ", subtotal)</strong>
+                                </div>
+                            </div>
+                            @if (appliedCoupon != null)
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <span class="text-black">Giảm giá (@appliedCoupon.DiscountPercentage%)</span>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <strong class="text-success">-@String.Format("{0:N0}đ", discount)</strong>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <span class="text-black">Tổng tiền</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-primary h4">@String.Format("{0:N0}đ", total)</strong>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a asp-action="Checkout" class="btn btn-primary btn-lg py-3 btn-block">
+                                        Tiến hành thanh toán
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <h2>Giỏ hàng trống</h2>
+                <p class="mt-3">
+                    <a asp-controller="Shop" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a>
+                </p>
+            </div>
+        }
     </div>
+</div>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Filters;
 using ShoeStore.Models;
+using ShoeStore.Models.Enums;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -79,7 +80,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Nếu không hợp lệ, trả lại view với dữ liệu request
+            // Nếu không hợp lệ, trở lại view với dữ liệu request
             return View(request);
         }
 
@@ -170,6 +171,64 @@ namespace ShoeStore.Areas.Admin.Controllers
         private bool OrderExists(int id)
         {
             return _context.Orders.Any(e => e.OrderId == id);
+        }
+
+        public async Task<IActionResult> UpdateStatus(int orderId, OrderStatus status)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order != null)
+            {
+                order.Status = status;
+                // Cập nhật trạng thái thanh toán dựa trên phương thức thanh toán và trạng thái đơn hàng
+                if (order.PaymentMethod == PaymentMethod.VNPay)
+                {
+                    // Nếu là VNPay, giữ nguyên trạng thái thanh toán vì đã được xử lý trong callback
+                    // Chỉ cập nhật trạng thái đơn hàng
+                    if (status == OrderStatus.Cancelled)
+                    {
+                        order.PaymentStatus = PaymentStatus.Failed;
+                    }
+                }
+                else
+                {
+                    // Với các phương thức thanh toán khác
+                    switch (status)
+                    {
+                        case OrderStatus.Completed:
+                            order.PaymentStatus = PaymentStatus.Completed;
+                            break;
+                        case OrderStatus.Cancelled:
+                            order.PaymentStatus = PaymentStatus.Failed;
+                            break;
+                        case OrderStatus.Processing:
+                            // Giữ nguyên trạng thái thanh toán
+                            break;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
+        }
+
+        // Thêm phương thức để xem chi tiết đơn hàng bao gồm thông tin thanh toán
+        [HttpGet]
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Size)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
     }
 }

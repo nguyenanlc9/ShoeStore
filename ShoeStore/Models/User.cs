@@ -35,8 +35,8 @@ namespace ShoeStore.Models
         [StringLength(20)]
         public string Phone { get; set; }
 
-        [Display(Name = "Địa chỉ")]
         [StringLength(255)]
+        [Display(Name = "Địa chỉ")]
         public string Address { get; set; }
 
         public bool Status { get; set; } = true;

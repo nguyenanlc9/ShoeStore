@@ -1,6 +1,11 @@
 ﻿@model ShoeStore.Models.Product
+@using ShoeStore.Utils
+@using ShoeStore.Models
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
+    // Tính tổng số lượng tồn kho của tất cả các size
+    var totalStock = Model.ProductSizeStocks.Sum(x => x.StockQuantity);
+    var productStatus = totalStock > 0 ? ProductStatus.Available : ProductStatus.OutOfStock;
 }
 <div class="bg-light py-3">
     <div class="container">
@@ -26,7 +31,7 @@
                 
                 <!-- Hiển thị giá -->
                 <div class="mb-5">
-                    @switch (Model.Status)
+                    @switch (productStatus)
                     {
                         case ProductStatus.Available:
                             @if (Model.DiscountPrice > 0)
@@ -45,12 +50,18 @@
                             <div class="mb-1 d-flex">
                                 <label for="size" class="mr-3">Size</label>
                                 <select class="form-control w-25" id="size">
-                                    @foreach (var sizeStock in Model.ProductSizeStocks.OrderBy(x => x.Size.SizeValue))
+                                    @foreach (var sizeStock in Model.ProductSizeStocks.Where(x => x.StockQuantity > 0).OrderBy(x => x.Size.SizeValue))
                                     {
                                         <option value="@sizeStock.SizeID" data-stock="@sizeStock.StockQuantity">@sizeStock.Size.SizeValue</option>
                                     }
                                 </select>
                             </div>
+                            @if (!Model.ProductSizeStocks.Any(x => x.StockQuantity > 0))
+                            {
+                                <div class="alert alert-warning mt-2">
+                                    Sản phẩm hiện không có size nào còn hàng
+                                </div>
+                            }
                             <div class="mb-3">
                                 <span class="text-muted">Số lượng tồn kho: </span>
                                 <span id="stockDisplay" class="font-weight-bold"></span>
@@ -60,13 +71,17 @@
                                     <div class="input-group-prepend">
                                         <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                                     </div>
-                                    <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    <input type="text" class="form-control text-center" value="1" placeholder="" 
+                                           aria-label="Example text with button addon" aria-describedby="button-addon1">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                                     </div>
                                 </div>
                             </div>
-                            <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" id="addToCartBtn">Thêm vào giỏ hàng</button>
+                                <button class="btn btn-success" id="buyNowBtn">Mua ngay</button>
+                            </div>
                             break;
 
                         case ProductStatus.OutOfStock:
@@ -90,7 +105,7 @@
         <h3 class="mb-4">Đánh giá sản phẩm</h3>
         
         <!-- Form đánh giá (chỉ hiện khi đã đăng nhập) -->
-        @if (User.Identity.IsAuthenticated)
+        @if (Context.Session.Get<User>("userInfo") != null)
         {
             <div class="review-form mb-4">
                 <form id="reviewForm">
@@ -101,7 +116,7 @@
                             @for (int i = 5; i >= 1; i--)
                             {
                                 <input type="radio" id="star@(i)" name="rating" value="@i" />
-                                <label for="star@(i)"><i class="far fa-star"></i></label>
+                                <label for="star@(i)"><i class="fas fa-star"></i></label>
                             }
                         </div>
                     </div>
@@ -185,6 +200,12 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // Kiểm tra nếu không có size nào được chọn
+            if ($('#size option').length === 0) {
+                $('#addToCartBtn, #buyNowBtn').prop('disabled', true);
+                return;
+            }
+
             // Hàm cập nhật số lượng tồn
             function updateStockDisplay() {
                 var selectedOption = $('#size option:selected');
@@ -198,6 +219,13 @@
                 // Nếu số lượng hiện tại lớn hơn tồn kho, giảm xuống
                 if (parseInt(quantityInput.val()) > stock) {
                     quantityInput.val(stock);
+                }
+
+                // Disable nút thêm vào giỏ và mua ngay nếu hết hàng
+                if (stock <= 0) {
+                    $('#addToCartBtn, #buyNowBtn').prop('disabled', true);
+                } else {
+                    $('#addToCartBtn, #buyNowBtn').prop('disabled', false);
                 }
             }
 
@@ -260,11 +288,62 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            location.reload(); // Tải lại trang để hiện đánh giá mới
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi gửi đánh giá: ' + error);
                     }
                 });
             });
+
+            // Thêm xử lý cho nút thêm vào giỏ hàng
+            $('#addToCartBtn').click(function(e) {
+                e.preventDefault();
+                addToCart(false);
+            });
+
+            // Thêm xử lý cho nút mua ngay
+            $('#buyNowBtn').click(function(e) {
+                e.preventDefault();
+                addToCart(true);
+            });
+
+            function addToCart(buyNow) {
+                var selectedSize = $('#size').val();
+                var quantity = $('.form-control.text-center').val();
+                var productId = '@Model.ProductId';
+
+                $.ajax({
+                    url: '/Shop/AddToCart',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        sizeId: selectedSize,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Cập nhật số lượng giỏ hàng
+                            $('.site-cart .count').text(response.cartCount);
+                            
+                            if (buyNow) {
+                                window.location.href = '/Cart/Checkout';
+                            } else {
+                                alert('Đã thêm sản phẩm vào giỏ hàng');
+                            }
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi thêm vào giỏ hàng');
+                    }
+                });
+            }
         });
     </script>
 } 

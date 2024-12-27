@@ -51,6 +51,8 @@ namespace ShoeStore.Models
 
         public int ReviewCount { get; set; } = 0;  // Số lượng đánh giá
 
+        public int SoldQuantity { get; set; } = 0;
+
         public Product()
         {
             ProductSizeStocks = new HashSet<ProductSizeStock>();

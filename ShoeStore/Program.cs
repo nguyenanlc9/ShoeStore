@@ -1,6 +1,9 @@
 ﻿using ShoeStore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ShoeStore.Services.Payment;
+using Microsoft.AspNetCore.Http;
+using ShoeStore.Helpers;
 
 namespace ShoeStore
 {
@@ -37,6 +40,7 @@ namespace ShoeStore
 
             // Cấu hình HTTP Context Accessor
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IVnPayService, VnPayService>();
 
             var app = builder.Build();
 
@@ -66,13 +70,14 @@ namespace ShoeStore
             // Cấu hình Area route
             app.MapControllerRoute(
                 name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-            );
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 
             // Cấu hình Default route
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
             // Khởi tạo dữ liệu mặc định nếu cần
             using (var scope = app.Services.CreateScope())

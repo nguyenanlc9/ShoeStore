@@ -1,4 +1,5 @@
 ﻿@model ShoeStore.Models.Order
+@using ShoeStore.Models.Enums
 
 @{
     ViewData["Title"] = "Chi Tiết Đơn Hàng";
@@ -13,44 +14,26 @@
             <h4>Thông Tin Đơn Hàng</h4>
         </div>
         <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.OrderUsName)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.OrderUsName)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.OrderCode)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.OrderCode)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.OrderDescription)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.Raw(Model.OrderDescription)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.OrderCoupon)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.OrderCoupon)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.PaymentMethod)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.PaymentMethod)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.OrderStatus)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.OrderStatus)
-                </dd>
-            </dl>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Thông tin đơn hàng</h5>
+                    <p>Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
+                    <p>Ngày đặt: @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p>Phương thức thanh toán: 
+                        <span class="badge badge-info">@Model.PaymentMethod.ToString()</span>
+                    </p>
+                    <p>Trạng thái thanh toán: 
+                        <span class="badge @(Model.PaymentStatus == PaymentStatus.Completed ? "badge-success" : 
+                            Model.PaymentStatus == PaymentStatus.Pending ? "badge-warning" : "badge-danger")">
+                            @Model.PaymentStatus.ToString()
+                        </span>
+                    </p>
+                    @if (!string.IsNullOrEmpty(Model.OrderDescription))
+                    {
+                        <p>Thông tin thanh toán: @Model.OrderDescription</p>
+                    }
+                </div>
+            </div>
         </div>
         <div class="card-footer text-right">
             <a class="btn btn-secondary" asp-action="Index">Quay Lại Danh Sách</a>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BU/PcP3uYeOhqwMZmMj8cv013u1RZCE1h9SgSK/7rq8=",
+  "Hash": "G3FR7nJ1cqrAnLSSf5nBSVEwAaW7+/3VGMlSLVTZKK4=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -46054,6 +46054,25 @@
       "OriginalItemSpec": "wwwroot\\css\\aos.css"
     },
     {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\auth.css",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "css/auth.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\auth.css"
+    },
+    {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\css\\bootstrap.min.css",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -47517,25 +47536,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\1b546bde-f31b-47ca-9b71-19e69a2f59aa_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
     },
     {
-      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp",
-      "SourceId": "ShoeStore",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
-      "BasePath": "_content/ShoeStore",
-      "RelativePath": "images/products/270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\270670fb-84e2-453e-944e-50d0e761bc2e_DALL·E 2024-12-25 22.38.46 - A modern and stylish running shoe with a sleek design, featuring a breathable mesh upper in a gradient blue color, lightweight white sole with grip, a.webp"
-    },
-    {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\2e618218-3018-4563-a583-107730ebb7ac_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -48011,6 +48011,25 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\ad75b1db-85a2-478b-8858-fbdbc19b2f61_4-549196.jpeg"
     },
     {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b18e38f7-3d73-4c26-b38a-074ce69b644a_4-549196.jpeg",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/b18e38f7-3d73-4c26-b38a-074ce69b644a_4-549196.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\b18e38f7-3d73-4c26-b38a-074ce69b644a_4-549196.jpeg"
+    },
+    {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b6d49bb8-b42a-4d01-a130-4703de86fa93_HF0737-111-1.webp",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -48180,6 +48199,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\f2de48c0-f591-436c-9a16-5d93c9fc912a_2-1698164655929284721743 (1).webp"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\ff937ce7-fb14-4061-a1ed-2156f6382cd2_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/ff937ce7-fb14-4061-a1ed-2156f6382cd2_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\ff937ce7-fb14-4061-a1ed-2156f6382cd2_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp"
     },
     {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\shoe.png",

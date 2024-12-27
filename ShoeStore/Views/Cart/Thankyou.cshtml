@@ -1,30 +1,125 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Order
+@using ShoeStore.Models.Enums
+
 @{
-    ViewData["Title"] = "Thankyou Page";
+    ViewData["Title"] = "Đặt hàng thành công";
+    Layout = "_PaymentCallbackLayout";
 }
 
-<div class="bg-light py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
-        </div>
+<div class="container mt-5">
+    <div class="text-center">
+        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+        <h2 class="text-success">Cảm ơn bạn đã đặt hàng!</h2>
     </div>
-</div>
 
-<div class="site-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <span class="icon-check_circle display-3 text-success"></span>
-                <h2 class="display-3 text-black">Thank you!</h2>
-                <p class="lead mb-5">You order was successfuly completed.</p>
-                <a asp-controller="Home" asp-action="index">
-                    <button class="btn btn-primary btn-lg py-3 btn-block">Back To Shop</button>
-                </a>
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Thông tin đơn hàng</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6>Thông tin cơ bản:</h6>
+                        <p>Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
+                        <p>Ngày đặt: @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                        <p>Người đặt: <strong>@Model.OrderUsName</strong></p>
+                        <p>Địa chỉ: @Model.ShippingAddress</p>
+                        <p>Số điện thoại: @Model.PhoneNumber</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6>Trạng thái đơn hàng:</h6>
+                        <p>Trạng thái đơn hàng: 
+                            <span class="badge @(Model.Status == OrderStatus.Completed ? "badge-success" : 
+                                Model.Status == OrderStatus.Processing ? "badge-info" : 
+                                Model.Status == OrderStatus.Pending ? "badge-warning" : "badge-danger")">
+                                @Model.Status.ToString()
+                            </span>
+                        </p>
+                        <p>Trạng thái thanh toán: 
+                            <span class="badge @(Model.PaymentStatus == PaymentStatus.Completed ? "badge-success" : "badge-warning")">
+                                @Model.PaymentStatus.ToString()
+                            </span>
+                        </p>
+                        <p>Phương thức thanh toán: 
+                            <span class="badge badge-info">@Model.PaymentMethod.ToString()</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h6 class="mb-3">Chi tiết đơn hàng:</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Size</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
+                                            style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                        <span>@item.Product.Name</span>
+                                    </div>
+                                </td>
+                                <td>@item.Size.SizeValue</td>
+                                <td>@item.Quantity</td>
+                                <td>@String.Format("{0:N0}đ", item.Price)</td>
+                                <td>@String.Format("{0:N0}đ", item.Price * item.Quantity)</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-right">Tạm tính:</td>
+                            <td>@String.Format("{0:N0}đ", Model.OrderDetails.Sum(x => x.Price * x.Quantity))</td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.OrderCoupon))
+                        {
+                            <tr>
+                                <td colspan="4" class="text-right">Giảm giá:</td>
+                                <td>-@String.Format("{0:N0}đ", Model.OrderDetails.Sum(x => x.Price * x.Quantity) - Model.TotalAmount)</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
+                            <td><strong>@String.Format("{0:N0}đ", Model.TotalAmount)</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a>
+                <a asp-controller="Account" asp-action="Orders" class="btn btn-outline-primary">Xem đơn hàng của tôi</a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .badge {
+        font-size: 90%;
+    }
+    .table th {
+        background-color: #f8f9fa;
+    }
+</style>
 

@@ -25,6 +25,7 @@
 
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/product-label.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @await RenderSectionAsync("Header", required: false)
 </head>
 <body>
@@ -76,7 +77,7 @@
                                 <li>
                                         <a asp-controller="Cart" asp-action="Index" class="site-cart">
                                         <span class="icon icon-shopping_cart"></span>
-                                        <span class="count">2</span>
+                                        @await Component.InvokeAsync("CartCount")
                                     </a>
                                 </li>
                                 <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>

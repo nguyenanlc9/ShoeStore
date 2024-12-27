@@ -69,20 +69,17 @@ namespace ShoeStore.Areas.Admin.Controllers
         {
             try 
             {
-                // Kiểm tra ModelState và in ra lỗi để debug
                 if (!ModelState.IsValid)
                 {
                     foreach (var modelState in ModelState.Values)
                     {
                         foreach (var error in modelState.Errors)
                         {
-                            // Log hoặc in ra lỗi
                             System.Diagnostics.Debug.WriteLine(error.ErrorMessage);
                         }
                     }
                 }
 
-                // Kiểm tra tên đăng nhập đã tồn tại
                 var existingUser = await _context.Users
                     .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.Username == user.Username);
@@ -112,8 +109,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                // Log lỗi
-                System.Diagnostics.Debug.WriteLine(ex.Message);
                 ModelState.AddModelError("", "Có lỗi xảy ra khi lưu dữ liệu: " + ex.Message);
             }
 
@@ -143,7 +138,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,PasswordHash,NewPassword,FullName,Email,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,PasswordHash,Email,FullName,Phone,Address,Status,RegisterDate,LastLogin,CreatedDate,RoleID")] User user)
         {
             if (id != user.UserID)
             {
@@ -161,13 +156,14 @@ namespace ShoeStore.Areas.Admin.Controllers
                     return NotFound();
                 }
 
-                // Xử lý mật khẩu
                 if (!string.IsNullOrEmpty(user.NewPassword))
                 {
-                    // Nếu có nhập mật khẩu mới thì mã hóa và cập nhật
                     user.PasswordHash = PasswordHelper.HashPassword(user.NewPassword);
                 }
-                // Nếu không nhập mật khẩu mới thì giữ nguyên mật khẩu cũ
+                else
+                {
+                    user.PasswordHash = existingUser.PasswordHash;
+                }
                 
                 user.RegisterDate = existingUser.RegisterDate;
                 user.CreatedDate = existingUser.CreatedDate;

@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Thanh toán thất bại";
+    Layout = "_PaymentCallbackLayout";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>
+        <h2 class="text-danger mt-3">Thanh toán thất bại!</h2>
+        <p class="lead">@TempData["Error"]</p>
+        <div class="mt-4">
+            <a href="@Url.Action("Index", "Shop")" class="btn btn-primary">Tiếp tục mua sắm</a>
+            <a href="@Url.Action("Index", "Cart")" class="btn btn-outline-primary">Quay lại giỏ hàng</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 600px;
+    }
+    .btn {
+        margin: 0 10px;
+    }
+</style> 

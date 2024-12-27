@@ -67,20 +67,22 @@
                                     
                                     <!-- Rating Stars -->
                                     <div class="product-rating mb-2">
-                                        <div class="stars">
-                                            @for (int i = 1; i <= 5; i++)
-                                            {
-                                                if (i <= product.Rating)
+                                        <div class="rating-wrapper">
+                                            <div class="stars">
+                                                @for (int i = 1; i <= 5; i++)
                                                 {
-                                                    <i class="fas fa-star"></i>
+                                                    if (i <= product.Rating)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    <i class="far fa-star"></i>
-                                                }
-                                            }
+                                            </div>
+                                            <span class="review-count">(@product.ReviewCount)</span>
                                         </div>
-                                        <small class="text-muted">(@product.ReviewCount)</small>
                                     </div>
 
                                     <!-- Price & Status -->

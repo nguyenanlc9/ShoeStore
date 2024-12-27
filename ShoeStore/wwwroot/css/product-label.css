@@ -40,7 +40,9 @@
 .rating-input {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin: 1rem 0;
 }
 
 .rating-input input {
@@ -49,9 +51,8 @@
 
 .rating-input label {
     cursor: pointer;
-    font-size: 25px;
+    font-size: 1.5rem;
     color: #ddd;
-    margin: 0 2px;
 }
 
 .rating-input label:hover,
@@ -60,11 +61,8 @@
     color: #ffc107;
 }
 
-.rating-input label:hover i,
-.rating-input label:hover ~ label i,
-.rating-input input:checked ~ label i {
-    content: "\f005";
-    font-weight: 900;
+.rating-input i {
+    transition: color 0.2s;
 }
 
 .review-item {
@@ -74,4 +72,65 @@
 
 .stars .fas {
     color: #ffc107;
+}
+
+.product-rating {
+    margin: 10px 0;
+}
+
+.rating-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+}
+
+.stars .fas,
+.stars .far {
+    color: #ffc107;
+    font-size: 14px;
+    margin: 0 1px;
+}
+
+.review-count {
+    color: #6c757d;
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+.block-4-text {
+    padding: 15px;
+    text-align: center;
+}
+
+.block-4-text h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.block-4-text h3 a {
+    color: #000;
+}
+
+.block-4-text h3 a:hover {
+    color: #7971ea;
+    text-decoration: none;
+}
+
+.price-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.old-price {
+    color: #6c757d;
+    text-decoration: line-through;
+    font-size: 14px;
 } 
