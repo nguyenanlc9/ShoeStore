@@ -132,9 +132,9 @@
 
     <footer class="site-footer border-top">
         <div class="container">
-            @* <!-- Phần Navigations và Promo -->
             <div class="row">
-                <div class="col-lg-6 mb-5 mb-lg-0">
+                <!-- Navigations -->
+                @* <div class="col-lg-6 mb-5 mb-lg-0">
                     <div class="row">
                         <div class="col-md-12">
                             <h3 class="footer-heading mb-4">Navigations</h3>
@@ -163,6 +163,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Promo Section -->
                 <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
                     <h3 class="footer-heading mb-4">Promo</h3>
                     <a href="#" class="block-6">
@@ -171,6 +173,8 @@
                         <p>Promo from January 15 &mdash; 25, 2019</p>
                     </a>
                 </div>
+
+                <!-- Subscribe Section -->
                 <div class="col-md-6 col-lg-3">
                     <div class="block-7">
                         <h3 class="footer-heading mb-4">Subscribe</h3>
@@ -184,24 +188,32 @@
                 </div>
             </div> *@
 
-            <!-- Phần Contact nằm dưới cùng -->
-            <div class="row mt-5">
-                <div class="col-md-12 text-center">
-                    <h3 class="footer-heading mb-4">Contact Info</h3>
-                    <ul class="list-unstyled">
-                        <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                        <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                        <li class="email">emailaddress@domain.com</li>
-                    </ul>
+            <!-- Contact Info -->
+                <!-- Phần Thông tin liên hệ -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h3 class="footer-heading mb-4">Thông tin liên hệ</h3>
+                    @if (ViewData["HotContact"] is List<Contact> hotContacts && hotContacts.Any())
+                    {
+                        @foreach (var contact in hotContacts)
+                        {
+                            <div class="contact-info mb-4">
+                                <h5>@contact.ContactName</h5>
+                                <div class="map-container mb-3">
+                                    @Html.Raw(contact.ContactMap) 
+                                </div>
+                                <p><i class="fas fa-phone-alt me-2"></i><a href="tel:@contact.ContactPhone">@contact.ContactPhone</a></p>
+                                <p><i class="fas fa-envelope me-2"></i><a href="mailto:@contact.ContactEmail">@contact.ContactEmail</a></p>
+                                <p>@Html.Raw(contact.ContactDescription)</p>
+                            </div>
+                        }
+                    }
                 </div>
-            </div>
 
-            <!-- Phần bản quyền -->
-            <div class="row pt-5 mt-5 text-center">
-                <div class="col-md-12">
-                    <p>
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary">Colorlib</a>
-                    </p>
+                <!-- Phần Bản quyền -->
+                <div class="col-md-12 col-lg-4 text-center">
+                    <h3 class="footer-heading mb-4">Bản quyền</h3>
+                    <p>&copy; 2024 Tên Công Ty. Tất cả các quyền được bảo lưu.</p>
+                    <p>Thiết kế bởi <a href="#">Tên Công Ty</a>.</p>
                 </div>
             </div>
         </div>
@@ -214,8 +226,59 @@
     <script src="~/js/owl.carousel.min.js"></script>
     <script src="~/js/jquery.magnific-popup.min.js"></script>
     <script src="~/js/aos.js"></script>
-
     <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<style>
+    /* Contact Info */
+    .site-footer .contact-info {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .site-footer .contact-info h5 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .site-footer .contact-info p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .site-footer .contact-info a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .site-footer .contact-info a:hover {
+                color: #0056b3;
+                text-decoration: underline;
+            }
+
+    /* Map Container */
+    .site-footer .map-container {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .site-footer .map-container iframe,
+        .site-footer .map-container img {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+</style>
+
