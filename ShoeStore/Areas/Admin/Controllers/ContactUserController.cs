@@ -19,6 +19,23 @@ namespace ShoeStore.Areas.Admin.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult Feedback()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Feedback(ContactUser contactUser)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ContactUsers.Add(contactUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index"); 
+            }
+            return View(contactUser);
+        }
         // GET: Admin/ContactUser
         public async Task<IActionResult> Index()
         {
