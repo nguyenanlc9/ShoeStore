@@ -29,6 +29,18 @@ namespace Project_BE.Controllers
                 .AsNoTracking()
                 .OrderBy(x => x.ContactName)
                 .ToList();
+
+            // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
+            ViewData["FeaturedProducts"] = _context.Products
+                .Include(p => p.ProductSizeStocks)
+                    .ThenInclude(ps => ps.Size)
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Where(p => p.Status == ProductStatus.Available)
+                .OrderByDescending(p => p.UpdatedDate)
+                .Take(5)
+                .ToList();
+
             return View();
         }
 

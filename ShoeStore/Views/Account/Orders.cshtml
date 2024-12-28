@@ -1,0 +1,101 @@
+@model IEnumerable<ShoeStore.Models.Order>
+@using ShoeStore.Models.Enums
+
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4">Lịch sử đơn hàng</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Bạn chưa có đơn hàng nào.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderCode</td>
+                            <td>@order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in order.OrderDetails)
+                                    {
+                                        <li>
+                                            @item.Product.Name - Size @item.Size.SizeID
+                                            <span class="text-muted">x @item.Quantity</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>@order.TotalAmount.ToString("N0") đ</td>
+                            <td>
+                                @{
+                                    string statusClass = order.Status switch
+                                    {
+                                        OrderStatus.Pending => "warning",
+                                        OrderStatus.Processing => "info",
+                                        OrderStatus.Completed => "success",
+                                        OrderStatus.Cancelled => "danger",
+                                        _ => "secondary"
+                                    };
+                                }
+                                <span class="badge bg-@statusClass">
+                                    @(order.Status switch
+                                    {
+                                        OrderStatus.Pending => "Chờ xử lý",
+                                        OrderStatus.Processing => "Đang xử lý",
+                                        OrderStatus.Completed => "Hoàn thành",
+                                        OrderStatus.Cancelled => "Đã hủy",
+                                        _ => "Không xác định"
+                                    })
+                                </span>
+                                @if (order.Status == OrderStatus.Cancelled && !string.IsNullOrEmpty(order.CancelReason))
+                                {
+                                    <small class="d-block text-danger">@order.CancelReason</small>
+                                }
+                            </td>
+                            <td>
+                                @{
+                                    string paymentClass = order.PaymentStatus switch
+                                    {
+                                        PaymentStatus.Pending => "warning",
+                                        PaymentStatus.Completed => "success",
+                                        PaymentStatus.Failed => "danger",
+                                        _ => "secondary"
+                                    };
+                                }
+                                <span class="badge bg-@paymentClass">
+                                    @(order.PaymentStatus switch
+                                    {
+                                        PaymentStatus.Pending => "Chờ thanh toán",
+                                        PaymentStatus.Completed => "Đã thanh toán",
+                                        PaymentStatus.Failed => "Thất bại",
+                                        _ => "Không xác định"
+                                    })
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div> 

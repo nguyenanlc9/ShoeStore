@@ -175,8 +175,14 @@ namespace ShoeStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
+                    b.Property<string>("CancelReason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CouponId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");

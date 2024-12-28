@@ -59,13 +59,19 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                                             <span class="dropdown-item">@userInfo.FullName</span>
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="Profile">Thông tin cá nhân</a>
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
-                                                    <i class="fas fa-user-edit"></i> Chỉnh sửa thông tin
-                                                </a>
-                                            </div>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
+                                                <i class="fas fa-user"></i> Thông tin cá nhân
+                                            </a>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Orders">
+                                                <i class="fas fa-history"></i> Lịch sử đơn hàng
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
+                                                <i class="fas fa-user-edit"></i> Chỉnh sửa thông tin
+                                            </a>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">
+                                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                            </a>
                                         </div>
                                     </li>
                                 }

@@ -212,7 +212,7 @@ namespace ShoeStore.Controllers
                 OrderUsName = userInfo.FullName,
                 OrderDate = DateTime.Now,
                 TotalAmount = total,
-                Status = Models.Enums.OrderStatus.Pending,
+                Status = OrderStatus.Pending,
                 ShippingAddress = Address,
                 PhoneNumber = Phone,
                 Notes = Notes ?? string.Empty,
@@ -226,15 +226,16 @@ namespace ShoeStore.Controllers
                 OrderStatus = true
             };
 
+            // Thêm và lưu order trước
             _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();  // Lưu order để có OrderId
 
-            // Tạo chi tiết đơn hàng
+            // Sau đó mới tạo và thêm OrderDetails
             foreach (var item in cartItems)
             {
                 var orderDetail = new OrderDetail
                 {
-                    OrderId = order.OrderId,
+                    OrderId = order.OrderId,  // Bây giờ đã có OrderId hợp lệ
                     ProductId = item.ProductId,
                     SizeId = item.SizeId,
                     Quantity = item.Quantity,
@@ -258,29 +259,27 @@ namespace ShoeStore.Controllers
             // Xóa mã giảm giá đã áp dụng
             HttpContext.Session.Remove("AppliedCoupon");
 
+            // Lưu các thay đổi còn lại
+            await _context.SaveChangesAsync();
+
             // Xử lý theo phương thức thanh toán
             switch (paymentMethod)
             {
-                case Models.Enums.PaymentMethod.VNPay:
-                    await _context.SaveChangesAsync();
+                case PaymentMethod.VNPay:
                     return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
 
-                case Models.Enums.PaymentMethod.Momo:
-                    // Tương tự với Momo
-                    break;
+                case PaymentMethod.Momo:
+                    return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
 
-                case Models.Enums.PaymentMethod.Visa:
-                    // Tương tự với Visa
-                    break;
+                case PaymentMethod.PayPal:
+                    return RedirectToAction("ProcessPayment", "PayPal", new { orderId = order.OrderId });
 
-                default: // COD
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
+                case PaymentMethod.Visa:
+                    return RedirectToAction("ProcessPayment", "Visa", new { orderId = order.OrderId });
+
+                default: // Cash
+                    return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
             }
-
-            // Thêm xử lý lỗi nếu không vào case nào
-            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-            return RedirectToAction("Checkout");
         }
 
         private string GenerateOrderCode()
@@ -358,21 +357,24 @@ namespace ShoeStore.Controllers
             await _context.SaveChangesAsync();
 
             // Xử lý theo phương thức thanh toán
-            switch (model.PaymentMethod)
+            if (model.PaymentMethod == PaymentMethod.Cash)
             {
-                case PaymentMethod.VNPay:
-                    return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
-
-                case PaymentMethod.Cash:
-                    order.Status = OrderStatus.Processing;
-                    order.PaymentStatus = PaymentStatus.Pending;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
-
-                default:
-                    TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-                    return RedirectToAction("Checkout");
+                order.Status = OrderStatus.Processing;
+                order.PaymentStatus = PaymentStatus.Pending;
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
             }
+            else if (model.PaymentMethod == PaymentMethod.VNPay)
+            {
+                return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+            }
+            else if (model.PaymentMethod == PaymentMethod.Momo)
+            {
+                return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
+            }
+            
+            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
+            return RedirectToAction("Checkout");
         }
 
         public async Task<IActionResult> Thankyou(int orderId)

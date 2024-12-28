@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G3FR7nJ1cqrAnLSSf5nBSVEwAaW7+/3VGMlSLVTZKK4=",
+  "Hash": "x/y67uvioDjpqE34mAJBnHI1bb1PmugOmJYhzwLR23U=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -47952,6 +47952,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\9f954dc7-c17a-4394-bdc6-1f422b2ecc82_0b5d41d7-4748-4e45-b58b-cbe4b42a4658.webp"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a3c42a29-fe4f-4a58-ba07-520b8b80295e_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/a3c42a29-fe4f-4a58-ba07-520b8b80295e_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\a3c42a29-fe4f-4a58-ba07-520b8b80295e_5_e755c1991fa0442993e4fd1f3fe338fe_master.webp"
     },
     {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a6d53ff6-a5a6-4cdb-87ce-ded578d2458b_acc1.jpg",

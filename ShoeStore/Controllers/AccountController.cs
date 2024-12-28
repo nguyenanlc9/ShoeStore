@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Request;
@@ -10,15 +11,22 @@ namespace ShoeStore.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountController(ApplicationDbContext context)
+        public AccountController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: /Account/Login
+        [AllowAnonymous]
         public IActionResult Login()
         {
+            if (HttpContext.Session.Get<User>("userInfo") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -49,8 +57,13 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Account/Register
+        [AllowAnonymous]
         public IActionResult Register()
         {
+            if (HttpContext.Session.Get<User>("userInfo") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -98,8 +111,13 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Account/ForgotPassword
+        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
+            if (HttpContext.Session.Get<User>("userInfo") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -161,13 +179,10 @@ namespace ShoeStore.Controllers
             return RedirectToAction("Login");
         }
 
+        [TypeFilter(typeof(AuthenticationFilter))]
         public IActionResult Profile()
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
-            {
-                return RedirectToAction("Login");
-            }
             ViewData["IsLoggedIn"] = true;
             ViewData["FullName"] = userInfo.FullName;
             return View(userInfo);
@@ -291,6 +306,22 @@ namespace ShoeStore.Controllers
             HttpContext.Session.Set<User>("userInfo", user); // Cập nhật session
             ViewData["Message"] = "Mật khẩu đã được thay đổi thành công.";
             return RedirectToAction("Profile");
+        }
+
+        [TypeFilter(typeof(AuthenticationFilter))]
+        public async Task<IActionResult> Orders()
+        {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+            var orders = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Size)
+                .Where(o => o.UserId == userInfo.UserID)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToListAsync();
+
+            return View(orders);
         }
     }
 } 

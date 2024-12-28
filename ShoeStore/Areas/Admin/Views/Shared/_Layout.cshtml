@@ -103,6 +103,16 @@
                                             <span class="sub-item">Product Size Stocks</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="category" asp-action="Index">
+                                            <span class="sub-item">Category</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="brand" asp-action="Index">
+                                            <span class="sub-item">Brand</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -116,18 +126,6 @@
                             <a asp-area="admin" asp-controller="coupon" asp-action="Index" class="nav-link">
                                 <i class="fas fa-table"></i>
                                 <p>Coupons</p>
-                            </a>
-                        </li>
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "category" ? "active" : "")">
-                            <a asp-area="admin" asp-controller="category" asp-action="Index" class="nav-link">
-                                <i class="fas fa-list"></i>
-                                <p>Category</p>
-                            </a>
-                        </li>
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "brand" ? "active" : "")">
-                            <a asp-area="admin" asp-controller="brand" asp-action="Index" class="nav-link">
-                                <i class="fas fa-tags"></i>
-                                <p>Brand</p>
                             </a>
                         </li>
                         <li class="nav-item">
