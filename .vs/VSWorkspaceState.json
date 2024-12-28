@@ -4,13 +4,13 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Controllers",
-    "\\ShoeStore\\Migrations",
+    "\\ShoeStore\\Areas\\Admin\\Views",
+    "\\ShoeStore\\Areas\\Admin\\Views\\Product",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Untils",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Product\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

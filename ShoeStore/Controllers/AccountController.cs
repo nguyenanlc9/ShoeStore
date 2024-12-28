@@ -72,20 +72,39 @@ namespace ShoeStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserRegisterDTO model)
         {
-            if (ModelState.IsValid)
+            try
             {
+                // Log ModelState errors
+                if (!ModelState.IsValid)
+                {
+                    foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            Console.WriteLine($"Validation Error: {error.ErrorMessage}");
+                        }
+                    }
+                    return View(model);
+                }
+
+                // Log registration attempt
+                Console.WriteLine($"Attempting to register user: {model.Username}, Email: {model.Email}");
+
+                // Kiểm tra username đã tồn tại
                 if (await _context.Users.AnyAsync(u => u.Username == model.Username))
                 {
-                    ViewData["Message"] = "Tên đăng nhập đã được sử dụng!";
+                    ModelState.AddModelError("Username", "Tên đăng nhập đã được sử dụng");
                     return View(model);
                 }
 
+                // Kiểm tra email đã tồn tại
                 if (await _context.Users.AnyAsync(u => u.Email == model.Email))
                 {
-                    ViewData["Message"] = "Email đã được sử dụng!";
+                    ModelState.AddModelError("Email", "Email đã được sử dụng");
                     return View(model);
                 }
 
+                // Tạo user mới
                 var user = new User
                 {
                     Username = model.Username,
@@ -93,7 +112,7 @@ namespace ShoeStore.Controllers
                     PasswordHash = PasswordHelper.HashPassword(model.Password),
                     FullName = model.FullName,
                     Phone = model.Phone,
-                    RoleID = 1, // Role User
+                    RoleID = 1, // Sửa lại thành 1 vì 1 là User, 2 là Admin
                     RegisterDate = DateTime.Now,
                     CreatedDate = DateTime.Now,
                     Status = true
@@ -102,11 +121,23 @@ namespace ShoeStore.Controllers
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
+                // Log successful registration
+                Console.WriteLine($"User registered successfully: {user.Username}");
+
+                // Lưu thông tin user vào session
                 HttpContext.Session.Set("userInfo", user);
+
                 return RedirectToAction("Index", "Home");
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                // Log detailed error
+                Console.WriteLine($"Registration error: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                
+                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi đăng ký: " + ex.Message);
+                return View(model);
+            }
         }
 
         // GET: /Account/ForgotPassword
