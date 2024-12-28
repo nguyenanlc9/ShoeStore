@@ -97,19 +97,41 @@
             Paragraph,
             Bold,
             Italic,
-            Font
+            Font,
+            HtmlEmbed
         } from 'ckeditor5';
 
         ClassicEditor
             .create(document.querySelector('#Description'), {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font],
+                plugins: [Essentials, Paragraph, Bold, Italic, Font, HtmlEmbed],
                 toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
+                    'undo', 'redo', '|', 
+                    'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                    'htmlEmbed'
+                ],
+                htmlEmbed: {
+                    showPreviews: true,
+                    sanitizeHtml: (inputHtml) => {
+                        // Không sanitize HTML để giữ nguyên các thẻ
+                        return {
+                            html: inputHtml,
+                            hasChanged: false
+                        };
+                    }
+                }
             })
             .then(editor => {
                 window.editor = editor;
+                
+                // Xử lý dữ liệu trước khi submit
+                document.querySelector('form').addEventListener('submit', function(e) {
+                    const descriptionInput = document.querySelector('#Description');
+                    const editorData = editor.getData();
+                    // Loại bỏ các thẻ p không cần thiết
+                    const cleanData = editorData.replace(/<p>&nbsp;<\/p>/g, '');
+                    descriptionInput.value = cleanData;
+                });
             })
             .catch(error => {
                 console.error(error);
