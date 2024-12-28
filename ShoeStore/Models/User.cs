@@ -35,10 +35,6 @@ namespace ShoeStore.Models
         [StringLength(20)]
         public string Phone { get; set; }
 
-        [StringLength(255)]
-        [Display(Name = "Địa chỉ")]
-        public string Address { get; set; }
-
         public bool Status { get; set; } = true;
 
         [Display(Name = "Ngày đăng ký")]

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using ShoeStore.Models.Payment;
 using ShoeStore.Helpers;
 using ShoeStore.Models.ViewModels;
+using ShoeStore.Services.APIAddress;
 
 namespace ShoeStore.Controllers
 {
@@ -122,12 +123,6 @@ namespace ShoeStore.Controllers
                 .Where(ci => ci.UserId == userInfo.UserID)
                 .ToList();
 
-            if (string.IsNullOrEmpty(userInfo.Address))
-            {
-                TempData["Error"] = "Vui lòng cập nhật địa chỉ giao hàng trước khi thanh toán";
-                return RedirectToAction("Profile", "Account");
-            }
-
             if (!cartItems.Any())
             {
                 TempData["Error"] = "Giỏ hàng trống";
@@ -175,17 +170,13 @@ namespace ShoeStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder(string FullName, string Address, string Email, string Phone, string Notes, PaymentMethod paymentMethod)
+        public async Task<IActionResult> PlaceOrder(string FullName, string ProvinceCode, string DistrictCode, 
+            string WardCode, string AddressDetail, string Email, string Phone, string Notes, PaymentMethod paymentMethod)
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null)
             {
                 return RedirectToAction("Login", "Account");
-            }
-
-            if (string.IsNullOrEmpty(Address))
-            {
-                Address = userInfo.Address;
             }
 
             var cartItems = _context.CartItems
@@ -205,82 +196,103 @@ namespace ShoeStore.Controllers
             decimal discount = appliedCoupon != null ? (subtotal * appliedCoupon.DiscountPercentage / 100) : 0;
             decimal total = subtotal - discount;
 
-            // Tạo đơn hàng
-            var order = new Order
+            try
             {
-                UserId = userInfo.UserID,
-                OrderUsName = userInfo.FullName,
-                OrderDate = DateTime.Now,
-                TotalAmount = total,
-                Status = Models.Enums.OrderStatus.Pending,
-                ShippingAddress = Address,
-                PhoneNumber = Phone,
-                Notes = Notes ?? string.Empty,
-                CouponId = appliedCoupon?.CouponId,
-                OrderCode = GenerateOrderCode(),
-                OrderDescription = string.Empty,
-                OrderCoupon = appliedCoupon?.CouponCode ?? string.Empty,
-                PaymentMethod = paymentMethod,
-                PaymentStatus = paymentMethod == PaymentMethod.Cash ? 
-                    PaymentStatus.Completed : PaymentStatus.Pending,
-                OrderStatus = true
-            };
+                // Lấy thông tin địa chỉ từ API
+                var addressService = HttpContext.RequestServices.GetService<IAddressService>();
+                
+                var provinces = await addressService.GetProvinces();
+                var province = provinces.FirstOrDefault(p => p.Code.ToString() == ProvinceCode)?.Name;
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+                var districts = await addressService.GetDistricts(int.Parse(ProvinceCode));
+                var district = districts.FirstOrDefault(d => d.Code.ToString() == DistrictCode)?.Name;
 
-            // Tạo chi tiết đơn hàng
-            foreach (var item in cartItems)
-            {
-                var orderDetail = new OrderDetail
+                var wards = await addressService.GetWards(int.Parse(DistrictCode));
+                var ward = wards.FirstOrDefault(w => w.Code.ToString() == WardCode)?.Name;
+
+                // Tạo địa chỉ đầy đủ với tên thay vì mã
+                var address = $"{AddressDetail}, {ward}, {district}, {province}";
+
+                var order = new Order
                 {
-                    OrderId = order.OrderId,
-                    ProductId = item.ProductId,
-                    SizeId = item.SizeId,
-                    Quantity = item.Quantity,
-                    Price = item.Product.Price - item.Product.DiscountPrice
+                    UserId = userInfo.UserID,
+                    OrderUsName = FullName,
+                    OrderDate = DateTime.Now,
+                    TotalAmount = total,
+                    Status = OrderStatus.Pending,
+                    ShippingAddress = address,  // Địa chỉ đã có tên đầy đủ
+                    PhoneNumber = Phone,
+                    Notes = Notes ?? string.Empty,
+                    CouponId = appliedCoupon?.CouponId,
+                    OrderCode = GenerateOrderCode(),
+                    OrderDescription = string.Empty,
+                    OrderCoupon = appliedCoupon?.CouponCode ?? string.Empty,
+                    PaymentMethod = paymentMethod,
+                    PaymentStatus = paymentMethod == PaymentMethod.Cash ? 
+                        PaymentStatus.Completed : PaymentStatus.Pending,
+                    OrderStatus = true
                 };
 
-                // Cập nhật số lượng tồn kho
-                var stock = _context.ProductSizeStocks
-                    .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
-                if (stock != null)
+                // Thêm và lưu order trước
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();  // Lưu order để có OrderId
+
+                // Sau đó mới tạo và thêm OrderDetails
+                foreach (var item in cartItems)
                 {
-                    stock.StockQuantity -= item.Quantity;
+                    var orderDetail = new OrderDetail
+                    {
+                        OrderId = order.OrderId,  // Bây giờ đã có OrderId hợp lệ
+                        ProductId = item.ProductId,
+                        SizeId = item.SizeId,
+                        Quantity = item.Quantity,
+                        Price = item.Product.Price - item.Product.DiscountPrice
+                    };
+
+                    // Cập nhật số lượng tồn kho
+                    var stock = _context.ProductSizeStocks
+                        .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
+                    if (stock != null)
+                    {
+                        stock.StockQuantity -= item.Quantity;
+                    }
+
+                    _context.OrderDetails.Add(orderDetail);
                 }
 
-                _context.OrderDetails.Add(orderDetail);
+                // Xóa giỏ hàng
+                _context.CartItems.RemoveRange(cartItems);
+                
+                // Xóa mã giảm giá đã áp dụng
+                HttpContext.Session.Remove("AppliedCoupon");
+
+                // Lưu các thay đổi còn lại
+                await _context.SaveChangesAsync();
+
+                // Xử lý theo phương thức thanh toán
+                switch (paymentMethod)
+                {
+                    case PaymentMethod.VNPay:
+                        return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+
+                    case PaymentMethod.Momo:
+                        return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
+
+                    case PaymentMethod.PayPal:
+                        return RedirectToAction("ProcessPayment", "PayPal", new { orderId = order.OrderId });
+
+                    case PaymentMethod.Visa:
+                        return RedirectToAction("ProcessPayment", "Visa", new { orderId = order.OrderId });
+
+                    default: // Cash
+                        return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
+                }
             }
-
-            // Xóa giỏ hàng
-            _context.CartItems.RemoveRange(cartItems);
-            
-            // Xóa mã giảm giá đã áp dụng
-            HttpContext.Session.Remove("AppliedCoupon");
-
-            // Xử lý theo phương thức thanh toán
-            switch (paymentMethod)
+            catch (Exception ex)
             {
-                case Models.Enums.PaymentMethod.VNPay:
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
-
-                case Models.Enums.PaymentMethod.Momo:
-                    // Tương tự với Momo
-                    break;
-
-                case Models.Enums.PaymentMethod.Visa:
-                    // Tương tự với Visa
-                    break;
-
-                default: // COD
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
+                TempData["Error"] = "Có lỗi xảy ra khi xử lý địa chỉ: " + ex.Message;
+                return RedirectToAction("Checkout");
             }
-
-            // Thêm xử lý lỗi nếu không vào case nào
-            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-            return RedirectToAction("Checkout");
         }
 
         private string GenerateOrderCode()
@@ -358,21 +370,24 @@ namespace ShoeStore.Controllers
             await _context.SaveChangesAsync();
 
             // Xử lý theo phương thức thanh toán
-            switch (model.PaymentMethod)
+            if (model.PaymentMethod == PaymentMethod.Cash)
             {
-                case PaymentMethod.VNPay:
-                    return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
-
-                case PaymentMethod.Cash:
-                    order.Status = OrderStatus.Processing;
-                    order.PaymentStatus = PaymentStatus.Pending;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
-
-                default:
-                    TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-                    return RedirectToAction("Checkout");
+                order.Status = OrderStatus.Processing;
+                order.PaymentStatus = PaymentStatus.Pending;
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
             }
+            else if (model.PaymentMethod == PaymentMethod.VNPay)
+            {
+                return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+            }
+            else if (model.PaymentMethod == PaymentMethod.Momo)
+            {
+                return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
+            }
+            
+            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
+            return RedirectToAction("Checkout");
         }
 
         public async Task<IActionResult> Thankyou(int orderId)

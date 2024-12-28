@@ -72,5 +72,10 @@ namespace ShoeStore.Models
         // Các thuộc tính tương thích với code cũ
         [NotMapped]
         public bool IsActive => OrderStatus;
+
+        [Display(Name = "Ngày tạo")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public string? CancelReason { get; set; }
     }
 }

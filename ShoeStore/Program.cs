@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using ShoeStore.Services.Payment;
 using Microsoft.AspNetCore.Http;
 using ShoeStore.Helpers;
+using ShoeStore.Models.Payment;
+using ShoeStore.Services.Momo;
+using ShoeStore.Services.Order;
 
 namespace ShoeStore
 {
@@ -15,6 +18,9 @@ namespace ShoeStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHostedService<OrderProcessingService>();
+            builder.Services.AddHttpContextAccessor();
+
 
             // Cấu hình DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -41,6 +47,13 @@ namespace ShoeStore
             // Cấu hình HTTP Context Accessor
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IVnPayService, VnPayService>();
+            //Momo API Payment
+            builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+            builder.Services.AddScoped<IMomoService, MomoService>();
+            // Đăng ký HttpClient và AddressService
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<ShoeStore.Services.APIAddress.IAddressService, ShoeStore.Services.APIAddress.AddressService>();
+
 
             var app = builder.Build();
 

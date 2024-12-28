@@ -34,6 +34,7 @@
         
         <form method="post" action="@Url.Action("PlaceOrder", "Cart")">
             @Html.AntiForgeryToken()
+            <input type="hidden" id="createdOrderId" name="createdOrderId" />
             <div class="row">
                 <div class="col-md-6 mb-5 mb-md-0">
                     <h2 class="h3 mb-3 text-black">Thông tin thanh toán</h2>
@@ -45,10 +46,28 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label class="text-black">Địa chỉ <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="Address" value="@userInfo.Address" required>
+                        <div class="form-group">
+                            <h5>Địa chỉ giao hàng</h5>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-control" id="province" name="ProvinceCode" required>
+                                        <option value="">Chọn tỉnh/thành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="district" name="DistrictCode" required disabled>
+                                        <option value="">Chọn quận/huyện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="ward" name="WardCode" required disabled>
+                                        <option value="">Chọn phường/xã</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <input type="text" class="form-control" name="AddressDetail" 
+                                       placeholder="Số nhà, tên đường..." required>
                             </div>
                         </div>
 
@@ -158,7 +177,7 @@
                                             <input class="form-check-input" type="radio" name="PaymentMethod" 
                                                 id="cash" value="@PaymentMethod.Cash" checked>
                                             <label class="form-check-label" for="cash">
-                                                <i class="fas fa-money-bill text-success"></i> Thanh toán khi nhận hàng (COD)
+                                                <i class="fas fa-money-bill-wave"></i> Thanh toán khi nhận hàng (COD)
                                             </label>
                                         </div>
                                     </div>
@@ -254,6 +273,90 @@
                 alert('Có lỗi xảy ra khi hủy mã giảm giá');
             });
         }
+
+        $(document).ready(function () {
+            $('#checkoutForm').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var paymentMethod = $('input[name="PaymentMethod"]:checked').val();
+
+                // Đầu tiên submit form để tạo order
+                $.ajax({
+                    url: '@Url.Action("PlaceOrder", "Cart")',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            // Lưu orderId vào form
+                            $('#createdOrderId').val(response.orderId);
+
+                            // Sau đó redirect tới phương thức thanh toán tương ứng
+                            switch(parseInt(paymentMethod)) {
+                                case @((int)PaymentMethod.VNPay):
+                                    window.location.href = '/Payment/ProcessVnPay?orderId=' + response.orderId;
+                                    break;
+                                case @((int)PaymentMethod.Momo):
+                                    window.location.href = '/Momo/ProcessPayment?orderId=' + response.orderId;
+                                    break;
+                                case @((int)PaymentMethod.PayPal):
+                                    window.location.href = '/PayPal/ProcessPayment?orderId=' + response.orderId;
+                                    break;
+                                case @((int)PaymentMethod.Visa):
+                                    window.location.href = '/Visa/ProcessPayment?orderId=' + response.orderId;
+                                    break;
+                                default:
+                                    window.location.href = '/Cart/Thankyou?orderId=' + response.orderId;
+                                    break;
+                            }
+                        } else {
+                            alert(response.message || 'Có lỗi xảy ra');
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xử lý đơn hàng');
+                    }
+                });
+            });
+
+            // Load provinces
+            $.get('/api/address/provinces', function(provinces) {
+                provinces.forEach(function(p) {
+                    $('#province').append(`<option value="${p.code}">${p.name}</option>`);
+                });
+            });
+
+            // Province change
+            $('#province').change(function() {
+                var provinceCode = $(this).val();
+                $('#district').prop('disabled', false).empty()
+                    .append('<option value="">Chọn quận/huyện</option>');
+                $('#ward').prop('disabled', true).empty()
+                    .append('<option value="">Chọn phường/xã</option>');
+
+                if (provinceCode) {
+                    $.get(`/api/address/districts/${provinceCode}`, function(districts) {
+                        districts.forEach(function(d) {
+                            $('#district').append(`<option value="${d.code}">${d.name}</option>`);
+                        });
+                    });
+                }
+            });
+
+            // District change
+            $('#district').change(function() {
+                var districtCode = $(this).val();
+                $('#ward').prop('disabled', false).empty()
+                    .append('<option value="">Chọn phường/xã</option>');
+
+                if (districtCode) {
+                    $.get(`/api/address/wards/${districtCode}`, function(wards) {
+                        wards.forEach(function(w) {
+                            $('#ward').append(`<option value="${w.code}">${w.name}</option>`);
+                        });
+                    });
+                }
+            });
+        });
     </script>
 }
 
