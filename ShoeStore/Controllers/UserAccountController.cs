@@ -75,9 +75,8 @@ namespace ShoeStore.Controllers
                     Email = model.Email,
                     PasswordHash = PasswordHelper.HashPassword(model.Password),
                     FullName = model.FullName,
-                    Address = model.Address,
                     Phone = model.Phone,
-                    RoleID = 1,
+                    RoleID = 2,
                     RegisterDate = DateTime.Now,
                     CreatedDate = DateTime.Now,
                     Status = true
@@ -123,7 +122,7 @@ namespace ShoeStore.Controllers
                     await _context.SaveChangesAsync();
 
                     ViewData["MessageType"] = "success";
-                    ViewData["Message"] = "Mật khẩu mới đã được gửi ��ến email của bạn!";
+                    ViewData["Message"] = "Mật khẩu mới đã được gửi đến email của bạn!";
                 }
                 catch
                 {
@@ -161,7 +160,7 @@ namespace ShoeStore.Controllers
             {
                 From = new MailAddress("your-email@gmail.com"),
                 Subject = "Đặt lại mật khẩu - ShoeStore",
-                Body = $"Mật kh��u mới của bạn là: {newPassword}",
+                Body = $"Mật khẩu mới của bạn là: {newPassword}",
                 IsBodyHtml = true,
             };
             mailMessage.To.Add(email);

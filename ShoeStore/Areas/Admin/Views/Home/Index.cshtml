@@ -1,10 +1,169 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model ShoeStore.Models.ViewModels.DashboardViewModel
+@using ShoeStore.Models.Enums
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div>
-    <h1 "> HELLO ADMIN!</h1>
+<div class="container-fluid">
+    <!-- Thống kê tổng quan -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h4>@Model.TotalOrders</h4>
+                    <div>Tổng đơn hàng</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <h4>@Model.NewOrders</h4>
+                    <div>Đơn hàng mới</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <h4>@Model.TotalRevenue.ToString("N0")đ</h4>
+                    <div>Doanh thu</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <h4>@Model.LowStockProducts</h4>
+                    <div>Sản phẩm sắp hết</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đơn hàng gần đây và Top sản phẩm -->
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Đơn hàng gần đây
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model.RecentOrders)
+                            {
+                                <tr>
+                                    <td>@order.OrderCode</td>
+                                    <td>@order.OrderUsName</td>
+                                    <td>@order.TotalAmount.ToString("N0")đ</td>
+                                    <td>
+                                        <span class="badge bg-@(order.Status == OrderStatus.Completed ? "success" : 
+                                            order.Status == OrderStatus.Processing ? "info" : 
+                                            order.Status == OrderStatus.Pending ? "warning" : "danger")">
+                                            @order.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Top sản phẩm bán chạy
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Đã bán</th>
+                                <th>Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.TopSellingProducts)
+                            {
+                                <tr>
+                                    <td>@product.Product.Name</td>
+                                    <td>@product.TotalSold</td>
+                                    <td>@product.TotalRevenue.ToString("N0")đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.SelectedPeriod == "month" && Model.DailyRevenue != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Doanh thu theo ngày</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function changePeriod(period) {
+            window.location.href = '?period=' + period;
+        }
+
+        @if (Model.SelectedPeriod == "month" && Model.DailyRevenue != null)
+        {
+            <text>
+            var ctx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.DailyRevenue.Select(x => $"'{x.Date.ToString("dd/MM")}'").ToList()))],
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: [@string.Join(",", Model.DailyRevenue.Select(x => x.Revenue))],
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            </text>
+        }
+    </script>
+}

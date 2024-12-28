@@ -24,7 +24,29 @@
                         <p>Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
                         <p>Ngày đặt: @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
                         <p>Người đặt: <strong>@Model.OrderUsName</strong></p>
-                        <p>Địa chỉ: @Model.ShippingAddress</p>
+                        <p>Địa chỉ: @{
+                            var addressParts = Model.ShippingAddress?.Split(",").Select(p => p.Trim()).ToList();
+                            if (addressParts != null && addressParts.Count >= 4)
+                            {
+                                <text>@addressParts[0], @addressParts[1], @addressParts[2], @addressParts[3]</text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <!-- Debug info -->
+                                    @if (addressParts != null)
+                                    {
+                                        <span style="color: red">Parts count: @addressParts.Count</span>
+                                        foreach (var part in addressParts)
+                                        {
+                                            <span style="color: blue">[@part]</span>
+                                        }
+                                    }
+                                    <!-- Actual address -->
+                                    @Model.ShippingAddress
+                                </text>
+                            }
+                        }</p>
                         <p>Số điện thoại: @Model.PhoneNumber</p>
                     </div>
                 </div>

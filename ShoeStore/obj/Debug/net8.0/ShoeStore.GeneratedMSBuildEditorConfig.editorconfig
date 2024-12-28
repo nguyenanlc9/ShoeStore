@@ -110,6 +110,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ291cG9uXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Dashboard/Daily.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRGFzaGJvYXJkXERhaWx5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Dashboard/Monthly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRGFzaGJvYXJkXE1vbnRobHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Dashboard/Yearly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRGFzaGJvYXJkXFllYXJseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Home/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

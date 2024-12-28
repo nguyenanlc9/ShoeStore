@@ -155,6 +155,29 @@
                                 <span class="badge badge-secondary"></span>
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="statisticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Thống kê</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="statisticsDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Daily">
+                                        Thống kê theo ngày
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Monthly">
+                                        Thống kê theo tháng
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Yearly">
+                                        Thống kê theo năm
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </li>
                     </ul>
                 </div>

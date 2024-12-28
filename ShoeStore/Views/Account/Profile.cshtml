@@ -3,9 +3,8 @@
 <h2>Thông tin cá nhân</h2>
 <div class="profile-info">
     <p><strong>Username:</strong> @Model.Username</p>
-    <p><strong>Họ và tên:</strong> @Model.FullName</p>
+    <p><strong>Họ tên:</strong> @Model.FullName</p>
     <p><strong>Email:</strong> @Model.Email</p>
     <p><strong>Số điện thoại:</strong> @Model.Phone</p>
-    <p><strong>Địa chỉ:</strong> @Model.Address</p>
-    <p><strong>Ngày đăng ký:</strong> @Model.RegisterDate.ToShortDateString()</p>
+    <p><strong>Ngày đăng ký:</strong> @Model.RegisterDate.ToString("dd/MM/yyyy")</p>
 </div>

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 
-namespace ShoeStore.Services
+namespace ShoeStore.Services.Order
 {
     public class OrderProcessingService : IHostedService, IDisposable
     {
@@ -34,7 +34,7 @@ namespace ShoeStore.Services
                 var fifteenMinutesAgo = DateTime.Now.AddMinutes(-15);
 
                 var pendingOrders = await context.Orders
-                    .Where(o => o.Status == OrderStatus.Pending 
+                    .Where(o => o.Status == OrderStatus.Pending
                            && o.CreatedAt <= fifteenMinutesAgo
                            && o.PaymentStatus != PaymentStatus.Completed)
                     .ToListAsync();
@@ -65,4 +65,4 @@ namespace ShoeStore.Services
             _timer?.Dispose();
         }
     }
-} 
+}

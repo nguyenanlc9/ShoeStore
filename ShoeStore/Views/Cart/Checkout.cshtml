@@ -46,10 +46,28 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label class="text-black">Địa chỉ <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="Address" value="@userInfo.Address" required>
+                        <div class="form-group">
+                            <h5>Địa chỉ giao hàng</h5>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-control" id="province" name="ProvinceCode" required>
+                                        <option value="">Chọn tỉnh/thành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="district" name="DistrictCode" required disabled>
+                                        <option value="">Chọn quận/huyện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="ward" name="WardCode" required disabled>
+                                        <option value="">Chọn phường/xã</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <input type="text" class="form-control" name="AddressDetail" 
+                                       placeholder="Số nhà, tên đường..." required>
                             </div>
                         </div>
 
@@ -298,6 +316,45 @@
                         alert('Có lỗi xảy ra khi xử lý đơn hàng');
                     }
                 });
+            });
+
+            // Load provinces
+            $.get('/api/address/provinces', function(provinces) {
+                provinces.forEach(function(p) {
+                    $('#province').append(`<option value="${p.code}">${p.name}</option>`);
+                });
+            });
+
+            // Province change
+            $('#province').change(function() {
+                var provinceCode = $(this).val();
+                $('#district').prop('disabled', false).empty()
+                    .append('<option value="">Chọn quận/huyện</option>');
+                $('#ward').prop('disabled', true).empty()
+                    .append('<option value="">Chọn phường/xã</option>');
+
+                if (provinceCode) {
+                    $.get(`/api/address/districts/${provinceCode}`, function(districts) {
+                        districts.forEach(function(d) {
+                            $('#district').append(`<option value="${d.code}">${d.name}</option>`);
+                        });
+                    });
+                }
+            });
+
+            // District change
+            $('#district').change(function() {
+                var districtCode = $(this).val();
+                $('#ward').prop('disabled', false).empty()
+                    .append('<option value="">Chọn phường/xã</option>');
+
+                if (districtCode) {
+                    $.get(`/api/address/wards/${districtCode}`, function(wards) {
+                        wards.forEach(function(w) {
+                            $('#ward').append(`<option value="${w.code}">${w.name}</option>`);
+                        });
+                    });
+                }
             });
         });
     </script>

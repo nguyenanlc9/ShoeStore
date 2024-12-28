@@ -92,7 +92,6 @@ namespace ShoeStore.Controllers
                     Email = model.Email,
                     PasswordHash = PasswordHelper.HashPassword(model.Password),
                     FullName = model.FullName,
-                    Address = model.Address,
                     Phone = model.Phone,
                     RoleID = 1, // Role User
                     RegisterDate = DateTime.Now,

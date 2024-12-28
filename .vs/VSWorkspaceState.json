@@ -9,9 +9,10 @@
     "\\ShoeStore\\Migrations",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Cart",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Controllers\\PaymentController.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Cart\\Thankyou.cshtml",
   "PreviewInSolutionExplorer": false
 }
