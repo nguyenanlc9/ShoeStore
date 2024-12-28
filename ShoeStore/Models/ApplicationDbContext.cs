@@ -29,6 +29,7 @@ namespace ShoeStore.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<ContactUser> ContactUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

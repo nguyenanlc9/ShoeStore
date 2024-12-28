@@ -1,0 +1,48 @@
+﻿@model ShoeStore.Models.ContactUser
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Xóa Thông tin Liên hệ</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Chi tiết Người liên hệ</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactUFirstName)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactUFirstName)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactULastName)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactULastName)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactUEmail)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactUEmail)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactUAddress)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactUAddress)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactUPhone)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactUPhone)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactUMessage)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactUMessage)</dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="ContactUId" />
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

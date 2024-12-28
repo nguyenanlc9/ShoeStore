@@ -1,0 +1,102 @@
+﻿@model ShoeStore.Models.ContactUser
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Chỉnh sửa Thông tin Liên hệ Người Dùng</h2>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form asp-action="Edit" class="border rounded p-4 shadow-sm bg-light">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="ContactUId" />
+
+                <div class="mb-3">
+                    <label asp-for="ContactUFirstName" class="form-label">Họ</label>
+                    <input asp-for="ContactUFirstName" class="form-control" />
+                    <span asp-validation-for="ContactUFirstName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactULastName" class="form-label">Tên</label>
+                    <input asp-for="ContactULastName" class="form-control" />
+                    <span asp-validation-for="ContactULastName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactUEmail" class="form-label">Email</label>
+                    <input asp-for="ContactUEmail" type="email" class="form-control" />
+                    <span asp-validation-for="ContactUEmail" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactUAddress" class="form-label">Địa chỉ</label>
+                    <input asp-for="ContactUAddress" class="form-control" />
+                    <span asp-validation-for="ContactUAddress" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactUPhone" class="form-label">Số điện thoại</label>
+                    <input asp-for="ContactUPhone" type="tel" class="form-control" />
+                    <span asp-validation-for="ContactUPhone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactUMessage" class="form-label">Tin nhắn</label>
+                    <textarea asp-for="ContactUMessage" class="form-control"></textarea>
+                    <span asp-validation-for="ContactUMessage" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Header {
+    <link rel="stylesheet" href="~/Admin/plugins/ckeditor5/ckeditor5.css">
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "/Admin/plugins/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "/Admin/plugins/ckeditor5/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font
+        } from 'ckeditor5';
+
+        ClassicEditor.create(document.querySelector('#ContactUMessage'), {
+            plugins: [Essentials, Paragraph, Bold, Italic, Font],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+            ]
+        }).then(editor => {
+            window.editor = editor;
+        }).catch(error => {
+            console.error(error);
+        });
+    </script>
+}
