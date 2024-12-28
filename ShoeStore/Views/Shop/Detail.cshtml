@@ -101,65 +101,73 @@
 
 <div class="row mt-5">
     <div class="col-md-12">
-        <h3 class="mb-4">Thông Tin Sản Phẩm</h3>
-        <p>@Model.Description</p>
-
-        <h4 class="mb-4">Đánh giá sản phẩm</h4>
-        
-        <!-- Form đánh giá (chỉ hiện khi đã đăng nhập) -->
-        @if (Context.Session.Get<User>("userInfo") != null)
-        {
-            <div class="review-form mb-4">
-                <form id="reviewForm">
-                    <input type="hidden" id="productId" value="@Model.ProductId" />
-                    <div class="form-group">
-                        <label>Đánh giá của bạn:</label>
-                        <div class="rating-input">
-                            @for (int i = 5; i >= 1; i--)
-                            {
-                                <input type="radio" id="star@(i)" name="rating" value="@i" />
-                                <label for="star@(i)"><i class="fas fa-star"></i></label>
-                            }
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Nhận xét:</label>
-                        <textarea class="form-control" id="comment" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                </form>
+        <!-- Phần mô tả sản phẩm -->
+        <div class="product-info-section mb-5">
+            <h3 class="mb-4">Thông Tin Sản Phẩm</h3>
+            <div class="product-description">
+                <pre>@Html.Raw(Model.Description?.StripHtml(true))</pre>
             </div>
-        }
-        else
-        {
-            <p>Vui lòng <a asp-controller="Account" asp-action="Login">đăng nhập</a> để đánh giá sản phẩm</p>
-        }
+        </div>
 
-        <!-- Danh sách đánh giá -->
-        <div id="reviewsList">
-            @foreach (var review in ViewBag.Reviews)
+        <!-- Phần đánh giá sản phẩm -->
+        <div class="product-review-section">
+            <h4 class="mb-4">Đánh giá sản phẩm</h4>
+            
+            <!-- Form đánh giá (chỉ hiện khi đã đăng nhập) -->
+            @if (Context.Session.Get<User>("userInfo") != null)
             {
-                <div class="review-item mb-3">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="stars">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                if (i <= review.Rating)
+                <div class="review-form mb-4">
+                    <form id="reviewForm">
+                        <input type="hidden" id="productId" value="@Model.ProductId" />
+                        <div class="form-group">
+                            <label>Đánh giá của bạn:</label>
+                            <div class="rating-input">
+                                @for (int i = 5; i >= 1; i--)
                                 {
-                                    <i class="fas fa-star"></i>
+                                    <input type="radio" id="star@(i)" name="rating" value="@i" />
+                                    <label for="star@(i)"><i class="fas fa-star"></i></label>
                                 }
-                                else
-                                {
-                                    <i class="far fa-star"></i>
-                                }
-                            }
+                            </div>
                         </div>
-                        <span class="ml-2">bởi @review.User.FullName</span>
-                        <small class="text-muted ml-2">@review.CreatedAt.ToString("dd/MM/yyyy")</small>
-                    </div>
-                    <p class="mb-0">@review.Comment</p>
+                        <div class="form-group">
+                            <label for="comment">Nhận xét:</label>
+                            <textarea class="form-control" id="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </form>
                 </div>
             }
+            else
+            {
+                <p>Vui lòng <a asp-controller="Account" asp-action="Login">đăng nhập</a> để đánh giá sản phẩm</p>
+            }
+
+            <!-- Danh sách đánh giá -->
+            <div id="reviewsList">
+                @foreach (var review in ViewBag.Reviews)
+                {
+                    <div class="review-item mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="stars">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= review.Rating)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
+                                }
+                            </div>
+                            <span class="ml-2">bởi @review.User.FullName</span>
+                            <small class="text-muted ml-2">@review.CreatedAt.ToString("dd/MM/yyyy")</small>
+                        </div>
+                        <p class="mb-0">@review.Comment</p>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -181,7 +189,7 @@
         width: 100%;
         height: auto;
         border-radius: 8px;
-    }
+    } 
 
     .product-info {
         text-align: center;
@@ -195,8 +203,10 @@
     }
 
     .product-description {
-        font-size: 14px;
-        color: #777;
+        font-family: "Mukta", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #666;
     }
 
     .product-price {
@@ -218,6 +228,50 @@
         .buy-now:hover {
             background-color: #4cae4c;
         }
+
+    .product-description pre {
+        font-family: inherit;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    /* Style cho các tiêu đề trong mô tả */
+    .product-description strong {
+        display: block;
+        font-size: 1.1rem;
+        color: #333;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Khoảng cách giữa các đoạn */
+    .product-description p {
+        margin-bottom: 1rem;
+    }
+
+    /* Style cho danh sách nếu có */
+    .product-description ul,
+    .product-description ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Thêm style cho các section */
+    .product-info-section {
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 3rem;
+    }
+
+    .product-review-section {
+        padding-top: 1rem;
+    }
 </style> 
 
 @section Scripts {

@@ -98,28 +98,19 @@
             Bold,
             Italic,
             Font,
-            HtmlEmbed
+            RemoveFormat
         } from 'ckeditor5';
 
         ClassicEditor
             .create(document.querySelector('#Description'), {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font, HtmlEmbed],
+                plugins: [Essentials, Paragraph, Bold, Italic, Font, RemoveFormat],
                 toolbar: [
                     'undo', 'redo', '|', 
                     'bold', 'italic', '|',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                    'htmlEmbed'
+                    'removeFormat'
                 ],
-                htmlEmbed: {
-                    showPreviews: true,
-                    sanitizeHtml: (inputHtml) => {
-                        // Không sanitize HTML để giữ nguyên các thẻ
-                        return {
-                            html: inputHtml,
-                            hasChanged: false
-                        };
-                    }
-                }
+                removePlugins: ['MediaEmbed', 'Table', 'TableToolbar', 'TableProperties', 'TableCellProperties'],
             })
             .then(editor => {
                 window.editor = editor;
@@ -127,10 +118,20 @@
                 // Xử lý dữ liệu trước khi submit
                 document.querySelector('form').addEventListener('submit', function(e) {
                     const descriptionInput = document.querySelector('#Description');
-                    const editorData = editor.getData();
-                    // Loại bỏ các thẻ p không cần thiết
-                    const cleanData = editorData.replace(/<p>&nbsp;<\/p>/g, '');
-                    descriptionInput.value = cleanData;
+                    let editorData = editor.getData();
+                    
+                    // Loại bỏ các thẻ p rỗng
+                    editorData = editorData.replace(/<p>&nbsp;<\/p>/g, '');
+                    editorData = editorData.replace(/<p><br><\/p>/g, '');
+                    
+                    // Loại bỏ các thẻ không cần thiết
+                    editorData = editorData.replace(/<\/?strong>/g, '');
+                    editorData = editorData.replace(/<\/?p>/g, '');
+                    
+                    // Loại bỏ khoảng trắng thừa
+                    editorData = editorData.trim();
+                    
+                    descriptionInput.value = editorData;
                 });
             })
             .catch(error => {
