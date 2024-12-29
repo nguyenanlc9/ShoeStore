@@ -1,4 +1,5 @@
 ﻿@model ShoeStore.Models.Product
+@using ShoeStore.Utils
 
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
@@ -23,7 +24,11 @@
             <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
 
             <dt class="col-sm-3">Mô tả</dt>
-            <dd class="col-sm-9">@Html.Raw(Model.Description)</dd>
+            <dd class="col-sm-9">
+                <div class="product-description">
+                    @Html.Raw(Model.Description?.StripHtml(true))
+                </div>
+            </dd>
 
             <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DiscountPrice)</dt>
             <dd class="col-sm-9">@Html.DisplayFor(model => model.DiscountPrice)</dd>
