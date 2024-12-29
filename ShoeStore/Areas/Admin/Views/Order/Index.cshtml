@@ -87,16 +87,13 @@
                                                     <span class="badge badge-primary">Đã giao cho vận chuyển</span>
                                                     break;
                                                 case OrderStatus.Delivered:
-                                                    <span class="badge badge-success">Đã giao hàng</span>
+                                                    <span class="badge badge-info">Đã giao hàng</span>
                                                     break;
                                                 case OrderStatus.Completed:
                                                     <span class="badge badge-success">Hoàn thành</span>
                                                     break;
                                                 case OrderStatus.Cancelled:
                                                     <span class="badge badge-danger">Đã hủy</span>
-                                                    break;
-                                                case OrderStatus.Refunded:
-                                                    <span class="badge badge-secondary">Đã hoàn tiền</span>
                                                     break;
                                             }
                                         </td>
@@ -108,17 +105,19 @@
                                                 @(item.PaymentStatus == PaymentStatus.Pending ? "Đang xác thực" :
                                                   item.PaymentStatus == PaymentStatus.Completed ? "Thành công" :
                                                   item.PaymentStatus == PaymentStatus.Failed ? "Thất bại" :
-                                                  item.PaymentStatus == PaymentStatus.Refunded ? "Đã hoàn tiền" : "Đã hủy")
+                                                  item.PaymentStatus == PaymentStatus.Refunded ? "Đã hoàn tiền" : "Không xác định")
                                             </span>
                                         </td>
                                         <td>
                                             <div class="form-button-action">
-                                                
                                                 <a asp-action="Details" asp-route-id="@item.OrderId"
                                                    class="btn btn-link btn-info btn-sm" data-toggle="tooltip" title="Chi tiết">
                                                     <i class="fa fa-info-circle"></i>
                                                 </a>
-                                                
+                                                <a asp-action="Process" asp-route-id="@item.OrderId"
+                                                   class="btn btn-link btn-primary btn-sm" data-toggle="tooltip" title="Xử lý">
+                                                    <i class="fa fa-cog"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

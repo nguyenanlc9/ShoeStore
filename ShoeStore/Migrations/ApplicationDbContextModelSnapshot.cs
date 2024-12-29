@@ -246,10 +246,6 @@ namespace ShoeStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FooterId"));
 
-                    b.Property<string>("CopyrightText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FooterAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -531,6 +527,11 @@ namespace ShoeStore.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeID"));
+
+                    b.Property<string>("SizeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("SizeValue")
                         .HasColumnType("decimal(3,1)");

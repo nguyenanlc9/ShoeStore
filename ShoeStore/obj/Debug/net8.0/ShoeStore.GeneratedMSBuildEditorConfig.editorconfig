@@ -214,6 +214,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3JkZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/USER/ShoeStore/ShoeStore/Areas/Admin/Views/Order/Process.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3JkZXJcUHJvY2Vzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/USER/ShoeStore/ShoeStore/Areas/Admin/Views/ProductSizeStock/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFNpemVTdG9ja1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

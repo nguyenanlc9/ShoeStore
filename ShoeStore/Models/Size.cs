@@ -11,11 +11,21 @@ namespace ShoeStore.Models
 
         [Required(ErrorMessage = "Kích thước không được để trống")]
         [Display(Name = "Kích thước")]
-        [Column(TypeName = "decimal(3,1)")]  // Cho phép lưu size dạng số thập phân như 40.5
+        [Column(TypeName = "decimal(3,1)")]
         public decimal SizeValue { get; set; }
 
+        [Required(ErrorMessage = "Tên kích thước không được để trống")]
+        [Display(Name = "Tên kích thước")]
+        [StringLength(50)]
+        public string SizeName { get; set; }
 
-        // Navigation property cho ProductSizeStock
+        // Navigation property
         public virtual ICollection<ProductSizeStock>? ProductSizeStocks { get; set; }
+
+        public Size()
+        {
+            // Tự động set SizeName bằng SizeValue khi tạo mới
+            SizeName = SizeValue.ToString();
+        }
     }
 } 

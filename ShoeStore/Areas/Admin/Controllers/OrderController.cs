@@ -230,5 +230,94 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             return View(order);
         }
+
+        // Thêm action mới
+        public async Task<IActionResult> Process(int id)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Size)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            try
+            {
+                var order = await _context.Orders.FindAsync(orderId);
+                if (order == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+                }
+
+                // Kiểm tra logic chuyển trạng thái
+                if (!IsValidStatusTransition(order.Status, newStatus))
+                {
+                    return Json(new { success = false, message = "Không thể chuyển sang trạng thái này" });
+                }
+
+                order.Status = newStatus;
+                
+                // Cập nhật trạng thái thanh toán nếu cần
+                if (newStatus == OrderStatus.Completed && order.PaymentMethod == PaymentMethod.Cash)
+                {
+                    order.PaymentStatus = PaymentStatus.Completed;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { 
+                    success = true, 
+                    message = $"Đã cập nhật trạng thái thành {GetStatusText(newStatus)}",
+                    newStatus = newStatus.ToString(),
+                    newStatusText = GetStatusText(newStatus)
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi khi cập nhật trạng thái: " + ex.Message });
+            }
+        }
+
+        private bool IsValidStatusTransition(OrderStatus currentStatus, OrderStatus newStatus)
+        {
+            switch (currentStatus)
+            {
+                case OrderStatus.Pending:
+                    return newStatus == OrderStatus.Processing;
+                case OrderStatus.Processing:
+                    return newStatus == OrderStatus.Shipped;
+                case OrderStatus.Shipped:
+                    return newStatus == OrderStatus.Delivered || newStatus == OrderStatus.Cancelled;
+                case OrderStatus.Delivered:
+                    return newStatus == OrderStatus.Completed;
+                default:
+                    return false;
+            }
+        }
+
+        private string GetStatusText(OrderStatus status)
+        {
+            return status switch
+            {
+                OrderStatus.Pending => "Chờ xử lý",
+                OrderStatus.Processing => "Đang xử lý",
+                OrderStatus.Shipped => "Đã giao cho vận chuyển",
+                OrderStatus.Delivered => "Đã giao hàng",
+                OrderStatus.Completed => "Hoàn thành",
+                OrderStatus.Cancelled => "Đã hủy",
+                _ => "Không xác định"
+            };
+        }
     }
 }

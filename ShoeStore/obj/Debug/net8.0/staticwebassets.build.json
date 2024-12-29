@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "VpXPh0fv83fwZCi8Tfzk76HrZui0utAk5zqM0ravvMQ=",
+  "Hash": "pRvrgk+9ROnKSyUDN+p+cXaqGzLNiIzwuOXfmQXiixA=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -47952,6 +47952,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\96655bc9-af6d-4833-929d-a173d5d64153_4-549196.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9a2bfe5e-4de4-4fcd-a5c9-0d5cf0715708_4-549196.jpeg",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/9a2bfe5e-4de4-4fcd-a5c9-0d5cf0715708_4-549196.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\9a2bfe5e-4de4-4fcd-a5c9-0d5cf0715708_4-549196.jpeg"
     },
     {
       "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9afe4cbe-a899-4672-b5d4-2cab548e23ee_4-549196.jpeg",

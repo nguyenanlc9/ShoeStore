@@ -1,0 +1,207 @@
+@model ShoeStore.Models.Order
+@using ShoeStore.Models.Enums
+
+@{
+    ViewData["Title"] = "Xử lý đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Xử lý đơn hàng #@Model.OrderCode</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <a asp-action="Index">Đơn hàng</a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <span>Xử lý đơn hàng</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Thông tin đơn hàng -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Chi tiết đơn hàng</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Size</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Size.SizeName</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Price.ToString("N0") đ</td>
+                                        <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
+                                    <td><strong>@Model.TotalAmount.ToString("N0") đ</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Thông tin xử lý -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Xử lý đơn hàng</h4>
+                </div>
+                <div class="card-body">
+                    <div class="current-status mb-4">
+                        <h5>Trạng thái hiện tại:</h5>
+                        <div class="status-badge @GetStatusClass(Model.Status)">
+                            @GetStatusText(Model.Status)
+                        </div>
+                    </div>
+
+                    @if (Model.Status != OrderStatus.Completed && Model.Status != OrderStatus.Cancelled)
+                    {
+                        <div class="status-actions">
+                            <h5>Cập nhật trạng thái:</h5>
+                            <div class="btn-group-vertical w-100">
+                                @if (Model.Status == OrderStatus.Pending)
+                                {
+                                    <button class="btn btn-info mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Processing))">
+                                        <i class="fas fa-box"></i> Xử lý đơn hàng
+                                    </button>
+                                }
+                                @if (Model.Status == OrderStatus.Processing)
+                                {
+                                    <button class="btn btn-primary mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Shipped))">
+                                        <i class="fas fa-shipping-fast"></i> Giao cho vận chuyển
+                                    </button>
+                                }
+                                @if (Model.Status == OrderStatus.Shipped)
+                                {
+                                    <button class="btn btn-info mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Delivered))">
+                                        <i class="fas fa-truck"></i> Xác nhận đã giao
+                                    </button>
+                                    <button class="btn btn-danger" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Cancelled))">
+                                        <i class="fas fa-times-circle"></i> Hủy đơn hàng
+                                    </button>
+                                }
+                                @if (Model.Status == OrderStatus.Delivered)
+                                {
+                                    <button class="btn btn-success mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Completed))">
+                                        <i class="fas fa-check-circle"></i> Hoàn thành đơn hàng
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Thông tin khách hàng -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="card-title">Thông tin khách hàng</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Họ tên:</strong> @Model.OrderUsName</p>
+                    <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
+                    <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <p><strong>Ghi chú:</strong> @Model.Notes</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateStatus(orderId, newStatus) {
+            if (!confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng?')) {
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("UpdateOrderStatus")',
+                type: 'POST',
+                data: {
+                    orderId: orderId,
+                    newStatus: newStatus
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function() {
+                    toastr.error('Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            });
+        }
+    </script>
+}
+
+@functions {
+    string GetStatusClass(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.Pending => "badge badge-warning",
+            OrderStatus.Processing => "badge badge-info",
+            OrderStatus.Shipped => "badge badge-primary",
+            OrderStatus.Delivered => "badge badge-info",
+            OrderStatus.Completed => "badge badge-success",
+            OrderStatus.Cancelled => "badge badge-danger",
+            _ => "badge badge-secondary"
+        };
+    }
+
+    string GetStatusText(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.Pending => "Chờ xử lý",
+            OrderStatus.Processing => "Đang xử lý",
+            OrderStatus.Shipped => "Đã giao cho vận chuyển",
+            OrderStatus.Delivered => "Đã giao hàng",
+            OrderStatus.Completed => "Hoàn thành",
+            OrderStatus.Cancelled => "Đã hủy",
+            _ => "Không xác định"
+        };
+    }
+} 

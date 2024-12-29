@@ -33,6 +33,8 @@ namespace ShoeStore.Models
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ContactUser> ContactUsers { get; set; }
         public DbSet<Footer> Footers { get; set; }
+        public DbSet<MemberRank> MemberRanks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
