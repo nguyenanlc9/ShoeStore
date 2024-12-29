@@ -11,6 +11,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\MemberRankController.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Home\\Contact.cshtml",
   "PreviewInSolutionExplorer": false
 }

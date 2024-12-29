@@ -23,59 +23,62 @@
                         </div>
                         <div class="d-flex">
                             <div class="dropdown mr-1 ml-md-auto">
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownBrand" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuBrand" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @(ViewBag.SelectedBrand?.Name ?? "Thương hiệu")
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownBrand">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuBrand">
                                     <a class="dropdown-item @(ViewBag.SelectedBrandId == null ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice })">
-                                        Tất cả
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                       asp-route-minPrice="@ViewBag.MinPrice"
+                                       asp-route-maxPrice="@ViewBag.MaxPrice"
+                                       asp-route-sort="@ViewBag.CurrentSort">
+                                        Tất cả thương hiệu
                                     </a>
                                     @foreach (var brand in ViewBag.Brands)
                                     {
                                         <a class="dropdown-item @(ViewBag.SelectedBrandId == brand.BrandId ? "active" : "")" 
-                                           href="@Url.Action("Index", "Shop", new { brandId = brand.BrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice })">
-                                            @brand.Name
+                                                   asp-controller="Shop" asp-action="Index"
+                                                   asp-route-brandId="@brand.BrandId"
+                                                   asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                                   asp-route-minPrice="@ViewBag.MinPrice"
+                                                   asp-route-maxPrice="@ViewBag.MaxPrice"
+                                                   asp-route-sort="@ViewBag.CurrentSort">
+                                            @brand.Name <span class="text-muted">(@brand.ProductCount)</span>
                                         </a>
                                     }
                                 </div>
                             </div>
                             <div class="btn-group">
-<<<<<<< Updated upstream
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Sắp xếp</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="name-asc">Tên, A đến Z</a>
-                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="name-desc">Tên, Z đến A</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="price-asc">Giá, thấp đến cao</a>
-                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="price-desc">Giá, cao đến thấp</a>
-=======
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownSort" data-toggle="dropdown">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuSort" data-toggle="dropdown">
                                     @(ViewBag.SortLabel ?? "Sắp xếp")
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownSort">
-                                    <a class="dropdown-item @(ViewBag.SortBy == null ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { brandId = ViewBag.SelectedBrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice })">
-                                        Mặc định
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuSort">
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == null ? "active" : "")" 
+                                       asp-controller="Shop" asp-action="Index">
+                                        Mới nhất
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.SortBy == "name_asc" ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { brandId = ViewBag.SelectedBrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, sortBy = "name_asc" })">
-                                        Tên A-Z
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-asc" ? "active" : "")" 
+                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-asc"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
+                                        Tên, A đến Z
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.SortBy == "name_desc" ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { brandId = ViewBag.SelectedBrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, sortBy = "name_desc" })">
-                                        Tên Z-A
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-desc" ? "active" : "")" 
+                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-desc"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
+                                        Tên, Z đến A
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item @(ViewBag.SortBy == "price_asc" ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { brandId = ViewBag.SelectedBrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, sortBy = "price_asc" })">
-                                        Giá thấp đến cao
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-asc" ? "active" : "")" 
+                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-asc"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
+                                        Giá, thấp đến cao
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.SortBy == "price_desc" ? "active" : "")" 
-                                       href="@Url.Action("Index", "Shop", new { brandId = ViewBag.SelectedBrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, sortBy = "price_desc" })">
-                                        Giá cao đến thấp
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-desc" ? "active" : "")" 
+                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-desc"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
+                                        Giá, cao đến thấp
                                     </a>
->>>>>>> Stashed changes
                                 </div>
                             </div>
                         </div>
@@ -156,13 +159,59 @@
                     <div class="col-md-12 text-center">
                         <div class="site-block-27">
                             <ul>
-                                <li><a href="#">&lt;</a></li>
-                                <li class="active"><span>1</span></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">&gt;</a></li>
+                                @if (ViewBag.HasPreviousPage)
+                                {
+                                    <li>
+                                        <a asp-controller="Shop" asp-action="Index" 
+                                           asp-route-page="@(ViewBag.CurrentPage - 1)"
+                                           asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                           asp-route-brandId="@ViewBag.SelectedBrandId"
+                                           asp-route-minPrice="@ViewBag.MinPrice"
+                                           asp-route-maxPrice="@ViewBag.MaxPrice"
+                                           asp-route-sort="@ViewBag.CurrentSort">&lt;</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="disabled"><span>&lt;</span></li>
+                                }
+
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
+                                        @if (i == ViewBag.CurrentPage)
+                                        {
+                                            <span>@i</span>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Shop" asp-action="Index" 
+                                               asp-route-page="@i"
+                                               asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                               asp-route-brandId="@ViewBag.SelectedBrandId"
+                                               asp-route-minPrice="@ViewBag.MinPrice"
+                                               asp-route-maxPrice="@ViewBag.MaxPrice"
+                                               asp-route-sort="@ViewBag.CurrentSort">@i</a>
+                                        }
+                                    </li>
+                                }
+
+                                @if (ViewBag.HasNextPage)
+                                {
+                                    <li>
+                                        <a asp-controller="Shop" asp-action="Index" 
+                                           asp-route-page="@(ViewBag.CurrentPage + 1)"
+                                           asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                           asp-route-brandId="@ViewBag.SelectedBrandId"
+                                           asp-route-minPrice="@ViewBag.MinPrice"
+                                           asp-route-maxPrice="@ViewBag.MaxPrice"
+                                           asp-route-sort="@ViewBag.CurrentSort">&gt;</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="disabled"><span>&gt;</span></li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -188,7 +237,7 @@
                                    asp-route-brandId="@ViewBag.SelectedBrandId"
                                    asp-route-minPrice="@ViewBag.MinPrice"
                                    asp-route-maxPrice="@ViewBag.MaxPrice"
-                                   asp-route-sortBy="@ViewBag.SortBy"
+                                   asp-route-sort="@ViewBag.CurrentSort"
                                    class="d-flex @(ViewBag.SelectedCategoryId == category.CategoryId ? "text-primary" : "")">
                                     <span>@category.Name</span>
                                     <span class="text-black ml-auto">(@category.ProductCount)</span>
@@ -199,19 +248,13 @@
                 </div>
 
                 <div class="border p-4 rounded mb-4">
-                    <!-- Filter by Price -->
                     <div class="mb-4">
                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Lọc theo giá</h3>
                         <div id="slider-range" class="border-primary"></div>
-<<<<<<< Updated upstream
-                        <div class="d-flex align-items-center mt-2">
-                            <input type="text" id="amount" class="form-control border-0 pl-0 bg-white" readonly />
-=======
                         <div class="mt-2">
                             <span class="price-display">
                                 Giá: <span id="amount">0đ - 10.000.000đ</span>
                             </span>
->>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
@@ -242,7 +285,7 @@
                 min: 0,
                 max: 10000000,
                 step: 100000,
-                values: [initialMinPrice, initialMaxPrice],  // Dùng giá trị từ ViewBag
+                values: [initialMinPrice, initialMaxPrice],
                 slide: function(event, ui) {
                     $("#amount").text(formatPrice(ui.values[0]) + " - " + formatPrice(ui.values[1]));
                 },
@@ -267,13 +310,16 @@
                 var url = new URL(window.location.href);
                 var params = new URLSearchParams(url.search);
 
-                // Cập nhật hoặc thêm mới các tham số
+                // Giữ lại các tham số hiện tại
                 params.set('minPrice', minPrice);
                 params.set('maxPrice', maxPrice);
 
-                // Giữ lại categoryId nếu có
+                // Giữ lại categoryId và sort nếu có
                 if ('@ViewBag.SelectedCategoryId' !== '') {
                     params.set('categoryId', '@ViewBag.SelectedCategoryId');
+                }
+                if ('@ViewBag.CurrentSort' !== '') {
+                    params.set('sort', '@ViewBag.CurrentSort');
                 }
 
                 // Chuyển hướng với các tham số mới
@@ -307,5 +353,45 @@
     .price-display {
         font-size: 14px;
         color: #333;
+    }
+
+    .site-block-27 ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .site-block-27 ul li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    .site-block-27 ul li a,
+    .site-block-27 ul li span {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        color: #333;
+        text-align: center;
+    }
+
+    .site-block-27 ul li.active span {
+        background: #7971ea;
+        color: #fff;
+        border-color: #7971ea;
+    }
+
+    .site-block-27 ul li.disabled span {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .site-block-27 ul li a:hover {
+        background: #7971ea;
+        color: #fff;
+        border-color: #7971ea;
+        text-decoration: none;
     }
 </style>

@@ -103,6 +103,11 @@ namespace ShoeStore.Models
                     Description = "Giảm 15% mọi đơn hàng" 
                 }
             );
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.TotalSpent)
+                .HasColumnType("decimal(18,2)")
+                .HasDefaultValue(0);
         }
     }
 }

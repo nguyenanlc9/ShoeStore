@@ -1,18 +1,13 @@
-﻿using ShoeStore.Models;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using ShoeStore.Services.Payment;
-using Microsoft.AspNetCore.Http;
-using ShoeStore.Helpers;
+using ShoeStore.Models;
 using ShoeStore.Models.Payment;
+using ShoeStore.Services;
+using ShoeStore.Services.Email;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
-<<<<<<< Updated upstream
-using Microsoft.AspNetCore.Identity.UI.Services;
-using ShoeStore.Services.Email;
-=======
-using ShoeStore.Services;
->>>>>>> Stashed changes
+using ShoeStore.Services.Payment;
+using ShoeStore.Services.APIAddress;
 
 namespace ShoeStore
 {
@@ -28,6 +23,7 @@ namespace ShoeStore
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IEmailService, EmailService>();
+            
             // Cấu hình DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -58,8 +54,8 @@ namespace ShoeStore
             builder.Services.AddScoped<IMomoService, MomoService>();
             // Đăng ký HttpClient và AddressService
             builder.Services.AddHttpClient();
-            builder.Services.AddScoped<ShoeStore.Services.APIAddress.IAddressService, ShoeStore.Services.APIAddress.AddressService>();
             builder.Services.AddScoped<IMemberRankService, MemberRankService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
 
 
             var app = builder.Build();

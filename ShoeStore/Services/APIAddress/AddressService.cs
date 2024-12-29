@@ -1,6 +1,5 @@
-using ShoeStore.Models.Address;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http.Json;
+using ShoeStore.Models.APIAddress;
 
 namespace ShoeStore.Services.APIAddress
 {
@@ -8,84 +7,73 @@ namespace ShoeStore.Services.APIAddress
     {
         private readonly HttpClient _httpClient;
         private const string BaseUrl = "https://provinces.open-api.vn/api";
-        private readonly JsonSerializerOptions _jsonOptions;
 
         public AddressService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
         }
 
         public async Task<List<Province>> GetProvinces()
         {
-            try
-            {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/p/");
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                
-                // Debug log
-                Console.WriteLine($"API Response: {content}");
-                
-                return JsonSerializer.Deserialize<List<Province>>(content, _jsonOptions);
-            }
-            catch (Exception ex)
-            {
-                // Debug log
-                Console.WriteLine($"Error getting provinces: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
-                throw;
-            }
+            var response = await _httpClient.GetAsync($"{BaseUrl}/p/");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<List<Province>>();
         }
 
         public async Task<List<District>> GetDistricts(int provinceCode)
         {
-            try
-            {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/p/{provinceCode}?depth=2");
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                var provinceData = JsonSerializer.Deserialize<ProvinceDetail>(content, _jsonOptions);
-                return provinceData.Districts;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error getting districts: {ex.Message}");
-                throw;
-            }
+            var response = await _httpClient.GetAsync($"{BaseUrl}/p/{provinceCode}?depth=2");
+            response.EnsureSuccessStatusCode();
+            var province = await response.Content.ReadFromJsonAsync<Province>();
+            return province.Districts;
         }
 
         public async Task<List<Ward>> GetWards(int districtCode)
         {
-            try
+            var response = await _httpClient.GetAsync($"{BaseUrl}/d/{districtCode}?depth=2");
+            response.EnsureSuccessStatusCode();
+            var district = await response.Content.ReadFromJsonAsync<District>();
+            return district.Wards;
+        }
+
+        public async Task<string> GetProvinceName(int provinceCode)
+        {
+            var provinces = await GetProvinces();
+            return provinces.FirstOrDefault(p => p.Code == provinceCode)?.Name ?? "";
+        }
+
+        public async Task<string> GetDistrictName(int districtCode)
+        {
+            var provinces = await GetProvinces();
+            foreach (var province in provinces)
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/d/{districtCode}?depth=2");
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                var districtData = JsonSerializer.Deserialize<DistrictDetail>(content, _jsonOptions);
-                return districtData.Wards;
+                var districts = await GetDistricts(province.Code);
+                var district = districts.FirstOrDefault(d => d.Code == districtCode);
+                if (district != null)
+                {
+                    return district.Name;
+                }
             }
-            catch (Exception ex)
+            return "";
+        }
+
+        public async Task<string> GetWardName(int wardCode)
+        {
+            var provinces = await GetProvinces();
+            foreach (var province in provinces)
             {
-                Console.WriteLine($"Error getting wards: {ex.Message}");
-                throw;
+                var districts = await GetDistricts(province.Code);
+                foreach (var district in districts)
+                {
+                    var wards = await GetWards(district.Code);
+                    var ward = wards.FirstOrDefault(w => w.Code == wardCode);
+                    if (ward != null)
+                    {
+                        return ward.Name;
+                    }
+                }
             }
+            return "";
         }
     }
-
-    public class ProvinceDetail : Province
-    {
-        [JsonPropertyName("districts")]
-        public List<District> Districts { get; set; }
-    }
-
-    public class DistrictDetail : District
-    {
-        [JsonPropertyName("wards")]
-        public List<Ward> Wards { get; set; }
-    }
-}
+} 
