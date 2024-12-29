@@ -1,90 +1,61 @@
-﻿@model List<CartItem>
-@using ShoeStore.Utils
-@using ShoeStore.Models.Enums
-@{
-    ViewData["Title"] = "Thanh toán";
-    var userInfo = Context.Session.Get<User>("userInfo");
-    var appliedCoupon = Context.Session.Get<Coupon>("AppliedCoupon");
-    
-    decimal subtotal = Model?.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity) ?? 0;
-    decimal discount = appliedCoupon != null ? (subtotal * appliedCoupon.DiscountPercentage / 100) : 0;
-    decimal total = subtotal - discount;
-}
-
-<div class="bg-light py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0">
-                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
-                <span class="mx-2 mb-0">/</span>
-                <a asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
-                <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">Thanh toán</strong>
-            </div>
-        </div>
-    </div>
-</div>
+﻿@using ShoeStore.Models.Enums
+@model CheckoutViewModel
 
 <div class="site-section">
     <div class="container">
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger">@TempData["Error"]</div>
-        }
-        
-        <form method="post" action="@Url.Action("PlaceOrder", "Cart")">
-            @Html.AntiForgeryToken()
-            <input type="hidden" id="createdOrderId" name="createdOrderId" />
+        <form asp-action="Checkout" asp-controller="Cart" method="post">
             <div class="row">
                 <div class="col-md-6 mb-5 mb-md-0">
-                    <h2 class="h3 mb-3 text-black">Thông tin thanh toán</h2>
+                    <h2 class="h3 mb-3 text-black">Thông tin đặt hàng</h2>
                     <div class="p-3 p-lg-5 border">
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label class="text-black">Họ tên <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="FullName" value="@userInfo.FullName" required>
-                            </div>
+                        <div class="form-group">
+                            <label asp-for="FullName" class="text-black">Họ tên <span class="text-danger">*</span></label>
+                            <input asp-for="FullName" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <h5>Địa chỉ giao hàng</h5>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select class="form-control" id="province" name="ProvinceCode" required>
-                                        <option value="">Chọn tỉnh/thành</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" id="district" name="DistrictCode" required disabled>
-                                        <option value="">Chọn quận/huyện</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" id="ward" name="WardCode" required disabled>
-                                        <option value="">Chọn phường/xã</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <input type="text" class="form-control" name="AddressDetail" 
-                                       placeholder="Số nhà, tên đường..." required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-5">
-                            <div class="col-md-6">
-                                <label class="text-black">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" name="Email" value="@userInfo.Email" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="text-black">Số điện thoại <span class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" name="Phone" value="@userInfo.Phone" required>
-                            </div>
+                            <label asp-for="PhoneNumber" class="text-black">Số điện thoại <span class="text-danger">*</span></label>
+                            <input asp-for="PhoneNumber" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="text-black">Ghi chú đơn hàng</label>
-                            <textarea name="Notes" class="form-control" rows="3" placeholder="Ghi chú về đơn hàng của bạn..."></textarea>
+                            <label class="text-black">Tỉnh/Thành phố <span class="text-danger">*</span></label>
+                            <select id="province" asp-for="ProvinceCode" class="form-control" required>
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-black">Quận/Huyện <span class="text-danger">*</span></label>
+                            <select id="district" asp-for="DistrictCode" class="form-control" required>
+                                <option value="">Chọn Quận/Huyện</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-black">Phường/Xã <span class="text-danger">*</span></label>
+                            <select id="ward" asp-for="WardCode" class="form-control" required>
+                                <option value="">Chọn Phường/Xã</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="AddressDetail" class="text-black">Địa chỉ cụ thể <span class="text-danger">*</span></label>
+                            <input asp-for="AddressDetail" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Notes" class="text-black">Ghi chú</label>
+                            <textarea asp-for="Notes" class="form-control"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PaymentMethod" class="text-black">Phương thức thanh toán <span class="text-danger">*</span></label>
+                            <select asp-for="PaymentMethod" class="form-control" required>
+                                <option value="@PaymentMethod.Cash">Tiền mặt khi nhận hàng</option>
+                                <option value="@PaymentMethod.VNPay">VNPay</option>
+                                <option value="@PaymentMethod.Momo">Momo</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -92,128 +63,64 @@
                 <div class="col-md-6">
                     <div class="row mb-5">
                         <div class="col-md-12">
-                            <h2 class="h3 mb-3 text-black">Mã giảm giá</h2>
-                            <div class="p-3 p-lg-5 border">
-                                @if (appliedCoupon == null)
-                                {
-                                    <div class="coupon-form">
-                                        <label class="text-black mb-3">Nhập mã giảm giá nếu bạn có</label>
-                                        <div class="input-group w-75">
-                                            <input type="text" class="form-control" id="couponCode" placeholder="Mã giảm giá">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary btn-sm" type="button" onclick="applyCoupon()">Áp dụng</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <div>
-                                            <span class="text-success">Mã giảm giá đã áp dụng: </span>
-                                            <strong>@appliedCoupon.CouponCode (@appliedCoupon.DiscountPercentage%)</strong>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCoupon()">
-                                            <i class="fas fa-times"></i> Hủy
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-5">
-                        <div class="col-md-12">
                             <h2 class="h3 mb-3 text-black">Đơn hàng của bạn</h2>
                             <div class="p-3 p-lg-5 border">
-                                <table class="table site-block-order-table mb-5">
-                                    <thead>
-                                        <tr>
-                                            <th>Sản phẩm</th>
-                                            <th>Thành tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @item.Product.Name 
-                                                    <strong class="mx-2">x</strong> 
-                                                    @item.Quantity
-                                                    <br>
-                                                    <small>Size: @item.Size.SizeValue</small>
-                                                </td>
-                                                <td>@String.Format("{0:N0}đ", (item.Product.Price - item.Product.DiscountPrice) * item.Quantity)</td>
-                                            </tr>
-                                        }
-                                        <tr>
-                                            <td class="text-black font-weight-bold"><strong>Tạm tính</strong></td>
-                                            <td class="text-black">@String.Format("{0:N0}đ", subtotal)</td>
-                                        </tr>
-                                        @if (appliedCoupon != null)
-                                        {
-                                            <tr>
-                                                <td class="text-black font-weight-bold">
-                                                    <strong>Giảm giá (@appliedCoupon.DiscountPercentage%)</strong>
-                                                </td>
-                                                <td class="text-success">-@String.Format("{0:N0}đ", discount)</td>
-                                            </tr>
-                                        }
-                                        <tr>
-                                            <td class="text-black font-weight-bold"><strong>Tổng tiền</strong></td>
-                                            <td class="text-primary font-weight-bold">
-                                                <strong>@String.Format("{0:N0}đ", total)</strong>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <!-- Hiển thị sản phẩm trong giỏ hàng -->
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span>@item.Product.Name x @item.Quantity (@item.Size.SizeValue)</span>
+                                        <span>@((item.Product.Price - item.Product.DiscountPrice).ToString("N0")) ₫</span>
+                                    </div>
+                                }
 
-                                <div class="form-group">
-                                    <h3 class="h6 mb-3">Phương thức thanh toán</h3>
-                                    
-                                    <div class="border p-3 mb-3">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" 
-                                                id="cash" value="@PaymentMethod.Cash" checked>
-                                            <label class="form-check-label" for="cash">
-                                                <i class="fas fa-money-bill-wave"></i> Thanh toán khi nhận hàng (COD)
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="border p-3 mb-3">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" 
-                                                id="momo" value="@PaymentMethod.Momo">
-                                            <label class="form-check-label" for="momo">
-                                                <img src="~/images/momo-logo.png" height="25" alt="Momo"> Thanh toán qua Momo
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="border p-3 mb-3">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" 
-                                                id="visa" value="@PaymentMethod.Visa">
-                                            <label class="form-check-label" for="visa">
-                                                <i class="fab fa-cc-visa text-primary"></i> Thanh toán qua Visa/Master
-                                            </label>
-                                        </div>
-                                    </div>
+                                <div class="border-bottom mb-3"></div>
 
-                                    <div class="border p-3 mb-3">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" 
-                                                id="vnpay" value="@PaymentMethod.VNPay">
-                                            <label class="form-check-label" for="vnpay">
-                                                <img src="~/images/vnpay-logo.png" height="25" alt="VNPay"> Thanh toán qua VNPay
-                                            </label>
+                                <!-- Thêm phần mã giảm giá -->
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <input type="text" id="couponCode" class="form-control" placeholder="Nhập mã giảm giá">
+                                        <div class="input-group-append">
+                                            <button type="button" id="applyCoupon" class="btn btn-primary">Áp dụng</button>
                                         </div>
                                     </div>
-
-                                    <button type="submit" class="btn btn-primary btn-lg py-3 btn-block">Đặt hàng</button>
+                                    <div id="couponMessage" class="small mt-2"></div>
                                 </div>
+
+                                <!-- Hiển thị tổng tiền -->
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Tạm tính:</span>
+                                    <span>@Model.SubTotal.ToString("N0") ₫</span>
+                                </div>
+
+                                @if (Model.MemberRankDiscountPercent > 0)
+                                {
+                                    <div class="d-flex justify-content-between mb-3 text-success">
+                                        <span>Giảm giá thành viên (@Model.MemberRankName - @Model.MemberRankDiscountPercent%):</span>
+                                        <span>-@Model.DiscountAmount.ToString("N0") ₫</span>
+                                    </div>
+                                }
+
+                                <!-- Hiển thị giảm giá từ mã giảm giá -->
+                                <div id="couponDiscount" class="d-flex justify-content-between mb-3" style="display: none;">
+                                    <span id="couponLabel">Giảm giá từ mã:</span>
+                                    <span id="couponDiscountAmount">-0 ₫</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <strong>Tổng tiền:</strong>
+                                    <strong class="text-primary h4" id="finalTotal">@Model.FinalTotal.ToString("N0") ₫</strong>
+                                </div>
+
+                                @if (Model.MemberRankDiscountPercent > 0)
+                                {
+                                    <div class="mt-2 text-success small">
+                                        <i class="fas fa-info-circle"></i>
+                                        Bạn được giảm @Model.MemberRankDiscountPercent% với hạng thành viên @Model.MemberRankName
+                                    </div>
+                                }
+
+                                <button type="submit" class="btn btn-primary btn-lg py-3 btn-block mt-3">Đặt hàng</button>
                             </div>
                         </div>
                     </div>
@@ -222,139 +129,77 @@
         </form>
     </div>
 </div>
+
 @section Scripts {
     <script>
-        function applyCoupon() {
-            const couponCode = document.getElementById('couponCode').value;
-            if (!couponCode) {
-                alert('Vui lòng nhập mã giảm giá');
-                return;
-            }
-
-            fetch('/Cart/ApplyCoupon', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                },
-                body: `couponCode=${encodeURIComponent(couponCode)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert(data.message || 'Mã giảm giá không hợp lệ hoặc đã hết hạn');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi áp dụng mã giảm giá');
-            });
-        }
-
-        function removeCoupon() {
-            fetch('/Cart/RemoveCoupon', {
-                method: 'POST',
-                headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert(data.message || 'Có lỗi xảy ra khi hủy mã giảm giá');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi hủy mã giảm giá');
-            });
-        }
-
         $(document).ready(function () {
-            $('#checkoutForm').on('submit', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                var paymentMethod = $('input[name="PaymentMethod"]:checked').val();
+            // Load tỉnh/thành phố
+            $.get('/api/address/provinces', function (provinces) {
+                provinces.forEach(function (province) {
+                    $('#province').append(`<option value="${province.code}">${province.name}</option>`);
+                });
+            });
 
-                // Đầu tiên submit form để tạo order
+            // Load quận/huyện khi chọn tỉnh/thành phố
+            $('#province').change(function () {
+                var provinceCode = parseInt($(this).val());
+                $('#district').empty().append('<option value="">Chọn Quận/Huyện</option>');
+                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+
+                if (provinceCode) {
+                    $.get(`/api/address/districts/${provinceCode}`, function (districts) {
+                        districts.forEach(function (district) {
+                            $('#district').append(`<option value="${district.code}">${district.name}</option>`);
+                        });
+                    });
+                }
+            });
+
+            // Load phường/xã khi chọn quận/huyện
+            $('#district').change(function () {
+                var districtCode = parseInt($(this).val());
+                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+
+                if (districtCode) {
+                    $.get(`/api/address/wards/${districtCode}`, function (wards) {
+                        wards.forEach(function (ward) {
+                            $('#ward').append(`<option value="${ward.code}">${ward.name}</option>`);
+                        });
+                    });
+                }
+            });
+
+            $('#applyCoupon').click(function () {
+                var couponCode = $('#couponCode').val();
+                if (!couponCode) {
+                    $('#couponMessage').removeClass().addClass('text-danger').text('Vui lòng nhập mã giảm giá');
+                    return;
+                }
+
                 $.ajax({
-                    url: '@Url.Action("PlaceOrder", "Cart")',
+                    url: '/Cart/ApplyCoupon',
                     type: 'POST',
-                    data: form.serialize(),
+                    data: { couponCode: couponCode },
                     success: function (response) {
                         if (response.success) {
-                            // Lưu orderId vào form
-                            $('#createdOrderId').val(response.orderId);
-
-                            // Sau đó redirect tới phương thức thanh toán tương ứng
-                            switch(parseInt(paymentMethod)) {
-                                case @((int)PaymentMethod.VNPay):
-                                    window.location.href = '/Payment/ProcessVnPay?orderId=' + response.orderId;
-                                    break;
-                                case @((int)PaymentMethod.Momo):
-                                    window.location.href = '/Momo/ProcessPayment?orderId=' + response.orderId;
-                                    break;
-                                case @((int)PaymentMethod.PayPal):
-                                    window.location.href = '/PayPal/ProcessPayment?orderId=' + response.orderId;
-                                    break;
-                                case @((int)PaymentMethod.Visa):
-                                    window.location.href = '/Visa/ProcessPayment?orderId=' + response.orderId;
-                                    break;
-                                default:
-                                    window.location.href = '/Cart/Thankyou?orderId=' + response.orderId;
-                                    break;
-                            }
+                            $('#couponMessage').removeClass().addClass('text-success').text(response.message);
+                            $('#couponDiscount').css('display', 'flex').addClass('text-success');
+                            $('#couponDiscountAmount').text('-' + response.discountAmount + ' ₫');
+                            $('#finalTotal').text(response.finalTotal + ' ₫');
                         } else {
-                            alert(response.message || 'Có lỗi xảy ra');
+                            $('#couponMessage').removeClass().addClass('text-danger').text(response.message);
+                            $('#couponDiscount').hide().removeClass('text-success');
+                            $('#couponDiscountAmount').text('-0 ₫');
+                            $('#finalTotal').text('@Model.FinalTotal.ToString("N0") ₫');
                         }
                     },
                     error: function () {
-                        alert('Có lỗi xảy ra khi xử lý đơn hàng');
+                        $('#couponMessage').removeClass().addClass('text-danger').text('Có lỗi xảy ra');
+                        $('#couponDiscount').hide().removeClass('text-success');
+                        $('#couponDiscountAmount').text('-0 ₫');
+                        $('#finalTotal').text('@Model.FinalTotal.ToString("N0") ₫');
                     }
                 });
-            });
-
-            // Load provinces
-            $.get('/api/address/provinces', function(provinces) {
-                provinces.forEach(function(p) {
-                    $('#province').append(`<option value="${p.code}">${p.name}</option>`);
-                });
-            });
-
-            // Province change
-            $('#province').change(function() {
-                var provinceCode = $(this).val();
-                $('#district').prop('disabled', false).empty()
-                    .append('<option value="">Chọn quận/huyện</option>');
-                $('#ward').prop('disabled', true).empty()
-                    .append('<option value="">Chọn phường/xã</option>');
-
-                if (provinceCode) {
-                    $.get(`/api/address/districts/${provinceCode}`, function(districts) {
-                        districts.forEach(function(d) {
-                            $('#district').append(`<option value="${d.code}">${d.name}</option>`);
-                        });
-                    });
-                }
-            });
-
-            // District change
-            $('#district').change(function() {
-                var districtCode = $(this).val();
-                $('#ward').prop('disabled', false).empty()
-                    .append('<option value="">Chọn phường/xã</option>');
-
-                if (districtCode) {
-                    $.get(`/api/address/wards/${districtCode}`, function(wards) {
-                        wards.forEach(function(w) {
-                            $('#ward').append(`<option value="${w.code}">${w.name}</option>`);
-                        });
-                    });
-                }
             });
         });
     </script>

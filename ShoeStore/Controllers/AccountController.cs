@@ -210,12 +210,33 @@ namespace ShoeStore.Controllers
         }
 
         [TypeFilter(typeof(AuthenticationFilter))]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
-            ViewData["IsLoggedIn"] = true;
-            ViewData["FullName"] = userInfo.FullName;
-            return View(userInfo);
+            
+            var user = await _context.Users
+                .Include(u => u.MemberRank)
+                .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
+
+            // Thêm log
+            Console.WriteLine($"User Profile - ID: {user.UserID}");
+            Console.WriteLine($"Total Spent: {user.TotalSpent}");
+            Console.WriteLine($"Current Rank: {user.MemberRank?.RankName ?? "None"}");
+
+            // Tìm rank tiếp theo
+            var nextRank = await _context.MemberRanks
+                .Where(r => r.MinimumSpent > user.TotalSpent)
+                .OrderBy(r => r.MinimumSpent)
+                .FirstOrDefaultAsync();
+
+            if (nextRank != null)
+            {
+                Console.WriteLine($"Next Rank: {nextRank.RankName}");
+                Console.WriteLine($"Need to spend: {nextRank.MinimumSpent - user.TotalSpent} more");
+            }
+
+            ViewBag.NextRank = nextRank;
+            return View(user);
         }
 
         [HttpGet]

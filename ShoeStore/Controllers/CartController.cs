@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using ShoeStore.Models.Payment;
 using ShoeStore.Helpers;
 using ShoeStore.Models.ViewModels;
+using ShoeStore.Services;
 using ShoeStore.Services.APIAddress;
 
 namespace ShoeStore.Controllers
@@ -19,15 +20,21 @@ namespace ShoeStore.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMemberRankService _memberRankService;
+        private readonly IAddressService _addressService;
 
         public CartController(
             ApplicationDbContext context, 
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IMemberRankService memberRankService,
+            IAddressService addressService)
         {
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _memberRankService = memberRankService;
+            _addressService = addressService;
         }
 
         public IActionResult Index()
@@ -109,7 +116,7 @@ namespace ShoeStore.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null)
@@ -117,11 +124,11 @@ namespace ShoeStore.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var cartItems = _context.CartItems
+            var cartItems = await _context.CartItems
                 .Include(ci => ci.Product)
                 .Include(ci => ci.Size)
                 .Where(ci => ci.UserId == userInfo.UserID)
-                .ToList();
+                .ToListAsync();
 
             if (!cartItems.Any())
             {
@@ -129,11 +136,38 @@ namespace ShoeStore.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(cartItems);
+            // Lấy thông tin member rank của user
+            var user = await _context.Users
+                .Include(u => u.MemberRank)
+                .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
+
+            decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+            decimal finalTotal = subtotal;
+            decimal discountAmount = 0;
+
+            if (user?.MemberRank != null)
+            {
+                discountAmount = subtotal * (user.MemberRank.DiscountPercent / 100m);
+                finalTotal = subtotal - discountAmount;
+            }
+
+            var model = new CheckoutViewModel
+            {
+                CartItems = cartItems,
+                SubTotal = subtotal,
+                DiscountAmount = discountAmount,
+                FinalTotal = finalTotal,
+                MemberRankDiscountPercent = user?.MemberRank?.DiscountPercent,
+                MemberRankName = user?.MemberRank?.RankName,
+                FullName = user?.FullName,
+                PhoneNumber = user?.Phone,
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult ApplyCoupon(string couponCode)
+        public async Task<IActionResult> ApplyCoupon(string couponCode)
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null)
@@ -158,8 +192,39 @@ namespace ShoeStore.Controllers
                 return Json(new { success = false, message = "Mã giảm giá không hợp lệ hoặc đã hết hạn" });
             }
 
+            // Tính toán giá trị giảm giá
+            var cartItems = await _context.CartItems
+                .Include(ci => ci.Product)
+                .Where(ci => ci.UserId == userInfo.UserID)
+                .ToListAsync();
+
+            decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+            
+            // Tính giảm giá thành viên
+            var user = await _context.Users
+                .Include(u => u.MemberRank)
+                .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
+            
+            decimal memberDiscountAmount = 0;
+            if (user?.MemberRank != null)
+            {
+                memberDiscountAmount = subtotal * (user.MemberRank.DiscountPercent / 100m);
+            }
+
+            // Tính giảm giá từ mã
+            decimal couponDiscountAmount = subtotal * (coupon.DiscountPercentage / 100m);
+            
+            // Tổng tiền sau khi trừ cả hai loại giảm giá
+            decimal finalTotal = subtotal - memberDiscountAmount - couponDiscountAmount;
+
             HttpContext.Session.Set("AppliedCoupon", coupon);
-            return Json(new { success = true, message = $"Đã áp dụng mã giảm giá: {coupon.DiscountPercentage}%" });
+
+            return Json(new { 
+                success = true, 
+                message = $"Đã áp dụng mã giảm giá: {coupon.DiscountPercentage}%",
+                discountAmount = couponDiscountAmount.ToString("N0"),
+                finalTotal = finalTotal.ToString("N0")
+            });
         }
 
         [HttpPost]
@@ -169,80 +234,88 @@ namespace ShoeStore.Controllers
             return Json(new { success = true, message = "Đã hủy mã giảm giá" });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PlaceOrder(string FullName, string ProvinceCode, string DistrictCode, 
-            string WardCode, string AddressDetail, string Email, string Phone, string Notes, PaymentMethod paymentMethod)
+        private string GenerateOrderCode()
         {
-            var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            return $"DH{DateTime.Now:yyyyMMddHHmmss}";
+        }
 
-            var cartItems = _context.CartItems
-                .Include(ci => ci.Product)
-                .Include(ci => ci.Size)
-                .Where(ci => ci.UserId == userInfo.UserID)
-                .ToList();
-
-            if (!cartItems.Any())
-            {
-                TempData["Error"] = "Giỏ hàng trống";
-                return RedirectToAction("Index");
-            }
-
-            var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
-            decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
-            decimal discount = appliedCoupon != null ? (subtotal * appliedCoupon.DiscountPercentage / 100) : 0;
-            decimal total = subtotal - discount;
-
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutViewModel model)
+        {
             try
             {
-                // Lấy thông tin địa chỉ từ API
-                var addressService = HttpContext.RequestServices.GetService<IAddressService>();
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var cartItems = await _context.CartItems
+                    .Include(ci => ci.Product)
+                    .Include(ci => ci.Size)
+                    .Where(ci => ci.UserId == userInfo.UserID)
+                    .ToListAsync();
+
+                if (!cartItems.Any())
+                {
+                    return RedirectToAction("Index");
+                }
+
+                decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
                 
-                var provinces = await addressService.GetProvinces();
-                var province = provinces.FirstOrDefault(p => p.Code.ToString() == ProvinceCode)?.Name;
+                // Tính giảm giá thành viên
+                decimal memberDiscountAmount = 0;
+                var currentUser = await _context.Users
+                    .Include(u => u.MemberRank)
+                    .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
+                    
+                if (currentUser?.MemberRank != null)
+                {
+                    memberDiscountAmount = subtotal * (currentUser.MemberRank.DiscountPercent / 100m);
+                }
 
-                var districts = await addressService.GetDistricts(int.Parse(ProvinceCode));
-                var district = districts.FirstOrDefault(d => d.Code.ToString() == DistrictCode)?.Name;
+                // Lấy và tính giảm giá từ mã giảm giá đã áp dụng
+                decimal couponDiscountAmount = 0;
+                var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
+                if (appliedCoupon != null)
+                {
+                    couponDiscountAmount = subtotal * (appliedCoupon.DiscountPercentage / 100m);
+                }
 
-                var wards = await addressService.GetWards(int.Parse(DistrictCode));
-                var ward = wards.FirstOrDefault(w => w.Code.ToString() == WardCode)?.Name;
+                // Tổng tiền sau khi trừ cả hai loại giảm giá
+                decimal finalTotal = subtotal - memberDiscountAmount - couponDiscountAmount;
 
-                // Tạo địa chỉ đầy đủ với tên thay vì mã
-                var address = $"{AddressDetail}, {ward}, {district}, {province}";
+                var fullAddress = await BuildFullAddress(
+                    _addressService,
+                    model.ProvinceCode,
+                    model.DistrictCode,
+                    model.WardCode,
+                    model.AddressDetail
+                );
 
                 var order = new Order
                 {
                     UserId = userInfo.UserID,
-                    OrderUsName = FullName,
-                    OrderDate = DateTime.Now,
-                    TotalAmount = total,
-                    Status = OrderStatus.Pending,
-                    ShippingAddress = address,  // Địa chỉ đã có tên đầy đủ
-                    PhoneNumber = Phone,
-                    Notes = Notes ?? string.Empty,
-                    CouponId = appliedCoupon?.CouponId,
+                    OrderUsName = model.FullName,
                     OrderCode = GenerateOrderCode(),
-                    OrderDescription = string.Empty,
-                    OrderCoupon = appliedCoupon?.CouponCode ?? string.Empty,
-                    PaymentMethod = paymentMethod,
-                    PaymentStatus = paymentMethod == PaymentMethod.Cash ? 
-                        PaymentStatus.Completed : PaymentStatus.Pending,
-                    OrderStatus = true
+                    OrderDate = DateTime.Now,
+                    ShippingAddress = fullAddress,
+                    PhoneNumber = model.PhoneNumber,
+                    Notes = model.Notes,
+                    Status = OrderStatus.Pending,
+                    PaymentMethod = model.PaymentMethod,
+                    PaymentStatus = PaymentStatus.Pending,
+                    TotalAmount = finalTotal,
+                    CouponId = appliedCoupon?.CouponId,
+                    OrderCoupon = appliedCoupon?.CouponCode
                 };
 
-                // Thêm và lưu order trước
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();  // Lưu order để có OrderId
-
-                // Sau đó mới tạo và thêm OrderDetails
+                // Thêm chi tiết đơn hàng
                 foreach (var item in cartItems)
                 {
                     var orderDetail = new OrderDetail
                     {
-                        OrderId = order.OrderId,  // Bây giờ đã có OrderId hợp lệ
+                        Order = order,
                         ProductId = item.ProductId,
                         SizeId = item.SizeId,
                         Quantity = item.Quantity,
@@ -250,8 +323,8 @@ namespace ShoeStore.Controllers
                     };
 
                     // Cập nhật số lượng tồn kho
-                    var stock = _context.ProductSizeStocks
-                        .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
+                    var stock = await _context.ProductSizeStocks
+                        .FirstOrDefaultAsync(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
                     if (stock != null)
                     {
                         stock.StockQuantity -= item.Quantity;
@@ -266,128 +339,56 @@ namespace ShoeStore.Controllers
                 // Xóa mã giảm giá đã áp dụng
                 HttpContext.Session.Remove("AppliedCoupon");
 
-                // Lưu các thay đổi còn lại
+                // Cập nhật TotalSpent cho user
+                if (currentUser != null)
+                {
+                    Console.WriteLine($"Before update - User {userInfo.UserID} TotalSpent: {currentUser.TotalSpent}");
+                    Console.WriteLine($"Order amount to add: {finalTotal}");
+
+                    currentUser.TotalSpent += finalTotal;
+                    _context.Users.Update(currentUser);
+                    await _context.SaveChangesAsync();
+
+                    Console.WriteLine($"After update - User {userInfo.UserID} TotalSpent: {currentUser.TotalSpent}");
+                    await _memberRankService.UpdateUserRank(currentUser.UserID);
+                }
+
                 await _context.SaveChangesAsync();
 
                 // Xử lý theo phương thức thanh toán
-                switch (paymentMethod)
+                switch (model.PaymentMethod)
                 {
+                    case PaymentMethod.Cash:
+                        order.Status = OrderStatus.Processing;
+                        order.PaymentStatus = PaymentStatus.Pending;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
+
                     case PaymentMethod.VNPay:
-                        return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+                        await _context.SaveChangesAsync(); // Lưu order trước khi chuyển sang VNPay
+                        return RedirectToAction("ProcessVnPay", "Payment", new { 
+                            orderId = order.OrderId,
+                            amount = finalTotal // Truyền tổng tiền đã tính cả giảm giá
+                        });
 
                     case PaymentMethod.Momo:
-                        return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("ProcessPayment", "Momo", new { 
+                            orderId = order.OrderId,
+                            amount = finalTotal
+                        });
 
-                    case PaymentMethod.PayPal:
-                        return RedirectToAction("ProcessPayment", "PayPal", new { orderId = order.OrderId });
-
-                    case PaymentMethod.Visa:
-                        return RedirectToAction("ProcessPayment", "Visa", new { orderId = order.OrderId });
-
-                    default: // Cash
-                        return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
+                    default:
+                        TempData["Error"] = "Phương thức thanh toán không hợp lệ";
+                        return RedirectToAction("Checkout");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Có lỗi xảy ra khi xử lý địa chỉ: " + ex.Message;
+                Console.WriteLine($"Error in Checkout: {ex.Message}");
+                TempData["Error"] = "Có lỗi xảy ra khi xử lý đơn hàng: " + ex.Message;
                 return RedirectToAction("Checkout");
             }
-        }
-
-        private string GenerateOrderCode()
-        {
-            return $"DH{DateTime.Now:yyyyMMddHHmmss}";
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutViewModel model)
-        {
-            var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var cartItems = _context.CartItems
-                .Include(ci => ci.Product)
-                .Include(ci => ci.Size)
-                .Where(ci => ci.UserId == userInfo.UserID)
-                .ToList();
-
-            if (!cartItems.Any())
-            {
-                return RedirectToAction("Index");
-            }
-
-            // Tạo đơn hàng mới
-            var order = new Order
-            {
-                UserId = userInfo.UserID,
-                OrderUsName = model.FullName,
-                OrderCode = GenerateOrderCode(),
-                OrderDate = DateTime.Now,
-                ShippingAddress = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                Notes = model.Notes,
-                Status = OrderStatus.Pending,
-                PaymentMethod = model.PaymentMethod,
-                PaymentStatus = PaymentStatus.Pending,
-                TotalAmount = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity)
-            };
-
-            _context.Orders.Add(order);
-
-            // Thêm chi tiết đơn hàng
-            foreach (var item in cartItems)
-            {
-                var orderDetail = new OrderDetail
-                {
-                    Order = order,
-                    ProductId = item.ProductId,
-                    SizeId = item.SizeId,
-                    Quantity = item.Quantity,
-                    Price = item.Product.Price - item.Product.DiscountPrice
-                };
-
-                // Cập nhật số lượng tồn kho
-                var stock = _context.ProductSizeStocks
-                    .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
-                if (stock != null)
-                {
-                    stock.StockQuantity -= item.Quantity;
-                }
-
-                _context.OrderDetails.Add(orderDetail);
-            }
-
-            // Xóa giỏ hàng
-            _context.CartItems.RemoveRange(cartItems);
-            
-            // Xóa mã giảm giá đã áp dụng
-            HttpContext.Session.Remove("AppliedCoupon");
-
-            await _context.SaveChangesAsync();
-
-            // Xử lý theo phương thức thanh toán
-            if (model.PaymentMethod == PaymentMethod.Cash)
-            {
-                order.Status = OrderStatus.Processing;
-                order.PaymentStatus = PaymentStatus.Pending;
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
-            }
-            else if (model.PaymentMethod == PaymentMethod.VNPay)
-            {
-                return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
-            }
-            else if (model.PaymentMethod == PaymentMethod.Momo)
-            {
-                return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
-            }
-            
-            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-            return RedirectToAction("Checkout");
         }
 
         public async Task<IActionResult> Thankyou(int orderId)
@@ -406,5 +407,31 @@ namespace ShoeStore.Controllers
 
             return View(order);
         }
+
+        private async Task UpdateUserRankAfterPayment(int userId, decimal orderAmount)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user != null)
+            {
+                user.TotalSpent += orderAmount;
+                await _context.SaveChangesAsync();
+                await _memberRankService.UpdateUserRank(userId);
+            }
+        }
+
+        private async Task<string> BuildFullAddress(
+            IAddressService addressService,
+            int provinceCode,
+            int districtCode,
+            int wardCode,
+            string addressDetail)
+        {
+            var province = await addressService.GetProvinceName(provinceCode);
+            var district = await addressService.GetDistrictName(districtCode);
+            var ward = await addressService.GetWardName(wardCode);
+
+            return $"{addressDetail}, {ward}, {district}, {province}";
+        }
     }
 }
+

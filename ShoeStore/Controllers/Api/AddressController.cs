@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ShoeStore.Models.Address;
-using Microsoft.Extensions.Logging;
 using ShoeStore.Services.APIAddress;
+using Microsoft.Extensions.Logging;
+using ShoeStore.Models.APIAddress;
 
 namespace ShoeStore.Controllers.Api
 {

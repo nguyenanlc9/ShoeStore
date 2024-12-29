@@ -1,135 +1,164 @@
-﻿@model Order
+﻿@using Microsoft.EntityFrameworkCore
 @using ShoeStore.Models.Enums
+@model Order
 
-@{
-    ViewData["Title"] = "Đặt hàng thành công";
-    Layout = "_PaymentCallbackLayout";
-}
-
-<div class="container mt-5">
-    <div class="text-center">
-        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
-        <h2 class="text-success">Cảm ơn bạn đã đặt hàng!</h2>
-    </div>
-
-    <div class="card mt-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Thông tin đơn hàng</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <h6>Thông tin cơ bản:</h6>
-                        <p>Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
-                        <p>Ngày đặt: @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
-                        <p>Người đặt: <strong>@Model.OrderUsName</strong></p>
-                        <p>Địa chỉ: @{
-                            var addressParts = Model.ShippingAddress?.Split(",").Select(p => p.Trim()).ToList();
-                            if (addressParts != null && addressParts.Count >= 4)
-                            {
-                                <text>@addressParts[0], @addressParts[1], @addressParts[2], @addressParts[3]</text>
-                            }
-                            else
-                            {
-                                @Model.ShippingAddress
-                            }
-                        }</p>
-                        <p>Số điện thoại: @Model.PhoneNumber</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <h6>Trạng thái đơn hàng:</h6>
-                        <p>Trạng thái đơn hàng: 
-                            <span class="badge @(Model.Status == OrderStatus.Completed ? "badge-success" : 
-                                Model.Status == OrderStatus.Processing ? "badge-info" : 
-                                Model.Status == OrderStatus.Pending ? "badge-warning" : "badge-danger")">
-                                @Model.Status.ToString()
-                            </span>
-                        </p>
-                        <p>Trạng thái thanh toán: 
-                            <span class="badge @(Model.PaymentStatus == PaymentStatus.Completed ? "badge-success" : "badge-warning")">
-                                @Model.PaymentStatus.ToString()
-                            </span>
-                        </p>
-                        <p>Phương thức thanh toán: 
-                            <span class="badge badge-info">@Model.PaymentMethod.ToString()</span>
-                        </p>
-                    </div>
-                </div>
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <span class="icon-check_circle display-3 text-success"></span>
+                <h2 class="display-3 text-black">Cảm ơn bạn!</h2>
+                <p class="lead mb-5">Đơn hàng của bạn đã được đặt thành công.</p>
+                <p class="mb-3">Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
             </div>
+        </div>
 
-            <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Thông tin cơ bản và trạng thái -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Thông tin đơn hàng</h5>
+                                <p>Mã đơn hàng: <strong>@Model.OrderCode</strong></p>
+                                <p>Ngày đặt: <strong>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Trạng thái đơn hàng</h5>
+                                <p>
+                                    Trạng thái đơn hàng: 
+                                    <span class="badge @(Model.Status == OrderStatus.Completed ? "bg-success" : 
+                                        Model.Status == OrderStatus.Processing ? "bg-info" : 
+                                        Model.Status == OrderStatus.Pending ? "bg-warning" : "bg-danger")">
+                                        @Model.Status.ToString()
+                                    </span>
+                                </p>
+                                <p>
+                                    Trạng thái thanh toán: 
+                                    <span class="badge @(Model.PaymentStatus == PaymentStatus.Completed ? "bg-success" : "bg-warning")">
+                                        @Model.PaymentStatus.ToString()
+                                    </span>
+                                </p>
+                                <p>
+                                    Phương thức thanh toán: 
+                                    <span class="badge bg-info">@Model.PaymentMethod.ToString()</span>
+                                </p>
+                            </div>
+                        </div>
 
-            <h6 class="mb-3">Chi tiết đơn hàng:</h6>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>Size</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.OrderDetails)
-                        {
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
-                                            style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                        <span>@item.Product.Name</span>
+                        <h5 class="card-title mb-4">Chi tiết đơn hàng</h5>
+
+                        <!-- Chi tiết sản phẩm -->
+                        <div class="table-responsive mb-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Size</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
+                                                        style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                                    <span>@item.Product.Name</span>
+                                                </div>
+                                            </td>
+                                            <td>@item.Size.SizeValue</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Price.ToString("N0") ₫</td>
+                                            <td>@((item.Price * item.Quantity).ToString("N0")) ₫</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Tính toán giá -->
+                        <div class="border-top pt-4">
+                            <!-- Tạm tính -->
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Tạm tính:</span>
+                                <span>@Model.OrderDetails.Sum(x => x.Price * x.Quantity).ToString("N0") ₫</span>
+                            </div>
+
+                            <!-- Giảm giá thành viên (nếu có) -->
+                            @{
+                                var user = await Context.RequestServices.GetService<ApplicationDbContext>()
+                                    .Users.Include(u => u.MemberRank)
+                                    .FirstOrDefaultAsync(u => u.UserID == Model.UserId);
+                                
+                                if (user?.MemberRank != null)
+                                {
+                                    var memberDiscount = Model.OrderDetails.Sum(x => x.Price * x.Quantity) * (user.MemberRank.DiscountPercent / 100m);
+                                    <div class="d-flex justify-content-between mb-3 text-success">
+                                        <span>Giảm giá thành viên (@user.MemberRank.RankName - @user.MemberRank.DiscountPercent%):</span>
+                                        <span>-@memberDiscount.ToString("N0") ₫</span>
                                     </div>
-                                </td>
-                                <td>@item.Size.SizeValue</td>
-                                <td>@item.Quantity</td>
-                                <td>@String.Format("{0:N0}đ", item.Price)</td>
-                                <td>@String.Format("{0:N0}đ", item.Price * item.Quantity)</td>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" class="text-right">Tạm tính:</td>
-                            <td>@String.Format("{0:N0}đ", Model.OrderDetails.Sum(x => x.Price * x.Quantity))</td>
-                        </tr>
-                        @if (!string.IsNullOrEmpty(Model.OrderCoupon))
-                        {
-                            <tr>
-                                <td colspan="4" class="text-right">Giảm giá:</td>
-                                <td>-@String.Format("{0:N0}đ", Model.OrderDetails.Sum(x => x.Price * x.Quantity) - Model.TotalAmount)</td>
-                            </tr>
-                        }
-                        <tr>
-                            <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
-                            <td><strong>@String.Format("{0:N0}đ", Model.TotalAmount)</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="text-center">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a>
-                <a asp-controller="Account" asp-action="Orders" class="btn btn-outline-primary">Xem đơn hàng của tôi</a>
+                                }
+                            }
+
+                            <!-- Giảm giá từ mã (nếu có) -->
+                            @if (!string.IsNullOrEmpty(Model.OrderCoupon))
+                            {
+                                var coupon = await Context.RequestServices.GetService<ApplicationDbContext>()
+                                    .Coupons.FirstOrDefaultAsync(c => c.CouponId == Model.CouponId);
+                                
+                                if (coupon != null)
+                                {
+                                    var couponDiscount = Model.OrderDetails.Sum(x => x.Price * x.Quantity) * (coupon.DiscountPercentage / 100m);
+                                    <div class="d-flex justify-content-between mb-3 text-success">
+                                        <span>Giảm giá từ mã (@Model.OrderCoupon - @coupon.DiscountPercentage%):</span>
+                                        <span>-@couponDiscount.ToString("N0") ₫</span>
+                                    </div>
+                                }
+                            }
+
+                            <!-- Tổng tiền -->
+                            <div class="d-flex justify-content-between mt-3">
+                                <strong>Tổng tiền:</strong>
+                                <strong class="text-primary h4">@Model.TotalAmount.ToString("N0") ₫</strong>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin giao hàng -->
+                        <div class="mt-4">
+                            <h5 class="mb-3">Thông tin giao hàng</h5>
+                            <p><strong>Người nhận:</strong> @Model.OrderUsName</p>
+                            <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
+                            <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+                            @if (!string.IsNullOrEmpty(Model.Notes))
+                            {
+                                <p><strong>Ghi chú:</strong> @Model.Notes</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Tiếp tục mua sắm</a>
+                    <a href="@Url.Action("Orders", "Account")" class="btn btn-outline-primary">Xem đơn hàng của tôi</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .card {
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
     .badge {
         font-size: 90%;
+        padding: 0.5em 1em;
     }
-    .table th {
-        background-color: #f8f9fa;
+    .table img {
+        border-radius: 4px;
     }
 </style>
 

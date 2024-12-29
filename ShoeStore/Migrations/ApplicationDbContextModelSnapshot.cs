@@ -22,6 +22,36 @@ namespace ShoeStore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MemberRank", b =>
+                {
+                    b.Property<int>("RankId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RankId"));
+
+                    b.Property<string>("BadgeImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DiscountPercent")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MinimumSpent")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RankName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("RankId");
+
+                    b.ToTable("MemberRanks");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>
                 {
                     b.Property<int>("BrandId")
@@ -557,6 +587,9 @@ namespace ShoeStore.Migrations
                     b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MemberRankId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -576,12 +609,17 @@ namespace ShoeStore.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<decimal>("TotalSpent")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserID");
+
+                    b.HasIndex("MemberRankId");
 
                     b.HasIndex("RoleID");
 
@@ -718,13 +756,24 @@ namespace ShoeStore.Migrations
 
             modelBuilder.Entity("ShoeStore.Models.User", b =>
                 {
+                    b.HasOne("MemberRank", "MemberRank")
+                        .WithMany("Users")
+                        .HasForeignKey("MemberRankId");
+
                     b.HasOne("ShoeStore.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("MemberRank");
+
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MemberRank", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>

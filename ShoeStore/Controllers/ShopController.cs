@@ -17,9 +17,13 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Shop
-        public IActionResult Index(int? categoryId, string sort)
+        public IActionResult Index(int? categoryId, int? brandId, string sort, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
-            var query = _context.Products.AsQueryable();
+            var query = _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.Categories)
+                .Include(p => p.ProductSizeStocks)
+                .AsQueryable();
 
             // Lọc theo danh mục
             if (categoryId.HasValue)
@@ -28,23 +32,72 @@ namespace ShoeStore.Controllers
                 ViewBag.SelectedCategoryId = categoryId;
             }
 
+            // Lọc theo thương hiệu
+            if (brandId.HasValue)
+            {
+                query = query.Where(p => p.BrandId == brandId);
+                ViewBag.SelectedBrandId = brandId;
+                ViewBag.SelectedBrand = _context.Brands.Find(brandId);
+            }
+
+            // Lọc theo khoảng giá
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => (p.Price - p.DiscountPrice) >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => (p.Price - p.DiscountPrice) <= maxPrice.Value);
+            }
+
             // Sắp xếp sản phẩm
             switch (sort)
             {
                 case "name-asc":
                     query = query.OrderBy(p => p.Name);
+                    ViewBag.SortLabel = "Tên, A đến Z";
                     break;
                 case "name-desc":
                     query = query.OrderByDescending(p => p.Name);
+                    ViewBag.SortLabel = "Tên, Z đến A";
+                    break;
+                case "price-asc":
+                    query = query.OrderBy(p => p.Price - p.DiscountPrice);
+                    ViewBag.SortLabel = "Giá, thấp đến cao";
+                    break;
+                case "price-desc":
+                    query = query.OrderByDescending(p => p.Price - p.DiscountPrice);
+                    ViewBag.SortLabel = "Giá, cao đến thấp";
                     break;
                 default:
-                    // Mặc định sắp xếp theo tên từ A-Z
-                    query = query.OrderBy(p => p.Name);
+                    query = query.OrderByDescending(p => p.UpdatedDate);
+                    ViewBag.SortLabel = "Mới nhất";
                     break;
             }
 
             var products = query.ToList();
 
+            // Phân trang
+            int pageSize = 9; // Số sản phẩm trên mỗi trang
+            int totalItems = products.Count;
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            // Đảm bảo page không vượt quá totalPages
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            // Lấy sản phẩm cho trang hiện tại
+            var pagedProducts = products
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Thêm thông tin phân trang vào ViewBag
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.HasPreviousPage = page > 1;
+            ViewBag.HasNextPage = page < totalPages;
+
+            // Load categories cho sidebar
             ViewBag.Categories = _context.Categories
                 .Select(c => new
                 {
@@ -53,10 +106,23 @@ namespace ShoeStore.Controllers
                     ProductCount = _context.Products.Count(p => p.CategoryId == c.CategoryId)
                 }).ToList();
 
-            ViewBag.SelectedCategoryId = categoryId;
-            ViewBag.CurrentSort = sort; // Lưu lại sort hiện tại
+            // Load brands cho dropdown với số lượng sản phẩm
+            ViewBag.Brands = _context.Brands
+                .Select(b => new
+                {
+                    b.BrandId,
+                    b.Name,
+                    ProductCount = _context.Products.Count(p => p.BrandId == b.BrandId)
+                }).ToList();
 
-            return View(products);
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.CurrentSort = sort;
+
+            // Thêm ViewBag cho price range
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+
+            return View(pagedProducts);
         }
 
         // GET: /Shop/Detail/{id}

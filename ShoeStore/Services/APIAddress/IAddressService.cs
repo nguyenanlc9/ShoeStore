@@ -1,4 +1,4 @@
-using ShoeStore.Models.Address;
+using ShoeStore.Models.APIAddress;
 
 namespace ShoeStore.Services.APIAddress
 {
@@ -7,5 +7,8 @@ namespace ShoeStore.Services.APIAddress
         Task<List<Province>> GetProvinces();
         Task<List<District>> GetDistricts(int provinceCode);
         Task<List<Ward>> GetWards(int districtCode);
+        Task<string> GetProvinceName(int provinceCode);
+        Task<string> GetDistrictName(int districtCode);
+        Task<string> GetWardName(int wardCode);
     }
-}
+} 
