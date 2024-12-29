@@ -1,35 +1,106 @@
 ﻿@model ShoeStore.Models.ContactUser
 
 @{
-    ViewData["Title"] = "Feedback";
+    ViewData["Title"] = "Phản hồi";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center mb-4">Feedback Form</h2>
-            <form asp-action="SendFeedback" method="post" class="border rounded p-4 shadow-sm bg-light">
-                <div class="mb-3">
-                    <label for="contactUEmail" class="form-label">Email</label>
-                    <input type="email" name="contactUEmail" id="contactUEmail" class="form-control" required />
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Phản hồi khách hàng</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <a asp-action="Index">Liên hệ</a>
+            </li>
+            <li class="separator">
+                <i class="fas fa-angle-right"></i>
+            </li>
+            <li class="nav-item">
+                <span>Phản hồi</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Gửi phản hồi</h4>
                 </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea name="message" id="message" class="form-control" rows="5" placeholder="Enter your feedback" required></textarea>
+                <div class="card-body">
+                    <form asp-action="SendFeedback" asp-controller="ContactUser" asp-area="Admin" method="post">
+                        <!-- Thông tin người nhận -->
+                        <div class="form-group">
+                            <label><strong>Email người nhận:</strong></label>
+                            <div class="bg-light p-2 rounded">@Model.ContactUEmail</div>
+                        </div>
+
+                        <!-- Tin nhắn của khách hàng -->
+                        <div class="form-group">
+                            <label><strong>Tin nhắn của khách hàng:</strong></label>
+                            <div class="bg-light p-3 rounded">
+                                @Html.Raw(Model.ContactUMessage)
+                            </div>
+                        </div>
+
+                        <!-- Form nhập phản hồi -->
+                        <div class="form-group">
+                            <label><strong>Nội dung phản hồi:</strong></label>
+                            <textarea id="replyMessage" name="replyMessage" class="form-control" rows="5" required></textarea>
+                        </div>
+
+                        <input type="hidden" name="id" value="@Model.ContactUId" />
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Gửi phản hồi
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Send Feedback</button>
-            </form>
+            </div>
 
             @if (TempData["SuccessMessage"] != null)
             {
-                <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             }
 
             @if (TempData["ErrorMessage"] != null)
             {
-                <div class="alert alert-danger mt-3">@TempData["ErrorMessage"]</div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             }
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Khởi tạo CKEditor cho textarea
+        ClassicEditor
+            .create(document.querySelector('#replyMessage'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

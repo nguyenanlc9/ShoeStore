@@ -7,6 +7,8 @@ using ShoeStore.Helpers;
 using ShoeStore.Models.Payment;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ShoeStore.Services.Email;
 
 namespace ShoeStore
 {
@@ -21,7 +23,7 @@ namespace ShoeStore
             builder.Services.AddHostedService<OrderProcessingService>();
             builder.Services.AddHttpContextAccessor();
 
-
+            builder.Services.AddScoped<IEmailService, EmailService>();
             // Cấu hình DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
