@@ -7,8 +7,12 @@ using ShoeStore.Helpers;
 using ShoeStore.Models.Payment;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
+<<<<<<< Updated upstream
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ShoeStore.Services.Email;
+=======
+using ShoeStore.Services;
+>>>>>>> Stashed changes
 
 namespace ShoeStore
 {
@@ -55,6 +59,7 @@ namespace ShoeStore
             // Đăng ký HttpClient và AddressService
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<ShoeStore.Services.APIAddress.IAddressService, ShoeStore.Services.APIAddress.AddressService>();
+            builder.Services.AddScoped<IMemberRankService, MemberRankService>();
 
 
             var app = builder.Build();

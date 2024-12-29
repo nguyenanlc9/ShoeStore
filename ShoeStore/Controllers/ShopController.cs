@@ -17,11 +17,30 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Shop
+<<<<<<< Updated upstream
         public IActionResult Index(int? categoryId, string sort)
         {
             var query = _context.Products.AsQueryable();
 
             // Lọc theo danh mục
+=======
+        public IActionResult Index(int? brandId, int? categoryId, decimal? minPrice, decimal? maxPrice, string sortBy)
+        {
+            var query = _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.Categories)
+                .AsQueryable();
+            
+            // Filter by brand
+            if (brandId.HasValue)
+            {
+                query = query.Where(p => p.BrandId == brandId);
+                ViewBag.SelectedBrandId = brandId;
+                ViewBag.SelectedBrand = _context.Brands.Find(brandId);
+            }
+
+            // Filter by category
+>>>>>>> Stashed changes
             if (categoryId.HasValue)
             {
                 query = query.Where(p => p.CategoryId == categoryId);
@@ -43,8 +62,56 @@ namespace ShoeStore.Controllers
                     break;
             }
 
+            // Filter by price
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => (p.Price - p.DiscountPrice) >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => (p.Price - p.DiscountPrice) <= maxPrice.Value);
+            }
+
+            // Sort
+            switch (sortBy)
+            {
+                case "name_asc":
+                    query = query.OrderBy(p => p.Name);
+                    ViewBag.SortLabel = "Tên A-Z";
+                    break;
+                case "name_desc":
+                    query = query.OrderByDescending(p => p.Name);
+                    ViewBag.SortLabel = "Tên Z-A";
+                    break;
+                case "price_asc":
+                    query = query.OrderBy(p => p.Price - p.DiscountPrice);
+                    ViewBag.SortLabel = "Giá thấp đến cao";
+                    break;
+                case "price_desc":
+                    query = query.OrderByDescending(p => p.Price - p.DiscountPrice);
+                    ViewBag.SortLabel = "Giá cao đến thấp";
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.UpdatedDate);
+                    ViewBag.SortLabel = "Mặc định";
+                    break;
+            }
+
             var products = query.ToList();
 
+<<<<<<< Updated upstream
+=======
+            // Load brands for dropdown
+            ViewBag.Brands = _context.Brands
+                .Select(b => new
+                {
+                    b.BrandId,
+                    b.Name,
+                    ProductCount = _context.Products.Count(p => p.BrandId == b.BrandId)
+                }).ToList();
+
+            // Load categories for sidebar
+>>>>>>> Stashed changes
             ViewBag.Categories = _context.Categories
                 .Select(c => new
                 {
@@ -53,8 +120,16 @@ namespace ShoeStore.Controllers
                     ProductCount = _context.Products.Count(p => p.CategoryId == c.CategoryId)
                 }).ToList();
 
+<<<<<<< Updated upstream
             ViewBag.SelectedCategoryId = categoryId;
             ViewBag.CurrentSort = sort; // Lưu lại sort hiện tại
+=======
+            // Set ViewBag values
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.SortBy = sortBy;
+>>>>>>> Stashed changes
 
             return View(products);
         }

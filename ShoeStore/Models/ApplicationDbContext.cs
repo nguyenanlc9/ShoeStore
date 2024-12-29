@@ -31,6 +31,8 @@ namespace ShoeStore.Models
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ContactUser> ContactUsers { get; set; }
 
+        public DbSet<MemberRank> MemberRanks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -65,6 +67,42 @@ namespace ShoeStore.Models
                 .WithMany()
                 .HasForeignKey(ci => ci.SizeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Seed data cho MemberRanks
+            modelBuilder.Entity<MemberRank>().HasData(
+                new MemberRank 
+                { 
+                    RankId = 1, 
+                    RankName = "Bronze", 
+                    MinimumSpent = 0, 
+                    DiscountPercent = 0,
+                    Description = "Thành viên mới" 
+                },
+                new MemberRank 
+                { 
+                    RankId = 2, 
+                    RankName = "Silver", 
+                    MinimumSpent = 5000000, 
+                    DiscountPercent = 5,
+                    Description = "Giảm 5% mọi đơn hàng" 
+                },
+                new MemberRank 
+                { 
+                    RankId = 3, 
+                    RankName = "Gold", 
+                    MinimumSpent = 20000000, 
+                    DiscountPercent = 10,
+                    Description = "Giảm 10% mọi đơn hàng" 
+                },
+                new MemberRank 
+                { 
+                    RankId = 4, 
+                    RankName = "Platinum", 
+                    MinimumSpent = 50000000, 
+                    DiscountPercent = 15,
+                    Description = "Giảm 15% mọi đơn hàng" 
+                }
+            );
         }
     }
 }

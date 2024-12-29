@@ -213,9 +213,24 @@ namespace ShoeStore.Controllers
         public IActionResult Profile()
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
-            ViewData["IsLoggedIn"] = true;
-            ViewData["FullName"] = userInfo.FullName;
-            return View(userInfo);
+            if (userInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = _context.Users
+                .Include(u => u.MemberRank)
+                .FirstOrDefault(u => u.UserID == userInfo.UserID);
+
+            // Lấy rank tiếp theo
+            var nextRank = _context.MemberRanks
+                .Where(r => r.MinimumSpent > user.TotalSpent)
+                .OrderBy(r => r.MinimumSpent)
+                .FirstOrDefault();
+
+            ViewBag.NextRank = nextRank;
+
+            return View(user);
         }
 
         [HttpGet]

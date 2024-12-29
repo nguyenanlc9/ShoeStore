@@ -11,6 +11,7 @@ using ShoeStore.Models.Payment;
 using ShoeStore.Helpers;
 using ShoeStore.Models.ViewModels;
 using ShoeStore.Services.APIAddress;
+using ShoeStore.Services;
 
 namespace ShoeStore.Controllers
 {
@@ -19,15 +20,18 @@ namespace ShoeStore.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMemberRankService _memberRankService;
 
         public CartController(
             ApplicationDbContext context, 
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IMemberRankService memberRankService)
         {
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _memberRankService = memberRankService;
         }
 
         public IActionResult Index()
@@ -309,85 +313,109 @@ namespace ShoeStore.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var cartItems = _context.CartItems
-                .Include(ci => ci.Product)
-                .Include(ci => ci.Size)
-                .Where(ci => ci.UserId == userInfo.UserID)
-                .ToList();
-
-            if (!cartItems.Any())
+            try
             {
-                return RedirectToAction("Index");
-            }
+                var cartItems = _context.CartItems
+                    .Include(ci => ci.Product)
+                    .Include(ci => ci.Size)
+                    .Where(ci => ci.UserId == userInfo.UserID)
+                    .ToList();
 
-            // Tạo đơn hàng mới
-            var order = new Order
-            {
-                UserId = userInfo.UserID,
-                OrderUsName = model.FullName,
-                OrderCode = GenerateOrderCode(),
-                OrderDate = DateTime.Now,
-                ShippingAddress = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                Notes = model.Notes,
-                Status = OrderStatus.Pending,
-                PaymentMethod = model.PaymentMethod,
-                PaymentStatus = PaymentStatus.Pending,
-                TotalAmount = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity)
-            };
-
-            _context.Orders.Add(order);
-
-            // Thêm chi tiết đơn hàng
-            foreach (var item in cartItems)
-            {
-                var orderDetail = new OrderDetail
+                if (!cartItems.Any())
                 {
-                    Order = order,
-                    ProductId = item.ProductId,
-                    SizeId = item.SizeId,
-                    Quantity = item.Quantity,
-                    Price = item.Product.Price - item.Product.DiscountPrice
-                };
-
-                // Cập nhật số lượng tồn kho
-                var stock = _context.ProductSizeStocks
-                    .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
-                if (stock != null)
-                {
-                    stock.StockQuantity -= item.Quantity;
+                    return RedirectToAction("Index");
                 }
 
-                _context.OrderDetails.Add(orderDetail);
-            }
+                // Tạo đơn hàng mới
+                var order = new Order
+                {
+                    UserId = userInfo.UserID,
+                    OrderUsName = model.FullName,
+                    OrderCode = GenerateOrderCode(),
+                    OrderDate = DateTime.Now,
+                    ShippingAddress = model.Address,
+                    PhoneNumber = model.PhoneNumber,
+                    Notes = model.Notes,
+                    Status = OrderStatus.Pending,
+                    PaymentMethod = model.PaymentMethod,
+                    PaymentStatus = PaymentStatus.Pending,
+                    TotalAmount = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity)
+                };
 
-            // Xóa giỏ hàng
-            _context.CartItems.RemoveRange(cartItems);
-            
-            // Xóa mã giảm giá đã áp dụng
-            HttpContext.Session.Remove("AppliedCoupon");
+                _context.Orders.Add(order);
 
-            await _context.SaveChangesAsync();
+                // Thêm chi tiết đơn hàng
+                foreach (var item in cartItems)
+                {
+                    var orderDetail = new OrderDetail
+                    {
+                        Order = order,
+                        ProductId = item.ProductId,
+                        SizeId = item.SizeId,
+                        Quantity = item.Quantity,
+                        Price = item.Product.Price - item.Product.DiscountPrice
+                    };
 
-            // Xử lý theo phương thức thanh toán
-            if (model.PaymentMethod == PaymentMethod.Cash)
-            {
-                order.Status = OrderStatus.Processing;
-                order.PaymentStatus = PaymentStatus.Pending;
+                    // Cập nhật số lượng tồn kho
+                    var stock = _context.ProductSizeStocks
+                        .FirstOrDefault(pss => pss.ProductID == item.ProductId && pss.SizeID == item.SizeId);
+                    if (stock != null)
+                    {
+                        stock.StockQuantity -= item.Quantity;
+                    }
+
+                    _context.OrderDetails.Add(orderDetail);
+                }
+
+                // Xóa giỏ hàng
+                _context.CartItems.RemoveRange(cartItems);
+                
+                // Xóa mã giảm giá đã áp dụng
+                HttpContext.Session.Remove("AppliedCoupon");
+
+                // Tính tổng tiền trước khi áp dụng giảm giá rank
+                decimal originalTotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+
+                // Tính tổng tiền sau khi áp dụng giảm giá rank
+                decimal finalTotal = await _memberRankService.CalculateDiscountedTotal(originalTotal, userInfo.UserID);
+
+                order.TotalAmount = finalTotal;
+
+                // Cập nhật tổng chi tiêu của user
+                var user = await _context.Users.FindAsync(userInfo.UserID);
+                if (user != null)
+                {
+                    user.TotalSpent += finalTotal;
+                    await _memberRankService.UpdateUserRank(user.UserID);
+                }
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
+
+                // Xử lý theo phương thức thanh toán
+                if (model.PaymentMethod == PaymentMethod.Cash)
+                {
+                    order.Status = OrderStatus.Processing;
+                    order.PaymentStatus = PaymentStatus.Pending;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Thankyou", "Payment", new { orderId = order.OrderId });
+                }
+                else if (model.PaymentMethod == PaymentMethod.VNPay)
+                {
+                    return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+                }
+                else if (model.PaymentMethod == PaymentMethod.Momo)
+                {
+                    return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
+                }
+                
+                TempData["Error"] = "Phương thức thanh toán không hợp lệ";
+                return RedirectToAction("Checkout");
             }
-            else if (model.PaymentMethod == PaymentMethod.VNPay)
+            catch (Exception ex)
             {
-                return RedirectToAction("ProcessVnPay", "Payment", new { orderId = order.OrderId });
+                TempData["Error"] = "Có lỗi xảy ra khi xử lý đơn hàng: " + ex.Message;
+                return RedirectToAction("Checkout");
             }
-            else if (model.PaymentMethod == PaymentMethod.Momo)
-            {
-                return RedirectToAction("ProcessPayment", "Momo", new { orderId = order.OrderId });
-            }
-            
-            TempData["Error"] = "Phương thức thanh toán không hợp lệ";
-            return RedirectToAction("Checkout");
         }
 
         public async Task<IActionResult> Thankyou(int orderId)

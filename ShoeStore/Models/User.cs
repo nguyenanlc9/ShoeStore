@@ -52,5 +52,12 @@ namespace ShoeStore.Models
 
         [ForeignKey("RoleID")]
         public virtual Role Role { get; set; }
+
+        public int? MemberRankId { get; set; }
+        
+        [ForeignKey("MemberRankId")]
+        public virtual MemberRank MemberRank { get; set; }
+
+        public decimal TotalSpent { get; set; }  // Tổng số tiền đã chi tiêu
     }
 }
