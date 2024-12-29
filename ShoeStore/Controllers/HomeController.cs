@@ -21,15 +21,12 @@ namespace Project_BE.Controllers
         }
         public IActionResult Contact()
         {
-            return View();
+            var contacts = _context.Contacts.ToList();
+            ViewBag.Contacts = contacts ?? new List<Contact>(); // Đảm bảo không null
+            return View(new Contact()); // Truyền model rỗng
         }
         public IActionResult Index()
         {
-            ViewData["HotContact"] = _context.Contacts
-                .AsNoTracking()
-                .OrderBy(x => x.ContactName)
-                .ToList();
-
             // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
             ViewData["FeaturedProducts"] = _context.Products
                 .Include(p => p.ProductSizeStocks)

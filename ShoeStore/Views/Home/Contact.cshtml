@@ -1,128 +1,179 @@
-﻿@model ShoeStore.Models.ContactUser
-
-<form id="contactForm" method="post" action="/UserContact/Submit">
-    <div class="form-container">
-        <h2 class="form-heading">Liên hệ với chúng tôi</h2>
-
+﻿<div class="site-section">
+    <div class="container">
+        <h2 class="h3 mb-3 text-black text-center">Liên Hệ</h2>
+        <!-- Thông báo -->
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 @TempData["SuccessMessage"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         }
 
         @if (TempData["ErrorMessage"] != null)
         {
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
                 @TempData["ErrorMessage"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         }
+        <div class="row">
+            <!-- Form bên trái -->
+            <div class="col-md-6">
+                <div class="p-4 p-lg-5 border bg-white">
+                    <h4 class="mb-4">Liên Hệ Chúng Tôi</h4>
+                    <form id="contactForm" method="post" action="/UserContact/Submit">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ContactUFirstName" class="text-black">Họ <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="ContactUFirstName" name="ContactUFirstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ContactULastName" class="text-black">Tên <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="ContactULastName" name="ContactULastName" required>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            <label for="ContactUFirstName">Họ:</label>
-            <input type="text" id="ContactUFirstName" name="ContactUFirstName" class="form-control" required placeholder="Nhập họ của bạn">
+                        <div class="form-group mb-3">
+                            <label for="ContactUEmail" class="text-black">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="ContactUEmail" name="ContactUEmail" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="ContactUPhone" class="text-black">Số điện thoại <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ContactUPhone" name="ContactUPhone" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="ContactUAddress" class="text-black">Địa chỉ</label>
+                            <input type="text" class="form-control" id="ContactUAddress" name="ContactUAddress">
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="ContactUMessage" class="text-black">Tin nhắn <span class="text-danger">*</span></label>
+                            <textarea name="ContactUMessage" id="ContactUMessage" cols="30" rows="5" class="form-control" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Thông tin cửa hàng bên phải -->
+            <div class="col-md-6">
+                <div class="p-4 p-lg-5 border bg-white h-100">
+                    <h4 class="mb-4">Thông tin cửa hàng</h4>
+                    @if (ViewBag.Contacts != null && ((IEnumerable<Contact>)ViewBag.Contacts).Any())
+                    {
+                        foreach (var item in ViewBag.Contacts)
+                        {
+                            <div class="contact-item mb-4">
+                                <div class="contact-map mb-4">
+                                    @Html.Raw(item.ContactMap)
+                                </div>
+
+                                <div class="contact-details">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                                        <span>@item.ContactName</span>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-phone-alt contact-icon"></i>
+                                        <a href="tel:@item.ContactPhone">@item.ContactPhone</a>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-envelope contact-icon"></i>
+                                        <a href="mailto:@item.ContactEmail">@item.ContactEmail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="ContactULastName">Tên:</label>
-            <input type="text" id="ContactULastName" name="ContactULastName" class="form-control" required placeholder="Nhập tên của bạn">
-        </div>
-
-        <div class="form-group">
-            <label for="ContactUEmail">Email:</label>
-            <input type="email" id="ContactUEmail" name="ContactUEmail" class="form-control" required placeholder="Nhập email của bạn">
-        </div>
-
-        <div class="form-group">
-            <label for="ContactUAddress">Địa chỉ:</label>
-            <input type="text" id="ContactUAddress" name="ContactUAddress" class="form-control" placeholder="Nhập địa chỉ của bạn (Tùy chọn)">
-        </div>
-
-        <div class="form-group">
-            <label for="ContactUPhone">Số điện thoại:</label>
-            <input type="text" id="ContactUPhone" name="ContactUPhone" class="form-control" required placeholder="Nhập số điện thoại của bạn">
-        </div>
-
-        <div class="form-group">
-            <label for="ContactUMessage">Tin nhắn:</label>
-            <textarea id="ContactUMessage" name="ContactUMessage" class="form-control" required placeholder="Nhập tin nhắn của bạn"></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn btn btn-primary">Gửi</button>
     </div>
-</form>
+</div>
 
 <style>
-    .form-container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f9f9f9;
+    .site-section {
+        padding: 50px 0;
+        background-color: #f8f9fa;
+    }
+
+    .border {
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .form-heading {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: #333;
+    .contact-map {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 5px;
     }
 
-    .form-group {
-        margin-bottom: 15px;
+        .contact-map iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+    .contact-icon {
+        color: #7971ea;
+        width: 25px;
+        margin-right: 15px;
+        font-size: 18px;
     }
 
-    label {
-        font-weight: bold;
-        margin-bottom: 5px;
-        display: block;
+    .contact-details a,
+    .contact-details span {
+        color: #666;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s;
     }
+
+        .contact-details a:hover {
+            color: #7971ea;
+        }
 
     .form-control {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        height: auto;
     }
 
         .form-control:focus {
-            border-color: #4CAF50;
-            outline: none;
+            border-color: #7971ea;
+            box-shadow: none;
         }
 
-    .submit-btn {
-        width: 100%;
-        padding: 10px;
-        background-color: #4CAF50;
-        color: white;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    .btn-primary {
+        background-color: #7971ea;
+        border-color: #7971ea;
+        padding: 12px 20px;
     }
 
-        .submit-btn:hover {
-            background-color: #45a049;
+        .btn-primary:hover {
+            background-color: #6660d4;
+            border-color: #6660d4;
         }
 
-    .alert {
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    .alert-success {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    .alert-danger {
-        background-color: #f44336;
-        color: white;
+    @@media (max-width: 768px) {
+        .col-md-6:last-child {
+            margin-top: 30px;
+        }
     }
 </style>

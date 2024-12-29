@@ -3,6 +3,74 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\views\\contact\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\contact\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\useraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\useraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shop\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\filters\\authenticationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:filters\\authenticationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\account\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\account\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\untils\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:untils\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -35,10 +103,6 @@
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\contact\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\views\\contact\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\contact\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\controllers\\contactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\controllers\\contactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -59,24 +123,12 @@
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\usercontactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\usercontactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\useraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\useraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\views\\contactuser\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -99,20 +151,12 @@
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\views\\contact\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -179,14 +223,6 @@
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\product\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\user\\shoestore\\shoestore\\areas\\admin\\views\\coupon\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\coupon\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -248,7 +284,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -284,224 +320,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ContactUserController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactUserController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ContactUserController.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactUserController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ContactUserController.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAFkAAAAAAAAA",
+              "DocumentIndex": 9,
+              "Title": "AuthenticationFilter.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Filters\\AuthenticationFilter.cs",
+              "RelativeDocumentMoniker": "Filters\\AuthenticationFilter.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Filters\\AuthenticationFilter.cs",
+              "RelativeToolTip": "Filters\\AuthenticationFilter.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T17:00:15.202Z"
+              "WhenOpened": "2024-12-29T05:22:00.141Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABkAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T14:13:58.325Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ContactController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ContactController.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ContactController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T13:10:06.131Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "UserContactController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\UserContactController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserContactController.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\UserContactController.cs",
-              "RelativeToolTip": "Controllers\\UserContactController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T15:54:54.298Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Feedback.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAwwE8AAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:44:07.243Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IEmailService.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\IEmailService.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Email\\IEmailService.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\IEmailService.cs",
-              "RelativeToolTip": "Areas\\Admin\\Email\\IEmailService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T18:28:40.506Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Contact\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Edit.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Contact\\Edit.cshtml",
-              "ViewState": "AQIAABYAAAAAAAAAAAAuwC4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:14:20.643Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAuwCQAAAAVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-27T06:22:42.205Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EmailService.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\EmailService.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Email\\EmailService.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\EmailService.cs",
-              "RelativeToolTip": "Areas\\Admin\\Email\\EmailService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T18:29:39.318Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
-              "ViewState": "AQIAABgAAAAAAAAAAAAAAC4AAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:14:52.774Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Create.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Coupon\\Create.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Create.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Coupon\\Create.cshtml",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAACcAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T18:50:41.464Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Contact\\Index.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Contact\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:06:23.39Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\HomeController.cs",
               "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AQIAABcAAAAAAAAAAAAwwDAAAAAaAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABMAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-28T16:51:36.397Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 8,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Detail.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shop\\Detail.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Detail.cshtml",
+              "RelativeToolTip": "Views\\Shop\\Detail.cshtml",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAAAFQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-28T09:47:49.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
-              "ViewState": "AQIAAD0AAAAAAAAAAAAgwEMAAAAkAAAA",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shop\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeToolTip": "Views\\Shop\\Index.cshtml",
+              "ViewState": "AQIAAJcAAAAAAAAAAAAAAKYAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:05:21.815Z"
+              "WhenOpened": "2024-12-28T09:56:00.756Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ContactUser.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ContactUser.cs",
-              "RelativeDocumentMoniker": "Models\\ContactUser.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ContactUser.cs",
-              "RelativeToolTip": "Models\\ContactUser.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAowBwAAAAAAAAA",
+              "DocumentIndex": 4,
+              "Title": "ShopController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\ShopController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ShopController.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\ShopController.cs",
+              "RelativeToolTip": "Controllers\\ShopController.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAYwCkAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T16:39:59.078Z"
+              "WhenOpened": "2024-12-28T14:50:26.395Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Edit.cshtml",
-              "ViewState": "AQIAABgAAAAAAAAAAAAAACkAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T17:57:02.373Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
-              "ViewState": "AQIAABgAAAAAAAAAAAAAAAwAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-27T17:00:42.663Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Contact.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Home\\Contact.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Contact.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Home\\Contact.cshtml",
-              "RelativeToolTip": "Views\\Home\\Contact.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAABOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T13:51:59.182Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 6,
               "Title": "UserAccountController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\UserAccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserAccountController.cs",
@@ -513,7 +392,320 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Contact.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Home\\Contact.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Contact.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Home\\Contact.cshtml",
+              "RelativeToolTip": "Views\\Home\\Contact.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-28T13:51:59.182Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAMwAAAAAAAAAAAAwwNIAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-28T14:06:14.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Contact\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Contact\\Index.cshtml",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAwwGUAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:06:23.39Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PasswordHelper.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Untils\\PasswordHelper.cs",
+              "RelativeDocumentMoniker": "Untils\\PasswordHelper.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Untils\\PasswordHelper.cs",
+              "RelativeToolTip": "Untils\\PasswordHelper.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-29T05:24:55.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ForgotPassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\ForgotPassword.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\ForgotPassword.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\ForgotPassword.cshtml",
+              "RelativeToolTip": "Views\\Account\\ForgotPassword.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAABUAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:00.765Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAADYAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:13.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "EditProfile.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\EditProfile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\EditProfile.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\EditProfile.cshtml",
+              "RelativeToolTip": "Views\\Account\\EditProfile.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:16.605Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shop\\Details.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Details.cshtml",
+              "RelativeToolTip": "Views\\Shop\\Details.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T06:00:12.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Orders.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Orders.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Orders.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Orders.cshtml",
+              "RelativeToolTip": "Views\\Account\\Orders.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:35.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\ChangePassword.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\ChangePassword.cshtml",
+              "RelativeToolTip": "Views\\Account\\ChangePassword.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:39.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "Views\\Account\\Register.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-29T05:27:42.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ContactUserController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactUserController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ContactUserController.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactUserController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ContactUserController.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAAFkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T17:00:15.202Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABkAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T14:13:58.325Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ContactController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ContactController.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ContactController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ContactController.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T13:10:06.131Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "UserContactController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\UserContactController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserContactController.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\UserContactController.cs",
+              "RelativeToolTip": "Controllers\\UserContactController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T15:54:54.298Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 19,
+              "Title": "Feedback.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Feedback.cshtml",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAwwE8AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:44:07.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\IEmailService.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Email\\IEmailService.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\IEmailService.cs",
+              "RelativeToolTip": "Areas\\Admin\\Email\\IEmailService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T18:28:40.506Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Contact\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Contact\\Edit.cshtml",
+              "ViewState": "AQIAABYAAAAAAAAAAAAuwC4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:14:20.643Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAuwCQAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-27T06:22:42.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\EmailService.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Email\\EmailService.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Email\\EmailService.cs",
+              "RelativeToolTip": "Areas\\Admin\\Email\\EmailService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-28T18:29:39.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Edit.cshtml",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAC4AAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:14:52.774Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Create.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Coupon\\Create.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Create.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Coupon\\Create.cshtml",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAACcAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-28T18:50:41.464Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Index.cshtml",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAgwEMAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:05:21.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ContactUser.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ContactUser.cs",
+              "RelativeDocumentMoniker": "Models\\ContactUser.cs",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ContactUser.cs",
+              "RelativeToolTip": "Models\\ContactUser.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowBwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T16:39:59.078Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAACkAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-28T17:57:02.373Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
+              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\ContactUser\\Details.cshtml",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAAwAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T17:00:42.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Create.cshtml",
@@ -525,7 +717,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 31,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -537,7 +729,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 34,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Models\\ApplicationDbContext.cs",
@@ -549,7 +741,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 35,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\ContactUser\\Delete.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\ContactUser\\Delete.cshtml",
@@ -561,7 +753,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 37,
               "Title": "CartController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "Controllers\\CartController.cs",
@@ -573,7 +765,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 36,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Cart\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Cart\\Index.cshtml",
@@ -585,19 +777,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "ShopController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\ShopController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ShopController.cs",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\ShopController.cs",
-              "RelativeToolTip": "Controllers\\ShopController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T14:50:26.395Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 39,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Contact\\Details.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Contact\\Details.cshtml",
@@ -609,7 +789,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 38,
               "Title": "PaymentController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Controllers\\PaymentController.cs",
               "RelativeDocumentMoniker": "Controllers\\PaymentController.cs",
@@ -621,19 +801,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAMAAAAAAAAAAAAAAANUAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T14:06:14.792Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 40,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -645,7 +813,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 41,
               "Title": "Coupon.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\Coupon.cs",
               "RelativeDocumentMoniker": "Models\\Coupon.cs",
@@ -657,7 +825,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 42,
               "Title": "SizeController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\SizeController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\SizeController.cs",
@@ -669,7 +837,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 44,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ProductController.cs",
@@ -681,7 +849,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 45,
               "Title": "OrderController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\OrderController.cs",
@@ -693,7 +861,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 47,
               "Title": "CategoryController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\CategoryController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\CategoryController.cs",
@@ -705,7 +873,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 43,
               "Title": "RoleController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\RoleController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\RoleController.cs",
@@ -717,7 +885,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 46,
               "Title": "ProductSizeStockController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductSizeStockController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ProductSizeStockController.cs",
@@ -729,7 +897,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 48,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\AdminAccount\\Login.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\AdminAccount\\Login.cshtml",
@@ -741,7 +909,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 50,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Edit.cshtml",
@@ -753,7 +921,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 49,
               "Title": "Role.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\Role.cs",
               "RelativeDocumentMoniker": "Models\\Role.cs",
@@ -765,7 +933,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 53,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Create.cshtml",
@@ -777,7 +945,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 55,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Edit.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Coupon\\Edit.cshtml",
@@ -789,31 +957,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Detail.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shop\\Detail.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Detail.cshtml",
-              "RelativeToolTip": "Views\\Shop\\Detail.cshtml",
-              "ViewState": "AQIAAEoAAAAAAAAAAAAAAFQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T09:47:49.247Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shop\\Index.cshtml",
-              "ToolTip": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
-              "RelativeToolTip": "Views\\Shop\\Index.cshtml",
-              "ViewState": "AQIAALQAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-28T09:56:00.756Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 52,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Index.cshtml",
@@ -825,7 +969,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 51,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Delete.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Delete.cshtml",
@@ -837,7 +981,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 54,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Details.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Details.cshtml",
@@ -849,7 +993,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 56,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Order\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Order\\Index.cshtml",
@@ -861,7 +1005,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 57,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Coupon\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Coupon\\Index.cshtml",
@@ -873,7 +1017,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 58,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
@@ -885,7 +1029,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 68,
               "Title": "20241227165817_AddContactUser.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Migrations\\20241227165817_AddContactUser.cs",
               "RelativeDocumentMoniker": "Migrations\\20241227165817_AddContactUser.cs",
@@ -897,7 +1041,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 62,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
@@ -909,7 +1053,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 63,
               "Title": "Contact.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\Contact.cs",
               "RelativeDocumentMoniker": "Models\\Contact.cs",
@@ -921,7 +1065,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 66,
               "Title": "20241227142256_UpdateRole.cs",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20241227142256_UpdateRole.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20241227142256_UpdateRole.cs",
@@ -933,7 +1077,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 67,
               "Title": "20241227141917_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20241227141917_InitialCreate.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20241227141917_InitialCreate.cs",
@@ -945,7 +1089,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 60,
               "Title": "Review.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\Review.cs",
               "RelativeDocumentMoniker": "Models\\Review.cs",
@@ -957,7 +1101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 59,
               "Title": "Order.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\Order.cs",
               "RelativeDocumentMoniker": "Models\\Order.cs",
@@ -969,7 +1113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 61,
               "Title": "RevenueStatistics.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Models\\RevenueStatistics.cs",
               "RelativeDocumentMoniker": "Models\\RevenueStatistics.cs",
@@ -981,7 +1125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 64,
               "Title": "20241227142806_CreateRoleTable.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Migrations\\20241227142806_CreateRoleTable.cs",
               "RelativeDocumentMoniker": "Migrations\\20241227142806_CreateRoleTable.cs",
@@ -993,7 +1137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 65,
               "Title": "20241227142631_UpdateRole.cs",
               "DocumentMoniker": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\Migrations\\20241227142631_UpdateRole.cs",
               "RelativeDocumentMoniker": "Migrations\\20241227142631_UpdateRole.cs",

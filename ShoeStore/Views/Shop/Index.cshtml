@@ -31,14 +31,13 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Sắp xếp</button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                    <a class="dropdown-item" href="#">Relevance</a>
-                                    <a class="dropdown-item" href="#">Name, A to Z</a>
-                                    <a class="dropdown-item" href="#">Name, Z to A</a>
+                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="name-asc">Tên, A đến Z</a>
+                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="name-desc">Tên, Z đến A</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Price, low to high</a>
-                                    <a class="dropdown-item" href="#">Price, high to low</a>
+                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="price-asc">Giá, thấp đến cao</a>
+                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index" asp-route-sort="price-desc">Giá, cao đến thấp</a>
                                 </div>
                             </div>
                         </div>
@@ -158,10 +157,13 @@
                 </div>
 
                 <div class="border p-4 rounded mb-4">
+                    <!-- Filter by Price -->
                     <div class="mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Lọc theo giá</h3>
                         <div id="slider-range" class="border-primary"></div>
-                        <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+                        <div class="d-flex align-items-center mt-2">
+                            <input type="text" id="amount" class="form-control border-0 pl-0 bg-white" readonly />
+                        </div>
                     </div>
 
                     <div class="mb-4">

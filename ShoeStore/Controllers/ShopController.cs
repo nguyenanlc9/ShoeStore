@@ -17,16 +17,34 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Shop
-        public IActionResult Index(int? categoryId)
+        public IActionResult Index(int? categoryId, string sort)
         {
             var query = _context.Products.AsQueryable();
-            
+
+            // Lọc theo danh mục
             if (categoryId.HasValue)
             {
                 query = query.Where(p => p.CategoryId == categoryId);
+                ViewBag.SelectedCategoryId = categoryId;
+            }
+
+            // Sắp xếp sản phẩm
+            switch (sort)
+            {
+                case "name-asc":
+                    query = query.OrderBy(p => p.Name);
+                    break;
+                case "name-desc":
+                    query = query.OrderByDescending(p => p.Name);
+                    break;
+                default:
+                    // Mặc định sắp xếp theo tên từ A-Z
+                    query = query.OrderBy(p => p.Name);
+                    break;
             }
 
             var products = query.ToList();
+
             ViewBag.Categories = _context.Categories
                 .Select(c => new
                 {
@@ -34,8 +52,10 @@ namespace ShoeStore.Controllers
                     c.Name,
                     ProductCount = _context.Products.Count(p => p.CategoryId == c.CategoryId)
                 }).ToList();
-            
+
             ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.CurrentSort = sort; // Lưu lại sort hiện tại
+
             return View(products);
         }
 

@@ -12,6 +12,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\appsettings.json",
+  "SelectedNode": "\\ShoeStore\\Views\\Home\\Contact.cshtml",
   "PreviewInSolutionExplorer": false
 }
