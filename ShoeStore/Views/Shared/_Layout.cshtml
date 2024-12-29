@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="~/css/aos.css">
 
     <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/product-label.css" />
+    <link rel="stylesheet" href="~/css/footer-label.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @await RenderSectionAsync("Header", required: false)
 </head>
@@ -176,27 +176,45 @@
               <p>Promo from  nuary 15 &mdash; 25, 2019</p>
             </a>
           </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="block-5 mb-5">
-              <h3 class="footer-heading mb-4">Contact Info</h3>
-              <ul class="list-unstyled">
-                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                <li class="email">emailaddress@domain.com</li>
-              </ul>
-            </div>
+       <div class="row">
+    <div class="col-md-12">
+        <div class="footer-content text-center">
+            <h3 class="footer-heading mb-4">Contact Info</h3>
+            <ul class="list-unstyled">
+                @if (ViewData["FooterInfo"] is ShoeStore.Models.Footer footerInfo)
+                {
+                    @if (!string.IsNullOrEmpty(footerInfo.FooterAddress))
+                    {
+                        <li class="address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>@footerInfo.FooterAddress</span>
+                        </li>
+                    }
 
-            <div class="block-7">
-              <form action="#" method="post">
-                <label for="email_subscribe" class="footer-heading">Subscribe</label>
-                <div class="form-group">
-                  <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
-                  <input type="submit" class="btn btn-sm btn-primary" value="Send">
-                </div>
-              </form>
-            </div>
-          </div>
+                    @if (!string.IsNullOrEmpty(footerInfo.FooterPhone))
+                    {
+                        <li class="phone">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:@footerInfo.FooterPhone">@footerInfo.FooterPhone</a>
+                        </li>
+                    }
+
+                    @if (!string.IsNullOrEmpty(footerInfo.FooterEmail))
+                    {
+                        <li class="email">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:@footerInfo.FooterEmail">@footerInfo.FooterEmail</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <p>No footer information available</p>
+                }
+            </ul>
         </div>
+    </div>
+</div>
         <div class="row pt-5 mt-5 text-center">
           <div class="col-md-12">
             <p>

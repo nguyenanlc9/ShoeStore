@@ -27,6 +27,10 @@ namespace Project_BE.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["FooterInfo"] = _context.Footers
+            .OrderByDescending(f => f.FooterId)
+            .FirstOrDefault();
+
             // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
             ViewData["FeaturedProducts"] = _context.Products
                 .Include(p => p.ProductSizeStocks)
@@ -39,6 +43,7 @@ namespace Project_BE.Controllers
                 .ToList();
 
             return View();
+
         }
 
         public IActionResult Privacy()

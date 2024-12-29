@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ShoeStore.Models;
 using System.Collections.Generic;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace ShoeStore.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,7 +32,7 @@ namespace ShoeStore.Models
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ContactUser> ContactUsers { get; set; }
-
+        public DbSet<Footer> Footers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -24,6 +24,12 @@ namespace ShoeStore
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IEmailService, EmailService>();
+
+            builder.Services.AddControllersWithViews()
+            .AddRazorOptions(options =>
+            {
+                options.ViewLocationFormats.Add("/Views/Shared/Components/{0}/Default.cshtml");
+            });
             // Cấu hình DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
