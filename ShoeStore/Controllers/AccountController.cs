@@ -5,6 +5,7 @@ using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Request;
 using ShoeStore.Utils;
+using ShoeStore.Models.Enums;
 
 namespace ShoeStore.Controllers
 {
@@ -373,6 +374,89 @@ namespace ShoeStore.Controllers
                 .ToListAsync();
 
             return View(orders);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmOrder(int orderId)
+        {
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                var order = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+
+                if (order.Status != OrderStatus.Delivered)
+                    return Json(new { success = false, message = "Trạng thái đơn hàng không hợp lệ" });
+
+                order.Status = OrderStatus.Completed;
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                var order = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+
+                if (order.Status != OrderStatus.Pending)
+                    return Json(new { success = false, message = "Không thể hủy đơn hàng ở trạng thái này" });
+
+                order.Status = OrderStatus.Cancelled;
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+        }
+
+        [HttpGet]
+        [Route("Account/OrderDetails/{orderId}")]
+        public async Task<IActionResult> OrderDetails(int orderId)
+        {
+            try 
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                    return PartialView("_Error", "Vui lòng đăng nhập");
+
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Product)
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Size)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                {
+                    return PartialView("_Error", "Không tìm thấy đơn hàng");
+                }
+
+                return PartialView("_OrderDetails", order);
+            }
+            catch (Exception ex)
+            {
+                return PartialView("_Error", "Có lỗi xảy ra: " + ex.Message);
+            }
         }
     }
 } 

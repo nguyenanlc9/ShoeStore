@@ -5,12 +5,13 @@
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers",
+    "\\ShoeStore\\Controllers",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\ShoeStore.sln",
+  "SelectedNode": "\\ShoeStore\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }
