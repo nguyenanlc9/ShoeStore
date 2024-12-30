@@ -9,7 +9,7 @@ namespace ShoeStore.Models.DTO.Requset
         [Key]
         public int Slider_ID { get; set; }
         public string? Name { get; set; }
-        public string? Link { get; set; }
+        public int? Status { get; set; }
         public IFormFile? Img { get; set; }
 
     }

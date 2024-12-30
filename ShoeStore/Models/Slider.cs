@@ -11,7 +11,7 @@ namespace ShoeStore.Models
         public int Slider_ID { get; set; }
         [StringLength(50, ErrorMessage = "Tên sản phẩm không được vượt quá 50 ký tự.")]
         public string? Name { get; set; }
-        public string? Link { get; set; }
+        public int? Status { get; set; }
         public string? Img { get; set; }
     }
 }

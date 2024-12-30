@@ -95,7 +95,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 var slider = new Slider
                 {
                     Name = sliderDTO.Name,
-                    Link = sliderDTO.Link,
+                    Status = sliderDTO.Status,
                     Img = null, // Sẽ được cập nhật sau khi upload ảnh
                 };
 
@@ -138,7 +138,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Slider_ID,Name,Link,Img")] Slider slider)
+        public async Task<IActionResult> Edit(int id, [Bind("Slider_ID,Name,Status,Img")] Slider slider)
         {
             if (id != slider.Slider_ID)
             {
