@@ -12,6 +12,7 @@ using ShoeStore.Helpers;
 using ShoeStore.Models.ViewModels;
 using ShoeStore.Services;
 using ShoeStore.Services.APIAddress;
+using ShoeStore.Services.Email;
 
 namespace ShoeStore.Controllers
 {
@@ -22,19 +23,22 @@ namespace ShoeStore.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemberRankService _memberRankService;
         private readonly IAddressService _addressService;
+        private readonly IEmailService _emailService;
 
         public CartController(
             ApplicationDbContext context, 
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             IMemberRankService memberRankService,
-            IAddressService addressService)
+            IAddressService addressService,
+            IEmailService emailService)
         {
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _memberRankService = memberRankService;
             _addressService = addressService;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -369,6 +373,31 @@ namespace ShoeStore.Controllers
 
                 // Xóa coupon khỏi session sau khi đã xử lý xong
                 HttpContext.Session.Remove("AppliedCoupon");
+
+                // Sau khi lưu đơn hàng thành công, gửi email
+                var newOrder = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Product)
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Size)
+                    .FirstOrDefaultAsync(o => o.OrderId == order.OrderId);
+
+                if (newOrder != null)
+                {
+                    try
+                    {
+                        await _emailService.SendEmailAsync(
+                            userInfo.Email,
+                            $"Xác nhận đơn hàng #{newOrder.OrderCode}",
+                            EmailTemplates.GetOrderConfirmationEmail(newOrder)
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log lỗi nhưng không throw exception để không ảnh hưởng đến việc đặt hàng
+                        Console.WriteLine($"Lỗi gửi email: {ex.Message}");
+                    }
+                }
 
                 // Xử lý theo phương thức thanh toán
                 switch (model.PaymentMethod)
