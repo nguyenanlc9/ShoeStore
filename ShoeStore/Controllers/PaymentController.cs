@@ -92,6 +92,23 @@ namespace ShoeStore.Controllers
                     
                     await UpdateUserRankAfterPayment(order.UserId, order.TotalAmount);
                     
+                    if (!string.IsNullOrEmpty(order.OrderCoupon))
+                    {
+                        var coupon = await _context.Coupons
+                            .FirstOrDefaultAsync(c => c.CouponCode == order.OrderCoupon);
+                            
+                        if (coupon != null && coupon.Quantity > 0)
+                        {
+                            coupon.Quantity--;
+                            if (coupon.Quantity == 0)
+                            {
+                                coupon.Status = false;
+                            }
+                            _context.Coupons.Update(coupon);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+
                     return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
                 }
                 else

@@ -1,11 +1,11 @@
-using ShoeStore.Models;
+﻿using ShoeStore.Models;
 
 namespace ShoeStore.Models.ViewModels
 {
     public class DashboardViewModel
     {
         public int TotalOrders { get; set; }
-        public int NewOrders { get; set; }
+        public int NewOrders { get; set; } // Đơn hàng trong ngày
         public decimal TotalRevenue { get; set; }
         public int TotalProducts { get; set; }
         public int LowStockProducts { get; set; }

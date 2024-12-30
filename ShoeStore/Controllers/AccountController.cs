@@ -5,6 +5,8 @@ using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Request;
 using ShoeStore.Utils;
+using ShoeStore.Models.Enums;
+using ShoeStore.Services.Email;
 
 namespace ShoeStore.Controllers
 {
@@ -12,21 +14,53 @@ namespace ShoeStore.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailService _emailService;
 
-        public AccountController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public AccountController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _emailService = emailService;
         }
 
         // GET: /Account/Login
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            // Kiểm tra nếu đã đăng nhập qua session
             if (HttpContext.Session.Get<User>("userInfo") != null)
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            // Kiểm tra cookie ghi nhớ đăng nhập
+            var rememberMeCookie = Request.Cookies["RememberMe"];
+            if (!string.IsNullOrEmpty(rememberMeCookie))
+            {
+                try
+                {
+                    var decryptedLoginInfo = CookieHelper.Decrypt(rememberMeCookie);
+                    var loginInfo = decryptedLoginInfo.Split('|');
+                    var username = loginInfo[0];
+                    var passwordHash = loginInfo[1];
+
+                    var user = await _context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(x => x.Username == username && x.PasswordHash == passwordHash);
+
+                    if (user != null)
+                    {
+                        HttpContext.Session.Set<User>("userInfo", user);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                catch
+                {
+                    // Nếu có lỗi khi giải mã cookie, xóa cookie đó
+                    Response.Cookies.Delete("RememberMe");
+                }
+            }
+
             return View();
         }
 
@@ -40,19 +74,48 @@ namespace ShoeStore.Controllers
                 return View(login);
             }
 
-            var result = await _context.Users
+            var user = await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Username == login.UserName);
 
-            if (result != null && PasswordHelper.VerifyPassword(login.Password, result.PasswordHash))
+            if (user != null && PasswordHelper.VerifyPassword(login.Password, user.PasswordHash))
             {
-                HttpContext.Session.Set<User>("userInfo", result);
+                // Lưu thông tin user vào session
+                HttpContext.Session.Set<User>("userInfo", user);
+
+                // Nếu người dùng chọn "Ghi nhớ đăng nhập"
+                if (login.RememberMe)
+                {
+                    // Tạo chuỗi thông tin đăng nhập được mã hóa
+                    var loginInfo = $"{login.UserName}|{user.PasswordHash}";
+                    var encryptedLoginInfo = CookieHelper.Encrypt(loginInfo);
+
+                    // Tạo cookie với thời hạn 30 ngày
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict
+                    };
+
+                    Response.Cookies.Append("RememberMe", encryptedLoginInfo, cookieOptions);
+                }
+                else
+                {
+                    // Xóa cookie nếu có
+                    Response.Cookies.Delete("RememberMe");
+                }
+
+                // Cập nhật thời gian đăng nhập cuối
+                user.LastLogin = DateTime.Now;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng!");
-            }
+
+            ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng!");
             return View(login);
         }
 
@@ -144,49 +207,45 @@ namespace ShoeStore.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            if (HttpContext.Session.Get<User>("userInfo") != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
         // POST: /Account/ForgotPassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO model)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == model.Email);
-
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
                 if (user == null)
                 {
-                    ViewData["Message"] = "Email không tồn tại trong hệ thống!";
-                    return View(model);
+                    TempData["Message"] = "Email không tồn tại trong hệ thống";
+                    return View();
                 }
 
                 // Tạo mật khẩu mới ngẫu nhiên
-                var newPassword = GenerateRandomPassword();
+                string newPassword = GenerateRandomPassword();
+                
+                // Cập nhật mật khẩu mới trong database
                 user.PasswordHash = PasswordHelper.HashPassword(newPassword);
+                await _context.SaveChangesAsync();
 
-                try
-                {
-                    // Gửi email mật khẩu mới
-                    await SendPasswordResetEmail(user.Email, newPassword);
-                    await _context.SaveChangesAsync();
+                // Gửi email chứa mật khẩu mới
+                await _emailService.SendEmailAsync(
+                    email,
+                    "Đặt lại mật khẩu - ShoeStore",
+                    EmailTemplates.GetResetPasswordEmail(user.FullName, newPassword)
+                );
 
-                    ViewData["MessageType"] = "success";
-                    ViewData["Message"] = "Mật khẩu mới đã được gửi đến email của bạn!";
-                }
-                catch
-                {
-                    ViewData["Message"] = "Có lỗi xảy ra khi gửi email!";
-                }
+                TempData["Success"] = true;
+                TempData["Message"] = "Mật khẩu mới đã được gửi đến email của bạn";
+                return RedirectToAction("Login");
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["Message"] = "Có lỗi xảy ra: " + ex.Message;
+                return View();
+            }
         }
 
         private string GenerateRandomPassword(int length = 8)
@@ -197,15 +256,11 @@ namespace ShoeStore.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        private async Task SendPasswordResetEmail(string email, string newPassword)
-        {
-            // Implement email sending logic here
-            // You might want to use a service like SendGrid or SMTP
-        }
-
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            // Xóa cookie ghi nhớ đăng nhập
+            Response.Cookies.Delete("RememberMe");
             return RedirectToAction("Login");
         }
 
@@ -373,6 +428,89 @@ namespace ShoeStore.Controllers
                 .ToListAsync();
 
             return View(orders);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmOrder(int orderId)
+        {
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                var order = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+
+                if (order.Status != OrderStatus.Delivered)
+                    return Json(new { success = false, message = "Trạng thái đơn hàng không hợp lệ" });
+
+                order.Status = OrderStatus.Completed;
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                var order = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+
+                if (order.Status != OrderStatus.Pending)
+                    return Json(new { success = false, message = "Không thể hủy đơn hàng ở trạng thái này" });
+
+                order.Status = OrderStatus.Cancelled;
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+        }
+
+        [HttpGet]
+        [Route("Account/OrderDetails/{orderId}")]
+        public async Task<IActionResult> OrderDetails(int orderId)
+        {
+            try 
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                    return PartialView("_Error", "Vui lòng đăng nhập");
+
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Product)
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Size)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userInfo.UserID);
+
+                if (order == null)
+                {
+                    return PartialView("_Error", "Không tìm thấy đơn hàng");
+                }
+
+                return PartialView("_OrderDetails", order);
+            }
+            catch (Exception ex)
+            {
+                return PartialView("_Error", "Có lỗi xảy ra: " + ex.Message);
+            }
         }
     }
 } 

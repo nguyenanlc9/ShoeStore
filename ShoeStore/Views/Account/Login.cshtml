@@ -15,6 +15,11 @@
     <div class="alert alert-danger">@ViewData["Message"]</div>
 }
 
+<div class="auth-links mb-4">
+    <span>Chưa có tài khoản?</span>
+    <a asp-action="Register">Đăng ký</a>
+</div>
+
 <form asp-action="Login" method="post" class="auth-form">
     <div class="form-group">
         <div class="input-group">
@@ -45,10 +50,8 @@
 
     <button type="submit" class="btn btn-auth">Đăng nhập</button>
 
-    <div class="auth-links">
+    <div class="auth-links mt-3">
         <a asp-action="ForgotPassword">Quên mật khẩu?</a>
-        <span class="mx-2">|</span>
-        <a asp-action="Register">Đăng ký tài khoản mới</a>
     </div>
 
     <div class="auth-divider">
@@ -63,4 +66,17 @@
             <i class="fab fa-google"></i>
         </a>
     </div>
-</form> 
+</form>
+
+<style>
+    .auth-links {
+        text-align: center;
+    }
+    .auth-links a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .auth-links a:hover {
+        text-decoration: underline;
+    }
+</style> 
