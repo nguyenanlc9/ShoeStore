@@ -261,6 +261,9 @@ namespace ShoeStore.Controllers
                     return RedirectToAction("Index");
                 }
 
+                // Lấy coupon đã áp dụng từ session một lần duy nhất ở đầu phương thức
+                var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
+
                 decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
                 
                 // Tính giảm giá thành viên
@@ -274,9 +277,8 @@ namespace ShoeStore.Controllers
                     memberDiscountAmount = subtotal * (currentUser.MemberRank.DiscountPercent / 100m);
                 }
 
-                // Lấy và tính giảm giá từ mã giảm giá đã áp dụng
+                // Tính giảm giá từ mã giảm giá đã áp dụng
                 decimal couponDiscountAmount = 0;
-                var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
                 if (appliedCoupon != null)
                 {
                     couponDiscountAmount = subtotal * (appliedCoupon.DiscountPercentage / 100m);
@@ -335,25 +337,38 @@ namespace ShoeStore.Controllers
 
                 // Xóa giỏ hàng
                 _context.CartItems.RemoveRange(cartItems);
-                
-                // Xóa mã giảm giá đã áp dụng
-                HttpContext.Session.Remove("AppliedCoupon");
+
+                // Xử lý giảm số lượng coupon nếu có
+                if (appliedCoupon != null)
+                {
+                    var coupon = await _context.Coupons.FindAsync(appliedCoupon.CouponId);
+                    if (coupon != null && coupon.Quantity > 0)
+                    {
+                        coupon.Quantity--;
+                        if (coupon.Quantity == 0)
+                        {
+                            coupon.Status = false;
+                        }
+                        _context.Coupons.Update(coupon);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Checkout", new { error = "Mã giảm giá đã hết lượt sử dụng" });
+                    }
+                }
 
                 // Cập nhật TotalSpent cho user
                 if (currentUser != null)
                 {
-                    Console.WriteLine($"Before update - User {userInfo.UserID} TotalSpent: {currentUser.TotalSpent}");
-                    Console.WriteLine($"Order amount to add: {finalTotal}");
-
                     currentUser.TotalSpent += finalTotal;
                     _context.Users.Update(currentUser);
-                    await _context.SaveChangesAsync();
-
-                    Console.WriteLine($"After update - User {userInfo.UserID} TotalSpent: {currentUser.TotalSpent}");
-                    await _memberRankService.UpdateUserRank(currentUser.UserID);
                 }
 
+                // Lưu tất cả thay đổi vào database
                 await _context.SaveChangesAsync();
+
+                // Xóa coupon khỏi session sau khi đã xử lý xong
+                HttpContext.Session.Remove("AppliedCoupon");
 
                 // Xử lý theo phương thức thanh toán
                 switch (model.PaymentMethod)

@@ -8,10 +8,11 @@
     "\\ShoeStore\\Controllers",
     "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Account",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Controllers\\HomeController.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Account\\_OrderDetails.cshtml",
   "PreviewInSolutionExplorer": false
 }

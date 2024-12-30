@@ -71,10 +71,8 @@
                                     <td>@order.OrderUsName</td>
                                     <td>@order.TotalAmount.ToString("N0")đ</td>
                                     <td>
-                                        <span class="badge bg-@(order.Status == OrderStatus.Completed ? "success" : 
-                                            order.Status == OrderStatus.Processing ? "info" : 
-                                            order.Status == OrderStatus.Pending ? "warning" : "danger")">
-                                            @order.Status
+                                        <span class="badge bg-@GetStatusClass(order.Status)">
+                                            @GetStatusText(order.Status)
                                         </span>
                                     </td>
                                 </tr>
@@ -135,10 +133,6 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function changePeriod(period) {
-            window.location.href = '?period=' + period;
-        }
-
         @if (Model.SelectedPeriod == "month" && Model.DailyRevenue != null)
         {
             <text>
@@ -166,4 +160,34 @@
             </text>
         }
     </script>
+}
+
+@functions {
+    string GetStatusClass(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.Pending => "warning",
+            OrderStatus.Processing => "info",
+            OrderStatus.Shipped => "primary",
+            OrderStatus.Delivered => "info",
+            OrderStatus.Completed => "success",
+            OrderStatus.Cancelled => "danger",
+            _ => "secondary"
+        };
+    }
+
+    string GetStatusText(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.Pending => "Chờ xử lý",
+            OrderStatus.Processing => "Đang xử lý",
+            OrderStatus.Shipped => "Đã giao cho vận chuyển",
+            OrderStatus.Delivered => "Đã giao hàng",
+            OrderStatus.Completed => "Hoàn thành",
+            OrderStatus.Cancelled => "Đã hủy",
+            _ => "Không xác định"
+        };
+    }
 }

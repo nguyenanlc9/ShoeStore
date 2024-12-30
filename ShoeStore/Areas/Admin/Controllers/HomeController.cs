@@ -5,6 +5,7 @@ using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 using ShoeStore.Models.ViewModels;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -19,74 +20,65 @@ namespace ShoeStore.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string period = "all")
+        public async Task<IActionResult> Index(string period = "month")
         {
             var today = DateTime.Today;
-            var startDate = today;
-            var endDate = today.AddDays(1);
+            var startOfDay = today;
+            var endOfDay = today.AddDays(1).AddTicks(-1);
 
-            // Xác định khoảng thời gian dựa trên period
-            switch (period.ToLower())
+            var viewModel = new DashboardViewModel
             {
-                case "today":
-                    startDate = today;
-                    break;
-                case "month":
-                    startDate = new DateTime(today.Year, today.Month, 1);
-                    endDate = startDate.AddMonths(1);
-                    break;
-                case "year":
-                    startDate = new DateTime(today.Year, 1, 1);
-                    endDate = startDate.AddYears(1);
-                    break;
-                default:
-                    startDate = DateTime.MinValue;
-                    endDate = DateTime.MaxValue;
-                    break;
-            }
-
-            var dashboardViewModel = new DashboardViewModel
-            {
-                TotalOrders = _context.Orders.Count(),
-                NewOrders = _context.Orders.Where(o => o.Status == OrderStatus.Pending).Count(),
-                TotalRevenue = _context.Orders
-                    .Where(o => o.PaymentStatus == PaymentStatus.Completed 
-                        && o.OrderDate >= startDate 
-                        && o.OrderDate < endDate)
-                    .Sum(o => o.TotalAmount),
-                TotalProducts = _context.Products.Count(),
-                LowStockProducts = _context.ProductSizeStocks
+                // Tổng số đơn hàng
+                TotalOrders = await _context.Orders.CountAsync(),
+                
+                // Đơn hàng mới (trong ngày)
+                NewOrders = await _context.Orders
+                    .Where(o => o.OrderDate >= startOfDay && o.OrderDate <= endOfDay)
+                    .CountAsync(),
+                
+                // Tổng doanh thu
+                TotalRevenue = await _context.Orders
+                    .Where(o => o.Status == OrderStatus.Completed)
+                    .SumAsync(o => o.TotalAmount),
+                
+                // Sản phẩm sắp hết hàng (dưới 10 sản phẩm)
+                LowStockProducts = await _context.ProductSizeStocks
                     .Where(p => p.StockQuantity < 10)
-                    .Count(),
-                TotalCustomers = _context.Users.Where(u => u.RoleID == 2).Count(),
-                RecentOrders = _context.Orders
-                    .Where(o => o.OrderDate >= startDate && o.OrderDate < endDate)
+                    .CountAsync(),
+                
+                // 5 đơn hàng gần nhất
+                RecentOrders = await _context.Orders
                     .OrderByDescending(o => o.OrderDate)
                     .Take(5)
-                    .ToList(),
-                TopSellingProducts = _context.OrderDetails
-                    .Include(od => od.Product)
-                    .Where(od => od.Order.OrderDate >= startDate && od.Order.OrderDate < endDate)
-                    .GroupBy(od => od.ProductId)
-                    .Select(g => new TopSellingProduct
-                    {
-                        Product = g.First().Product,
-                        TotalSold = g.Sum(x => x.Quantity),
-                        TotalRevenue = g.Sum(x => x.Price * x.Quantity)
-                    })
-                    .OrderByDescending(x => x.TotalRevenue)
-                    .Take(5)
-                    .ToList(),
+                    .ToListAsync(),
+
                 SelectedPeriod = period
             };
 
-            // Thêm doanh thu theo từng ngày trong tháng hiện tại
+            // Top sản phẩm bán chạy
+            viewModel.TopSellingProducts = await _context.OrderDetails
+                .Include(od => od.Product)
+                .GroupBy(od => od.Product)
+                .Select(g => new TopSellingProduct
+                {
+                    Product = g.Key,
+                    TotalSold = g.Sum(od => od.Quantity),
+                    TotalRevenue = g.Sum(od => od.Price * od.Quantity)
+                })
+                .OrderByDescending(x => x.TotalSold)
+                .Take(5)
+                .ToListAsync();
+
+            // Doanh thu theo ngày trong tháng hiện tại
             if (period == "month")
             {
-                dashboardViewModel.DailyRevenue = _context.Orders
-                    .Where(o => o.PaymentStatus == PaymentStatus.Completed 
-                        && o.OrderDate.Month == today.Month 
-                        && o.OrderDate.Year == today.Year)
+                var startOfMonth = new DateTime(today.Year, today.Month, 1);
+                var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+                viewModel.DailyRevenue = await _context.Orders
+                    .Where(o => o.OrderDate >= startOfMonth && 
+                               o.OrderDate <= endOfMonth && 
+                               o.Status == OrderStatus.Completed)
                     .GroupBy(o => o.OrderDate.Date)
                     .Select(g => new DailyRevenueData
                     {
@@ -94,10 +86,10 @@ namespace ShoeStore.Areas.Admin.Controllers
                         Revenue = g.Sum(o => o.TotalAmount)
                     })
                     .OrderBy(x => x.Date)
-                    .ToList();
+                    .ToListAsync();
             }
 
-            return View(dashboardViewModel);
+            return View(viewModel);
         }
     }
 }

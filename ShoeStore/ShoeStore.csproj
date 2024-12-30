@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Models\DTO\Response\" />
     <Folder Include="wwwroot\images\contacts\" />
     <Folder Include="wwwroot\img\sliders\" />
