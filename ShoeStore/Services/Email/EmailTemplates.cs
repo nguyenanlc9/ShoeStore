@@ -37,4 +37,26 @@ public static class EmailTemplates
                 <p style='color: #666;'>Trân trọng,<br/>ShoeStore Team</p>
             </div>";
     }
+
+    public static string GetResetPasswordEmail(string fullName, string newPassword)
+    {
+        return $@"
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                <h2 style='color: #333;'>Đặt lại mật khẩu</h2>
+                
+                <p>Xin chào {fullName},</p>
+                
+                <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu của bạn.</p>
+                
+                <div style='background-color: #f8f9fa; padding: 15px; margin: 15px 0;'>
+                    <p>Mật khẩu mới của bạn là: <strong>{newPassword}</strong></p>
+                </div>
+
+                <p>Vui lòng đăng nhập và đổi mật khẩu mới ngay sau khi nhận được email này.</p>
+                
+                <p style='color: #666;'>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng liên hệ với chúng tôi ngay.</p>
+                
+                <p style='color: #666;'>Trân trọng,<br/>ShoeStore Team</p>
+            </div>";
+    }
 } 

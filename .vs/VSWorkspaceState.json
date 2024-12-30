@@ -13,6 +13,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\HomeController.cs",
+  "SelectedNode": "\\ShoeStore\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
