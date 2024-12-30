@@ -89,39 +89,47 @@
                     {
                         <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                             <div class="block-4 text-center border">
-                                <figure class="block-4-image">
+                                <div class="block-4-image">
                                     @if (product.DiscountPrice > 0)
                                     {
-                                        <div class="product-label-group">
-                                            <div class="product-label">
-                                                <span>-@Math.Round((product.DiscountPrice / product.Price) * 100, 0)%</span>
-                                            </div>
-                                        </div>
+                                        var discountPercent = Math.Round((product.DiscountPrice / product.Price) * 100);
+                                        <div class="product-label sale">-@discountPercent%</div>
                                     }
-                                    <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">
+                                    else if (product.UpdatedDate >= DateTime.Now.AddDays(-7))
+                                    {
+                                        <div class="product-label new">New</div>
+                                    }
+                                    else if (!product.ProductSizeStocks.Any(x => x.StockQuantity > 0))
+                                    {
+                                        <div class="product-label out-of-stock">Hết hàng</div>
+                                    }
+                                    
+                                    <a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">
                                         <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
                                     </a>
-                                </figure>
+                                </div>
                                 <div class="block-4-text p-4">
                                     <h3><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a></h3>
                                     
                                     <!-- Rating Stars -->
                                     <div class="product-rating mb-2">
                                         <div class="rating-wrapper">
-                                            <div class="stars">
-                                                @for (int i = 1; i <= 5; i++)
-                                                {
-                                                    if (i <= product.Rating)
+                                            <div class="d-flex align-items-center">
+                                                <div class="stars">
+                                                    @for (int i = 1; i <= 5; i++)
                                                     {
-                                                        <i class="fas fa-star"></i>
+                                                        if (i <= product.Rating)
+                                                        {
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="far fa-star text-warning"></i>
+                                                        }
                                                     }
-                                                    else
-                                                    {
-                                                        <i class="far fa-star"></i>
-                                                    }
-                                                }
+                                                </div>
+                                                <span class="review-count ml-2">(@product.ReviewCount)</span>
                                             </div>
-                                            <span class="review-count">(@product.ReviewCount)</span>
                                         </div>
                                     </div>
 
@@ -393,5 +401,67 @@
         color: #fff;
         border-color: #7971ea;
         text-decoration: none;
+    }
+
+    .product-label {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 3px;
+        z-index: 2;
+    }
+
+    .product-label.sale {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .product-label.new {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .product-label.out-of-stock {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .block-4-image {
+        position: relative;
+    }
+
+    .block-4-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Style cho rating */
+    .rating-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .stars {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .stars i {
+        font-size: 14px;
+        margin-right: 2px;
+    }
+
+    .review-count {
+        font-size: 14px;
+        color: #666;
+        margin-left: 5px;
+    }
+
+    .text-warning {
+        color: #ffc107 !important;
     }
 </style>

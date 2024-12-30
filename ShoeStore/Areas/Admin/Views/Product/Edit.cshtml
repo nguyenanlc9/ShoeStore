@@ -46,7 +46,7 @@
                 <!-- Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="Price" class="form-label font-weight-bold">Price</label>
-                    <input asp-for="Price" class="form-control" />
+                    <input asp-for="Price" type="text" class="form-control price-input" data-type="currency" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <!-- Discount Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
-                    <input asp-for="DiscountPrice" class="form-control" />
+                    <input asp-for="DiscountPrice" type="text" class="form-control price-input" data-type="currency" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
 
@@ -197,4 +197,65 @@
         });
     </script>
 
+    <script>
+        // Định dạng input thành tiền VND
+        $("input[data-type='currency']").on({
+            keyup: function() {
+                formatCurrency($(this));
+            },
+            blur: function() { 
+                formatCurrency($(this), "blur");
+            }
+        });
+
+        function formatNumber(n) {
+            // Chỉ lấy số nguyên, không có phần thập phân
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function formatCurrency(input) {
+            var input_val = input.val();
+            
+            // Không validate nếu rỗng
+            if (input_val === "") { return; }
+            
+            // Xóa tất cả ký tự không phải số
+            input_val = input_val.replace(/[^0-9]/g, "");
+            
+            // Format số với dấu phẩy
+            if (input_val !== "") {
+                input_val = parseInt(input_val).toString();
+                input_val = formatNumber(input_val);
+            }
+
+            // Thêm đơn vị tiền tệ
+            input_val += " đ";
+            
+            // Gán giá trị đã format vào input
+            input.val(input_val);
+        }
+
+        // Format giá trị ban đầu khi load trang
+        $(document).ready(function() {
+            $("input[data-type='currency']").each(function() {
+                var value = $(this).val();
+                if (value) {
+                    // Chuyển đổi sang số nguyên và format
+                    value = parseInt(value).toString();
+                    value = formatNumber(value);
+                    $(this).val(value + " đ");
+                }
+            });
+        });
+
+        // Xử lý trước khi submit form
+        $('form').submit(function() {
+            $('.price-input').each(function() {
+                // Chỉ lấy số, bỏ dấu phẩy và ký tự đ
+                var value = $(this).val().replace(/[^0-9]/g, '');
+                $(this).val(value);
+            });
+            return true;
+        });
+    </script>
 }
