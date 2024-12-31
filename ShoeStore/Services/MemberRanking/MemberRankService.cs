@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 
-namespace ShoeStore.Services
+namespace ShoeStore.Services.MemberRanking
 {
     public class MemberRankService : IMemberRankService
     {
@@ -54,7 +54,7 @@ namespace ShoeStore.Services
                     .OrderByDescending(r => r.MinimumSpent)
                     .FirstOrDefaultAsync();
 
-                if (newRank != null && (user.MemberRankId != newRank.RankId))
+                if (newRank != null && user.MemberRankId != newRank.RankId)
                 {
                     user.MemberRankId = newRank.RankId;
                     await _context.SaveChangesAsync();
@@ -67,4 +67,4 @@ namespace ShoeStore.Services
             }
         }
     }
-} 
+}

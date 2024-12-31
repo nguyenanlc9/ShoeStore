@@ -309,62 +309,46 @@ namespace ShoeStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProfile(User user)
+        public async Task<IActionResult> EditProfile(User model)
         {
-            var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
+            try
             {
-                return RedirectToAction("Login");
-            }
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                {
+                    return RedirectToAction("Login");
+                }
 
-            if (ModelState.IsValid)
+                // Lấy user hiện tại từ database
+                var user = await _context.Users.FindAsync(userInfo.UserID);
+                if (user == null)
+                {
+                    TempData["Error"] = "Không tìm thấy thông tin người dùng";
+                    return View(model);
+                }
+
+                // Cập nhật thông tin
+                user.FullName = model.FullName;
+                user.Phone = model.Phone;
+                user.Email = model.Email;
+
+                // Lưu thay đổi vào database
+                await _context.SaveChangesAsync();
+
+                // Cập nhật lại session
+                userInfo.FullName = model.FullName;
+                userInfo.Phone = model.Phone;
+                userInfo.Email = model.Email;
+                HttpContext.Session.Set("userInfo", userInfo);
+
+                TempData["Success"] = "Cập nhật thông tin thành công";
+                return RedirectToAction("EditProfile");
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    var existingUser = await _context.Users
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
-
-                    if (existingUser == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Cập nhật thông tin cơ bản
-                    user.Username = existingUser.Username; // Không cho phép đổi username
-                    user.RoleID = existingUser.RoleID;
-                    user.Status = existingUser.Status;
-                    user.RegisterDate = existingUser.RegisterDate;
-                    user.CreatedDate = existingUser.CreatedDate;
-                    user.LastLogin = existingUser.LastLogin;
-
-                    // Xử lý mật khẩu
-                    if (!string.IsNullOrEmpty(user.NewPassword))
-                    {
-                        user.PasswordHash = PasswordHelper.HashPassword(user.NewPassword);
-                    }
-                    else
-                    {
-                        user.PasswordHash = existingUser.PasswordHash;
-                    }
-
-                    _context.Entry(existingUser).State = EntityState.Detached;
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-
-                    // Cập nhật lại session
-                    HttpContext.Session.Set("userInfo", user);
-
-                    TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message);
-                }
+                TempData["Error"] = "Có lỗi xảy ra: " + ex.Message;
+                return View(model);
             }
-
-            return View(user);
         }
 
         public IActionResult ChangePassword()
@@ -379,11 +363,12 @@ namespace ShoeStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                TempData["Error"] = "Vui lòng kiểm tra lại thông tin nhập";
+                return RedirectToAction("EditProfile");
             }
 
             var userInfo = HttpContext.Session.Get<User>("userInfo");
@@ -393,25 +378,28 @@ namespace ShoeStore.Controllers
             }
 
             var user = await _context.Users.FindAsync(userInfo.UserID);
-            if (user == null || !PasswordHelper.VerifyPassword(model.OldPassword, user.PasswordHash))
+            if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Mật khẩu cũ không đúng.");
-                return View(model);
+                TempData["Error"] = "Không tìm thấy thông tin người dùng";
+                return RedirectToAction("EditProfile");
             }
 
-            if (model.NewPassword != model.ConfirmPassword)
+            // Kiểm tra mật khẩu hiện tại sử dụng PasswordHelper
+            if (!PasswordHelper.VerifyPassword(model.CurrentPassword, user.PasswordHash))
             {
-                ModelState.AddModelError(string.Empty, "Mật khẩu mới và xác nhận mật khẩu không khớp.");
-                return View(model);
+                TempData["Error"] = "Mật khẩu hiện tại không đúng";
+                return RedirectToAction("EditProfile");
             }
 
+            // Cập nhật mật khẩu mới sử dụng PasswordHelper
             user.PasswordHash = PasswordHelper.HashPassword(model.NewPassword);
-            _context.Update(user);
             await _context.SaveChangesAsync();
 
-            HttpContext.Session.Set<User>("userInfo", user); // Cập nhật session
-            ViewData["Message"] = "Mật khẩu đã được thay đổi thành công.";
-            return RedirectToAction("Profile");
+            // Cập nhật lại session
+            HttpContext.Session.Set("userInfo", user);
+
+            TempData["Success"] = "Đổi mật khẩu thành công";
+            return RedirectToAction("EditProfile");
         }
 
         [TypeFilter(typeof(AuthenticationFilter))]

@@ -40784,6 +40784,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\9a2f0f4b-7885-443a-ba1e-2f006e97e85a_4-549196.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\dbce403c-8f29-4cd9-bb23-5cde1653107e_img3.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/sliders/dbce403c-8f29-4cd9-bb23-5cde1653107e_img3.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\dbce403c-8f29-4cd9-bb23-5cde1653107e_img3.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\sliders\f70a676b-f66d-4f29-9f5e-5206bec27da7_AnhNhom10(2).jpg))">
       <SourceType>Package</SourceType>
       <SourceId>ShoeStore</SourceId>

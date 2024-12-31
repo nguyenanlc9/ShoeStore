@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using ShoeStore.Models.Payment;
 using ShoeStore.Helpers;
 using ShoeStore.Models.ViewModels;
-using ShoeStore.Services;
 using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.Email;
+using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore.Controllers
 {

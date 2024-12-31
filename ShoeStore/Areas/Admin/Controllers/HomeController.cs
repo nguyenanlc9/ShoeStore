@@ -24,9 +24,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             var today = DateTime.Today;
             var startDate = today;
             var endDate = today.AddDays(1);
-            var sliders = _context.Slider.Where(s => s.Status == 1).ToList();
-            ViewBag.Sliders = sliders;
-            return View();
+
 
             // Xác định khoảng thời gian dựa trên period
             switch (period.ToLower())

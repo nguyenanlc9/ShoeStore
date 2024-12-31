@@ -1,38 +1,256 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-
 }
 
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+<div class="slider-container">
+    <div class="slider">
         @if (ViewBag.Sliders != null && ViewBag.Sliders is IEnumerable<ShoeStore.Models.Slider>)
         {
             int index = 0;
             foreach (var slider in ViewBag.Sliders)
             {
-                <div class="item @(index == 0 ? "active" : "")">
-                    <div class="col-sm-12">
-                        <img src="~/images/sliders/@slider.Img" alt="Slider Image" />
+                <div class="slide @(index == 0 ? "active" : "")">
+                    <img src="~/images/sliders/@slider.Img" alt="Slider Image" />
+                    <div class="slide-content">
+                        <h2>@slider.Title</h2>
+                        <p>@slider.Description</p>
+                        <a href="@slider.Link" class="btn-shop">Shop Now</a>
                     </div>
                 </div>
                 index++;
             }
         }
-        else
-        {
-            <p>Không có slider nào để hiển thị.</p>
-        }
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+    <!-- Navigation Buttons -->
+    <button class="nav-btn prev-btn">
+        <i class="fas fa-chevron-left"></i>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+    <button class="nav-btn next-btn">
+        <i class="fas fa-chevron-right"></i>
     </button>
+
+    <!-- Navigation Dots -->
+    <div class="navigation-dots">
+        @{
+            var slidersList = ViewBag.Sliders as IEnumerable<ShoeStore.Models.Slider>;
+            if (slidersList != null)
+            {
+                for (int i = 0; i < slidersList.Count(); i++)
+                {
+                    <div class="single-dot @(i == 0 ? "active" : "")" data-index="@i"></div>
+                }
+            }
+        }
+    </div>
 </div>
+
+<style>
+    .slider-container {
+        position: relative;
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        margin-bottom: 50px;
+    }
+
+    .slider {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .slide.active {
+        opacity: 1;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slide-content {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        z-index: 2;
+    }
+
+    .slide-content h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUp 0.5s forwards;
+    }
+
+    .slide-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUp 0.5s 0.2s forwards;
+    }
+
+    .btn-shop {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #fff;
+        color: #333;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUp 0.5s 0.4s forwards;
+    }
+
+    .btn-shop:hover {
+        background-color: #333;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.3);
+        color: white;
+        padding: 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        z-index: 3;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255,255,255,0.8);
+        color: #333;
+    }
+
+    .prev-btn {
+        left: 20px;
+    }
+
+    .next-btn {
+        right: 20px;
+    }
+
+    .navigation-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 3;
+    }
+
+    .single-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .single-dot.active {
+        background: #fff;
+        transform: scale(1.2);
+    }
+
+    @@keyframes slideUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.single-dot');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            prevBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                prevSlide();
+                startSlideShow();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                nextSlide();
+                startSlideShow();
+            });
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                    startSlideShow();
+                });
+            });
+
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            startSlideShow();
+
+            const sliderContainer = document.querySelector('.slider-container');
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+
+            sliderContainer.addEventListener('mouseleave', () => {
+                startSlideShow();
+            });
+        });
+    </script>
+}
 
 <div class="site-section site-section-sm site-blocks-1">
     <div class="container">

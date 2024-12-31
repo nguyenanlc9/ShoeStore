@@ -1,115 +1,93 @@
-﻿@model ShoeStore.Models.Slider
+﻿@model ShoeStore.Models.DTO.Requset.SliderDTO
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm Slider mới";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Slider</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thêm Slider mới</h4>
+    </div>
+    <div class="card-body">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
+            
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name" class="control-label">Tên Slider</label>
+                <input asp-for="Name" class="form-control" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Img" class="control-label"></label>
-                <input asp-for="Img" type="file" class="form-control" accept="image/*" />
+                <label asp-for="Title" class="control-label">Tiêu đề</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Mô tả</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Link" class="control-label">Liên kết</label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Img" class="control-label">Hình ảnh</label>
+                <input type="file" name="Img" id="ImageFile" class="form-control" accept="image/*" required />
                 <span asp-validation-for="Img" class="text-danger"></span>
-                <div>
-                    <img id="imgPreview" class="img-fluid" alt="" />
+                <div id="imagePreview" class="mt-2" style="display: none;">
+                    <img id="preview" src="#" class="img-thumbnail" style="max-width: 200px" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="1">Hiển Thị</option>
-                    <option value="0">Ẩn</option>
-                </select>
-
+                <label asp-for="Sort" class="control-label">Thứ tự</label>
+                <input asp-for="Sort" class="form-control" type="number" value="0" />
+                <span asp-validation-for="Sort" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Status" class="control-label">Trạng thái</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="1">Hiện</option>
+                    <option value="0">Ẩn</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Header {
-    <link rel="stylesheet" href="~/Admin/plugins/ckeditor5/ckeditor5.css">
-}
-
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "/Admin/plugins/ckeditor5/ckeditor5.js",
-                "ckeditor5/": "/Admin/plugins/ckeditor5/"
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Preview ảnh trước khi upload
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    $('#preview').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                }
+                
+                reader.readAsDataURL(input.files[0]);
             }
         }
+
+        $("#ImageFile").change(function() {
+            readURL(this);
+        });
     </script>
-
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Paragraph,
-            Bold,
-            Italic,
-            Font
-        } from 'ckeditor5';
-
-        ClassicEditor
-            .create(document.querySelector('#Description'), {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
-            })
-            .then(editor => {
-                window.editor = editor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-    <script>
-        window.onload = () => {
-            document.getElementById("Img").onchange = (e) => {
-                var preview = document.getElementById('imgPreview');
-                var file = e.target.files[0];
-                var reader = new FileReader();
-
-                reader.onloadend = function () {
-                    preview.src = reader.result;
-                }
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.src = '';
-                }
-            };
-        }
-    </script>
-
 }

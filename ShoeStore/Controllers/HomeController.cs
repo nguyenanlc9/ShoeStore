@@ -27,9 +27,14 @@ namespace Project_BE.Controllers
         }
         public IActionResult Index()
         {
+            // Lấy slider có trạng thái active (Status = 1)
+            var sliders = _context.Slider.Where(s => s.Status == 1).ToList();
+            ViewBag.Sliders = sliders;
+
+            // Lấy thông tin footer
             ViewData["FooterInfo"] = _context.Footers
-            .OrderByDescending(f => f.FooterId)
-            .FirstOrDefault();
+                .OrderByDescending(f => f.FooterId)
+                .FirstOrDefault();
 
             // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
             ViewData["FeaturedProducts"] = _context.Products
@@ -43,7 +48,6 @@ namespace Project_BE.Controllers
                 .ToList();
 
             return View();
-
         }
 
         public IActionResult Privacy()

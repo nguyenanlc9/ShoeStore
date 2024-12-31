@@ -365,23 +365,20 @@
                 updateStockDisplay();
             });
 
-            // Xử lý nút tăng giảm số lượng
-            $('.js-btn-plus').click(function(e) {
-                e.preventDefault();
-                var input = $(this).closest('.input-group').find('.form-control');
-                var max = parseInt(input.attr('max'));
-                var value = parseInt(input.val());
-                if (value < max) {
-                    input.val(value + 1);
+            // Xử lý tăng giảm số lượng
+            $('#btnPlus').click(function() {
+                var input = $('.form-control.text-center');
+                var currentValue = parseInt(input.val());
+                if (currentValue < 10) { // Giới hạn tối đa 10 sản phẩm
+                    input.val(currentValue + 1);
                 }
             });
 
-            $('.js-btn-minus').click(function(e) {
-                e.preventDefault();
-                var input = $(this).closest('.input-group').find('.form-control');
-                var value = parseInt(input.val());
-                if (value > 1) {
-                    input.val(value - 1);
+            $('#btnMinus').click(function() {
+                var input = $('.form-control.text-center');
+                var currentValue = parseInt(input.val());
+                if (currentValue > 1) { // Giới hạn tối thiểu 1 sản phẩm
+                    input.val(currentValue - 1);
                 }
             });
 

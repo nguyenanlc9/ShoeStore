@@ -19,39 +19,57 @@ namespace ShoeStore.Areas.Admin.Controllers
     public class SliderController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public SliderController(ApplicationDbContext context)
+        public SliderController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // Thêm phương thức helper để xử lý upload file
-
-        private async Task<string> UploadFile(IFormFile file)
+        private async Task<string> UploadImage(IFormFile file)
         {
-            if (file == null || file.Length == 0)
-                return null;
-
-            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "sliders");
-
-            if (!Directory.Exists(uploadsFolder))
-                Directory.CreateDirectory(uploadsFolder);
-
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(fileStream);
-            }
+                if (file == null || file.Length == 0)
+                    return null;
 
-            return "/images/sliders/" + uniqueFileName;
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "sliders");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                return uniqueFileName;
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return null;
+            }
+        }
+
+        private void DeleteImage(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName)) return;
+
+            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "sliders", fileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
         }
 
         // GET: Admin/Slider
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Slider.ToListAsync());
+            return View(await _context.Slider.OrderBy(s => s.Sort).ToListAsync());
         }
 
         // GET: Admin/Slider/Details/5
@@ -85,35 +103,69 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SliderDTO sliderDTO)
         {
-            var userInfo = HttpContext.Session.Get<User>("userInfo");
-            var userName = "";
-            if (userInfo != null) userName = userInfo.Username;
-
-            if (ModelState.IsValid)
+            try 
             {
+                // Kiểm tra ModelState errors
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage);
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                    return View(sliderDTO);
+                }
+
+                // Kiểm tra file ảnh
+                if (sliderDTO.Img == null || sliderDTO.Img.Length == 0)
+                {
+                    ModelState.AddModelError("Img", "Vui lòng chọn hình ảnh");
+                    return View(sliderDTO);
+                }
+
+                // Upload ảnh và lưu tên file
+                string fileName = await UploadImage(sliderDTO.Img);
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    ModelState.AddModelError("Img", "Không thể upload hình ảnh");
+                    return View(sliderDTO);
+                }
+
                 // Tạo đối tượng Slider từ DTO
                 var slider = new Slider
                 {
                     Name = sliderDTO.Name,
+                    Title = sliderDTO.Title,
+                    Description = sliderDTO.Description ?? "",  // Đảm bảo không null
+                    Link = sliderDTO.Link ?? "",               // Đảm bảo không null
                     Status = sliderDTO.Status,
-                    Img = null, // Sẽ được cập nhật sau khi upload ảnh
+                    Sort = sliderDTO.Sort,
+                    Img = fileName
                 };
 
-                // Kiểm tra và upload ảnh
-                if (sliderDTO.Img != null)
+                // Đảm bảo Sort không null
+                if (slider.Sort == 0)
                 {
-                    slider.Img = await UploadFile(sliderDTO.Img);
+                    var maxSort = await _context.Slider.MaxAsync(s => (int?)s.Sort) ?? 0;
+                    slider.Sort = maxSort + 1;
                 }
 
-                // Lưu slider vào database
                 _context.Add(slider);
                 await _context.SaveChangesAsync();
-
+                
+                TempData["Success"] = "Thêm slider thành công";
                 return RedirectToAction(nameof(Index));
             }
-
-            // Nếu ModelState không hợp lệ, trả lại view cùng dữ liệu sliderDTO
-            return View(sliderDTO);
+            catch (Exception ex)
+            {
+                // Log lỗi để debug
+                System.Diagnostics.Debug.WriteLine($"Error in Create: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+                
+                ModelState.AddModelError("", $"Có lỗi xảy ra: {ex.Message}");
+                return View(sliderDTO);
+            }
         }
 
 
@@ -130,7 +182,20 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(slider);
+
+            // Chuyển đổi từ Slider sang SliderDTO
+            var sliderDTO = new SliderDTO
+            {
+                Slider_ID = slider.Slider_ID,
+                Name = slider.Name,
+                Title = slider.Title,
+                Description = slider.Description,
+                Link = slider.Link,
+                Status = slider.Status,
+                Sort = slider.Sort
+            };
+
+            return View(sliderDTO);
         }
 
         // POST: Admin/Slider/Edit/5
@@ -138,9 +203,9 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Slider_ID,Name,Status,Img")] Slider slider)
+        public async Task<IActionResult> Edit(int id, SliderDTO sliderDTO)
         {
-            if (id != slider.Slider_ID)
+            if (id != sliderDTO.Slider_ID)
             {
                 return NotFound();
             }
@@ -149,12 +214,40 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
+                    var slider = await _context.Slider.FindAsync(id);
+                    if (slider == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Cập nhật thông tin từ DTO
+                    slider.Name = sliderDTO.Name;
+                    slider.Title = sliderDTO.Title;
+                    slider.Description = sliderDTO.Description;
+                    slider.Link = sliderDTO.Link;
+                    slider.Status = sliderDTO.Status;
+                    slider.Sort = sliderDTO.Sort;
+
+                    // Xử lý upload ảnh mới nếu có
+                    if (sliderDTO.Img != null)
+                    {
+                        // Xóa ảnh cũ
+                        DeleteImage(slider.Img);
+                        // Upload ảnh mới
+                        string newImagePath = await UploadImage(sliderDTO.Img);
+                        if (!string.IsNullOrEmpty(newImagePath))
+                        {
+                            slider.Img = newImagePath;
+                        }
+                    }
+
                     _context.Update(slider);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SliderExists(slider.Slider_ID))
+                    if (!SliderExists(sliderDTO.Slider_ID))
                     {
                         return NotFound();
                     }
@@ -163,9 +256,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(slider);
+            return View(sliderDTO);
         }
 
         // GET: Admin/Slider/Delete/5
@@ -194,10 +286,13 @@ namespace ShoeStore.Areas.Admin.Controllers
             var slider = await _context.Slider.FindAsync(id);
             if (slider != null)
             {
+                // Xóa file ảnh
+                DeleteImage(slider.Img);
+                // Xóa record trong database
                 _context.Slider.Remove(slider);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

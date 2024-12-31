@@ -1,6 +1,6 @@
 using ShoeStore.Models;
 
-namespace ShoeStore.Services
+namespace ShoeStore.Services.MemberRanking
 {
     public interface IMemberRankService
     {
@@ -10,4 +10,4 @@ namespace ShoeStore.Services
         decimal CalculateDiscountAmount(decimal originalPrice, MemberRank rank);
         Task UpdateUserRank(int userId);
     }
-} 
+}

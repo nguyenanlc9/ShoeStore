@@ -44,59 +44,29 @@
                         <table id="sliderTable" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 120px">Hình ảnh</th>
-                                    <th>Thông tin Slider</th>
-                                    <th style="width: 150px">Trạng Thái</th>
-                                    <th style="width: 150px" class="text-center">Thao tác</th>
+                                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Sort)</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!Model.Any())
+                                @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td colspan="4" class="text-center">Không có dữ liệu để hiển thị</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Sort)</td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Slider_ID">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.Slider_ID">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.Slider_ID">Delete</a>
+                                        </td>
                                     </tr>
-                                }
-                                else
-                                {
-                                    foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td class="text-center">
-                                                <img src="@(string.IsNullOrEmpty(item.Img) ? "/images/no-image.png" : item.Img)"
-                                                     alt="@item.Name"
-                                                     class="img-thumbnail slider-image"
-                                                     data-toggle="tooltip"
-                                                     title="@item.Name" />
-                                            </td>
-                                            <td>
-                                                <h6 class="mb-1 font-weight-bold">@item.Name</h6>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="#" class="text-info">@item.Status</a>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="form-button-action">
-                                                    <a asp-action="Edit" asp-route-id="@item.Slider_ID"
-                                                       class="btn btn-link btn-primary btn-sm" data-toggle="tooltip"
-                                                       data-original-title="Sửa">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a asp-action="Details" asp-route-id="@item.Slider_ID"
-                                                       class="btn btn-link btn-info btn-sm" data-toggle="tooltip"
-                                                       data-original-title="Chi tiết">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </a>
-                                                    <a asp-action="Delete" asp-route-id="@item.Slider_ID"
-                                                       class="btn btn-link btn-danger btn-sm" data-toggle="tooltip"
-                                                       data-original-title="Xóa"
-                                                       onclick="return confirm('Bạn có chắc muốn xóa slider này?');">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
                                 }
                             </tbody>
                         </table>

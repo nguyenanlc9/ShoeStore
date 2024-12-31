@@ -11,6 +11,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Program.cs",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }

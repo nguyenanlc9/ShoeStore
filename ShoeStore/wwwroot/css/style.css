@@ -1,8 +1,8 @@
 /* Base */
 body {
   line-height: 1.7;
-  color: #8c92a0;
-  font-weight: 300;
+  color: #333333;
+  font-weight: 400;
   font-size: 16px; }
 
 ::-moz-selection {
@@ -16,7 +16,8 @@ body {
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
-  transition: .3s all ease; }
+  transition: .3s all ease;
+  color: #2d2d2d; }
   a:hover {
     text-decoration: none; }
 
@@ -751,3 +752,40 @@ a {
   width: 120px;
   border-radius: 50%;
   margin-bottom: 20px; }
+
+/* Điều chỉnh màu chữ cho các thẻ input */
+input, select, textarea {
+  color: #333333 !important;
+}
+
+/* Điều chỉnh màu chữ cho các thẻ p */
+p {
+  color: #333333;
+}
+
+/* Điều chỉnh màu chữ cho bảng */
+.table {
+  color: #333333;
+}
+
+/* Điều chỉnh màu chữ cho các label */
+label {
+  color: #333333;
+  font-weight: 500;
+}
+
+/* Điều chỉnh màu chữ cho các link */
+a {
+  color: #2d2d2d;
+}
+
+/* Điều chỉnh màu chữ cho các heading */
+h1, h2, h3, h4, h5, h6 {
+  color: #222222;
+  font-weight: 600;
+}
+
+/* Tăng độ tương phản cho text-muted */
+.text-muted {
+  color: #666666 !important;
+}

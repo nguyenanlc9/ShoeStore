@@ -1,16 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace ShoeStore.Models.DTO.Requset
 {
-    [Table("Sliders")]
     public class SliderDTO
     {
-        [Key]
         public int Slider_ID { get; set; }
-        public string? Name { get; set; }
-        public int? Status { get; set; }
-        public IFormFile? Img { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng nhập tên slider")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập tiêu đề")]
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string Link { get; set; }
+
+        public int Status { get; set; }
+
+        public int Sort { get; set; }
+
+        public IFormFile? Img { get; set; }
     }
 }

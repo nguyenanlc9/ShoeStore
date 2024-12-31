@@ -5,7 +5,7 @@ using ShoeStore.Models.Enums;
 using ShoeStore.Services.Payment;
 using Microsoft.Extensions.Configuration;
 using ShoeStore.Models.Payment;
-using ShoeStore.Services;
+using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore.Controllers
 {

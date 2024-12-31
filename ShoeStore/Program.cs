@@ -9,7 +9,7 @@ using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ShoeStore.Services.Email;
-using ShoeStore.Services;
+using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore
 {
