@@ -135,72 +135,43 @@ namespace ShoeStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserRegisterDTO model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // Log ModelState errors
-                if (!ModelState.IsValid)
-                {
-                    foreach (var modelState in ModelState.Values)
-                    {
-                        foreach (var error in modelState.Errors)
-                        {
-                            Console.WriteLine($"Validation Error: {error.ErrorMessage}");
-                        }
-                    }
-                    return View(model);
-                }
-
-                // Log registration attempt
-                Console.WriteLine($"Attempting to register user: {model.Username}, Email: {model.Email}");
-
-                // Kiểm tra username đã tồn tại
+                // Kiểm tra xem username đã tồn tại chưa
                 if (await _context.Users.AnyAsync(u => u.Username == model.Username))
                 {
-                    ModelState.AddModelError("Username", "Tên đăng nhập đã được sử dụng");
+                    ViewData["Message"] = "Tên đăng nhập đã tồn tại";
                     return View(model);
                 }
 
-                // Kiểm tra email đã tồn tại
+                // Kiểm tra email đã tồn tại chưa
                 if (await _context.Users.AnyAsync(u => u.Email == model.Email))
                 {
-                    ModelState.AddModelError("Email", "Email đã được sử dụng");
+                    ViewData["Message"] = "Email đã được sử dụng";
                     return View(model);
                 }
 
-                // Tạo user mới
                 var user = new User
                 {
                     Username = model.Username,
                     Email = model.Email,
-                    PasswordHash = PasswordHelper.HashPassword(model.Password),
                     FullName = model.FullName,
                     Phone = model.Phone,
-                    RoleID = 1, // Sửa lại thành 1 vì 1 là User, 2 là Admin
-                    RegisterDate = DateTime.Now,
-                    CreatedDate = DateTime.Now,
-                    Status = true
+                    PasswordHash = PasswordHelper.HashPassword(model.Password),
+                    RoleID = 2, // Role User
+                    Status = true,
+                    RegisterDate = DateTime.Now
                 };
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
-                // Log successful registration
-                Console.WriteLine($"User registered successfully: {user.Username}");
-
-                // Lưu thông tin user vào session
-                HttpContext.Session.Set("userInfo", user);
-
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                // Log detailed error
-                Console.WriteLine($"Registration error: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                // Thêm thông báo thành công vào TempData
+                TempData["SuccessMessage"] = "Đăng ký tài khoản thành công! Vui lòng đăng nhập.";
                 
-                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi đăng ký: " + ex.Message);
-                return View(model);
+                return RedirectToAction("Login");
             }
+            return View(model);
         }
 
         // GET: /Account/ForgotPassword
@@ -214,36 +185,30 @@ namespace ShoeStore.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                TempData["Message"] = "Email không tồn tại trong hệ thống";
+                return View();
+            }
+
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-                if (user == null)
-                {
-                    TempData["Message"] = "Email không tồn tại trong hệ thống";
-                    return View();
-                }
-
-                // Tạo mật khẩu mới ngẫu nhiên
+                // Tạo mật khẩu mới
                 string newPassword = GenerateRandomPassword();
-                
-                // Cập nhật mật khẩu mới trong database
                 user.PasswordHash = PasswordHelper.HashPassword(newPassword);
                 await _context.SaveChangesAsync();
 
-                // Gửi email chứa mật khẩu mới
-                await _emailService.SendEmailAsync(
-                    email,
-                    "Đặt lại mật khẩu - ShoeStore",
-                    EmailTemplates.GetResetPasswordEmail(user.FullName, newPassword)
-                );
+                // Gửi email
+                string emailBody = EmailTemplates.GetResetPasswordEmail(user.FullName, newPassword);
+                await _emailService.SendEmailAsync(user.Email, "Đặt lại mật khẩu - ShoeStore", emailBody);
 
-                TempData["Success"] = true;
-                TempData["Message"] = "Mật khẩu mới đã được gửi đến email của bạn";
+                TempData["SuccessMessage"] = "Mật khẩu mới đã được gửi đến email của bạn";
                 return RedirectToAction("Login");
             }
-            catch (Exception ex)
+            catch
             {
-                TempData["Message"] = "Có lỗi xảy ra: " + ex.Message;
+                TempData["Message"] = "Có lỗi xảy ra khi gửi email";
                 return View();
             }
         }

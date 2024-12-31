@@ -13,7 +13,7 @@ namespace ShoeStore.Filters
             
             if (userInfo == null)
             {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhậpb
                 context.Result = new RedirectToActionResult("Login", "Account", null);
                 return;
             }
