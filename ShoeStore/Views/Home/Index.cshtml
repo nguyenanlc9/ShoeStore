@@ -1,4 +1,5 @@
-﻿@{
+﻿@using ShoeStore.Models.ViewModels
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -336,47 +337,45 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="nonloop-block-3 owl-carousel">
-                    @if (ViewData["FeaturedProducts"] is List<Product> products)
+                    @if (ViewData["FeaturedProducts"] is List<ProductViewModel> productViewModels)
                     {
-                        foreach (var product in products)
+                        foreach (var productVM in productViewModels)
                         {
                             <div class="item">
                                 <div class="block-4 text-center">
                                     <figure class="block-4-image">
-                                        <a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">
-                                            <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
+                                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@productVM.Product.ProductId">
+                                            <img src="@productVM.Product.ImagePath" alt="@productVM.Product.Name" class="img-fluid">
                                         </a>
                                     </figure>
                                     <div class="block-4-text p-4">
-                                        <h3><a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">@product.Name</a></h3>
+                                        <h3><a asp-controller="Shop" asp-action="Detail" asp-route-id="@productVM.Product.ProductId">@productVM.Product.Name</a></h3>
                                         <p class="mb-0">
-                                            @if (product.Brands != null)
+                                            @if (productVM.Product.Brands != null)
                                             {
-                                                <span>@product.Brands.Name</span>
+                                                <span>@productVM.Product.Brands.Name</span>
                                             }
-                                            @if (product.Categories != null)
+                                            @if (productVM.Product.Categories != null)
                                             {
-                                                <span> - @product.Categories.Name</span>
+                                                <span> - @productVM.Product.Categories.Name</span>
                                             }
                                         </p>
                                         <p class="text-primary font-weight-bold">
-                                            @if (product.DiscountPrice > 0)
+                                            @if (productVM.Product.DiscountPrice > 0)
                                             {
-                                                <del class="text-muted">@product.Price.ToString("N0") đ</del>
-                                                <span>@product.DiscountPrice.ToString("N0") đ</span>
+                                                <del class="text-muted">@productVM.Product.Price.ToString("N0") đ</del>
+                                                <span>@productVM.Product.DiscountPrice.ToString("N0") đ</span>
                                             }
                                             else
                                             {
-                                                <span>@product.Price.ToString("N0") đ</span>
+                                                <span>@productVM.Product.Price.ToString("N0") đ</span>
                                             }
                                         </p>
-                                        @if (product.ProductSizeStocks?.Any() == true)
+                                        @if (productVM.AvailableSizes?.Any() == true)
                                         {
                                             <p class="text-muted">
                                                 <small>Có sẵn các size: 
-                                                    @string.Join(", ", product.ProductSizeStocks
-                                                        .Where(ps => ps.StockQuantity > 0)
-                                                        .Select(ps => ps.Size.SizeID))
+                                                    @string.Join(", ", productVM.AvailableSizes.Select(size => size.ToString("0.#")))
                                                 </small>
                                             </p>
                                         }

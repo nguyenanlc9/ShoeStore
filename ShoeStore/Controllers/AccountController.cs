@@ -7,6 +7,7 @@ using ShoeStore.Models.DTO.Request;
 using ShoeStore.Utils;
 using ShoeStore.Models.Enums;
 using ShoeStore.Services.Email;
+using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore.Controllers
 {
@@ -15,12 +16,18 @@ namespace ShoeStore.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailService _emailService;
+        private readonly IMemberRankService _memberRankService;
 
-        public AccountController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
+        public AccountController(
+            ApplicationDbContext context, 
+            IHttpContextAccessor httpContextAccessor, 
+            IEmailService emailService,
+            IMemberRankService memberRankService)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _emailService = emailService;
+            _memberRankService = memberRankService;
         }
 
         // GET: /Account/Login
@@ -234,6 +241,10 @@ namespace ShoeStore.Controllers
         {
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             
+            // Cập nhật rank trước khi lấy thông tin user
+            await _memberRankService.UpdateUserRank(userInfo.UserID);
+
+            // Lấy thông tin user đã được cập nhật
             var user = await _context.Users
                 .Include(u => u.MemberRank)
                 .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
@@ -254,6 +265,9 @@ namespace ShoeStore.Controllers
                 Console.WriteLine($"Next Rank: {nextRank.RankName}");
                 Console.WriteLine($"Need to spend: {nextRank.MinimumSpent - user.TotalSpent} more");
             }
+
+            // Cập nhật session với thông tin mới nhất
+            HttpContext.Session.Set("userInfo", user);
 
             ViewBag.NextRank = nextRank;
             return View(user);

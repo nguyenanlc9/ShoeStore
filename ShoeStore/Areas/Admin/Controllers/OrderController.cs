@@ -76,6 +76,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                 _context.Add(order);
                 await _context.SaveChangesAsync();
 
+                // Tạo thông báo cho đơn hàng mới
+
                 // Chuyển hướng về trang Index hoặc danh sách đơn hàng
                 return RedirectToAction(nameof(Index));
             }

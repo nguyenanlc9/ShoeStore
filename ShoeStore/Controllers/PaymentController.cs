@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
@@ -45,7 +45,7 @@ namespace ShoeStore.Controllers
                     return RedirectToAction("Checkout", "Cart");
                 }
 
-                var orderDetails = string.Join(", ", order.OrderDetails.Select(od => 
+                var orderDetails = string.Join(", ", order.OrderDetails.Select(od =>
                     $"{od.Product.Name} x {od.Quantity}"));
 
                 var paymentInfo = new VNPayInformationModel
@@ -89,14 +89,14 @@ namespace ShoeStore.Controllers
                     order.Status = OrderStatus.Processing;
                     order.PaymentStatus = PaymentStatus.Completed;
                     await _context.SaveChangesAsync();
-                    
+
                     await UpdateUserRankAfterPayment(order.UserId, order.TotalAmount);
-                    
+
                     if (!string.IsNullOrEmpty(order.OrderCoupon))
                     {
                         var coupon = await _context.Coupons
                             .FirstOrDefaultAsync(c => c.CouponCode == order.OrderCoupon);
-                            
+
                         if (coupon != null && coupon.Quantity > 0)
                         {
                             coupon.Quantity--;
@@ -128,7 +128,7 @@ namespace ShoeStore.Controllers
 
         private async Task UpdateUserRankAfterPayment(int userId, decimal orderAmount)
         {
-            try 
+            try
             {
                 var user = await _context.Users.FindAsync(userId);
                 if (user != null)

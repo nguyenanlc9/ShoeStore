@@ -13,6 +13,7 @@ using ShoeStore.Models.ViewModels;
 using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.Email;
 using ShoeStore.Services.MemberRanking;
+using ShoeStore.Areas.Admin.Controllers;
 
 namespace ShoeStore.Controllers
 {

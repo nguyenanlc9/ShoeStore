@@ -585,6 +585,7 @@ C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bi
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Humanizer.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.Build.dll

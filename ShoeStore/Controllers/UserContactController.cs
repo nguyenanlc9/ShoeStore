@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoeStore.Models; // Thay đổi theo namespace của bạn
+using ShoeStore.Models;
 using System.Threading.Tasks;
 
 public class UserContactController : Controller
@@ -18,21 +18,30 @@ public class UserContactController : Controller
     }
 
     [HttpPost]
-    public IActionResult Submit(ContactUser model)
+    public async Task<IActionResult> Submit(ContactUser model)
     {
         if (ModelState.IsValid)
         {
             // Add the contact information to the database
-            _context.ContactUsers.Add(model); // Add the new contact to the ContactUsers table
-            _context.SaveChanges(); // Save the changes to the database
+            _context.ContactUsers.Add(model);
+            await _context.SaveChangesAsync();
+
+            // Create notification for admin
+            var contact = new Contact
+            {
+                ContactName = $"{model.ContactUFirstName} {model.ContactULastName}",
+                ContactEmail = model.ContactUEmail,
+                ContactPhone = model.ContactUPhone,
+                ContactDescription = model.ContactUMessage
+            };
 
             TempData["SuccessMessage"] = "Gửi thông tin thành công!";
-            return RedirectToAction("Contact", "Home"); // Redirect after success
+            return RedirectToAction("Contact", "Home");
         }
         else
         {
             TempData["ErrorMessage"] = "Đã có lỗi xảy ra. Vui lòng thử lại.";
-            return RedirectToAction("Contact", "Home"); // Redirect with error message
+            return RedirectToAction("Contact", "Home");
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
+using ShoeStore.Models.ViewModels;
 using System.Diagnostics;
 
 namespace Project_BE.Controllers
@@ -37,7 +38,7 @@ namespace Project_BE.Controllers
                 .FirstOrDefault();
 
             // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
-            ViewData["FeaturedProducts"] = _context.Products
+            var products = _context.Products
                 .Include(p => p.ProductSizeStocks)
                     .ThenInclude(ps => ps.Size)
                 .Include(p => p.Categories)
@@ -46,6 +47,18 @@ namespace Project_BE.Controllers
                 .OrderByDescending(p => p.UpdatedDate)
                 .Take(5)
                 .ToList();
+
+            // Chuyển đổi sang ProductViewModel
+            var productViewModels = products.Select(p => new ProductViewModel
+            {
+                Product = p,
+                AvailableSizes = p.ProductSizeStocks
+                    .Where(ps => ps.StockQuantity > 0) // Chỉ lấy size còn hàng
+                    .Select(ps => ps.Size.SizeValue)
+                    .ToList()
+            }).ToList();
+
+            ViewData["FeaturedProducts"] = productViewModels;
 
             return View();
         }

@@ -263,6 +263,48 @@ namespace ShoeStore.Migrations
                     b.ToTable("Footers");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -673,6 +715,15 @@ namespace ShoeStore.Migrations
                     b.Navigation("Size");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Notification", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Order", b =>

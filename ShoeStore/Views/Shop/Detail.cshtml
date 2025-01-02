@@ -172,47 +172,134 @@
     </div>
 </div>
 
+<!-- Phần sản phẩm liên quan -->
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3 class="section-title">Sản phẩm liên quan</h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var relatedProduct in ViewBag.RelatedProducts)
+            {
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="product-card h-100">
+                        <div class="product-image">
+                            <a href="@Url.Action("Detail", "Shop", new { id = relatedProduct.ProductId })">
+                                <img src="@relatedProduct.ImagePath" alt="@relatedProduct.Name" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="product-info p-3">
+                            <h5 class="product-name">
+                                <a href="@Url.Action("Detail", "Shop", new { id = relatedProduct.ProductId })" class="text-dark text-decoration-none">
+                                    @relatedProduct.Name
+                                </a>
+                            </h5>
+                            <div class="product-brand text-muted mb-2">
+                                @relatedProduct.Brands?.Name
+                            </div>
+                            <div class="product-price">
+                                @if (relatedProduct.DiscountPrice > 0)
+                                {
+                                    <del class="text-muted mr-2">@String.Format("{0:N0}đ", relatedProduct.Price)</del>
+                                    <span class="text-primary">@String.Format("{0:N0}đ", relatedProduct.Price - relatedProduct.DiscountPrice)</span>
+                                }
+                                else
+                                {
+                                    <span class="text-primary">@String.Format("{0:N0}đ", relatedProduct.Price)</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <style>
     .product-card {
-        display: flex;
-        flex-direction: column; /* Đặt thông tin dưới hình ảnh */
-        align-items: center; /* Căn giữa nội dung */
-        border: 1px solid #ddd;
-        padding: 15px;
+        display: block;
+        padding: 0;
+        max-width: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #eee;
         border-radius: 8px;
-        max-width: 300px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
         background-color: #fff;
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+        position: relative;
+        padding-top: 100%; /* Tạo hình vuông */
+        overflow: hidden;
     }
 
     .product-image img {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: auto;
-        border-radius: 8px;
-    } 
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        border-radius: 0;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
 
     .product-info {
-        text-align: center;
-        margin-top: 10px;
+        padding: 15px;
+        text-align: left;
     }
 
     .product-name {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        line-height: 1.4;
+        height: 44px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
-    .product-description {
-        font-family: "Mukta", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-size: 1rem;
-        line-height: 1.8;
+    .product-name a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .product-name a:hover {
+        color: #007bff;
+    }
+
+    .product-brand {
+        font-size: 14px;
         color: #666;
+        margin-bottom: 8px;
     }
 
     .product-price {
         font-size: 16px;
-        font-weight: bold;
-        color: #d9534f;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .product-price del {
+        font-size: 14px;
+        font-weight: normal;
+        color: #999;
+        margin-right: 8px;
     }
 
     .buy-now {
@@ -322,6 +409,26 @@
     .review-form textarea {
         resize: vertical;
         min-height: 100px;
+    }
+
+    /* CSS cho phần sản phẩm liên quan */
+    .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #007bff;
     }
 </style> 
 

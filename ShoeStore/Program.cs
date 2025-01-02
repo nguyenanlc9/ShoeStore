@@ -1,14 +1,13 @@
-﻿using ShoeStore.Models;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using ShoeStore.Services.Payment;
-using Microsoft.AspNetCore.Http;
-using ShoeStore.Helpers;
+using ShoeStore.Models;
 using ShoeStore.Models.Payment;
+using ShoeStore.Services;
+using ShoeStore.Services.Email;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using ShoeStore.Services.Email;
+using ShoeStore.Services.Payment;
+using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore
@@ -26,11 +25,6 @@ namespace ShoeStore
 
             builder.Services.AddScoped<IEmailService, EmailService>();
 
-            builder.Services.AddControllersWithViews()
-            .AddRazorOptions(options =>
-            {
-                options.ViewLocationFormats.Add("/Views/Shared/Components/{0}/Default.cshtml");
-            });
             // Cấu hình DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -42,7 +36,6 @@ namespace ShoeStore
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
 
             // Cấu hình Cookie Authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -56,14 +49,15 @@ namespace ShoeStore
             // Cấu hình HTTP Context Accessor
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IVnPayService, VnPayService>();
+
             //Momo API Payment
             builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
             builder.Services.AddScoped<IMomoService, MomoService>();
-            // Đăng ký HttpClient và AddressService
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<ShoeStore.Services.APIAddress.IAddressService, ShoeStore.Services.APIAddress.AddressService>();
             builder.Services.AddScoped<IMemberRankService, MemberRankService>();
 
+            // Đăng ký HttpClient và AddressService
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<IAddressService, AddressService>();
 
             var app = builder.Build();
 
@@ -95,12 +89,10 @@ namespace ShoeStore
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-
             // Cấu hình Default route
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
             // Khởi tạo dữ liệu mặc định nếu cần
             using (var scope = app.Services.CreateScope())
@@ -110,7 +102,6 @@ namespace ShoeStore
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.Migrate();
-                    // Có thể thêm seeding data ở đây nếu cần
                 }
                 catch (Exception ex)
                 {
