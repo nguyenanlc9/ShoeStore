@@ -64,13 +64,16 @@ namespace ShoeStore
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
             else
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Thêm middleware xử lý status code
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
