@@ -1,0 +1,123 @@
+@model ShoeStore.Models.Product
+@{
+    ViewData["Title"] = "Lịch sử thay đổi sản phẩm";
+    ViewData["ActiveMenu"] = "product";
+    var histories = ViewBag.Histories as List<ProductHistory>;
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Lịch sử thay đổi sản phẩm</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Thông tin sản phẩm: @Model.Name</h4>
+                        <a href="@Url.Action("Index")" class="btn btn-primary btn-round ml-auto">
+                            <i class="fa fa-arrow-left"></i>
+                            Quay lại danh sách
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="product-info">
+                                <h5>Thông tin cơ bản</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Mã sản phẩm</th>
+                                        <td>@Model.ProductCode</td>
+                                        <th>Tên sản phẩm</th>
+                                        <td>@Model.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Danh mục</th>
+                                        <td>@Model.Categories?.Name</td>
+                                        <th>Thương hiệu</th>
+                                        <td>@Model.Brands?.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Giá</th>
+                                        <td>@Model.Price.ToString("#,##0")đ</td>
+                                        <th>Giá khuyến mãi</th>
+                                        <td>@Model.DiscountPrice.ToString("#,##0")đ</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="history-info">
+                                <h5>Lịch sử thay đổi</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Thời gian</th>
+                                                <th>Người thực hiện</th>
+                                                <th>Hành động</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Giá</th>
+                                                <th>Giá KM</th>
+                                                <th>Danh mục</th>
+                                                <th>Thương hiệu</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var history in histories)
+                                            {
+                                                <tr>
+                                                    <td>@history.ModifiedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                                    <td>@history.ModifiedBy</td>
+                                                    <td>
+                                                        @switch (history.Action)
+                                                        {
+                                                            case "Create":
+                                                                <span class="badge badge-success">Tạo mới</span>
+                                                                break;
+                                                            case "Update":
+                                                                <span class="badge badge-info">Cập nhật</span>
+                                                                break;
+                                                            case "Delete":
+                                                                <span class="badge badge-danger">Xóa</span>
+                                                                break;
+                                                        }
+                                                    </td>
+                                                    <td>@history.Name</td>
+                                                    <td>@history.Price.ToString("#,##0")đ</td>
+                                                    <td>@history.DiscountPrice.ToString("#,##0")đ</td>
+                                                    <td>@(Model.Categories?.Name)</td>
+                                                    <td>@(Model.Brands?.Name)</td>
+                                                    <td>
+                                                        @switch (history.Status)
+                                                        {
+                                                            case ProductStatus.Available:
+                                                                <span class="badge badge-success">Đang bán</span>
+                                                                break;
+                                                            case ProductStatus.OutOfStock:
+                                                                <span class="badge badge-warning">Hết hàng</span>
+                                                                break;
+                                                            case ProductStatus.Discontinued:
+                                                                <span class="badge badge-danger">Ngừng kinh doanh</span>
+                                                                break;
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

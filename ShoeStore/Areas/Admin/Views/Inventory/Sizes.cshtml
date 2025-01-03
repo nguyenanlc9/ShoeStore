@@ -1,0 +1,125 @@
+@model IEnumerable<ShoeStore.Models.Size>
+@{
+    ViewData["Title"] = "Quản lý size";
+    ViewData["ActiveMenu"] = "product";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Quản lý size</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Danh sách size</h4>
+                        <button class="btn btn-primary btn-round ml-auto" data-bs-toggle="modal" data-bs-target="#addSizeModal">
+                            <i class="fa fa-plus"></i>
+                            Thêm Size
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    <div class="table-responsive">
+                        <table id="sizeTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th style="width: 10%">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.SizeValue</td>
+                                        <td>
+                                            <div class="form-button-action">
+                                                <a href="@Url.Action("EditSize", new { id = item.SizeID })" class="btn btn-link btn-primary btn-lg">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-link btn-danger" onclick="deleteSize(@item.SizeID)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm Size -->
+<div class="modal fade" id="addSizeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+                    <span class="fw-mediumbold">Thêm</span>
+                    <span class="fw-light">Size mới</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <form asp-action="CreateSize" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Size</label>
+                                <input type="number" class="form-control" name="SizeValue" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer no-bd">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#sizeTable').DataTable({
+                "pageLength": 10,
+            });
+        });
+
+        function deleteSize(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa size này?')) {
+                $.ajax({
+                    url: '@Url.Action("DeleteSize")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.message || 'Có lỗi xảy ra');
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra');
+                    }
+                });
+            }
+        }
+    </script>
+} 

@@ -1,0 +1,48 @@
+@model IEnumerable<ShoeStore.Models.ProductSizeStockHistory>
+@{
+    ViewData["Title"] = "Lịch sử thay đổi số lượng";
+    var productSizeStock = ViewBag.ProductSizeStock as ShoeStore.Models.ProductSizeStock;
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Lịch sử thay đổi số lượng</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Sản phẩm: @productSizeStock.Product.Name - Size: @productSizeStock.Size.SizeName
+                </h6>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Số lượng cũ</th>
+                            <th>Số lượng mới</th>
+                            <th>Hành động</th>
+                            <th>Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ModifiedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td>@item.OldQuantity</td>
+                                <td>@item.NewQuantity</td>
+                                <td>@item.Action</td>
+                                <td>@item.ModifiedBy</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -17,12 +17,13 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Shop
-        public IActionResult Index(int? categoryId, int? brandId, string sort, decimal? minPrice, decimal? maxPrice, int page = 1)
+        public async Task<IActionResult> Index(int? categoryId, int? brandId, string sort, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
             var query = _context.Products
                 .Include(p => p.Brands)
                 .Include(p => p.Categories)
                 .Include(p => p.ProductSizeStocks)
+                .Include(p => p.ProductImages)
                 .AsQueryable();
 
             // Lọc theo danh mục
@@ -75,7 +76,7 @@ namespace ShoeStore.Controllers
                     break;
             }
 
-            var products = query.ToList();
+            var products = await query.ToListAsync();
 
             // Phân trang
             int pageSize = 9; // Số sản phẩm trên mỗi trang
@@ -126,36 +127,38 @@ namespace ShoeStore.Controllers
         }
 
         // GET: /Shop/Detail/{id}
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int? id)
         {
-            // Lấy sản phẩm theo id kèm theo size và số lượng tồn
-            var product = _context.Products
-                                .Include(p => p.Brands)
-                                .Include(p => p.Categories)
-                                .Include(p => p.ProductSizeStocks)
-                                    .ThenInclude(pss => pss.Size)
-                                .FirstOrDefault(p => p.ProductId == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Include(p => p.ProductSizeStocks)
+                    .ThenInclude(pss => pss.Size)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                    .ThenInclude(r => r.User)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            // Lấy các sản phẩm liên quan (cùng category)
-            var relatedProducts = _context.Products
-                                        .Include(p => p.Brands)
-                                        .Where(p => p.CategoryId == product.CategoryId && p.ProductId != id)
-                                        .Take(4)
-                                        .ToList();
+            // Load related products
+            var relatedProducts = await _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.ProductImages)
+                .Where(p => p.CategoryId == product.CategoryId && p.ProductId != product.ProductId)
+                .Take(4)
+                .ToListAsync();
 
             ViewBag.RelatedProducts = relatedProducts;
-
-            // Lấy đánh giá của sản phẩm
-            ViewBag.Reviews = _context.Reviews
-                .Include(r => r.User)
-                .Where(r => r.ProductId == id)
-                .OrderByDescending(r => r.CreatedAt)
-                .ToList();
+            ViewBag.Reviews = product.Reviews?.OrderByDescending(r => r.CreatedAt).ToList() ?? new List<Review>();
 
             return View(product);
         }

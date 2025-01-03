@@ -1,0 +1,109 @@
+@model IEnumerable<ShoeStore.Models.ProductSizeStock>
+
+@{
+    ViewData["Title"] = "Quản lý tồn kho";
+    ViewData["ActiveMenu"] = "product";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Quản lý tồn kho</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Danh sách tồn kho</h4>
+                        <a href="@Url.Action("Create")" class="btn btn-primary btn-round ml-auto">
+                            <i class="fa fa-plus"></i>
+                            Nhập kho
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    <div class="table-responsive">
+                        <table id="stockTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Size</th>
+                                    <th>Số lượng tồn</th>
+                                    <th>Người tạo</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Người cập nhật</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th style="width: 10%">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Product?.Name</td>
+                                        <td>@item.Size?.SizeValue</td>
+                                        <td>@item.StockQuantity</td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@(item.CreatedDate.ToString("dd/MM/yyyy HH:mm"))</td>
+                                        <td>@item.UpdatedBy</td>
+                                        <td>@(item.UpdatedDate?.ToString("dd/MM/yyyy HH:mm"))</td>
+                                        <td>
+                                            <div class="form-button-action">
+                                                <a href="@Url.Action("Edit", new { id = item.ProductSizeStockID })" class="btn btn-link btn-primary btn-lg">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="@Url.Action("History", new { id = item.ProductSizeStockID })" class="btn btn-link btn-warning btn-lg" title="Lịch sử thay đổi">
+                                                    <i class="fa fa-history"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-link btn-danger" onclick="deleteStock(@item.ProductSizeStockID)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#stockTable').DataTable({
+                "pageLength": 10
+            });
+        });
+
+        function deleteStock(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa thông tin tồn kho này?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.message || 'Có lỗi xảy ra');
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra');
+                    }
+                });
+            }
+        }
+    </script>
+} 

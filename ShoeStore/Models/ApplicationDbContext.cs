@@ -17,15 +17,14 @@ namespace ShoeStore.Models
                 .ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
-        public DbSet<Slider> Slider { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
         public DbSet<ProductSizeStock> ProductSizeStocks { get; set; }
         public DbSet<Size> Size { get; set; }
         public DbSet<Review> Reviews { get; set; }
@@ -34,41 +33,62 @@ namespace ShoeStore.Models
         public DbSet<ContactUser> ContactUsers { get; set; }
         public DbSet<Footer> Footers { get; set; }
         public DbSet<MemberRank> MemberRanks { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductHistory> ProductHistories { get; set; }
+        public DbSet<ProductSizeStockHistory> ProductSizeStockHistories { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Cấu hình Role-User relationship
-            modelBuilder.Entity<Role>()
-                .HasMany(r => r.Users)
-                .WithOne(u => u.Role)
-                .HasForeignKey(u => u.RoleID);
+            // Cấu hình precision và scale cho các trường decimal
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2);
 
-            // Seed data cho Role
-            modelBuilder.Entity<Role>().HasData(
-                new Role { RoleID = 1, RoleName = "Admin" },
-                new Role { RoleID = 2, RoleName = "User" }
-            );
+            modelBuilder.Entity<Product>()
+                .Property(p => p.DiscountPrice)
+                .HasPrecision(18, 2);
 
-            // Cấu hình cho CartItem
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.User)
+            // Cấu hình quan hệ giữa các bảng
+            modelBuilder.Entity<ProductSizeStock>()
+                .HasOne(pss => pss.Product)
+                .WithMany(p => p.ProductSizeStocks)
+                .HasForeignKey(pss => pss.ProductID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ProductSizeStock>()
+                .HasOne(pss => pss.Size)
+                .WithMany(s => s.ProductSizeStocks)
+                .HasForeignKey(pss => pss.SizeID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Cấu hình quan hệ cho ProductSizeStockHistory
+            modelBuilder.Entity<ProductSizeStockHistory>()
+                .HasOne(h => h.Product)
                 .WithMany()
-                .HasForeignKey(ci => ci.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(h => h.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Product)
+            modelBuilder.Entity<ProductSizeStockHistory>()
+                .HasOne(h => h.Size)
                 .WithMany()
-                .HasForeignKey(ci => ci.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(h => h.SizeId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Size)
-                .WithMany()
-                .HasForeignKey(ci => ci.SizeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Cấu hình giá trị mặc định cho các trường bool
+            modelBuilder.Entity<Product>()
+                .Property(p => p.IsNew)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.IsHot)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.IsSale)
+                .HasDefaultValue(false);
         }
     }
 }

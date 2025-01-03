@@ -1,0 +1,95 @@
+@model ShoeStore.Models.DTO.Request.UserLoginDTO
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="auth-logo">
+    <img src="~/images/logo.png" alt="ShoeStore Logo" />
+</div>
+
+<h4 class="text-center mb-4">Đăng nhập</h4>
+
+@if (!string.IsNullOrEmpty(ViewData["Message"]?.ToString()))
+{
+    <div class="alert alert-danger">@ViewData["Message"]</div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <p class="mb-0">@error.ErrorMessage</p>
+            }
+        }
+    </div>
+}
+
+<div class="auth-links mb-4">
+    <span>Chưa có tài khoản?</span>
+    <a asp-controller="Auth" asp-action="Register">Đăng ký</a>
+</div>
+
+<form asp-controller="Auth" asp-action="Login" method="post" class="auth-form">
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+            </div>
+            <input asp-for="UserName" class="form-control" placeholder="Tên đăng nhập" />
+        </div>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            </div>
+            <input asp-for="Password" class="form-control" type="password" placeholder="Mật khẩu" />
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="custom-control custom-checkbox">
+            <input asp-for="RememberMe" class="custom-control-input" id="rememberMe" />
+            <label class="custom-control-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-auth">Đăng nhập</button>
+
+    <div class="auth-links mt-3">
+        <a asp-controller="Auth" asp-action="ForgotPassword">Quên mật khẩu?</a>
+    </div>
+
+    <div class="auth-divider">
+        <span>hoặc</span>
+    </div>
+
+    <div class="social-login">
+        <a href="#" class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-btn google">
+            <i class="fab fa-google"></i>
+        </a>
+    </div>
+</form>
+
+<style>
+    .auth-links {
+        text-align: center;
+    }
+    .auth-links a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .auth-links a:hover {
+        text-decoration: underline;
+    }
+</style> 

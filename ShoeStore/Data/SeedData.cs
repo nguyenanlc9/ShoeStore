@@ -28,7 +28,7 @@ namespace ShoeStore.Data
                     {
                         Username = "admin",
                         PasswordHash = PasswordHelper.HashPassword("Admin@123"),
-                        Email = "admin@shoestore.com",
+                        Email = "nguyenanlc9@gmail.com",
                         FullName = "Administrator",
                         Phone = "0123456789",
                         RoleID = 2, // Admin role

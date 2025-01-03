@@ -43,27 +43,54 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ProductCode" class="form-label font-weight-bold">Mã sản phẩm</label>
+                    <input asp-for="ProductCode" class="form-control" placeholder="Ví dụ: CW2288-111" />
+                    <span asp-validation-for="ProductCode" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
                 <!-- Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="Price" class="form-label font-weight-bold">Price</label>
                     <input asp-for="Price" type="text" class="form-control price-input" data-type="currency" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
-            </div>
 
-            <div class="row">
                 <!-- Discount Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
                     <input asp-for="DiscountPrice" type="text" class="form-control price-input" data-type="currency" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
+            </div>
 
+            <div class="row">
                 <!-- Status -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="Status" class="form-label font-weight-bold">Status</label>
                     <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProductStatus>()"></select>
                     <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <!-- Product Flags -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Trạng thái sản phẩm</label>
+                    <div class="custom-controls-stacked">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsNew" class="custom-control-input" id="isNew">
+                            <label class="custom-control-label" for="isNew">Sản phẩm mới</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsHot" class="custom-control-input" id="isHot">
+                            <label class="custom-control-label" for="isHot">Sản phẩm hot</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsSale" class="custom-control-input" id="isSale">
+                            <label class="custom-control-label" for="isSale">Đang giảm giá</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -75,30 +102,19 @@
             </div>
 
             <!-- Image Upload -->
-            <div class="mb-3">
-                <label asp-for="ImagePath" class="form-label font-weight-bold">Hình ảnh sản phẩm</label>
-                <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
-
-                <div class="row mt-3">
-                    <!-- Current Image -->
+            <div class="form-group">
+                <label>Ảnh đại diện hiện tại</label>
+                <div class="mb-2">
                     @if (!string.IsNullOrEmpty(Model.ImagePath))
                     {
-                        <div class="col-md-6">
-                            <label class="form-label">Ảnh hiện tại:</label>
-                            <div class="border rounded p-2">
-                                <img src="@Model.ImagePath" class="img-fluid" alt="Current Image" style="max-height: 200px;" />
-                            </div>
-                        </div>
+                        <img src="@Model.ImagePath" alt="Main Product Image" class="img-fluid" style="max-height: 200px;" />
                     }
-                    <!-- Preview Image -->
-                    <div class="col-md-6">
-                        <label class="form-label">Xem trước ảnh mới:</label>
-                        <div class="border rounded p-2">
-                            <img id="preview" class="img-fluid" style="max-height: 200px;" />
-                        </div>
-                    </div>
                 </div>
+                
+                <label>Thay đổi ảnh đại diện</label>
+                <input type="file" name="mainImage" id="mainImage" class="form-control" accept="image/*" />
+                <div id="mainImagePreview" class="mt-2"></div>
+                <small class="form-text text-muted">Ảnh đại diện sẽ hiển thị ở trang chủ và danh sách sản phẩm</small>
             </div>
 
             <!-- Submit Button -->
@@ -256,6 +272,86 @@
                 $(this).val(value);
             });
             return true;
+        });
+    </script>
+
+    <script>
+        // Preview ảnh đại diện
+        document.getElementById('mainImage').addEventListener('change', function(e) {
+            const preview = document.getElementById('mainImagePreview');
+            preview.innerHTML = '';
+            
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" class="img-fluid mt-2" style="max-height: 200px;">`;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // Preview nhiều ảnh chi tiết
+        document.getElementById('productImages').addEventListener('change', function(e) {
+            const container = document.getElementById('imagePreviewContainer');
+            container.innerHTML = '';
+            
+            if (this.files) {
+                Array.from(this.files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'col-md-3 mb-2 position-relative';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="img-fluid" style="max-height: 150px;">
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" onclick="removePreview(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <input type="hidden" name="productImageIndexes[]" value="${index}">
+                        `;
+                        container.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+
+        function removePreview(button) {
+            button.closest('.col-md-3').remove();
+        }
+
+        function deleteImage(imageId) {
+            if (confirm('Bạn có chắc muốn xóa ảnh này?')) {
+                $.ajax({
+                    url: '/Admin/Product/DeleteImage',
+                    type: 'POST',
+                    data: { imageId: imageId },
+                    success: function(response) {
+                        if (response.success) {
+                            document.getElementById('image-' + imageId).remove();
+                        } else {
+                            alert(response.message || 'Có lỗi xảy ra khi xóa ảnh');
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi xóa ảnh');
+                    }
+                });
+            }
+        }
+
+        // Xử lý form submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Lấy tất cả các file đã chọn
+            const productImagesInput = document.getElementById('productImages');
+            const files = Array.from(productImagesInput.files);
+            
+            // Tạo FormData để gửi cả file và dữ liệu form
+            const formData = new FormData(this);
+            
+            // Thêm từng file vào FormData
+            files.forEach((file, index) => {
+                formData.append('productImages', file);
+            });
         });
     </script>
 }

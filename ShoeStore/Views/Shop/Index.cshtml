@@ -1,467 +1,377 @@
 ﻿@model IEnumerable<ShoeStore.Models.Product>
 @{
-    ViewData["Title"] = "Shop Page";
+    ViewData["Title"] = "Shop";
 }
+
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index">Home</a> 
+                <span class="mx-2 mb-0">/</span> 
+                <strong class="text-black">Shop</strong>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="site-section">
     <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Lọc sản phẩm</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="filterForm" method="get">
+                            <!-- Danh mục -->
+                            <div class="mb-4">
+                                <h6>Danh mục</h6>
+                                <select name="categoryId" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Tất cả</option>
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.CategoryId" selected="@(ViewBag.SelectedCategoryId == category.CategoryId)">
+                                            @category.Name
+                                        </option>
+                                    }
+                                </select>
+                            </div>
 
-        <div class="row mb-5">
-            <div class="col-md-9 order-2">
-
-                <div class="row">
-                    <div class="col-md-12 mb-5">
-                        <div class="float-md-left mb-4">
-                            <h2 class="text-black h5">Shop All</h2>
-                        </div>
-                        <div class="d-flex">
-                            <div class="dropdown mr-1 ml-md-auto">
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuBrand" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @(ViewBag.SelectedBrand?.Name ?? "Thương hiệu")
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuBrand">
-                                    <a class="dropdown-item @(ViewBag.SelectedBrandId == null ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index"
-                                       asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                       asp-route-minPrice="@ViewBag.MinPrice"
-                                       asp-route-maxPrice="@ViewBag.MaxPrice"
-                                       asp-route-sort="@ViewBag.CurrentSort">
-                                        Tất cả thương hiệu
-                                    </a>
+                            <!-- Thương hiệu -->
+                            <div class="mb-4">
+                                <h6>Thương hiệu</h6>
+                                <select name="brandId" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Tất cả</option>
                                     @foreach (var brand in ViewBag.Brands)
                                     {
-                                        <a class="dropdown-item @(ViewBag.SelectedBrandId == brand.BrandId ? "active" : "")" 
-                                                   asp-controller="Shop" asp-action="Index"
-                                                   asp-route-brandId="@brand.BrandId"
-                                                   asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                                   asp-route-minPrice="@ViewBag.MinPrice"
-                                                   asp-route-maxPrice="@ViewBag.MaxPrice"
-                                                   asp-route-sort="@ViewBag.CurrentSort">
-                                            @brand.Name <span class="text-muted">(@brand.ProductCount)</span>
-                                        </a>
+                                        <option value="@brand.BrandId" selected="@(ViewBag.SelectedBrandId == brand.BrandId)">
+                                            @brand.Name
+                                        </option>
                                     }
-                                </div>
+                                </select>
                             </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuSort" data-toggle="dropdown">
-                                    @(ViewBag.SortLabel ?? "Sắp xếp")
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuSort">
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == null ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index">
-                                        Mới nhất
-                                    </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-asc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-asc"
-                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
-                                        Tên, A đến Z
-                                    </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-desc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-desc"
-                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
-                                        Tên, Z đến A
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-asc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-asc"
-                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
-                                        Giá, thấp đến cao
-                                    </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-desc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-desc"
-                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
-                                        Giá, cao đến thấp
-                                    </a>
+
+                            <!-- Khoảng giá -->
+                            <div class="mb-4">
+                                <h6>Khoảng giá</h6>
+                                <div class="form-group">
+                                    <input type="number" name="minPrice" class="form-control mb-2" 
+                                           placeholder="Giá từ" value="@ViewBag.MinPrice">
+                                    <input type="number" name="maxPrice" class="form-control" 
+                                           placeholder="Giá đến" value="@ViewBag.MaxPrice">
                                 </div>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Áp dụng</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product List -->
+            <div class="col-md-9">
+                <!-- Sort Options -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span>Hiển thị @Model.Count() sản phẩm</span>
+                            </div>
+                            <div>
+                                <select id="sortOrder" class="form-control" onchange="updateSort(this.value)">
+                                    <option value="">Sắp xếp theo</option>
+                                    <option value="price_asc" selected="@(ViewBag.CurrentSort == "price_asc")">
+                                        Giá tăng dần
+                                    </option>
+                                    <option value="price_desc" selected="@(ViewBag.CurrentSort == "price_desc")">
+                                        Giá giảm dần
+                                    </option>
+                                    <option value="name_asc" selected="@(ViewBag.CurrentSort == "name_asc")">
+                                        Tên A-Z
+                                    </option>
+                                    <option value="name_desc" selected="@(ViewBag.CurrentSort == "name_desc")">
+                                        Tên Z-A
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-5">
+
+                <!-- Products Grid -->
+                <div class="row">
                     @foreach (var product in Model)
                     {
-                        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                            <div class="block-4 text-center border">
-                                <div class="block-4-image">
-                                    @if (product.DiscountPrice > 0)
-                                    {
-                                        var discountPercent = Math.Round((product.DiscountPrice / product.Price) * 100);
-                                        <div class="product-label sale">-@discountPercent%</div>
-                                    }
-                                    else if (product.UpdatedDate >= DateTime.Now.AddDays(-7))
-                                    {
-                                        <div class="product-label new">New</div>
-                                    }
-                                    else if (!product.ProductSizeStocks.Any(x => x.StockQuantity > 0))
-                                    {
-                                        <div class="product-label out-of-stock">Hết hàng</div>
-                                    }
-                                    
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="product-card h-100">
+                                <div class="product-image">
                                     <a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">
-                                        <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
+                                        @if (!string.IsNullOrEmpty(product.ImagePath))
+                                        {
+                                            <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/no-image.png" alt="No Image" class="img-fluid">
+                                        }
                                     </a>
-                                </div>
-                                <div class="block-4-text p-4">
-                                    <h3><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a></h3>
-                                    
-                                    <!-- Rating Stars -->
-                                    <div class="product-rating mb-2">
-                                        <div class="rating-wrapper">
-                                            <div class="d-flex align-items-center">
-                                                <div class="stars">
-                                                    @for (int i = 1; i <= 5; i++)
-                                                    {
-                                                        if (i <= product.Rating)
-                                                        {
-                                                            <i class="fas fa-star text-warning"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="far fa-star text-warning"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                <span class="review-count ml-2">(@product.ReviewCount)</span>
-                                            </div>
-                                        </div>
+                                    <div class="product-badges">
+                                        @if (product.IsNew)
+                                        {
+                                            <span class="badge badge-success">New</span>
+                                        }
+                                        @if (product.IsHot)
+                                        {
+                                            <span class="badge badge-warning">Hot</span>
+                                        }
+                                        @if (product.DiscountPrice > 0)
+                                        {
+                                            var discountPercent = Math.Round((decimal)(product.DiscountPrice / product.Price * 100));
+                                            <span class="badge badge-danger">-@discountPercent%</span>
+                                        }
+                                        @{
+                                            var totalStock = product.ProductSizeStocks?.Sum(s => s.StockQuantity) ?? 0;
+                                        }
+                                        @if (totalStock == 0)
+                                        {
+                                            <span class="badge badge-danger">Sold Out</span>
+                                        }
                                     </div>
-
-                                    <!-- Price & Status -->
-                                    @switch (product.Status)
+                                </div>
+                                <div class="product-info p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="product-name mb-0">
+                                            <a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })" class="text-dark text-decoration-none">
+                                                @product.Name
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div class="product-brand text-muted mb-2">
+                                        @product.Brands?.Name
+                                    </div>
+                                    <div class="product-price">
+                                        @if (product.DiscountPrice > 0)
+                                        {
+                                            var finalPrice = product.Price - product.DiscountPrice;
+                                            <del class="text-muted mr-2">@String.Format("{0:N0}đ", product.Price)</del>
+                                            <span class="text-danger">@String.Format("{0:N0}đ", finalPrice)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@String.Format("{0:N0}đ", product.Price)</span>
+                                        }
+                                    </div>
+                                    @if (product.Status == ProductStatus.OutOfStock)
                                     {
-                                        case ProductStatus.Available:
-                                            @if (product.DiscountPrice > 0)
-                                            {
-                                                <div class="price-wrapper">
-                                                    <span class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price - product.DiscountPrice)</span>
-                                                    <del class="old-price">@String.Format("{0:N0}đ", product.Price)</del>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <p class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price)</p>
-                                            }
-                                            break;
-
-                                        case ProductStatus.OutOfStock:
-                                            <div class="status-label out-of-stock">Hết hàng</div>
-                                            break;
-
-                                        case ProductStatus.Discontinued:
-                                            <div class="status-label discontinued">Ngừng kinh doanh</div>
-                                            break;
+                                        <div class="status-label out-of-stock mt-2">Hết hàng</div>
+                                    }
+                                    else if (product.Status == ProductStatus.Discontinued)
+                                    {
+                                        <div class="status-label discontinued mt-2">Ngừng kinh doanh</div>
                                     }
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <div class="row" data-aos="fade-up">
-                    <div class="col-md-12 text-center">
-                        <div class="site-block-27">
-                            <ul>
-                                @if (ViewBag.HasPreviousPage)
-                                {
-                                    <li>
-                                        <a asp-controller="Shop" asp-action="Index" 
-                                           asp-route-page="@(ViewBag.CurrentPage - 1)"
-                                           asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                           asp-route-brandId="@ViewBag.SelectedBrandId"
-                                           asp-route-minPrice="@ViewBag.MinPrice"
-                                           asp-route-maxPrice="@ViewBag.MaxPrice"
-                                           asp-route-sort="@ViewBag.CurrentSort">&lt;</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="disabled"><span>&lt;</span></li>
-                                }
-
-                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                                {
-                                    <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
-                                        @if (i == ViewBag.CurrentPage)
-                                        {
-                                            <span>@i</span>
-                                        }
-                                        else
-                                        {
-                                            <a asp-controller="Shop" asp-action="Index" 
-                                               asp-route-page="@i"
-                                               asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                               asp-route-brandId="@ViewBag.SelectedBrandId"
-                                               asp-route-minPrice="@ViewBag.MinPrice"
-                                               asp-route-maxPrice="@ViewBag.MaxPrice"
-                                               asp-route-sort="@ViewBag.CurrentSort">@i</a>
-                                        }
-                                    </li>
-                                }
-
-                                @if (ViewBag.HasNextPage)
-                                {
-                                    <li>
-                                        <a asp-controller="Shop" asp-action="Index" 
-                                           asp-route-page="@(ViewBag.CurrentPage + 1)"
-                                           asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                           asp-route-brandId="@ViewBag.SelectedBrandId"
-                                           asp-route-minPrice="@ViewBag.MinPrice"
-                                           asp-route-maxPrice="@ViewBag.MaxPrice"
-                                           asp-route-sort="@ViewBag.CurrentSort">&gt;</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="disabled"><span>&gt;</span></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 order-1 mb-5 mb-md-0">
-                <div class="border p-4 rounded mb-4">
-                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-1">
-                            <a asp-controller="Shop" asp-action="Index" 
-                               class="d-flex @(ViewBag.SelectedCategoryId == null ? "text-primary" : "")">
-                                <span>All Categories</span>
-                                <span class="text-black ml-auto">(@Model.Count())</span>
-                            </a>
-                        </li>
-                        @foreach (var category in ViewBag.Categories)
-                        {
-                            <li class="mb-1">
-                                <a asp-controller="Shop" asp-action="Index" 
-                                   asp-route-categoryId="@category.CategoryId"
-                                   asp-route-brandId="@ViewBag.SelectedBrandId"
-                                   asp-route-minPrice="@ViewBag.MinPrice"
-                                   asp-route-maxPrice="@ViewBag.MaxPrice"
-                                   asp-route-sort="@ViewBag.CurrentSort"
-                                   class="d-flex @(ViewBag.SelectedCategoryId == category.CategoryId ? "text-primary" : "")">
-                                    <span>@category.Name</span>
-                                    <span class="text-black ml-auto">(@category.ProductCount)</span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-
-                <div class="border p-4 rounded mb-4">
-                    <div class="mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Lọc theo giá</h3>
-                        <div id="slider-range" class="border-primary"></div>
-                        <div class="mt-2">
-                            <span class="price-display">
-                                Giá: <span id="amount">0đ - 10.000.000đ</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-
-       
-
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
     <script>
-        $(document).ready(function() {
-            // Lấy giá trị từ ViewBag hoặc dùng giá trị mặc định
-            var initialMinPrice = @(ViewBag.MinPrice ?? 0);
-            var initialMaxPrice = @(ViewBag.MaxPrice ?? 10000000);
-
-            $("#slider-range").slider({
-                range: true,
-                min: 0,
-                max: 10000000,
-                step: 100000,
-                values: [initialMinPrice, initialMaxPrice],
-                slide: function(event, ui) {
-                    $("#amount").text(formatPrice(ui.values[0]) + " - " + formatPrice(ui.values[1]));
-                },
-                stop: function(event, ui) {
-                    filterProducts(ui.values[0], ui.values[1]);
-                }
-            });
-
-            // Hiển thị giá trị ban đầu
-            $("#amount").text(
-                formatPrice(initialMinPrice) + " - " + formatPrice(initialMaxPrice)
-            );
-
-            function formatPrice(price) {
-                return new Intl.NumberFormat('vi-VN', { 
-                    style: 'currency', 
-                    currency: 'VND' 
-                }).format(price);
-            }
-
-            function filterProducts(minPrice, maxPrice) {
-                var url = new URL(window.location.href);
-                var params = new URLSearchParams(url.search);
-
-                // Giữ lại các tham số hiện tại
-                params.set('minPrice', minPrice);
-                params.set('maxPrice', maxPrice);
-
-                // Giữ lại categoryId và sort nếu có
-                if ('@ViewBag.SelectedCategoryId' !== '') {
-                    params.set('categoryId', '@ViewBag.SelectedCategoryId');
-                }
-                if ('@ViewBag.CurrentSort' !== '') {
-                    params.set('sort', '@ViewBag.CurrentSort');
-                }
-
-                // Chuyển hướng với các tham số mới
-                window.location.href = '@Url.Action("Index", "Shop")' + '?' + params.toString();
-            }
-        });
+        function updateSort(value) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sortOrder', value);
+            window.location.search = urlParams.toString();
+        }
     </script>
 }
 
 <style>
-    .ui-slider-horizontal {
-        height: 4px;
-        background: #e9ecef;
-        border: none;
-        margin: 10px 0;
-    }
-
-    .ui-slider .ui-slider-handle {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        border: none;
-        background: #7971ea;
-        top: -6px;
-    }
-
-    .ui-slider .ui-slider-range {
-        background: #7971ea;
-    }
-
-    .price-display {
-        font-size: 14px;
-        color: #333;
-    }
-
-    .site-block-27 ul {
+    .product-card {
+        display: block;
         padding: 0;
-        margin: 0;
+        max-width: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        height: 100%;
     }
 
-    .site-block-27 ul li {
-        display: inline-block;
-        margin: 0 5px;
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .site-block-27 ul li a,
-    .site-block-27 ul li span {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        color: #333;
-        text-align: center;
+    .product-image {
+        position: relative;
+        padding-top: 100%; /* Tạo hình vuông */
+        overflow: hidden;
     }
 
-    .site-block-27 ul li.active span {
-        background: #7971ea;
-        color: #fff;
-        border-color: #7971ea;
+    .product-image img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
     }
 
-    .site-block-27 ul li.disabled span {
-        color: #ccc;
-        cursor: not-allowed;
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
     }
 
-    .site-block-27 ul li a:hover {
-        background: #7971ea;
-        color: #fff;
-        border-color: #7971ea;
-        text-decoration: none;
-    }
-
-    .product-label {
+    .product-badge {
         position: absolute;
         top: 10px;
         right: 10px;
         padding: 5px 10px;
+        border-radius: 4px;
+        color: white;
         font-size: 12px;
         font-weight: bold;
-        border-radius: 3px;
-        z-index: 2;
+        z-index: 1;
     }
 
-    .product-label.sale {
+    .product-badge.sale {
+        background-color: #dc3545;
+    }
+
+    .product-badge.new {
+        background-color: #28a745;
+    }
+
+    .product-badge.hot {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .product-info {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .product-name {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        line-height: 1.4;
+        height: 44px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .product-name a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .product-name a:hover {
+        color: #007bff;
+    }
+
+    .product-brand {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .product-price {
+        font-size: 16px;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .product-price del {
+        font-size: 14px;
+        font-weight: normal;
+        color: #999;
+        margin-right: 8px;
+    }
+
+    .status-label {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-label.out-of-stock {
         background-color: #dc3545;
         color: white;
     }
 
-    .product-label.new {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .product-label.out-of-stock {
+    .status-label.discontinued {
         background-color: #6c757d;
         color: white;
     }
 
-    .block-4-image {
-        position: relative;
-    }
-
-    .block-4-image img {
-        width: 100%;
-        height: auto;
-    }
-
-    /* Style cho rating */
-    .rating-wrapper {
+    .badges {
         display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .stars {
-        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 4px;
         align-items: center;
     }
 
-    .stars i {
-        font-size: 14px;
-        margin-right: 2px;
+    .badges .badge {
+        font-size: 10px;
+        padding: 4px 8px;
+        margin: 0;
     }
 
-    .review-count {
-        font-size: 14px;
-        color: #666;
-        margin-left: 5px;
+    .badge-success {
+        background-color: #28a745;
     }
 
-    .text-warning {
-        color: #ffc107 !important;
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+    }
+
+    .product-badges {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        z-index: 2;
+    }
+
+    .product-badges .badge {
+        font-size: 11px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
     }
 </style>
