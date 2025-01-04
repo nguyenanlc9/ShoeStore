@@ -163,21 +163,23 @@ namespace ShoeStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories
+                .Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.CategoryId == id);
+
             if (category == null)
             {
                 return Json(new { success = false, message = "Không tìm thấy danh mục" });
             }
 
+            // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
+            if (category.Products.Any())
+            {
+                return Json(new { success = false, message = "Không thể xóa danh mục vì còn sản phẩm thuộc danh mục này" });
+            }
+
             try
             {
-                // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
-                var products = await _context.Products.Where(p => p.CategoryId == id).ToListAsync();
-                if (products.Any())
-                {
-                    return Json(new { success = false, message = "Không thể xóa vì còn sản phẩm thuộc danh mục này" });
-                }
-
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
                 return Json(new { success = true });

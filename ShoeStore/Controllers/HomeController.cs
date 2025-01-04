@@ -46,19 +46,17 @@ namespace Project_BE.Controllers
                 .Where(p => p.Status == ProductStatus.Available)
                 .OrderByDescending(p => p.UpdatedDate)
                 .Take(5)
+                .Select(p => new ProductViewModel
+                {
+                    Product = p,
+                    AvailableSizes = p.ProductSizeStocks
+                        .Where(ps => ps.StockQuantity > 0)
+                        .Select(ps => ps.Size.SizeValue)
+                        .ToList()
+                })
                 .ToList();
 
-            // Chuyển đổi sang ProductViewModel
-            var productViewModels = products.Select(p => new ProductViewModel
-            {
-                Product = p,
-                AvailableSizes = p.ProductSizeStocks
-                    .Where(ps => ps.StockQuantity > 0) // Chỉ lấy size còn hàng
-                    .Select(ps => ps.Size.SizeValue)
-                    .ToList()
-            }).ToList();
-
-            ViewData["FeaturedProducts"] = productViewModels;
+            ViewData["FeaturedProducts"] = products;
 
             return View();
         }

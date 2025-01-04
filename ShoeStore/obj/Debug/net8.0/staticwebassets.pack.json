@@ -9993,12 +9993,20 @@
       "PackagePath": "staticwebassets\\images\\products\\45635041-7aaf-407a-aef9-989c5feba37e_img3.jpg"
     },
     {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\48d8e0fa-7aca-496e-84ce-706bb58bed15.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\48d8e0fa-7aca-496e-84ce-706bb58bed15.jpg"
+    },
+    {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg",
       "PackagePath": "staticwebassets\\images\\products\\4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6013e54d-a0ec-43bd-b8a0-3ad74f77094d_img1.jpg",
       "PackagePath": "staticwebassets\\images\\products\\6013e54d-a0ec-43bd-b8a0-3ad74f77094d_img1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\680c1ee0-4fb8-46da-ab79-3fbbd85776b5.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\680c1ee0-4fb8-46da-ab79-3fbbd85776b5.jpg"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6e78fdc2-d7ac-4c34-b9bf-ddf9081f1ebc.jpg",
@@ -10025,12 +10033,24 @@
       "PackagePath": "staticwebassets\\images\\products\\8e1430ec-5110-4f9b-91da-e849f5332ae6.jpg"
     },
     {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\9f5e0a59-78aa-4822-9f8a-30d000d8e8b5.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\9f5e0a59-78aa-4822-9f8a-30d000d8e8b5.jpg"
+    },
+    {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\aeca7408-e4f3-43f7-bb8f-3003ecf7823d.jpg",
       "PackagePath": "staticwebassets\\images\\products\\aeca7408-e4f3-43f7-bb8f-3003ecf7823d.jpg"
     },
     {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b8e8d51c-a8f7-4b9c-8c06-c686ea3ca1a7.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\b8e8d51c-a8f7-4b9c-8c06-c686ea3ca1a7.jpg"
+    },
+    {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b927f280-d15e-486e-8f47-4b56b5f3ff7b_img3.jpg",
       "PackagePath": "staticwebassets\\images\\products\\b927f280-d15e-486e-8f47-4b56b5f3ff7b_img3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\f13d9b8a-c1fe-42f5-b7a9-a6fa702bb931_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-13.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\f13d9b8a-c1fe-42f5-b7a9-a6fa702bb931_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-13.jpg"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\f6628c7f-233b-4e5c-a690-a1c8c80a89cc_istockphoto-1436061606-612x612.jpg",
@@ -10051,6 +10071,10 @@
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg",
       "PackagePath": "staticwebassets\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\2d3f0337-688d-493a-b1ae-3d003a886a98_Test.png",
+      "PackagePath": "staticwebassets\\images\\sliders\\2d3f0337-688d-493a-b1ae-3d003a886a98_Test.png"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\58d8fafc-9c14-472d-9831-cdf921a9ae8e_HF0737-111-1.webp",

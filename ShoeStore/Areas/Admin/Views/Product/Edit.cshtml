@@ -54,14 +54,16 @@
                 <!-- Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="Price" class="form-label font-weight-bold">Price</label>
-                    <input asp-for="Price" type="text" class="form-control price-input" data-type="currency" />
+                    <input type="hidden" asp-for="Price" id="actualPrice" />
+                    <input type="text" class="form-control price-display" data-type="currency" value="@Model.Price.ToString("#,##0")" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <!-- Discount Price -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
-                    <input asp-for="DiscountPrice" type="text" class="form-control price-input" data-type="currency" />
+                    <input type="hidden" asp-for="DiscountPrice" id="actualDiscountPrice" />
+                    <input type="text" class="form-control price-display" data-type="currency" value="@Model.DiscountPrice.ToString("#,##0")" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
             </div>
@@ -220,59 +222,38 @@
                 formatCurrency($(this));
             },
             blur: function() { 
-                formatCurrency($(this), "blur");
+                formatCurrency($(this));
             }
         });
 
         function formatNumber(n) {
-            // Chỉ lấy số nguyên, không có phần thập phân
             return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         function formatCurrency(input) {
-            var input_val = input.val();
+            // Lấy giá trị và xóa tất cả ký tự không phải số
+            var value = input.val().replace(/[^0-9]/g, "");
             
-            // Không validate nếu rỗng
-            if (input_val === "") { return; }
-            
-            // Xóa tất cả ký tự không phải số
-            input_val = input_val.replace(/[^0-9]/g, "");
-            
-            // Format số với dấu phẩy
-            if (input_val !== "") {
-                input_val = parseInt(input_val).toString();
-                input_val = formatNumber(input_val);
+            // Format số với dấu phẩy nếu có giá trị
+            if (value !== "") {
+                input.val(formatNumber(value));
+                
+                // Cập nhật giá trị thực vào input ẩn tương ứng
+                var hiddenInput = input.prev('input[type="hidden"]');
+                if (hiddenInput.length > 0) {
+                    hiddenInput.val(value);
+                }
             }
-
-            // Thêm đơn vị tiền tệ
-            input_val += " đ";
-            
-            // Gán giá trị đã format vào input
-            input.val(input_val);
         }
 
         // Format giá trị ban đầu khi load trang
         $(document).ready(function() {
             $("input[data-type='currency']").each(function() {
-                var value = $(this).val();
-                if (value) {
-                    // Chuyển đổi sang số nguyên và format
-                    value = parseInt(value).toString();
-                    value = formatNumber(value);
-                    $(this).val(value + " đ");
-                }
+                formatCurrency($(this));
             });
         });
 
-        // Xử lý trước khi submit form
-        $('form').submit(function() {
-            $('.price-input').each(function() {
-                // Chỉ lấy số, bỏ dấu phẩy và ký tự đ
-                var value = $(this).val().replace(/[^0-9]/g, '');
-                $(this).val(value);
-            });
-            return true;
-        });
+        // Không cần xử lý form submit vì giá trị thực đã được lưu trong input ẩn
     </script>
 
     <script>

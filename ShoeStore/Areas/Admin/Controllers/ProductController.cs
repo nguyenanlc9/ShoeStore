@@ -346,13 +346,54 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var product = await _context.Products
+                .Include(p => p.ProductSizeStocks)
+                .Include(p => p.OrderDetails)
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            if (product == null)
             {
-                _context.Products.Remove(product);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
+            // Kiểm tra xem sản phẩm có tồn kho không
+            if (product.ProductSizeStocks.Any(pss => pss.StockQuantity > 0))
+            {
+                TempData["Error"] = "Không thể xóa sản phẩm vì còn hàng trong kho";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Kiểm tra xem sản phẩm có trong đơn hàng không
+            if (product.OrderDetails.Any())
+            {
+                TempData["Error"] = "Không thể xóa sản phẩm vì đã có trong đơn hàng";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                // Xóa các ảnh liên quan
+                var images = await _context.ProductImages.Where(pi => pi.ProductId == id).ToListAsync();
+                foreach (var image in images)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    _context.ProductImages.Remove(image);
+                }
+
+                // Xóa sản phẩm
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Xóa sản phẩm thành công";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Có lỗi xảy ra khi xóa sản phẩm: " + ex.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

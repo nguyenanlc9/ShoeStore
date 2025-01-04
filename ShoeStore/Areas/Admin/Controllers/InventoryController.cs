@@ -195,6 +195,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                         var currentUser = HttpContext.Session.Get<User>("AdminUserInfo");
                         stock.CreatedBy = currentUser.Username;
                         stock.CreatedDate = DateTime.Now;
+                        stock.UpdatedBy = currentUser.Username;
+                        stock.UpdatedDate = DateTime.Now;
 
                         _context.Add(stock);
                         await _context.SaveChangesAsync();
@@ -388,16 +390,43 @@ namespace ShoeStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var stock = await _context.ProductSizeStocks.FindAsync(id);
+            var stock = await _context.ProductSizeStocks
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(s => s.ProductSizeStockID == id);
+
             if (stock == null)
             {
                 return Json(new { success = false, message = "Không tìm thấy thông tin tồn kho" });
             }
 
+            // Kiểm tra số lượng tồn kho
+            if (stock.StockQuantity > 5)
+            {
+                return Json(new { success = false, message = "Không thể xóa tồn kho vì số lượng còn nhiều hơn 5" });
+            }
+
             try
             {
+                var currentUser = HttpContext.Session.Get<User>("AdminUserInfo");
+
+                // Lưu lịch sử xóa
+                _context.ProductSizeStockHistories.Add(new ProductSizeStockHistory
+                {
+                    ProductId = stock.ProductID,
+                    SizeId = stock.SizeID,
+                    OldQuantity = stock.StockQuantity,
+                    NewQuantity = 0,
+                    ModifiedBy = currentUser?.Username,
+                    ModifiedDate = DateTime.Now,
+                    Action = "Delete"
+                });
+
                 _context.ProductSizeStocks.Remove(stock);
                 await _context.SaveChangesAsync();
+
+                // Cập nhật trạng thái sản phẩm
+                await UpdateProductStatus(stock.ProductID);
+
                 return Json(new { success = true });
             }
             catch (Exception ex)

@@ -1,4 +1,8 @@
 @model ShoeStore.Models.Product
+@{
+    ViewData["Title"] = "Quản lý ảnh sản phẩm: " + Model.Name;
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container">
     <h2>Quản lý ảnh sản phẩm: @Model.Name</h2>

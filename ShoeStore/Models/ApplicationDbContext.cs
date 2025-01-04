@@ -51,31 +51,46 @@ namespace ShoeStore.Models
                 .Property(p => p.DiscountPrice)
                 .HasPrecision(18, 2);
 
-            // Cấu hình quan hệ giữa các bảng
+            // Cấu hình quan hệ giữa Product và Category
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Categories)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Cấu hình quan hệ giữa Product và Brand
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Brands)
+                .WithMany(b => b.Products)
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Cấu hình quan hệ giữa ProductSizeStock và Product
             modelBuilder.Entity<ProductSizeStock>()
                 .HasOne(pss => pss.Product)
                 .WithMany(p => p.ProductSizeStocks)
                 .HasForeignKey(pss => pss.ProductID)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Cấu hình quan hệ giữa ProductSizeStock và Size
             modelBuilder.Entity<ProductSizeStock>()
                 .HasOne(pss => pss.Size)
                 .WithMany(s => s.ProductSizeStocks)
                 .HasForeignKey(pss => pss.SizeID)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Cấu hình quan hệ cho ProductSizeStockHistory
             modelBuilder.Entity<ProductSizeStockHistory>()
                 .HasOne(h => h.Product)
                 .WithMany()
                 .HasForeignKey(h => h.ProductId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ProductSizeStockHistory>()
                 .HasOne(h => h.Size)
                 .WithMany()
                 .HasForeignKey(h => h.SizeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Cấu hình giá trị mặc định cho các trường bool
             modelBuilder.Entity<Product>()

@@ -57,9 +57,12 @@
                                                 <a href="@Url.Action("History", new { id = item.ProductSizeStockID })" class="btn btn-link btn-warning btn-lg" title="Lịch sử thay đổi">
                                                     <i class="fa fa-history"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-link btn-danger" onclick="deleteStock(@item.ProductSizeStockID)">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
+                                                @if (item.StockQuantity <= 5)
+                                                {
+                                                    <button type="button" class="btn btn-link btn-danger" onclick="deleteStock(@item.ProductSizeStockID)">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                }
                                             </div>
                                         </td>
                                     </tr>
