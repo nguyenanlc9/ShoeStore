@@ -90,7 +90,10 @@
                                 <!-- Hiển thị tổng tiền -->
                                 <div class="d-flex justify-content-between mb-3">
                                     <span>Tạm tính:</span>
-                                    <span>@Model.SubTotal.ToString("N0") ₫</span>
+                                    @if (Model.SubTotal > 0)
+                                    {
+                                        <span>@Model.SubTotal.ToString("#,##0") đ</span>
+                                    }
                                 </div>
 
                                 @if (Model.MemberRankDiscountPercent > 0)

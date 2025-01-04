@@ -24,15 +24,20 @@ namespace ShoeStore.Models
         [Range(1, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 0.")]
         public decimal Price { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public decimal DiscountPrice { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Giá khuyến mãi phải lớn hơn hoặc bằng 0.")]
+        public decimal DiscountPrice { get; set; } = 0; // Mặc định là 0
         
         public string? ImagePath { get; set; }
 
         [Required(ErrorMessage = "Trạng thái sản phẩm là bắt buộc")]
         [Display(Name = "Trạng thái")]
-        public ProductStatus Status { get; set; } = ProductStatus.Available; // Mặc định là đang bán
+        public ProductStatus Status { get; set; } = ProductStatus.Available;
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public string? CreatedBy { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
         
@@ -46,16 +51,35 @@ namespace ShoeStore.Models
 
         public virtual ICollection<ProductSizeStock>? ProductSizeStocks { get; set; }
 
-        [Range(0, 5)]
-        public int Rating { get; set; } = 0;  // Số sao đánh giá trung bình
+        public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 
-        public int ReviewCount { get; set; } = 0;  // Số lượng đánh giá
+        [Range(0, 5)]
+        public int Rating { get; set; } = 0;
+
+        public int ReviewCount { get; set; } = 0;
 
         public int SoldQuantity { get; set; } = 0;
+
+        public string? Images { get; set; }
+
+        public bool IsNew { get; set; }
+
+        public bool IsHot { get; set; }
+
+        public bool IsSale { get; set; }
+
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
+
+        public string ProductCode { get; set; }
 
         public Product()
         {
             ProductSizeStocks = new HashSet<ProductSizeStock>();
+            OrderDetails = new HashSet<OrderDetail>();
+            ProductImages = new HashSet<ProductImage>();
+            Reviews = new HashSet<Review>();
         }
     }
 

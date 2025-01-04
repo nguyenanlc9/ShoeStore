@@ -14,13 +14,13 @@ namespace ShoeStore.Filters
             var adminInfo = context.HttpContext.Session.Get<User>(AdminSessionKey);
             if (adminInfo == null)
             {
-                context.Result = new RedirectToActionResult("Login", "Account", new { area = "Admin" });
+                context.Result = new RedirectToActionResult("Login", "Auth", new { area = "Admin" });
                 return;
             }
             
             if (adminInfo.RoleID != 2) 
             {
-                context.Result = new RedirectToActionResult("AccessDenied", "Account", new { area = "Admin" });
+                context.Result = new RedirectToActionResult("AccessDenied", "Auth", new { area = "Admin" });
                 return;
             }
 

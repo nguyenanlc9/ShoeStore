@@ -1,0 +1,143 @@
+@model ShoeStore.Models.Product
+
+<div class="container">
+    <h2>Quản lý ảnh sản phẩm: @Model.Name</h2>
+
+    <!-- Hiển thị ảnh chính -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Ảnh chính</h5>
+        </div>
+        <div class="card-body">
+            <div class="main-image">
+                <img src="@Model.ImagePath" alt="Main Image" class="img-fluid mb-2" style="max-height: 300px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh sách ảnh sản phẩm -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Tất cả ảnh sản phẩm</h5>
+        </div>
+        <div class="card-body">
+            <div class="row" id="imageGallery">
+                @foreach (var image in Model.ProductImages)
+                {
+                    <div class="col-md-3 mb-3 image-item" data-image-id="@image.ImageId">
+                        <div class="card">
+                            <img src="@image.ImagePath" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <div class="btn-group w-100">
+                                    <button class="btn btn-primary btn-sm set-main-image" data-image-id="@image.ImageId">
+                                        Đặt làm ảnh chính
+                                    </button>
+                                    <button class="btn btn-danger btn-sm delete-image" data-image-id="@image.ImageId">
+                                        Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Form upload ảnh mới -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Thêm ảnh mới</h5>
+        </div>
+        <div class="card-body">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" class="form-control" name="images" multiple accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-success">Upload</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Xử lý xóa ảnh
+            $('.delete-image').click(function() {
+                if (!confirm('Bạn có chắc chắn muốn xóa ảnh này?')) {
+                    return;
+                }
+
+                var imageId = $(this).data('image-id');
+                var imageItem = $(this).closest('.image-item');
+
+                $.ajax({
+                    url: '@Url.Action("DeleteImage", "Product")',
+                    type: 'POST',
+                    data: { imageId: imageId },
+                    success: function(response) {
+                        if (response.success) {
+                            imageItem.fadeOut(function() {
+                                $(this).remove();
+                            });
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function() {
+                        toastr.error('Có lỗi xảy ra khi xóa ảnh');
+                    }
+                });
+            });
+
+            // Xử lý đặt ảnh chính
+            $('.set-main-image').click(function() {
+                var imageId = $(this).data('image-id');
+                
+                $.ajax({
+                    url: '@Url.Action("SetMainImage", "Product")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ imageId: imageId }),
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function() {
+                        toastr.error('Có lỗi xảy ra khi đặt ảnh chính');
+                    }
+                });
+            });
+
+            // Xử lý upload ảnh mới
+            $('#uploadForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                formData.append('productId', '@Model.ProductId');
+
+                $.ajax({
+                    url: '@Url.Action("UploadImages", "Product")',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function() {
+                        toastr.error('Có lỗi xảy ra khi upload ảnh');
+                    }
+                });
+            });
+        });
+    </script>
+} 

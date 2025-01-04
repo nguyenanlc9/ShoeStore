@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeStore.Models
@@ -22,7 +23,14 @@ namespace ShoeStore.Models
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0")]
         public int StockQuantity { get; set; }
 
-        // Navigation properties
+        public string CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public string UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
 

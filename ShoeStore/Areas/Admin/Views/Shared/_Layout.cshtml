@@ -4,7 +4,7 @@
     var adminInfo = Context.Session.Get<User>("AdminUserInfo");
     if (adminInfo == null || adminInfo.RoleID != 2)
     {
-        Context.Response.Redirect("/Admin/Account/Login");
+        Context.Response.Redirect("/Admin/Auth/Login");
         return;
     }
 }
@@ -37,6 +37,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/css/demo.css" />
     @RenderSection("Styles", required: false)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 </head>
 <body>
     <div class="wrapper">
@@ -94,13 +95,13 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="admin" asp-controller="size" asp-action="Index">
-                                            <span class="sub-item">Sizes</span>
+                                        <a asp-area="admin" asp-controller="inventory" asp-action="Index">
+                                            <span class="sub-item">Nhập kho</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="admin" asp-controller="productsizestock" asp-action="Index">
-                                            <span class="sub-item">Product Size Stocks</span>
+                                        <a asp-area="admin" asp-controller="inventory" asp-action="Sizes">
+                                            <span class="sub-item">Quản lý size</span>
                                         </a>
                                     </li>
                                     <li>
@@ -298,7 +299,7 @@
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Account Setting</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Logout">Logout</a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Auth" asp-action="Logout">Logout</a>
                                     </li>
                     </div>
                     </ul>
@@ -538,5 +539,6 @@
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>

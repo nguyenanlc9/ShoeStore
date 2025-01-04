@@ -9,6 +9,7 @@ using ShoeStore.Services.Order;
 using ShoeStore.Services.Payment;
 using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.MemberRanking;
+using ShoeStore.Data;
 
 namespace ShoeStore
 {
@@ -41,8 +42,8 @@ namespace ShoeStore
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Admin/Account/Login";
-                    options.AccessDeniedPath = "/Admin/Account/AccessDenied";
+                    options.LoginPath = "/Admin/Auth/Login";
+                    options.AccessDeniedPath = "/Admin/Auth/AccessDenied";
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 });
 
@@ -92,6 +93,8 @@ namespace ShoeStore
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+            // Cấu hình API route
+
             // Cấu hình Default route
             app.MapControllerRoute(
                 name: "default",
@@ -110,6 +113,21 @@ namespace ShoeStore
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while migrating the database.");
+                }
+            }
+
+            // Seed data
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    SeedData.Initialize(services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
                 }
             }
 

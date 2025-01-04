@@ -23,6 +23,7 @@ namespace ShoeStore.Controllers
                 .Include(p => p.Brands)
                 .Include(p => p.Categories)
                 .Include(p => p.ProductSizeStocks)
+                .Include(p => p.ProductImages)
                 .AsQueryable();
 
             // Lọc theo danh mục
@@ -30,7 +31,6 @@ namespace ShoeStore.Controllers
             {
                 query = query.Where(p => p.CategoryId == categoryId);
                 ViewBag.SelectedCategoryId = categoryId;
-                ViewBag.SelectedCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
             }
 
             // Lọc theo thương hiệu
@@ -38,19 +38,17 @@ namespace ShoeStore.Controllers
             {
                 query = query.Where(p => p.BrandId == brandId);
                 ViewBag.SelectedBrandId = brandId;
-                ViewBag.SelectedBrand = await _context.Brands.FirstOrDefaultAsync(b => b.BrandId == brandId);
+                ViewBag.SelectedBrand = _context.Brands.Find(brandId);
             }
 
             // Lọc theo khoảng giá
             if (minPrice.HasValue)
             {
                 query = query.Where(p => (p.Price - p.DiscountPrice) >= minPrice.Value);
-                ViewBag.MinPrice = minPrice;
             }
             if (maxPrice.HasValue)
             {
                 query = query.Where(p => (p.Price - p.DiscountPrice) <= maxPrice.Value);
-                ViewBag.MaxPrice = maxPrice;
             }
 
             // Sắp xếp sản phẩm
@@ -77,94 +75,219 @@ namespace ShoeStore.Controllers
                     ViewBag.SortLabel = "Mới nhất";
                     break;
             }
-            ViewBag.CurrentSort = sort;
 
-            // Get user's wishlist if authenticated
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var userWishlist = await _context.Wishlists
-                    .Where(w => w.UserId == userId)
-                    .Select(w => w.ProductId)
-                    .ToListAsync();
-
-                ViewBag.UserWishlist = userWishlist;
-            }
+            var products = await query.ToListAsync();
 
             // Phân trang
-            int pageSize = 9;
-            var products = await query.ToListAsync();
+            int pageSize = 9; // Số sản phẩm trên mỗi trang
+            int totalItems = products.Count;
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            // Đảm bảo page không vượt quá totalPages
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            // Lấy sản phẩm cho trang hiện tại
             var pagedProducts = products
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
+            // Thêm thông tin phân trang vào ViewBag
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling(products.Count / (double)pageSize);
+            ViewBag.TotalPages = totalPages;
             ViewBag.HasPreviousPage = page > 1;
-            ViewBag.HasNextPage = page < ViewBag.TotalPages;
+            ViewBag.HasNextPage = page < totalPages;
 
-            // Load categories và brands
-            ViewBag.Categories = await _context.Categories
+            // Load categories cho sidebar
+            ViewBag.Categories = _context.Categories
                 .Select(c => new
                 {
                     c.CategoryId,
                     c.Name,
                     ProductCount = _context.Products.Count(p => p.CategoryId == c.CategoryId)
-                }).ToListAsync();
+                }).ToList();
 
-            ViewBag.Brands = await _context.Brands
+            // Load brands cho dropdown với số lượng sản phẩm
+            ViewBag.Brands = _context.Brands
                 .Select(b => new
                 {
                     b.BrandId,
                     b.Name,
                     ProductCount = _context.Products.Count(p => p.BrandId == b.BrandId)
-                }).ToListAsync();
+                }).ToList();
+
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.CurrentSort = sort;
+
+            // Thêm ViewBag cho price range
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
 
             return View(pagedProducts);
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ToggleWishlist(int productId)
+        // GET: /Shop/Detail/{id}
+        public async Task<IActionResult> Detail(int? id)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var existingWishlist = await _context.Wishlists
-                .FirstOrDefaultAsync(w => w.UserId == userId && w.ProductId == productId);
-
-            if (existingWishlist != null)
+            if (id == null)
             {
-                _context.Wishlists.Remove(existingWishlist);
-                await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Removed from wishlist successfully" });
+                return NotFound();
             }
-            else
+
+            var product = await _context.Products
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Include(p => p.ProductSizeStocks)
+                    .ThenInclude(pss => pss.Size)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                    .ThenInclude(r => r.User)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            if (product == null)
             {
-                var wishlist = new Wishlist
+                return NotFound();
+            }
+
+            // Load related products
+            var relatedProducts = await _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.ProductImages)
+                .Where(p => p.CategoryId == product.CategoryId && p.ProductId != product.ProductId)
+                .Take(4)
+                .ToListAsync();
+
+            ViewBag.RelatedProducts = relatedProducts;
+            ViewBag.Reviews = product.Reviews?.OrderByDescending(r => r.CreatedAt).ToList() ?? new List<Review>();
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult AddReview(int productId, int rating, string comment)
+        {
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
                 {
-                    UserId = userId,
+                    return Json(new { success = false, message = "Vui lòng đăng nhập để đánh giá" });
+                }
+
+                // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
+                var existingReview = _context.Reviews
+                    .FirstOrDefault(r => r.ProductId == productId && r.UserId == userInfo.UserID);
+
+                if (existingReview != null)
+                {
+                    return Json(new { success = false, message = "Bạn đã đánh giá sản phẩm này rồi" });
+                }
+
+                var review = new Review
+                {
                     ProductId = productId,
+                    UserId = userInfo.UserID,
+                    Rating = rating,
+                    Comment = comment,
                     CreatedAt = DateTime.Now
                 };
 
-                await _context.Wishlists.AddAsync(wishlist);
-                await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Added to wishlist successfully" });
+                _context.Reviews.Add(review);
+
+                // Cập nhật rating trung bình và số lượng đánh giá của sản phẩm
+                var product = _context.Products.Find(productId);
+                if (product != null)
+                {
+                    // Lấy tất cả reviews bao gồm cả review mới
+                    var reviews = _context.Reviews.Where(r => r.ProductId == productId).ToList();
+                    reviews.Add(review); // Thêm review mới vào danh sách để tính trung bình
+
+                    // Kiểm tra có reviews không trước khi tính trung bình
+                    if (reviews.Any())
+                    {
+                        product.Rating = (int)Math.Round(reviews.Average(r => r.Rating));
+                        product.ReviewCount = reviews.Count;
+                    }
+                    else
+                    {
+                        // Nếu chưa có review nào, set rating bằng review đầu tiên
+                        product.Rating = rating;
+                        product.ReviewCount = 1;
+                    }
+                }
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Đánh giá của bạn đã được ghi nhận" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
             }
         }
 
-        [Authorize]
-        public async Task<IActionResult> Wishlist()
+        [HttpPost]
+        public IActionResult AddToCart(int productId, int sizeId, int quantity)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var wishlistedProducts = await _context.Wishlists
-                .Where(w => w.UserId == userId)
-                .Select(w => w.Product)
-                .ToListAsync();
+            try
+            {
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                {
+                    return Json(new { success = false, message = "Vui lòng đăng nhập để mua hàng" });
+                }
 
-            return View(wishlistedProducts);
+                // Kiểm tra tồn kho
+                var sizeStock = _context.ProductSizeStocks
+                    .FirstOrDefault(pss => pss.ProductID == productId && pss.SizeID == sizeId);
+
+                if (sizeStock == null || sizeStock.StockQuantity < quantity)
+                {
+                    return Json(new { success = false, message = "Số lượng sản phẩm không đủ" });
+                }
+
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                var existingCartItem = _context.CartItems
+                    .FirstOrDefault(ci => ci.UserId == userInfo.UserID && 
+                                        ci.ProductId == productId && 
+                                        ci.SizeId == sizeId);
+
+                if (existingCartItem != null)
+                {
+                    // Nếu đã có, cập nhật số lượng
+                    if (existingCartItem.Quantity + quantity > sizeStock.StockQuantity)
+                    {
+                        return Json(new { success = false, message = "Số lượng sản phẩm vượt quá tồn kho" });
+                    }
+                    existingCartItem.Quantity += quantity;
+                }
+                else
+                {
+                    // Nếu chưa có, tạo mới CartItem
+                    var cartItem = new CartItem
+                    {
+                        UserId = userInfo.UserID,
+                        ProductId = productId,
+                        SizeId = sizeId,
+                        Quantity = quantity,
+                        CreatedAt = DateTime.Now
+                    };
+                    _context.CartItems.Add(cartItem);
+                }
+
+                _context.SaveChanges();
+
+                // Lấy tổng số lượng trong giỏ hàng để trả về
+                var cartCount = _context.CartItems
+                    .Where(ci => ci.UserId == userInfo.UserID)
+                    .Sum(ci => ci.Quantity);
+
+                return Json(new { success = true, message = "Đã thêm vào giỏ hàng", cartCount = cartCount });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
+            }
         }
-
-        // Các action khác giữ nguyên...
     }
 }

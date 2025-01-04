@@ -69,7 +69,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/Slider
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Slider.OrderBy(s => s.Sort).ToListAsync());
+            return View(await _context.Sliders.OrderBy(s => s.Sort).ToListAsync());
         }
 
         // GET: Admin/Slider/Details/5
@@ -80,7 +80,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var slider = await _context.Slider
+            var slider = await _context.Sliders
                 .FirstOrDefaultAsync(m => m.Slider_ID == id);
             if (slider == null)
             {
@@ -147,7 +147,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 // Đảm bảo Sort không null
                 if (slider.Sort == 0)
                 {
-                    var maxSort = await _context.Slider.MaxAsync(s => (int?)s.Sort) ?? 0;
+                    var maxSort = await _context.Sliders.MaxAsync(s => (int?)s.Sort) ?? 0;
                     slider.Sort = maxSort + 1;
                 }
 
@@ -177,7 +177,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var slider = await _context.Slider.FindAsync(id);
+            var slider = await _context.Sliders.FindAsync(id);
             if (slider == null)
             {
                 return NotFound();
@@ -214,7 +214,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    var slider = await _context.Slider.FindAsync(id);
+                    var slider = await _context.Sliders.FindAsync(id);
                     if (slider == null)
                     {
                         return NotFound();
@@ -268,7 +268,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var slider = await _context.Slider
+            var slider = await _context.Sliders
                 .FirstOrDefaultAsync(m => m.Slider_ID == id);
             if (slider == null)
             {
@@ -283,13 +283,13 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var slider = await _context.Slider.FindAsync(id);
+            var slider = await _context.Sliders.FindAsync(id);
             if (slider != null)
             {
                 // Xóa file ảnh
                 DeleteImage(slider.Img);
                 // Xóa record trong database
-                _context.Slider.Remove(slider);
+                _context.Sliders.Remove(slider);
                 await _context.SaveChangesAsync();
             }
 
@@ -298,7 +298,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
         private bool SliderExists(int id)
         {
-            return _context.Slider.Any(e => e.Slider_ID == id);
+            return _context.Sliders.Any(e => e.Slider_ID == id);
         }
     }
 }

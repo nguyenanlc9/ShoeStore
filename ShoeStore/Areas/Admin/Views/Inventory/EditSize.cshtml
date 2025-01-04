@@ -1,0 +1,40 @@
+@model ShoeStore.Models.Size
+@{
+    ViewData["Title"] = "Chỉnh sửa size";
+    ViewData["ActiveMenu"] = "product";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Chỉnh sửa size</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Thông tin size</div>
+                </div>
+                <form asp-action="EditSize" method="post">
+                    <div class="card-body">
+                        <input type="hidden" asp-for="SizeID" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="SizeValue">Size</label>
+                            <input asp-for="SizeValue" class="form-control" type="number" required />
+                            <span asp-validation-for="SizeValue" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                        <a asp-action="Sizes" class="btn btn-danger">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

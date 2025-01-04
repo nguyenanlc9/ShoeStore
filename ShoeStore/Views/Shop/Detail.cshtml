@@ -7,6 +7,7 @@
     var totalStock = Model.ProductSizeStocks.Sum(x => x.StockQuantity);
     var productStatus = totalStock > 0 ? ProductStatus.Available : ProductStatus.OutOfStock;
 }
+
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
@@ -23,14 +24,47 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="@Model.ImagePath" alt="@Model.Name" class="img-fluid">
+                <div class="product-images d-flex">
+                    <!-- Thumbnail Images - Vertical List -->
+                    <div class="thumbnail-images me-3" style="width: 100px;">
+                        @{
+                            var mainImage = Model.ImagePath;
+                            var productImages = Model.ProductImages?.OrderBy(pi => !pi.IsMainImage).ToList() ?? new List<ProductImage>();
+                            if (!productImages.Any() && !string.IsNullOrEmpty(mainImage))
+                            {
+                                productImages.Add(new ProductImage { ImagePath = mainImage });
+                            }
+                        }
+                        @foreach (var image in productImages)
+                        {
+                            <div class="mb-2">
+                                <img src="@image.ImagePath" alt="@Model.Name" 
+                                     class="img-fluid thumbnail border p-1" 
+                                     onclick="changeMainImage(this.src)" 
+                                     style="cursor: pointer; width: 100%; object-fit: cover;">
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Main Image -->
+                    <div class="main-image flex-grow-1">
+                        <img src="@(string.IsNullOrEmpty(Model.ImagePath) ? "/images/no-image.png" : Model.ImagePath)" 
+                             alt="@Model.Name" class="img-fluid w-100" id="mainImage">
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
                 <h2 class="text-black">@Model.Name</h2>
                 
+                <!-- Hiển thị mã sản phẩm -->
+                <div class="mb-3">
+                    <span class="text-muted">Mã sản phẩm: </span>
+                    <span class="font-weight-bold">@(Model.ProductCode)</span>
+                </div>
+                
                 <!-- Hiển thị giá -->
                 <div class="mb-5">
-                    @switch (productStatus)
+                    @switch (Model.Status)
                     {
                         case ProductStatus.Available:
                             @if (Model.DiscountPrice > 0)
@@ -44,7 +78,7 @@
                             {
                                 <p class="price"><span class="text-primary h4 font-weight-bold">@String.Format("{0:N0}đ", Model.Price)</span></p>
                             }
-
+                            
                             <!-- Hiển thị form chọn size và số lượng khi còn hàng -->
                             <div class="mb-1 d-flex">
                                 <label for="size" class="mr-3">Size</label>
@@ -65,13 +99,16 @@
                                 <span class="text-muted">Số lượng tồn kho: </span>
                                 <span id="stockDisplay" class="font-weight-bold"></span>
                             </div>
+
                             <div class="mb-5">
                                 <div class="input-group mb-3" style="max-width: 120px;">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                                     </div>
-                                    <input type="text" class="form-control text-center" value="1" placeholder="" 
-                                           aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    <input type="number" class="form-control text-center quantity-input" value="1" 
+                                           min="1" readonly
+                                           aria-label="Example text with button addon" 
+                                           aria-describedby="button-addon1">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                                     </div>
@@ -139,7 +176,7 @@
             }
             else
             {
-                <p>Vui lòng <a asp-controller="Account" asp-action="Login">đăng nhập</a> để đánh giá sản phẩm</p>
+                <p>Vui lòng <a asp-controller="Auth" asp-action="Login">đăng nhập</a> để đánh giá sản phẩm</p>
             }
 
             <!-- Danh sách đánh giá -->
@@ -430,11 +467,50 @@
         height: 2px;
         background-color: #007bff;
     }
-</style> 
+
+    .thumbnail {
+        border: 2px solid transparent;
+        transition: border-color 0.3s;
+        cursor: pointer;
+    }
+
+    .thumbnail:hover,
+    .thumbnail.active {
+        border-color: #7971ea;
+    }
+
+    .main-image img {
+        max-height: 500px;
+        width: 100%;
+        object-fit: contain;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .thumbnail-images img {
+        height: 80px;
+        width: 80px;
+        object-fit: cover;
+    }
+
+    .product-images {
+        gap: 1rem;
+    }
+</style>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product-detail.css" />
+}
 
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // Kiểm tra trạng thái đăng nhập
+            var isAuthenticated = @(Context.Session.Get<User>("userInfo") != null ? "true" : "false");
+
+            // Vô hiệu hóa xử lý mặc định từ main.js
+            $('.js-btn-plus, .js-btn-minus').off('click');
+
             // Kiểm tra nếu không có size nào được chọn
             if ($('#size option').length === 0) {
                 $('#addToCartBtn, #buyNowBtn').prop('disabled', true);
@@ -448,19 +524,21 @@
                 $('#stockDisplay').text(stock);
                 
                 // Cập nhật max cho input số lượng
-                var quantityInput = $('.form-control.text-center');
-                quantityInput.attr('max', stock);
+                var quantityInput = $('.quantity-input');
+                var currentQty = parseInt(quantityInput.val());
                 
                 // Nếu số lượng hiện tại lớn hơn tồn kho, giảm xuống
-                if (parseInt(quantityInput.val()) > stock) {
+                if (currentQty > stock) {
                     quantityInput.val(stock);
                 }
 
                 // Disable nút thêm vào giỏ và mua ngay nếu hết hàng
                 if (stock <= 0) {
-                    $('#addToCartBtn, #buyNowBtn').prop('disabled', true);
+                    $('#addToCartBtn, #buyNowBtn, .js-btn-minus, .js-btn-plus').prop('disabled', true);
+                    quantityInput.prop('disabled', true);
                 } else {
-                    $('#addToCartBtn, #buyNowBtn').prop('disabled', false);
+                    $('#addToCartBtn, #buyNowBtn, .js-btn-minus, .js-btn-plus').prop('disabled', false);
+                    quantityInput.prop('disabled', false);
                 }
             }
 
@@ -473,31 +551,35 @@
             });
 
             // Xử lý tăng giảm số lượng
-            $('#btnPlus').click(function() {
-                var input = $('.form-control.text-center');
+            $('.js-btn-plus').click(function() {
+                var input = $('.quantity-input');
                 var currentValue = parseInt(input.val());
-                if (currentValue < 10) { // Giới hạn tối đa 10 sản phẩm
+                var selectedOption = $('#size option:selected');
+                var maxStock = selectedOption.data('stock');
+                
+                if (currentValue < maxStock) {
                     input.val(currentValue + 1);
                 }
             });
 
-            $('#btnMinus').click(function() {
-                var input = $('.form-control.text-center');
+            $('.js-btn-minus').click(function() {
+                var input = $('.quantity-input');
                 var currentValue = parseInt(input.val());
-                if (currentValue > 1) { // Giới hạn tối thiểu 1 sản phẩm
+                if (currentValue > 1) {
                     input.val(currentValue - 1);
                 }
             });
 
             // Kiểm tra input số lượng khi người dùng nhập trực tiếp
-            $('.form-control.text-center').on('input', function() {
-                var max = parseInt($(this).attr('max'));
+            $('.quantity-input').on('change', function() {
                 var value = parseInt($(this).val());
-                if (value > max) {
-                    $(this).val(max);
-                }
-                if (value < 1 || isNaN(value)) {
+                var selectedOption = $('#size option:selected');
+                var maxStock = selectedOption.data('stock');
+                
+                if (isNaN(value) || value < 1) {
                     $(this).val(1);
+                } else if (value > maxStock) {
+                    $(this).val(maxStock);
                 }
             });
 
@@ -545,6 +627,13 @@
             });
 
             function addToCart(buyNow) {
+                // Kiểm tra đăng nhập trước khi thêm vào giỏ hàng
+                if (!isAuthenticated) {
+                    alert('Bạn phải đăng nhập để mua hàng');
+                    window.location.href = '/Auth/Login';
+                    return;
+                }
+
                 var selectedSize = $('#size').val();
                 var quantity = $('.form-control.text-center').val();
                 var productId = '@Model.ProductId';
@@ -577,5 +666,12 @@
                 });
             }
         });
+
+        function changeMainImage(src) {
+            document.getElementById('mainImage').src = src;
+            // Update active state of thumbnails
+            $('.thumbnail').removeClass('active');
+            $(`img[src="${src}"]`).parent().addClass('active');
+        }
     </script>
 } 

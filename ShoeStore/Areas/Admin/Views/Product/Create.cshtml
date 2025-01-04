@@ -30,36 +30,57 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Price" class="form-label font-weight-bold">Price</label>
-                    <input asp-for="Price" type="text" class="form-control price-input" data-type="currency" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <label asp-for="ProductCode" class="form-label font-weight-bold">Mã sản phẩm</label>
+                    <input asp-for="ProductCode" class="form-control" placeholder="Ví dụ: CW2288-111" />
+                    <span asp-validation-for="ProductCode" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
+                    <label asp-for="Price" class="form-label font-weight-bold">Price</label>
+                    <input asp-for="Price" type="text" class="form-control price-input" data-type="currency" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
                     <input asp-for="DiscountPrice" type="text" class="form-control price-input" data-type="currency" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="Status" class="form-label font-weight-bold">Status</label>
                     <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProductStatus>()"></select>
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label asp-for="ImagePath" class="form-label font-weight-bold">Hình ảnh sản phẩm</label>
-                <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
-
-                <div class="mt-3">
-                    <label class="form-label">Xem trước ảnh:</label>
-                    <div class="border rounded p-2">
-                        <img id="preview" class="img-fluid" style="max-height: 200px; display: none;" />
+                <!-- Product Flags -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Trạng thái sản phẩm</label>
+                    <div class="custom-controls-stacked">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsNew" class="custom-control-input" id="isNew">
+                            <label class="custom-control-label" for="isNew">Sản phẩm mới</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsHot" class="custom-control-input" id="isHot">
+                            <label class="custom-control-label" for="isHot">Sản phẩm hot</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" asp-for="IsSale" class="custom-control-input" id="isSale">
+                            <label class="custom-control-label" for="isSale">Đang giảm giá</label>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Ảnh đại diện sản phẩm</label>
+                <input type="file" name="mainImage" class="form-control" accept="image/*" required />
+                <small class="form-text text-muted">Ảnh đại diện sẽ hiển thị ở trang chủ và danh sách sản phẩm</small>
             </div>
 
             <div class="form-group">

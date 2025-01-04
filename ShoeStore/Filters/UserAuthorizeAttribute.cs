@@ -12,7 +12,7 @@ namespace ShoeStore.Filters
             var userInfo = context.HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null || userInfo.RoleID != 1) // Kiểm tra RoleID = 1 (User)
             {
-                context.Result = new RedirectToActionResult("Login", "Account", new { area = "" });
+                context.Result = new RedirectToActionResult("Login", "Auth", new { area = "" });
             }
             base.OnActionExecuting(context);
         }

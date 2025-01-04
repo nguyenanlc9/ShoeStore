@@ -47,7 +47,7 @@ namespace ShoeStore.Controllers
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Auth");
             }
 
             var cartItems = _context.CartItems
@@ -126,7 +126,7 @@ namespace ShoeStore.Controllers
             var userInfo = HttpContext.Session.Get<User>("userInfo");
             if (userInfo == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Auth");
             }
 
             var cartItems = await _context.CartItems
@@ -146,7 +146,10 @@ namespace ShoeStore.Controllers
                 .Include(u => u.MemberRank)
                 .FirstOrDefaultAsync(u => u.UserID == userInfo.UserID);
 
-            decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+            decimal subtotal = cartItems.Sum(x => {
+                decimal finalPrice = x.Product.DiscountPrice > 0 ? x.Product.DiscountPrice : x.Product.Price;
+                return finalPrice * x.Quantity;
+            });
             decimal finalTotal = subtotal;
             decimal discountAmount = 0;
 
@@ -203,7 +206,10 @@ namespace ShoeStore.Controllers
                 .Where(ci => ci.UserId == userInfo.UserID)
                 .ToListAsync();
 
-            decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+            decimal subtotal = cartItems.Sum(x => {
+                decimal finalPrice = x.Product.DiscountPrice > 0 ? x.Product.DiscountPrice : x.Product.Price;
+                return finalPrice * x.Quantity;
+            });
             
             // Tính giảm giá thành viên
             var user = await _context.Users
@@ -252,7 +258,7 @@ namespace ShoeStore.Controllers
                 var userInfo = HttpContext.Session.Get<User>("userInfo");
                 if (userInfo == null)
                 {
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Login", "Auth");
                 }
 
                 var cartItems = await _context.CartItems
@@ -269,7 +275,10 @@ namespace ShoeStore.Controllers
                 // Lấy coupon đã áp dụng từ session một lần duy nhất ở đầu phương thức
                 var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
 
-                decimal subtotal = cartItems.Sum(x => (x.Product.Price - x.Product.DiscountPrice) * x.Quantity);
+                decimal subtotal = cartItems.Sum(x => {
+                    decimal finalPrice = x.Product.DiscountPrice > 0 ? x.Product.DiscountPrice : x.Product.Price;
+                    return finalPrice * x.Quantity;
+                });
                 
                 // Tính giảm giá thành viên
                 decimal memberDiscountAmount = 0;
@@ -326,7 +335,7 @@ namespace ShoeStore.Controllers
                         ProductId = item.ProductId,
                         SizeId = item.SizeId,
                         Quantity = item.Quantity,
-                        Price = item.Product.Price - item.Product.DiscountPrice
+                        Price = item.Product.DiscountPrice > 0 ? item.Product.DiscountPrice : item.Product.Price
                     };
 
                     // Cập nhật số lượng tồn kho

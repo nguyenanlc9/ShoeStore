@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeStore.Models
@@ -8,14 +7,20 @@ namespace ShoeStore.Models
     public class Category
     {
         [Key]
-        public int CategoryId { get; set; } // Display as ID
+        public int CategoryId { get; set; }
 
-        [StringLength(50, ErrorMessage = "Tên sản phẩm không được vượt quá 50 ký tự.")]
-        [DisplayName("CategoryName")]
-        public required string Name { get; set; }
-        [DisplayName("DisplayOrder")]
-        public int DisplayOrder { get; set; }
-        public virtual ICollection<Product>? Products { get; set; }
+        [Required(ErrorMessage = "Tên danh mục không được để trống")]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public string UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
     }
-
 }
