@@ -34,6 +34,7 @@ namespace ShoeStore.Models
         public DbSet<ContactUser> ContactUsers { get; set; }
         public DbSet<Footer> Footers { get; set; }
         public DbSet<MemberRank> MemberRanks { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

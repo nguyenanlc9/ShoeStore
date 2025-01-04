@@ -2,20 +2,22 @@
 @{
     ViewData["Title"] = "Shop Page";
 }
+
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+            <div class="col-md-12 mb-0">
+                <a href="/">Home</a> <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Shop</strong>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="site-section">
     <div class="container">
-
         <div class="row mb-5">
             <div class="col-md-9 order-2">
-
                 <div class="row">
                     <div class="col-md-12 mb-5">
                         <div class="float-md-left mb-4">
@@ -27,7 +29,7 @@
                                     @(ViewBag.SelectedBrand?.Name ?? "Thương hiệu")
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuBrand">
-                                    <a class="dropdown-item @(ViewBag.SelectedBrandId == null ? "active" : "")" 
+                                    <a class="dropdown-item @(ViewBag.SelectedBrandId == null ? "active" : "")"
                                        asp-controller="Shop" asp-action="Index"
                                        asp-route-categoryId="@ViewBag.SelectedCategoryId"
                                        asp-route-minPrice="@ViewBag.MinPrice"
@@ -37,13 +39,13 @@
                                     </a>
                                     @foreach (var brand in ViewBag.Brands)
                                     {
-                                        <a class="dropdown-item @(ViewBag.SelectedBrandId == brand.BrandId ? "active" : "")" 
-                                                   asp-controller="Shop" asp-action="Index"
-                                                   asp-route-brandId="@brand.BrandId"
-                                                   asp-route-categoryId="@ViewBag.SelectedCategoryId"
-                                                   asp-route-minPrice="@ViewBag.MinPrice"
-                                                   asp-route-maxPrice="@ViewBag.MaxPrice"
-                                                   asp-route-sort="@ViewBag.CurrentSort">
+                                        <a class="dropdown-item @(ViewBag.SelectedBrandId == brand.BrandId ? "active" : "")"
+                                           asp-controller="Shop" asp-action="Index"
+                                           asp-route-brandId="@brand.BrandId"
+                                           asp-route-categoryId="@ViewBag.SelectedCategoryId"
+                                           asp-route-minPrice="@ViewBag.MinPrice"
+                                           asp-route-maxPrice="@ViewBag.MaxPrice"
+                                           asp-route-sort="@ViewBag.CurrentSort">
                                             @brand.Name <span class="text-muted">(@brand.ProductCount)</span>
                                         </a>
                                     }
@@ -54,28 +56,33 @@
                                     @(ViewBag.SortLabel ?? "Sắp xếp")
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSort">
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == null ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index">
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == null ? "active" : "")"
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-categoryId="@ViewBag.SelectedCategoryId">
                                         Mới nhất
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-asc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-asc"
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-asc" ? "active" : "")"
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-sort="name-asc"
                                        asp-route-categoryId="@ViewBag.SelectedCategoryId">
                                         Tên, A đến Z
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-desc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="name-desc"
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "name-desc" ? "active" : "")"
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-sort="name-desc"
                                        asp-route-categoryId="@ViewBag.SelectedCategoryId">
                                         Tên, Z đến A
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-asc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-asc"
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-asc" ? "active" : "")"
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-sort="price-asc"
                                        asp-route-categoryId="@ViewBag.SelectedCategoryId">
                                         Giá, thấp đến cao
                                     </a>
-                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-desc" ? "active" : "")" 
-                                       asp-controller="Shop" asp-action="Index" asp-route-sort="price-desc"
+                                    <a class="dropdown-item @(ViewBag.CurrentSort == "price-desc" ? "active" : "")"
+                                       asp-controller="Shop" asp-action="Index"
+                                       asp-route-sort="price-desc"
                                        asp-route-categoryId="@ViewBag.SelectedCategoryId">
                                         Giá, cao đến thấp
                                     </a>
@@ -84,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     @foreach (var product in Model)
                     {
@@ -99,70 +107,60 @@
                                     {
                                         <div class="product-label new">New</div>
                                     }
-                                    else if (!product.ProductSizeStocks.Any(x => x.StockQuantity > 0))
-                                    {
-                                        <div class="product-label out-of-stock">Hết hàng</div>
-                                    }
-                                    
+
                                     <a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">
                                         <img src="@product.ImagePath" alt="@product.Name" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="block-4-text p-4">
-                                    <h3><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a></h3>
-                                    
-                                    <!-- Rating Stars -->
-                                    <div class="product-rating mb-2">
-                                        <div class="rating-wrapper">
-                                            <div class="d-flex align-items-center">
-                                                <div class="stars">
-                                                    @for (int i = 1; i <= 5; i++)
-                                                    {
-                                                        if (i <= product.Rating)
-                                                        {
-                                                            <i class="fas fa-star text-warning"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="far fa-star text-warning"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                <span class="review-count ml-2">(@product.ReviewCount)</span>
-                                            </div>
-                                        </div>
+                                    <h3><a href="@Url.Action("Detail", "Shop", new { id = product.ProductId })">@product.Name</a></h3>
+
+                                    <!-- Wishlist Button -->
+                                    <div class="wishlist-button mb-2">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            var isInWishlist = ViewBag.UserWishlist?.Contains(product.ProductId) ?? false;
+                                            <button class="btn @(isInWishlist ? "btn-primary" : "btn-outline-primary") btn-sm toggle-wishlist"
+                                                    data-product-id="@product.ProductId"
+                                                    data-is-in-wishlist="@isInWishlist.ToString().ToLower()">
+                                                <i class="@(isInWishlist ? "fas" : "far") fa-heart"></i>
+                                                <span>@(isInWishlist ? "Remove from Wishlist" : "Add to Wishlist")</span>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Account" asp-action="Login"
+                                               asp-route-returnUrl="@Context.Request.Path"
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="far fa-heart"></i>
+                                                <span>Login to Wishlist</span>
+                                            </a>
+                                        }
                                     </div>
 
-                                    <!-- Price & Status -->
-                                    @switch (product.Status)
+                                    <!-- Price Display -->
+                                    @if (product.DiscountPrice > 0)
                                     {
-                                        case ProductStatus.Available:
-                                            @if (product.DiscountPrice > 0)
-                                            {
-                                                <div class="price-wrapper">
-                                                    <span class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price - product.DiscountPrice)</span>
-                                                    <del class="old-price">@String.Format("{0:N0}đ", product.Price)</del>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <p class="text-primary font-weight-bold">@String.Format("{0:N0}đ", product.Price)</p>
-                                            }
-                                            break;
-
-                                        case ProductStatus.OutOfStock:
-                                            <div class="status-label out-of-stock">Hết hàng</div>
-                                            break;
-
-                                        case ProductStatus.Discontinued:
-                                            <div class="status-label discontinued">Ngừng kinh doanh</div>
-                                            break;
+                                        <p class="mb-0">
+                                            <span class="text-primary font-weight-bold">
+                                                @String.Format("{0:N0}đ", product.Price - product.DiscountPrice)
+                                            </span>
+                                            <del class="text-muted">@String.Format("{0:N0}đ", product.Price)</del>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-primary font-weight-bold mb-0">
+                                            @String.Format("{0:N0}đ", product.Price)
+                                        </p>
                                     }
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
+
+                <!-- Pagination -->
                 <div class="row" data-aos="fade-up">
                     <div class="col-md-12 text-center">
                         <div class="site-block-27">
@@ -170,7 +168,7 @@
                                 @if (ViewBag.HasPreviousPage)
                                 {
                                     <li>
-                                        <a asp-controller="Shop" asp-action="Index" 
+                                        <a asp-controller="Shop" asp-action="Index"
                                            asp-route-page="@(ViewBag.CurrentPage - 1)"
                                            asp-route-categoryId="@ViewBag.SelectedCategoryId"
                                            asp-route-brandId="@ViewBag.SelectedBrandId"
@@ -193,7 +191,7 @@
                                         }
                                         else
                                         {
-                                            <a asp-controller="Shop" asp-action="Index" 
+                                            <a asp-controller="Shop" asp-action="Index"
                                                asp-route-page="@i"
                                                asp-route-categoryId="@ViewBag.SelectedCategoryId"
                                                asp-route-brandId="@ViewBag.SelectedBrandId"
@@ -207,7 +205,7 @@
                                 @if (ViewBag.HasNextPage)
                                 {
                                     <li>
-                                        <a asp-controller="Shop" asp-action="Index" 
+                                        <a asp-controller="Shop" asp-action="Index"
                                            asp-route-page="@(ViewBag.CurrentPage + 1)"
                                            asp-route-categoryId="@ViewBag.SelectedCategoryId"
                                            asp-route-brandId="@ViewBag.SelectedBrandId"
@@ -226,12 +224,13 @@
                 </div>
             </div>
 
+            <!-- Sidebar -->
             <div class="col-md-3 order-1 mb-5 mb-md-0">
                 <div class="border p-4 rounded mb-4">
                     <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
                     <ul class="list-unstyled mb-0">
                         <li class="mb-1">
-                            <a asp-controller="Shop" asp-action="Index" 
+                            <a asp-controller="Shop" asp-action="Index"
                                class="d-flex @(ViewBag.SelectedCategoryId == null ? "text-primary" : "")">
                                 <span>All Categories</span>
                                 <span class="text-black ml-auto">(@Model.Count())</span>
@@ -240,7 +239,7 @@
                         @foreach (var category in ViewBag.Categories)
                         {
                             <li class="mb-1">
-                                <a asp-controller="Shop" asp-action="Index" 
+                                <a asp-controller="Shop" asp-action="Index"
                                    asp-route-categoryId="@category.CategoryId"
                                    asp-route-brandId="@ViewBag.SelectedBrandId"
                                    asp-route-minPrice="@ViewBag.MinPrice"
@@ -255,6 +254,7 @@
                     </ul>
                 </div>
 
+                <!-- Price Filter -->
                 <div class="border p-4 rounded mb-4">
                     <div class="mb-4">
                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Lọc theo giá</h3>
@@ -268,23 +268,16 @@
                 </div>
             </div>
         </div>
-
-       
-
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
 @section Scripts {
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
+
     <script>
-        $(document).ready(function() {
-            // Lấy giá trị từ ViewBag hoặc dùng giá trị mặc định
+        $(document).ready(function () {
+            // Price Range Slider
             var initialMinPrice = @(ViewBag.MinPrice ?? 0);
             var initialMaxPrice = @(ViewBag.MaxPrice ?? 10000000);
 
@@ -294,35 +287,31 @@
                 max: 10000000,
                 step: 100000,
                 values: [initialMinPrice, initialMaxPrice],
-                slide: function(event, ui) {
+                slide: function (event, ui) {
                     $("#amount").text(formatPrice(ui.values[0]) + " - " + formatPrice(ui.values[1]));
                 },
-                stop: function(event, ui) {
+                stop: function (event, ui) {
                     filterProducts(ui.values[0], ui.values[1]);
                 }
             });
 
-            // Hiển thị giá trị ban đầu
             $("#amount").text(
                 formatPrice(initialMinPrice) + " - " + formatPrice(initialMaxPrice)
             );
 
             function formatPrice(price) {
-                return new Intl.NumberFormat('vi-VN', { 
-                    style: 'currency', 
-                    currency: 'VND' 
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
                 }).format(price);
             }
 
             function filterProducts(minPrice, maxPrice) {
                 var url = new URL(window.location.href);
                 var params = new URLSearchParams(url.search);
-
-                // Giữ lại các tham số hiện tại
                 params.set('minPrice', minPrice);
                 params.set('maxPrice', maxPrice);
 
-                // Giữ lại categoryId và sort nếu có
                 if ('@ViewBag.SelectedCategoryId' !== '') {
                     params.set('categoryId', '@ViewBag.SelectedCategoryId');
                 }
@@ -330,138 +319,43 @@
                     params.set('sort', '@ViewBag.CurrentSort');
                 }
 
-                // Chuyển hướng với các tham số mới
                 window.location.href = '@Url.Action("Index", "Shop")' + '?' + params.toString();
             }
+
+            // Wishlist Toggle
+            $('.toggle-wishlist').click(function () {
+                var button = $(this);
+                var productId = button.data('product-id');
+                var isInWishlist = button.data('is-in-wishlist');
+
+                $.ajax({
+                    url: '/Shop/ToggleWishlist',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            // Toggle button appearance
+                            if (isInWishlist) {
+                                button.removeClass('btn-primary').addClass('btn-outline-primary');
+                                button.find('i').removeClass('fas').addClass('far');
+                                button.find('span').text('Add to Wishlist');
+                                button.data('is-in-wishlist', false);
+                            } else {
+                                button.removeClass('btn-outline-primary').addClass('btn-primary');
+                                button.find('i').removeClass('far').addClass('fas');
+                                button.find('span').text('Remove from Wishlist');
+                                button.data('is-in-wishlist', true);
+                            }
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
         });
     </script>
 }
-
-<style>
-    .ui-slider-horizontal {
-        height: 4px;
-        background: #e9ecef;
-        border: none;
-        margin: 10px 0;
-    }
-
-    .ui-slider .ui-slider-handle {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        border: none;
-        background: #7971ea;
-        top: -6px;
-    }
-
-    .ui-slider .ui-slider-range {
-        background: #7971ea;
-    }
-
-    .price-display {
-        font-size: 14px;
-        color: #333;
-    }
-
-    .site-block-27 ul {
-        padding: 0;
-        margin: 0;
-    }
-
-    .site-block-27 ul li {
-        display: inline-block;
-        margin: 0 5px;
-    }
-
-    .site-block-27 ul li a,
-    .site-block-27 ul li span {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        color: #333;
-        text-align: center;
-    }
-
-    .site-block-27 ul li.active span {
-        background: #7971ea;
-        color: #fff;
-        border-color: #7971ea;
-    }
-
-    .site-block-27 ul li.disabled span {
-        color: #ccc;
-        cursor: not-allowed;
-    }
-
-    .site-block-27 ul li a:hover {
-        background: #7971ea;
-        color: #fff;
-        border-color: #7971ea;
-        text-decoration: none;
-    }
-
-    .product-label {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 5px 10px;
-        font-size: 12px;
-        font-weight: bold;
-        border-radius: 3px;
-        z-index: 2;
-    }
-
-    .product-label.sale {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .product-label.new {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .product-label.out-of-stock {
-        background-color: #6c757d;
-        color: white;
-    }
-
-    .block-4-image {
-        position: relative;
-    }
-
-    .block-4-image img {
-        width: 100%;
-        height: auto;
-    }
-
-    /* Style cho rating */
-    .rating-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .stars {
-        display: inline-flex;
-        align-items: center;
-    }
-
-    .stars i {
-        font-size: 14px;
-        margin-right: 2px;
-    }
-
-    .review-count {
-        font-size: 14px;
-        color: #666;
-        margin-left: 5px;
-    }
-
-    .text-warning {
-        color: #ffc107 !important;
-    }
-</style>
