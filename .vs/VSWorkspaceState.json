@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\ShoeStore",
-    "\\ShoeStore\\Models",
-    "\\ShoeStore\\Services",
-    "\\ShoeStore\\Services\\Email",
+    "\\ShoeStore\\Areas",
+    "\\ShoeStore\\Areas\\Admin",
+    "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Error",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Models\\ApplicationDbContext.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Home\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

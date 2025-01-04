@@ -177,6 +177,10 @@
       "PackagePath": "staticwebassets\\Admin\\css\\custom.css"
     },
     {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\Admin\\css\\styles.css",
+      "PackagePath": "staticwebassets\\Admin\\css\\styles.css"
+    },
+    {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\Admin\\js\\adminlte.js",
       "PackagePath": "staticwebassets\\Admin\\js\\adminlte.js"
     },
@@ -199,6 +203,10 @@
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\Admin\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\Admin\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\Admin\\js\\scripts.js",
+      "PackagePath": "staticwebassets\\Admin\\js\\scripts.js"
     },
     {
       "Id": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\Admin\\plugins\\DataTables\\datatables.css",

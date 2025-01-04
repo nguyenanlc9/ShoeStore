@@ -37,8 +37,9 @@
         <div class="product-price">
             @if (Model.DiscountPrice > 0)
             {
+                var finalPrice = Model.Price - Model.DiscountPrice;
                 <del class="text-muted mr-2">@String.Format("{0:N0}đ", Model.Price)</del>
-                <span class="text-primary">@String.Format("{0:N0}đ", Model.Price - Model.DiscountPrice)</span>
+                <span class="text-primary">@String.Format("{0:N0}đ", finalPrice)</span>
             }
             else
             {
