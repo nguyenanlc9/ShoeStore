@@ -148,6 +148,13 @@
                                             </a>
                                         </h5>
                                     </div>
+                                    <div class="rating product-rating" data-rating="@product.Rating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fa fa-star"></i>
+                                        }
+                                        <span class="rating-count">(@product.ReviewCount đánh giá)</span>
+                                    </div>
                                     <div class="product-brand text-muted mb-2">
                                         @product.Brands?.Name
                                     </div>
@@ -188,6 +195,20 @@
             urlParams.set('sortOrder', value);
             window.location.search = urlParams.toString();
         }
+
+        $(document).ready(function() {
+            // Hiển thị số sao đánh giá
+            $('.product-rating').each(function() {
+                var rating = $(this).data('rating');
+                var $stars = $(this).find('.fa-star');
+                
+                $stars.each(function(index) {
+                    if (index < rating) {
+                        $(this).addClass('checked');
+                    }
+                });
+            });
+        });
     </script>
 }
 
@@ -373,5 +394,26 @@
     .badge-danger {
         background-color: #dc3545;
         color: white;
+    }
+
+    .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .rating .fa-star {
+        color: #ddd;
+        margin-right: 2px;
+    }
+
+    .rating .fa-star.checked {
+        color: #ffc107;
+    }
+
+    .rating-count {
+        margin-left: 5px;
+        color: #666;
+        font-size: 0.9em;
     }
 </style>

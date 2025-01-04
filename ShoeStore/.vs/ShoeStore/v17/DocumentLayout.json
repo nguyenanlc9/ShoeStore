@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\admin\\onedrive - saigon college\\data hoc\\backend\\shoestore\\shoestore\\views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\admin\\onedrive - saigon college\\data hoc\\backend\\shoestore\\shoestore\\migrations\\20250103145345_addwishlists.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:migrations\\20250103145345_addwishlists.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\admin\\onedrive - saigon college\\data hoc\\backend\\shoestore\\shoestore\\migrations\\20250103220054_removedescriptionfromcategoryandbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:migrations\\20250103220054_removedescriptionfromcategoryandbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\admin\\onedrive - saigon college\\data hoc\\backend\\shoestore\\shoestore\\areas\\admin\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -135,19 +147,58 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shop\\Index.cshtml",
+              "ToolTip": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeToolTip": "Views\\Shop\\Index.cshtml",
+              "ViewState": "AQIAAFYBAAAAAAAAAAAYwIMBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-04T10:12:24.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20250103145345_AddWishlists.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20250103145345_AddWishlists.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250103145345_AddWishlists.cs",
+              "ToolTip": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20250103145345_AddWishlists.cs",
+              "RelativeToolTip": "Migrations\\20250103145345_AddWishlists.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-04T10:10:51.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20250103220054_RemoveDescriptionFromCategoryAndBrand.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20250103220054_RemoveDescriptionFromCategoryAndBrand.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250103220054_RemoveDescriptionFromCategoryAndBrand.cs",
+              "ToolTip": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Migrations\\20250103220054_RemoveDescriptionFromCategoryAndBrand.cs",
+              "RelativeToolTip": "Migrations\\20250103220054_RemoveDescriptionFromCategoryAndBrand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-04T10:10:48.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "InventoryController.cs",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\InventoryController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\InventoryController.cs",
               "ToolTip": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\InventoryController.cs",
               "RelativeToolTip": "Areas\\Admin\\Controllers\\InventoryController.cs",
-              "ViewState": "AQIAAHEBAAAAAAAAAADwv4sBAAAAAAAA",
+              "ViewState": "AQIAAHEBAAAAAAAAAAAswIsBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-04T09:09:55.708Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "_LoginLayout.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_LoginLayout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_LoginLayout.cshtml",
@@ -155,12 +206,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_LoginLayout.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:07:41.396Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:07:41.396Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "ManageImages.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\ManageImages.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\ManageImages.cshtml",
@@ -168,12 +218,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\ManageImages.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:40.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:40.764Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Delete.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Delete.cshtml",
@@ -181,12 +230,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Delete.cshtml",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAABQAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:35.125Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:35.125Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Edit.cshtml",
@@ -194,12 +242,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Edit.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:32.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:32.997Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "History.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\History.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\History.cshtml",
@@ -207,12 +254,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\History.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:26.318Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:26.318Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "SliderController.cs",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\SliderController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\SliderController.cs",
@@ -220,12 +266,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\SliderController.cs",
               "ViewState": "AQIAAK8AAAAAAAAAAAAlwGgAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T09:02:07.481Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:02:07.481Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "Yearly.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Dashboard\\Yearly.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Dashboard\\Yearly.cshtml",
@@ -233,12 +278,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Dashboard\\Yearly.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T07:30:45.832Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T07:30:45.832Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 23,
               "Title": "Daily.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Dashboard\\Daily.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Dashboard\\Daily.cshtml",
@@ -250,7 +294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Index.cshtml",
@@ -258,12 +302,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Index.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAEcAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T07:26:40.251Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T07:26:40.251Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
@@ -271,12 +314,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:07:42.173Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:07:42.173Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\Index.cshtml",
@@ -284,12 +326,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\Index.cshtml",
               "ViewState": "AQIAABUAAAAAAAAAAAAAAC0AAABGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T07:26:35.336Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T07:26:35.336Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\Create.cshtml",
@@ -297,12 +338,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\Create.cshtml",
               "ViewState": "AQIAABIAAAAAAAAAAAAAAAQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:08:11.704Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:08:11.704Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Sizes.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\Sizes.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\Sizes.cshtml",
@@ -310,12 +350,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\Sizes.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T07:30:17.56Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T07:30:17.56Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "AdminBaseController.cs",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\AdminBaseController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminBaseController.cs",
@@ -323,12 +362,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminBaseController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T09:09:49.196Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:09:49.196Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "EditSize.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\EditSize.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\EditSize.cshtml",
@@ -336,12 +374,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\EditSize.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:08:10.94Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:08:10.94Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\Edit.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\Edit.cshtml",
@@ -349,12 +386,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\Edit.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:08:17.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:08:17.205Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "History.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Inventory\\History.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\History.cshtml",
@@ -362,12 +398,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\History.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:08:24.917Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:08:24.917Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Details.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Details.cshtml",
@@ -375,12 +410,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Details.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:36.66Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:36.66Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "Monthly.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Dashboard\\Monthly.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Dashboard\\Monthly.cshtml",
@@ -392,7 +426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "Dashboard.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Home\\Dashboard.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Home\\Dashboard.cshtml",
@@ -404,7 +438,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Create.cshtml",
@@ -412,12 +446,11 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Create.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-04T09:05:37.941Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-04T09:05:37.941Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Home\\Index.cshtml",
@@ -429,7 +462,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Category\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Category\\Index.cshtml",

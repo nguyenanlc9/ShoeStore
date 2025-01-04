@@ -31,6 +31,13 @@
                 @Model.Name
             </a>
         </h5>
+        <div class="rating product-rating" data-rating="@Model.Rating">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <i class="fa fa-star"></i>
+            }
+            <span class="rating-count">(@Model.ReviewCount đánh giá)</span>
+        </div>
         <div class="product-brand text-muted mb-2">
             @Model.Brands?.Name
         </div>
@@ -104,5 +111,27 @@
 
 .badge {
     z-index: 1;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.rating .fa-star {
+    color: #ddd;
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+.rating .fa-star.checked {
+    color: #ffc107;
+}
+
+.rating-count {
+    margin-left: 5px;
+    color: #666;
+    font-size: 0.85em;
 }
 </style> 
