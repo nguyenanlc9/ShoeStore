@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<ShoeStore.Models.Product>
+
 @{
     ViewData["Title"] = "Danh sách sản phẩm";
     ViewData["ActiveMenu"] = "product";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <div class="page-inner">
     <div class="page-header">
         <h4 class="page-title">Quản lý sản phẩm</h4>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">

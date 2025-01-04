@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Quản lý tồn kho";
     ViewData["ActiveMenu"] = "product";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <div class="page-inner">
     <div class="page-header">
         <h4 class="page-title">Quản lý tồn kho</h4>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -22,13 +24,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success">
-                            @TempData["Success"]
-                        </div>
-                    }
-
                     <div class="table-responsive">
                         <table id="stockTable" class="display table table-striped table-hover">
                             <thead>

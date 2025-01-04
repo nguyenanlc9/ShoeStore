@@ -5,12 +5,14 @@
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers",
+    "\\ShoeStore\\Controllers",
+    "\\ShoeStore\\Migrations",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Error",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Home\\Index.cshtml",
+  "SelectedNode": "\\ShoeStore\\Controllers\\ShopController.cs",
   "PreviewInSolutionExplorer": false
 }
