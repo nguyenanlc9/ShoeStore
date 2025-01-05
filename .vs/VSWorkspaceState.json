@@ -12,6 +12,6 @@
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Auth\\Orders.cshtml",
+  "SelectedNode": "\\ShoeStore\\Views\\Shared\\_OrderDetails.cshtml",
   "PreviewInSolutionExplorer": false
 }

@@ -60,14 +60,14 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                                             <span class="dropdown-item">@userInfo.FullName</span>
-                                            <a class="dropdown-item" asp-controller="Auth" asp-action="Profile">
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
                                                 <i class="fas fa-user"></i> Thông tin cá nhân
                                             </a>
-                                            <a class="dropdown-item" asp-controller="Auth" asp-action="Orders">
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Orders">
                                                 <i class="fas fa-history"></i> Lịch sử đơn hàng
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" asp-controller="Auth" asp-action="EditProfile">
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
                                                 <i class="fas fa-user-edit"></i> Chỉnh sửa thông tin
                                             </a>
                                             <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">
@@ -158,8 +158,23 @@
     <script src="~/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            toastr.success('@TempData["SuccessMessage"]');
+        </script>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            toastr.error('@TempData["ErrorMessage"]');
+        </script>
+    }
 </body>
 </html>
+
 <style>
     /* Contact Info */
     .site-footer .contact-info {
@@ -170,28 +185,28 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-        .site-footer .contact-info h5 {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
+    .site-footer .contact-info h5 {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
 
-        .site-footer .contact-info p {
-            margin-bottom: 10px;
-            color: #555;
-        }
+    .site-footer .contact-info p {
+        margin-bottom: 10px;
+        color: #555;
+    }
 
-        .site-footer .contact-info a {
-            color: #007bff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    .site-footer .contact-info a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-            .site-footer .contact-info a:hover {
-                color: #0056b3;
-                text-decoration: underline;
-            }
+    .site-footer .contact-info a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
 
     /* Map Container */
     .site-footer .map-container {
@@ -203,12 +218,37 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-        .site-footer .map-container iframe,
-        .site-footer .map-container img {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+    .site-footer .map-container iframe,
+    .site-footer .map-container img {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
 
+    /* Progress Bar */
+    .progress {
+        height: 10px;
+        border-radius: 5px;
+        background-color: #e9ecef;
+        margin: 10px 0;
+    }
+
+    .progress-bar {
+        background-color: #007bff;
+        border-radius: 5px;
+        transition: width 0.6s ease;
+    }
+
+    .progress-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .progress-value {
+        font-size: 12px;
+        color: #007bff;
+        font-weight: bold;
+    }
 </style>
 

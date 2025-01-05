@@ -55,7 +55,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="Price" class="form-label font-weight-bold">Price</label>
                     <input type="hidden" asp-for="Price" id="actualPrice" />
-                    <input type="text" class="form-control price-display" data-type="currency" value="@Model.Price.ToString("#,##0")" />
+                    <input type="text" class="form-control price-display" data-type="currency" maxlength="9" value="@Model.Price.ToString("#,##0")" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
@@ -63,7 +63,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
                     <input type="hidden" asp-for="DiscountPrice" id="actualDiscountPrice" />
-                    <input type="text" class="form-control price-display" data-type="currency" value="@Model.DiscountPrice.ToString("#,##0")" />
+                    <input type="text" class="form-control price-display" data-type="currency" maxlength="9" value="@Model.DiscountPrice.ToString("#,##0")" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
             </div>
@@ -196,26 +196,70 @@
             });
     </script>
     <script>
-        // Image Preview
-        document.getElementById('ImageFile').addEventListener('change', function (e) {
-            const preview = document.getElementById('preview');
-            const file = e.target.files[0];
+        // Validate form trước khi submit
+        $('form').on('submit', function (e) {
+            e.preventDefault();
             
+            // Lấy giá trị
+            var price = parseInt($('#actualPrice').val()) || 0;
+            var discountPrice = parseInt($('#actualDiscountPrice').val()) || 0;
+            
+            // Kiểm tra giá hợp lệ
+            if (price <= 0) {
+                toastr.error('Giá sản phẩm phải lớn hơn 0');
+                return false;
+            }
+            
+            if (price > 999999999) {
+                toastr.error('Giá sản phẩm không được vượt quá 999,999,999đ');
+                return false;
+            }
+            
+            // Kiểm tra giá khuyến mãi
+            if (discountPrice >= price) {
+                toastr.error('Giá khuyến mãi phải nhỏ hơn giá gốc');
+                return false;
+            }
+            
+            // Nếu mọi thứ ok thì submit form
+            var form = this;
+            var formData = new FormData(form);
+            
+            $.ajax({
+                url: form.action,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Cập nhật sản phẩm thành công');
+                        setTimeout(function() {
+                            window.location.href = '/Admin/Product';
+                        }, 1500);
+                    } else {
+                        toastr.error(response.message || 'Có lỗi xảy ra khi cập nhật sản phẩm');
+                    }
+                },
+                error: function() {
+                    toastr.error('Có lỗi xảy ra khi cập nhật sản phẩm');
+                }
+            });
+        });
+
+        // Preview ảnh khi chọn file
+        $('#mainImage').change(function() {
+            var file = this.files[0];
             if (file) {
-                const reader = new FileReader();
+                var reader = new FileReader();
                 reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    $('#mainImagePreview').html('<img src="' + e.target.result + '" class="img-fluid" style="max-height: 200px;">');
                 }
                 reader.readAsDataURL(file);
-            } else {
-                preview.src = '';
-                preview.style.display = 'none';
+                toastr.success('Đã chọn ảnh: ' + file.name);
             }
         });
-    </script>
 
-    <script>
         // Định dạng input thành tiền VND
         $("input[data-type='currency']").on({
             keyup: function() {
@@ -231,20 +275,44 @@
         }
 
         function formatCurrency(input) {
-            // Lấy giá trị và xóa tất cả ký tự không phải số
+            // Lấy giá trị và chỉ giữ lại số
             var value = input.val().replace(/[^0-9]/g, "");
+            
+            // Giới hạn độ dài tối đa là 9 ký tự
+            if (value.length > 9) {
+                value = value.substring(0, 9);
+            }
+            
+            // Kiểm tra giới hạn
+            var numValue = parseInt(value);
+            if (numValue > 999999999) {
+                value = "999999999";
+                toastr.warning('Giá tối đa là 999,999,999đ');
+            }
             
             // Format số với dấu phẩy nếu có giá trị
             if (value !== "") {
                 input.val(formatNumber(value));
                 
-                // Cập nhật giá trị thực vào input ẩn tương ứng
+                // Cập nhật giá trị thực vào input ẩn
                 var hiddenInput = input.prev('input[type="hidden"]');
                 if (hiddenInput.length > 0) {
                     hiddenInput.val(value);
                 }
             }
         }
+
+        // Thêm sự kiện paste để xử lý khi user paste số lớn
+        $("input[data-type='currency']").on('paste', function(e) {
+            e.preventDefault();
+            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            var value = text.replace(/[^0-9]/g, "");
+            if (value.length > 9) {
+                value = value.substring(0, 9);
+            }
+            $(this).val(value);
+            formatCurrency($(this));
+        });
 
         // Format giá trị ban đầu khi load trang
         $(document).ready(function() {
@@ -253,53 +321,7 @@
             });
         });
 
-        // Không cần xử lý form submit vì giá trị thực đã được lưu trong input ẩn
-    </script>
-
-    <script>
-        // Preview ảnh đại diện
-        document.getElementById('mainImage').addEventListener('change', function(e) {
-            const preview = document.getElementById('mainImagePreview');
-            preview.innerHTML = '';
-            
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" class="img-fluid mt-2" style="max-height: 200px;">`;
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-
-        // Preview nhiều ảnh chi tiết
-        document.getElementById('productImages').addEventListener('change', function(e) {
-            const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = '';
-            
-            if (this.files) {
-                Array.from(this.files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = 'col-md-3 mb-2 position-relative';
-                        div.innerHTML = `
-                            <img src="${e.target.result}" class="img-fluid" style="max-height: 150px;">
-                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" onclick="removePreview(this)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            <input type="hidden" name="productImageIndexes[]" value="${index}">
-                        `;
-                        container.appendChild(div);
-                    }
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
-
-        function removePreview(button) {
-            button.closest('.col-md-3').remove();
-        }
-
+        // Xử lý xóa ảnh
         function deleteImage(imageId) {
             if (confirm('Bạn có chắc muốn xóa ảnh này?')) {
                 $.ajax({
@@ -308,31 +330,17 @@
                     data: { imageId: imageId },
                     success: function(response) {
                         if (response.success) {
-                            document.getElementById('image-' + imageId).remove();
+                            toastr.success('Xóa ảnh thành công');
+                            $('#image-' + imageId).remove();
                         } else {
-                            alert(response.message || 'Có lỗi xảy ra khi xóa ảnh');
+                            toastr.error(response.message || 'Có lỗi xảy ra khi xóa ảnh');
                         }
                     },
                     error: function() {
-                        alert('Có lỗi xảy ra khi xóa ảnh');
+                        toastr.error('Có lỗi xảy ra khi xóa ảnh');
                     }
                 });
             }
         }
-
-        // Xử lý form submit
-        document.querySelector('form').addEventListener('submit', function(e) {
-            // Lấy tất cả các file đã chọn
-            const productImagesInput = document.getElementById('productImages');
-            const files = Array.from(productImagesInput.files);
-            
-            // Tạo FormData để gửi cả file và dữ liệu form
-            const formData = new FormData(this);
-            
-            // Thêm từng file vào FormData
-            files.forEach((file, index) => {
-                formData.append('productImages', file);
-            });
-        });
     </script>
 }

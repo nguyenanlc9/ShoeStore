@@ -1,0 +1,319 @@
+@model ShoeStore.Models.User
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thông tin cá nhân";
+    var nextRank = ViewBag.NextRank as MemberRank;
+
+    // Định nghĩa các mức chi tiêu cho từng rank
+    decimal bronzeMin = 0;
+    decimal silverMin = 5000000;    // 5 triệu
+    decimal goldMin = 20000000;     // 20 triệu
+    decimal platinumMin = 50000000; // 50 triệu
+
+    // Tính phần trăm tiến độ dựa trên số tiền chi tiêu
+    decimal totalSpent = Model.TotalSpent;
+    decimal rankProgressPercent = 0;
+    string currentProgress = "bronze";
+
+    if (totalSpent >= platinumMin)
+    {
+        rankProgressPercent = 100;
+        currentProgress = "platinum";
+    }
+    else if (totalSpent >= goldMin)
+    {
+        rankProgressPercent = ((totalSpent - goldMin) / (platinumMin - goldMin) * 33.33M) + 66.66M;
+        currentProgress = "gold";
+    }
+    else if (totalSpent >= silverMin)
+    {
+        rankProgressPercent = ((totalSpent - silverMin) / (goldMin - silverMin) * 33.33M) + 33.33M;
+        currentProgress = "silver";
+    }
+    else
+    {
+        rankProgressPercent = (totalSpent / silverMin * 33.33M);
+        currentProgress = "bronze";
+    }
+}
+
+<!-- Thông tin cá nhân -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">Thông tin cá nhân</h4>
+    </div>
+    <div class="card-body">
+        <div class="profile-info">
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Username:</strong></div>
+                <div class="col-md-8">@Model.Username</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Họ tên:</strong></div>
+                <div class="col-md-8">@Model.FullName</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Email:</strong></div>
+                <div class="col-md-8">@Model.Email</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Số điện thoại:</strong></div>
+                <div class="col-md-8">@Model.Phone</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Ngày đăng ký:</strong></div>
+                <div class="col-md-8">@Model.RegisterDate.ToString("dd/MM/yyyy")</div>
+            </div>
+        </div>
+
+        <div class="member-rank mt-4">
+            <h4 class="mb-3">Hạng thành viên</h4>
+            @if (Model.MemberRank != null)
+            {
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rank-badge mr-3">
+                        @if (!string.IsNullOrEmpty(Model.MemberRank.BadgeImage))
+                        {
+                            <img src="@Model.MemberRank.BadgeImage" alt="@Model.MemberRank.RankName" class="img-fluid" style="max-width: 60px;">
+                        }
+                        else
+                        {
+                            <div class="rank-icon @Model.MemberRank.RankName.ToLower()">
+                                <i class="fas fa-award"></i>
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        <h5 class="rank-name mb-1">@Model.MemberRank.RankName</h5>
+                        <div class="discount-info text-primary">
+                            Giảm giá @Model.MemberRank.DiscountPercent% mọi đơn hàng
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rank-progress-container">
+                    <div class="rank-title">
+                        <span>Tổng chi tiêu @DateTime.Now.Year</span>
+                        <span class="total-amount">@Model.TotalSpent.ToString("N0")đ</span>
+                    </div>
+                    <div class="rank-progress">
+                        <div class="rank-progress-bar">
+                            <div class="rank-progress-line"></div>
+                            <div class="rank-progress-fill" style="width: @rankProgressPercent%"></div>
+                            <div class="rank-markers">
+                                <div class="rank-marker bronze active">
+                                    <div class="rank-icon-small">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="rank-amount">0đ</div>
+                                </div>
+                                <div class="rank-marker silver @(Model.TotalSpent >= 5000000 ? "active" : "")">
+                                    <div class="rank-icon-small">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="rank-amount">5.000.000đ</div>
+                                </div>
+                                <div class="rank-marker gold @(Model.TotalSpent >= 20000000 ? "active" : "")">
+                                    <div class="rank-icon-small">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="rank-amount">20.000.000đ</div>
+                                </div>
+                                <div class="rank-marker platinum @(Model.TotalSpent >= 50000000 ? "active" : "")">
+                                    <div class="rank-icon-small">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="rank-amount">50.000.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p>Bạn chưa có hạng thành viên</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .rank-progress-container {
+        margin: 40px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .rank-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        color: #444;
+        font-weight: 500;
+    }
+
+    .total-amount {
+        color: #007bff;
+        font-weight: 600;
+    }
+
+    .rank-progress {
+        position: relative;
+        width: 100%;
+        padding: 30px 0;
+    }
+
+    .rank-progress-bar {
+        height: 4px;
+        background: transparent;
+        position: relative;
+        margin-top: 15px;
+    }
+
+    .rank-progress-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #e9ecef;
+        transform: translateY(-50%);
+    }
+
+    .rank-progress-fill {
+        position: absolute;
+        height: 4px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #007bff;
+        transition: width 0.6s ease;
+    }
+
+    .rank-markers {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rank-marker {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translateX(-50%);
+        margin-top: -10px;
+    }
+
+    .rank-marker:first-child {
+        transform: translateX(0);
+    }
+
+    .rank-marker:last-child {
+        transform: translateX(-100%);
+    }
+
+    .rank-icon-small {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        color: #adb5bd;
+        transition: all 0.3s ease;
+    }
+
+    .rank-amount {
+        font-size: 11px;
+        color: #adb5bd;
+        white-space: nowrap;
+    }
+
+    .rank-marker.bronze .rank-icon-small {
+        background: #fff;
+        border-color: #cd7f32;
+        color: #cd7f32;
+    }
+
+    .rank-marker.silver .rank-icon-small {
+        background: #fff;
+        border-color: #c0c0c0;
+        color: #c0c0c0;
+    }
+
+    .rank-marker.gold .rank-icon-small {
+        background: #fff;
+        border-color: #ffd700;
+        color: #ffd700;
+    }
+
+    .rank-marker.platinum .rank-icon-small {
+        background: #fff;
+        border-color: #e5e4e2;
+        color: #e5e4e2;
+    }
+
+    .rank-marker.active.bronze .rank-icon-small {
+        background: #cd7f32;
+        border-color: #cd7f32;
+        color: #fff;
+    }
+
+    .rank-marker.active.silver .rank-icon-small {
+        background: #c0c0c0;
+        border-color: #c0c0c0;
+        color: #fff;
+    }
+
+    .rank-marker.active.gold .rank-icon-small {
+        background: #ffd700;
+        border-color: #ffd700;
+        color: #fff;
+    }
+
+    .rank-marker.active.platinum .rank-icon-small {
+        background: #e5e4e2;
+        border-color: #e5e4e2;
+        color: #fff;
+    }
+
+    .rank-marker.active .rank-amount {
+        color: inherit;
+        font-weight: 500;
+    }
+
+    .rank-marker.active.bronze .rank-amount { color: #cd7f32; }
+    .rank-marker.active.silver .rank-amount { color: #c0c0c0; }
+    .rank-marker.active.gold .rank-amount { color: #ffd700; }
+    .rank-marker.active.platinum .rank-amount { color: #e5e4e2; }
+
+    .discount-info {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .rank-amount {
+            font-size: 10px;
+        }
+
+        .rank-icon-small {
+            width: 20px;
+            height: 20px;
+        }
+
+        .rank-icon-small i {
+            font-size: 10px;
+        }
+    }
+</style>

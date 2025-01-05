@@ -21,13 +21,15 @@ namespace ShoeStore.Models
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Giá sản phẩm là bắt buộc.")]
-        [Range(1, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 0.")]
+        [Range(1, 1000000000, ErrorMessage = "Giá phải từ 1đ đến 1 tỷ đồng.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Giá chỉ được nhập số.")]
         public decimal Price { get; set; }
 
         public string? Description { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Giá khuyến mãi phải lớn hơn hoặc bằng 0.")]
-        public decimal DiscountPrice { get; set; } = 0; // Mặc định là 0
+        [Range(0, 1000000000, ErrorMessage = "Giá khuyến mãi phải từ 0đ đến 1 tỷ đồng.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Giá khuyến mãi chỉ được nhập số.")]
+        public decimal DiscountPrice { get; set; } = 0;
         
         public string? ImagePath { get; set; }
 
@@ -72,6 +74,9 @@ namespace ShoeStore.Models
 
         public virtual ICollection<Review> Reviews { get; set; }
 
+        [Required(ErrorMessage = "Mã sản phẩm không được để trống")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Mã sản phẩm phải từ 3-20 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "Mã sản phẩm chỉ được chứa chữ, số và dấu gạch ngang")]
         public string ProductCode { get; set; }
 
         public Product()
