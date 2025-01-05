@@ -37,6 +37,7 @@ namespace ShoeStore.Models
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<ProductSizeStockHistory> ProductSizeStockHistories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ReturnRequest> ReturnRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -104,6 +105,19 @@ namespace ShoeStore.Models
             modelBuilder.Entity<Product>()
                 .Property(p => p.IsSale)
                 .HasDefaultValue(false);
+
+            // Cấu hình cho ReturnRequest
+            modelBuilder.Entity<ReturnRequest>()
+                .HasOne(r => r.Order)
+                .WithMany()
+                .HasForeignKey(r => r.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReturnRequest>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

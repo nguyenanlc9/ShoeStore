@@ -131,6 +131,13 @@ namespace ShoeStore
                 }
             }
 
+            // Tạo thư mục lưu ảnh nếu chưa tồn tại
+            var returnsImagePath = Path.Combine(app.Environment.WebRootPath, "images", "returns");
+            if (!Directory.Exists(returnsImagePath))
+            {
+                Directory.CreateDirectory(returnsImagePath);
+            }
+
             app.Run();
         }
     }

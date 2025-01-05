@@ -118,10 +118,15 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" 
-                                            onclick="showOrderDetails('@order.OrderId')">
+                                    <button type="button" class="btn btn-info btn-sm" onclick="showOrderDetails('@order.OrderId')">
                                         Chi tiết
                                     </button>
+                                    @if ((DateTime.Now - order.OrderDate).TotalDays <= 7 && order.Status == OrderStatus.Completed)
+                                    {
+                                        <a href="@Url.Action("Create", "Return", new { orderId = order.OrderId })" class="btn btn-warning btn-sm">
+                                            Yêu cầu đổi trả
+                                        </a>
+                                    }
                                     @if (order.Status == OrderStatus.Delivered)
                                     {
                                         <button type="button" class="btn btn-sm btn-success" 
@@ -174,7 +179,7 @@
             console.log('OrderId:', orderId);
 
             // Load nội dung
-            $.get('/Account/OrderDetails/' + orderId)
+            $.get('/Order/OrderDetails/' + orderId)
                 .done(function(response) {
                     console.log('Response:', response); // Log response để debug
                     $('#orderDetailsContent').html(response);

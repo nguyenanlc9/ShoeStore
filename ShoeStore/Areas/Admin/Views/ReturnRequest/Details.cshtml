@@ -1,0 +1,95 @@
+﻿@model ShoeStore.Models.ReturnRequest
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Chi tiết yêu cầu đổi trả #@Model.ReturnId</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Thông tin đơn hàng</h5>
+                            <p>Mã đơn hàng: @Model.Order.OrderCode</p>
+                            <p>Ngày đặt: @Model.Order.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                            <p>Tổng tiền: @Model.Order.TotalAmount.ToString("N0")đ</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Thông tin khách hàng</h5>
+                            <p>Họ tên: @Model.User.FullName</p>
+                            <p>Email: @Model.User.Email</p>
+                            <p>SĐT: @Model.User.Phone</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Thông tin yêu cầu đổi trả</h5>
+                            <p>Ngày yêu cầu: @Model.RequestDate.ToString("dd/MM/yyyy HH:mm")</p>
+                            <p>Lý do: @Model.Reason</p>
+                            @if (!string.IsNullOrEmpty(Model.Images))
+                            {
+                                <div class="mb-3">
+                                    <h6>Hình ảnh:</h6>
+                                    <div class="row">
+                                        @foreach (var img in Model.Images.Split(','))
+                                        {
+                                            <div class="col-md-3">
+                                                <img src="@img" class="img-fluid" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="id" value="@Model.ReturnId" />
+
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select name="status" class="form-control">
+                                @foreach (ReturnStatus status in Enum.GetValues(typeof(ReturnStatus)))
+                                {
+                                    <option value="@((int)status)" selected="@(Model.Status == status ? "selected" : null)">
+                                        @GetStatusText(status)
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ghi chú</label>
+                            <textarea name="note" class="form-control" rows="3">@Model.AdminNote</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật trạng thái?')">
+                                Cập nhật
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusText(ReturnStatus status) => status switch
+    {
+        ReturnStatus.Pending => "Đang chờ",
+        ReturnStatus.Approved => "Đã duyệt",
+        ReturnStatus.Completed => "Hoàn thành",
+        ReturnStatus.Rejected => "Từ chối",
+        _ => "Không xác định"
+    };
+}

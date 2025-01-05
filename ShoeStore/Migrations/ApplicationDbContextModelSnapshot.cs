@@ -659,6 +659,46 @@ namespace ShoeStore.Migrations
                     b.ToTable("ProductSizeStockHistories");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.ReturnRequest", b =>
+                {
+                    b.Property<int>("ReturnId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReturnId"));
+
+                    b.Property<string>("AdminNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Images")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReturnId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReturnRequests");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Review", b =>
                 {
                     b.Property<int>("ReviewId")
@@ -914,13 +954,13 @@ namespace ShoeStore.Migrations
                     b.HasOne("ShoeStore.Models.Brand", "Brands")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.Category", "Categories")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Brands");
@@ -955,13 +995,13 @@ namespace ShoeStore.Migrations
                     b.HasOne("ShoeStore.Models.Product", "Product")
                         .WithMany("ProductSizeStocks")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.Size", "Size")
                         .WithMany("ProductSizeStocks")
                         .HasForeignKey("SizeID")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -974,18 +1014,37 @@ namespace ShoeStore.Migrations
                     b.HasOne("ShoeStore.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.Size", "Size")
                         .WithMany()
                         .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
 
                     b.Navigation("Size");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.ReturnRequest", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ShoeStore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Review", b =>

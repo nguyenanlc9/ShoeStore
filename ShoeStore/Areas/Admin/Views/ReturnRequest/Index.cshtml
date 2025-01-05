@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ShoeStore.Models.ReturnRequest>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Quản lý yêu cầu đổi trả</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="returnTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Ngày yêu cầu</th>
+                                    <th>Lý do</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Order.OrderCode</td>
+                                        <td>@item.User.FullName</td>
+                                        <td>@item.RequestDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@item.Reason</td>
+                                        <td>
+                                            <span class="badge badge-@GetStatusClass(item.Status)">
+                                                @GetStatusText(item.Status)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Details", new { id = item.ReturnId })"
+                                               class="btn btn-info btn-sm">
+                                                <i class="fas fa-info-circle"></i> Chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#returnTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
+                }
+            });
+        });
+    </script>
+}
+
+@functions {
+    string GetStatusClass(ReturnStatus status) => status switch
+    {
+        ReturnStatus.Pending => "warning",
+        ReturnStatus.Approved => "info",
+        ReturnStatus.Completed => "success",
+        ReturnStatus.Rejected => "danger",
+        _ => "secondary"
+    };
+
+    string GetStatusText(ReturnStatus status) => status switch
+    {
+        ReturnStatus.Pending => "Đang chờ",
+        ReturnStatus.Approved => "Đã duyệt",
+        ReturnStatus.Completed => "Hoàn thành",
+        ReturnStatus.Rejected => "Từ chối",
+        _ => "Không xác định"
+    };
+} 

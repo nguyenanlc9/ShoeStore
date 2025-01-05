@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.ViewModels;
 using System.Diagnostics;
+using ShoeStore.Utils;
 
 namespace Project_BE.Controllers
 {
@@ -66,6 +67,23 @@ namespace Project_BE.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Returns()
+        {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+            if (userInfo == null)
+            {
+                return View(null);
+            }
+
+            // Lấy các đơn hàng trong 7 ngày gần đây và chưa có yêu cầu đổi trả
+            var recentOrders = await _context.Orders
+                .Where(o => o.UserId == userInfo.UserID 
+                    && o.OrderDate >= DateTime.Now.AddDays(-7)
+                    && !_context.ReturnRequests.Any(r => r.OrderId == o.OrderId))
+                .ToListAsync();
+
+            return View(recentOrders);
+        }
 
     }
 }

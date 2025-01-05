@@ -4,14 +4,14 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Dashboard",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Auth",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\InventoryController.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Auth\\Orders.cshtml",
   "PreviewInSolutionExplorer": false
 }

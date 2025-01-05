@@ -1,0 +1,84 @@
+@model IEnumerable<ShoeStore.Models.Order>
+@{
+    ViewData["Title"] = "Chính sách đổi trả";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Chính sách đổi trả</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Điều kiện đổi trả</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Thời hạn 7 ngày kể từ ngày nhận hàng</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Sản phẩm còn nguyên tem, nhãn mác</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Sản phẩm chưa qua sử dụng</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Có hóa đơn mua hàng</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Quy trình đổi trả</h5>
+                        <ol>
+                            <li>Đăng nhập vào tài khoản của bạn</li>
+                            <li>Vào mục "Lịch sử đơn hàng"</li>
+                            <li>Chọn đơn hàng cần đổi trả</li>
+                            <li>Nhấn nút "Yêu cầu đổi trả"</li>
+                            <li>Điền thông tin và lý do đổi trả</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Thời gian xử lý</h5>
+                        <p>Chúng tôi sẽ xử lý yêu cầu đổi trả trong vòng 24-48 giờ làm việc.</p>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        @if (Context.Session.Get<User>("userInfo") != null)
+                        {
+                            @if (Model != null && Model.Any())
+                            {
+                                <a asp-controller="Auth" asp-action="Orders" class="btn btn-primary">
+                                    Kiểm tra đơn hàng của bạn
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Auth" asp-action="Orders" class="btn btn-primary">
+                                    Quay lại đơn hàng
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-primary">
+                                Đăng nhập để đổi trả
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .list-unstyled li {
+        margin-bottom: 10px;
+    }
+
+    ol li {
+        margin-bottom: 10px;
+    }
+</style>
+
+@using ShoeStore.Models
+@using ShoeStore.Utils 

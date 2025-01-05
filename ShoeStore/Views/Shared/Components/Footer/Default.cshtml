@@ -1,0 +1,54 @@
+<footer class="site-footer border-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h3 class="footer-heading">Thông tin liên hệ</h3>
+                <ul class="list-unstyled footer-info">
+                    @if (ViewData["FooterInfo"] is ShoeStore.Models.Footer footerInfo)
+                    {
+                        @if (!string.IsNullOrEmpty(footerInfo.FooterAddress))
+                        {
+                            <li><i class="fas fa-map-marker-alt"></i> @footerInfo.FooterAddress</li>
+                        }
+                        @if (!string.IsNullOrEmpty(footerInfo.FooterPhone))
+                        {
+                            <li><i class="fas fa-phone"></i> @footerInfo.FooterPhone</li>
+                        }
+                        @if (!string.IsNullOrEmpty(footerInfo.FooterEmail))
+                        {
+                            <li><i class="fas fa-envelope"></i> @footerInfo.FooterEmail</li>
+                        }
+                    }
+                </ul>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h3 class="footer-heading">Liên kết nhanh</h3>
+                <ul class="list-unstyled">
+                    <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li><a asp-controller="Shop" asp-action="Index">Sản phẩm</a></li>
+                    <li><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h3 class="footer-heading">Theo dõi chúng tôi</h3>
+                <div class="social-links">
+                    <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="copyright">
+                    Copyright &copy; @DateTime.Now.Year All rights reserved | Made with <i class="fas fa-heart"></i> by ShoeStore
+                </p>
+            </div>
+        </div>
+    </div>
+</footer> 
