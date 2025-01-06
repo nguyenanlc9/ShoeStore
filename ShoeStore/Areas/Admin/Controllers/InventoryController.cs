@@ -75,7 +75,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
                 _context.Add(size);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Thêm size mới thành công";
+                TempData["SuccessMessage"] = "Thêm size mới thành công";
                 return RedirectToAction(nameof(Sizes));
             }
             return View(size);
@@ -120,7 +120,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
                     _context.Update(size);
                     await _context.SaveChangesAsync();
-                    TempData["Success"] = "Cập nhật size thành công";
+                    TempData["SuccessMessage"] = "Cập nhật size thành công";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -210,7 +210,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                         }
                     }
 
-                    TempData["Success"] = "Nhập kho thành công";
+                    TempData["SuccessMessage"] = "Nhập kho thành công";
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -335,7 +335,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
                 await transaction.CommitAsync();
 
-                TempData["Success"] = "Cập nhật số lượng tồn kho thành công";
+                TempData["SuccessMessage"] = "Cập nhật số lượng tồn kho thành công";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
