@@ -85,5 +85,135 @@ namespace Project_BE.Controllers
             return View(recentOrders);
         }
 
+        public async Task<IActionResult> Sale(int? categoryId, int? brandId, decimal? minPrice, decimal? maxPrice, string sortOrder)
+        {
+            // Lấy danh sách danh mục và thương hiệu cho filter
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Brands = await _context.Brands.ToListAsync();
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.SelectedBrandId = brandId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.CurrentSort = sortOrder;
+
+            // Query cơ bản
+            var query = _context.Products
+                .Include(p => p.ProductSizeStocks)
+                    .ThenInclude(ps => ps.Size)
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Where(p => p.Status == ProductStatus.Available 
+                    && p.DiscountPrice > 0 
+                    && p.DiscountPrice < p.Price);
+
+            // Áp dụng các bộ lọc
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            if (brandId.HasValue)
+            {
+                query = query.Where(p => p.BrandId == brandId.Value);
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.DiscountPrice >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.DiscountPrice <= maxPrice.Value);
+            }
+
+            // Áp dụng sắp xếp
+            query = sortOrder switch
+            {
+                "price_asc" => query.OrderBy(p => p.DiscountPrice),
+                "price_desc" => query.OrderByDescending(p => p.DiscountPrice),
+                "discount_desc" => query.OrderByDescending(p => (p.Price - p.DiscountPrice) / p.Price),
+                _ => query.OrderByDescending(p => (p.Price - p.DiscountPrice) / p.Price)
+            };
+
+            var saleProducts = await query
+                .Select(p => new ProductViewModel
+                {
+                    Product = p,
+                    AvailableSizes = p.ProductSizeStocks
+                        .Where(ps => ps.StockQuantity > 0)
+                        .Select(ps => ps.Size.SizeValue)
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return View(saleProducts);
+        }
+
+        public async Task<IActionResult> NewArrivals(int? categoryId, int? brandId, decimal? minPrice, decimal? maxPrice, string sortOrder)
+        {
+            // Lấy danh sách danh mục và thương hiệu cho filter
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Brands = await _context.Brands.ToListAsync();
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.SelectedBrandId = brandId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.CurrentSort = sortOrder;
+
+            // Query cơ bản
+            var query = _context.Products
+                .Include(p => p.ProductSizeStocks)
+                    .ThenInclude(ps => ps.Size)
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Where(p => p.Status == ProductStatus.Available && p.IsNew);
+
+            // Áp dụng các bộ lọc
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            if (brandId.HasValue)
+            {
+                query = query.Where(p => p.BrandId == brandId.Value);
+            }
+
+            if (minPrice.HasValue)
+            {
+                var min = minPrice.Value;
+                query = query.Where(p => (p.DiscountPrice > 0 ? p.DiscountPrice : p.Price) >= min);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                var max = maxPrice.Value;
+                query = query.Where(p => (p.DiscountPrice > 0 ? p.DiscountPrice : p.Price) <= max);
+            }
+
+            // Áp dụng sắp xếp
+            query = sortOrder switch
+            {
+                "price_asc" => query.OrderBy(p => p.DiscountPrice > 0 ? p.DiscountPrice : p.Price),
+                "price_desc" => query.OrderByDescending(p => p.DiscountPrice > 0 ? p.DiscountPrice : p.Price),
+                "date_desc" => query.OrderByDescending(p => p.CreatedDate),
+                _ => query.OrderByDescending(p => p.CreatedDate)
+            };
+
+            var newProducts = await query
+                .Select(p => new ProductViewModel
+                {
+                    Product = p,
+                    AvailableSizes = p.ProductSizeStocks
+                        .Where(ps => ps.StockQuantity > 0)
+                        .Select(ps => ps.Size.SizeValue)
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return View(newProducts);
+        }
+
     }
 }

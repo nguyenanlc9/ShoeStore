@@ -98,33 +98,17 @@
         <nav class="site-navigation text-right text-md-center" role="navigation">
             <div class="container">
                 <ul class="site-menu js-clone-nav d-none d-md-block">
-                    <li class="has-children active">
+                    <li class="">
                         <a asp-controller="Home" asp-action="index">Home</a>
-                        <ul class="dropdown">
-                            <li><a href="#">Menu One</a></li>
-                            <li><a href="#">Menu Two</a></li>
-                            <li><a href="#">Menu Three</a></li>
-                            <li class="has-children">
-                                <a href="#">Sub Menu</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">Menu One</a></li>
-                                    <li><a href="#">Menu Two</a></li>
-                                    <li><a href="#">Menu Three</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        
                     </li>
-                    <li class="has-children">
-                        <a asp-controller="Home" asp-action="About">About</a>
+                    <li class="">
+                        <a asp-controller="Home" asp-action="Sale">Sale</a>
                         <ul class="dropdown">
-                            <li><a href="#">Menu One</a></li>
-                            <li><a href="#">Menu Two</a></li>
-                            <li><a href="#">Menu Three</a></li>
                         </ul>
                     </li>
                         <li><a asp-controller="Shop" asp-action="Index">Shop</a></li>
-                    <li><a href="#">PROMO</a></li>
-                    <li><a href="#">New Arrivals</a></li>
+                    <li><a asp-controller="Home" asp-action="NewArrivals">New Arrivals</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -147,7 +131,6 @@
     <footer>
         @await Component.InvokeAsync("Footer")
     </footer>
-   
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/popper.min.js"></script>
@@ -172,6 +155,31 @@
             toastr.error('@TempData["ErrorMessage"]');
         </script>
     }
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "thuong.khac.418797");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Facebook SDK -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 </body>
 </html>
 

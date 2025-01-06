@@ -21,14 +21,15 @@ namespace ShoeStore.Models
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Giá sản phẩm là bắt buộc.")]
-        [Range(1, 1000000000, ErrorMessage = "Giá phải từ 1đ đến 1 tỷ đồng.")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "Giá chỉ được nhập số.")]
+        [Range(1, 999999999999, ErrorMessage = "Giá phải từ 1đ đến 999,999,999,999đ")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Giá chỉ được nhập số")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Mô tả sản phẩm là bắt buộc.")]
         public string? Description { get; set; }
 
-        [Range(0, 1000000000, ErrorMessage = "Giá khuyến mãi phải từ 0đ đến 1 tỷ đồng.")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "Giá khuyến mãi chỉ được nhập số.")]
+        [Range(0, 999999999999, ErrorMessage = "Giá khuyến mãi phải từ 0đ đến 999,999,999,999đ")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Giá khuyến mãi chỉ được nhập số")]
         public decimal DiscountPrice { get; set; } = 0;
         
         public string? ImagePath { get; set; }

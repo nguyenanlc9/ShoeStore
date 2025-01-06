@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 
 namespace ShoeStore.ViewComponents
@@ -13,11 +12,10 @@ namespace ShoeStore.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
-            var footerInfo = await _context.Footers.FirstOrDefaultAsync();
-            ViewData["FooterInfo"] = footerInfo;
-            return View("Default");
+            var footerInfo = _context.Footers.OrderByDescending(f => f.FooterId).FirstOrDefault();
+            return View(footerInfo);
         }
     }
 } 

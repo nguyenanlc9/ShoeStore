@@ -1,0 +1,280 @@
+@model IEnumerable<ShoeStore.Models.ViewModels.ProductViewModel>
+@{
+    ViewData["Title"] = "Sản phẩm mới";
+}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index">Home</a> 
+                <span class="mx-2 mb-0">/</span> 
+                <strong class="text-black">New Arrivals</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Lọc sản phẩm</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="filterForm" method="get">
+                            <!-- Danh mục -->
+                            <div class="mb-4">
+                                <h6>Danh mục</h6>
+                                <select name="categoryId" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Tất cả</option>
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.CategoryId" selected="@(ViewBag.SelectedCategoryId == category.CategoryId)">
+                                            @category.Name
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <!-- Thương hiệu -->
+                            <div class="mb-4">
+                                <h6>Thương hiệu</h6>
+                                <select name="brandId" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Tất cả</option>
+                                    @foreach (var brand in ViewBag.Brands)
+                                    {
+                                        <option value="@brand.BrandId" selected="@(ViewBag.SelectedBrandId == brand.BrandId)">
+                                            @brand.Name
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <!-- Khoảng giá -->
+                            <div class="mb-4">
+                                <h6>Khoảng giá</h6>
+                                <div class="form-group">
+                                    <input type="number" name="minPrice" class="form-control mb-2" 
+                                           placeholder="Giá từ" value="@ViewBag.MinPrice">
+                                    <input type="number" name="maxPrice" class="form-control" 
+                                           placeholder="Giá đến" value="@ViewBag.MaxPrice">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Áp dụng</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product List -->
+            <div class="col-md-9">
+                <!-- Sort Options -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span>Hiển thị @Model.Count() sản phẩm mới</span>
+                            </div>
+                            <div>
+                                <select id="sortOrder" class="form-control" onchange="updateSort(this.value)">
+                                    <option value="">Sắp xếp theo</option>
+                                    <option value="price_asc">Giá tăng dần</option>
+                                    <option value="price_desc">Giá giảm dần</option>
+                                    <option value="date_desc">Mới nhất</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="product-card h-100">
+                                <div class="product-image">
+                                    <a href="@Url.Action("Detail", "Shop", new { id = item.Product.ProductId })">
+                                        @if (!string.IsNullOrEmpty(item.Product.ImagePath))
+                                        {
+                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name" class="img-fluid">
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/no-image.png" alt="No Image" class="img-fluid">
+                                        }
+                                    </a>
+                                    <div class="product-badges">
+                                        @if (item.Product.IsNew)
+                                        {
+                                            <span class="badge badge-success">New</span>
+                                        }
+                                        @if (item.Product.IsHot)
+                                        {
+                                            <span class="badge badge-warning">Hot</span>
+                                        }
+                                        @if (item.Product.DiscountPrice > 0)
+                                        {
+                                            var discountPercent = Math.Round((1 - (decimal)item.Product.DiscountPrice / item.Product.Price) * 100);
+                                            <span class="badge badge-danger">-@discountPercent%</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="product-info p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="product-name mb-0">
+                                            <a href="@Url.Action("Detail", "Shop", new { id = item.Product.ProductId })" class="text-dark text-decoration-none">
+                                                @item.Product.Name
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div class="rating product-rating" data-rating="@item.Product.Rating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fa fa-star"></i>
+                                        }
+                                        <span class="rating-count">(@item.Product.ReviewCount đánh giá)</span>
+                                    </div>
+                                    <div class="product-brand text-muted mb-2">
+                                        @item.Product.Brands?.Name
+                                    </div>
+                                    <div class="product-price">
+                                        @if (item.Product.DiscountPrice > 0)
+                                        {
+                                            <del class="text-muted mr-2">@String.Format("{0:N0}đ", item.Product.Price)</del>
+                                            <span class="text-danger">@String.Format("{0:N0}đ", item.Product.DiscountPrice)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@String.Format("{0:N0}đ", item.Product.Price)</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Hiển thị số sao đánh giá
+            $('.product-rating').each(function() {
+                var rating = $(this).data('rating');
+                var $stars = $(this).find('.fa-star');
+                
+                $stars.each(function(index) {
+                    if (index < rating) {
+                        $(this).addClass('checked');
+                    }
+                });
+            });
+        });
+
+        function updateSort(value) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sortOrder', value);
+            window.location.search = urlParams.toString();
+        }
+    </script>
+}
+
+<style>
+    .product-card {
+        display: block;
+        padding: 0;
+        max-width: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+        position: relative;
+        padding-top: 100%; /* Tạo hình vuông */
+        overflow: hidden;
+    }
+
+    .product-image img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .product-badges {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        z-index: 2;
+    }
+
+    .product-badges .badge {
+        font-size: 11px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .rating .fa-star {
+        color: #ddd;
+        margin-right: 2px;
+    }
+
+    .rating .fa-star.checked {
+        color: #ffc107;
+    }
+
+    .rating-count {
+        margin-left: 5px;
+        color: #666;
+        font-size: 0.9em;
+    }
+</style> 
