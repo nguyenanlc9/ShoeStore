@@ -59,17 +59,32 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryId,Name")] Category category)
         {
-            if (ModelState.IsValid)
+            try
             {
+                var currentUser = HttpContext.Session.Get<User>("AdminUserInfo");
+                if (currentUser == null)
+                {
+                    ModelState.AddModelError("", "Phiên đăng nhập đã hết hạn");
+                    return View(category);
+                }
+
+                category.CreatedBy = currentUser.Username;
+                category.CreatedDate = DateTime.Now;
+                category.UpdatedBy = currentUser.Username;
+                category.UpdatedDate = DateTime.Now;
+
                 _context.Add(category);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm danh mục thành công!";
+                TempData["Success"] = "Thêm danh mục thành công";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["ErrorMessage"] = "Có lỗi xảy ra khi thêm danh mục!";
-            return View(category);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                return View(category);
+            }
         }
 
         // GET: Admin/Category/Edit/5
@@ -93,37 +108,36 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name")] Category category)
         {
             if (id != category.CategoryId)
             {
-                TempData["ErrorMessage"] = "ID danh mục không hợp lệ!";
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var currentUser = HttpContext.Session.Get<User>("AdminUserInfo");
+                var existingCategory = await _context.Categories.FindAsync(id);
+
+                if (existingCategory == null)
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Cập nhật danh mục thành công!";
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.CategoryId))
-                    {
-                        TempData["ErrorMessage"] = "Không tìm thấy danh mục!";
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                existingCategory.Name = category.Name;
+                existingCategory.UpdatedBy = currentUser.Username;
+                existingCategory.UpdatedDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Cập nhật danh mục thành công";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật danh mục!";
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+            }
+
             return View(category);
         }
 
@@ -146,28 +160,34 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         // POST: Admin/Category/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
-            try 
-            {
-                var category = await _context.Categories.FindAsync(id);
-                if (category == null)
-                {
-                    TempData["ErrorMessage"] = "Không tìm thấy danh mục!";
-                    return NotFound();
-                }
+            var category = await _context.Categories
+                .Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.CategoryId == id);
 
+            if (category == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy danh mục" });
+            }
+
+            // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
+            if (category.Products.Any())
+            {
+                return Json(new { success = false, message = "Không thể xóa danh mục vì còn sản phẩm thuộc danh mục này" });
+            }
+
+            try
+            {
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Xóa danh mục thành công!";
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Có lỗi xảy ra khi xóa danh mục: " + ex.Message;
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
             }
-            return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)

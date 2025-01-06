@@ -128,9 +128,15 @@ namespace ShoeStore.Areas.Admin.Controllers
                     {
                         product.CreatedBy = currentUser.Username;
                         product.CreatedDate = DateTime.Now;
+                        product.UpdatedBy = currentUser.Username;
+                        product.UpdatedDate = DateTime.Now;
                     }
 
-                    // Xử lý upload ảnh đại diện
+                    // Thêm sản phẩm trước
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+
+                    // Sau khi có ProductId, xử lý upload ảnh
                     if (mainImage != null && mainImage.Length > 0)
                     {
                         var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(mainImage.FileName);
@@ -144,7 +150,10 @@ namespace ShoeStore.Areas.Admin.Controllers
                             await mainImage.CopyToAsync(stream);
                         }
                         
+                        // Cập nhật ImagePath cho sản phẩm
                         product.ImagePath = relativePath;
+                        _context.Update(product);
+                        await _context.SaveChangesAsync();
 
                         // Thêm ảnh vào bảng ProductImages
                         var productImage = new ProductImage
@@ -155,23 +164,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                             CreatedAt = DateTime.Now
                         };
                         _context.ProductImages.Add(productImage);
-                    }
-
-                    // Thêm sản phẩm
-                    _context.Add(product);
-                    await _context.SaveChangesAsync();
-
-                    // Cập nhật ProductId cho ảnh sau khi đã có ID sản phẩm
-                    if (mainImage != null && mainImage.Length > 0)
-                    {
-                        var productImage = await _context.ProductImages
-                            .OrderByDescending(pi => pi.ImageId)
-                            .FirstOrDefaultAsync();
-                        if (productImage != null)
-                        {
-                            productImage.ProductId = product.ProductId;
-                            await _context.SaveChangesAsync();
-                        }
+                        await _context.SaveChangesAsync();
                     }
 
                     // Lưu lịch sử tạo sản phẩm

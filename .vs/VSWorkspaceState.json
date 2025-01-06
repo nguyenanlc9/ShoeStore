@@ -11,8 +11,9 @@
     "\\ShoeStore\\Views\\Auth",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
-    "\\ShoeStore\\Views\\Shop"
+    "\\ShoeStore\\Views\\Shop",
+    "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Account\\Profile.cshtml",
+  "SelectedNode": "\\ShoeStore\\Views\\Wishlist\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

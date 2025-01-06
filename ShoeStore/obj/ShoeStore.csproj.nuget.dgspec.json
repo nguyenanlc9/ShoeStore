@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {}
+    "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {
+    "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\ShoeStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
         "projectName": "ShoeStore",
-        "projectPath": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
-        "packagesPath": "C:\\Users\\thanhphong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\obj\\",
+        "projectPath": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\ShoeStore.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\thanhphong\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -110,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
