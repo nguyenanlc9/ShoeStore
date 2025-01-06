@@ -7,7 +7,6 @@
     var totalStock = Model.ProductSizeStocks.Sum(x => x.StockQuantity);
     var productStatus = totalStock > 0 ? ProductStatus.Available : ProductStatus.OutOfStock;
 }
-
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">

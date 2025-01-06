@@ -6,12 +6,14 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Dashboard",
+    "\\ShoeStore\\ViewComponents",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Account",
     "\\ShoeStore\\Views\\Auth",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Shared\\_OrderDetails.cshtml",
+  "SelectedNode": "\\ShoeStore\\ShoeStore.sln",
   "PreviewInSolutionExplorer": false
 }
