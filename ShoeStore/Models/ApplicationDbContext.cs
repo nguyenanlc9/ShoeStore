@@ -119,5 +119,6 @@ namespace ShoeStore.Models
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+        public DbSet<Wishlist> Wishlist { get; set; } = default!;
     }
 }

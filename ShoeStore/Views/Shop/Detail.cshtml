@@ -117,6 +117,10 @@
                             <div class="d-flex gap-2">
                                 <button class="btn btn-primary" id="addToCartBtn">Thêm vào giỏ hàng</button>
                                 <button class="btn btn-success" id="buyNowBtn">Mua ngay</button>
+                                <button class="btn btn-outline-primary" id="addToWishlistBtn">
+                                    <i class="far fa-heart"></i> Yêu thích
+                                </button>
+
                             </div>
                             break;
 
@@ -665,6 +669,41 @@
                     }
                 });
             }
+
+            // Thêm xử lý cho nút thêm vào yêu thích
+            $('#addToWishlistBtn').click(function (e) {
+                e.preventDefault();
+
+                // Kiểm tra đăng nhập
+                if (!isAuthenticated) {
+                    alert('Bạn cần đăng nhập để thêm sản phẩm vào danh sách yêu thích');
+                    window.location.href = '/Auth/Login';
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Shop/AddToWishlist',
+                    type: 'POST',
+                    data: {
+                        productId: @Model.ProductId
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Đã thêm sản phẩm vào danh sách yêu thích');
+                            // Thay đổi style của nút để thể hiện đã yêu thích
+                            $('#addToWishlistBtn')
+                                .removeClass('btn-outline-primary')
+                                .addClass('btn-primary')
+                                .html('<i class="fas fa-heart"></i> Đã yêu thích');
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi thêm vào danh sách yêu thích');
+                    }
+                });
+            });
         });
 
         function changeMainImage(src) {
@@ -673,5 +712,6 @@
             $('.thumbnail').removeClass('active');
             $(`img[src="${src}"]`).parent().addClass('active');
         }
+
     </script>
 } 

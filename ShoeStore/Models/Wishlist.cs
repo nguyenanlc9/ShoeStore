@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeStore.Models
 {
+    [Table("Wishlists")]
     public class Wishlist
     {
         [Key]

@@ -288,6 +288,44 @@ namespace ShoeStore.Controllers
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
             }
+
+        }
+        public IActionResult AddToWishlist(int productId)
+        {
+            try
+            {
+                // Lấy thông tin user từ session
+                var user = HttpContext.Session.Get<User>("userInfo");
+                if (user == null)
+                {
+                    return Json(new { success = false, message = "Bạn cần đăng nhập để thực hiện chức năng này" });
+                }
+
+                // Kiểm tra xem sản phẩm đã có trong wishlist chưa
+                var existingWishlist = _context.Wishlist
+                    .FirstOrDefault(w => w.UserId == user.UserID && w.ProductId == productId);
+
+                if (existingWishlist != null)
+                {
+                    return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích" });
+                }
+
+                // Thêm sản phẩm vào wishlist
+                var wishlist = new Wishlist
+                {
+                    UserId = user.UserID,
+                    ProductId = productId,
+                };
+
+                _context.Wishlist.Add(wishlist);
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Đã thêm sản phẩm vào danh sách yêu thích" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
+            }
         }
     }
 }

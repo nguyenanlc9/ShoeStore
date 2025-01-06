@@ -1,0 +1,126 @@
+﻿@model IEnumerable<ShoeStore.Models.Wishlist>
+@{
+    ViewData["Title"] = "Danh sách yêu thích";
+    
+}
+}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Danh sách yêu thích</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="text-center">
+                <h3>Danh sách yêu thích trống</h3>
+                <p>Bạn chưa có sản phẩm nào trong danh sách yêu thích</p>
+                <a asp-controller="Shop" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a>
+            </div>
+        }
+        else
+        {
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <div class="site-blocks-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name" class="img-fluid" style="max-width: 100px;">
+                                        </td>
+                                        <td class="product-name">
+                                            <a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.ProductId">
+                                                @item.Product.Name
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if (item.Product.DiscountPrice > 0)
+                                            {
+                                                <del class="text-muted">@String.Format("{0:N0}đ", item.Product.Price)</del>
+                                                <br />
+                                                <strong class="text-primary">@String.Format("{0:N0}đ", item.Product.Price - item.Product.DiscountPrice)</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong class="text-primary">@String.Format("{0:N0}đ", item.Product.Price)</strong>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.Product.ProductSizeStocks.Any(x => x.StockQuantity > 0))
+                                            {
+                                                <span class="badge bg-success">Còn hàng</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Hết hàng</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.ProductId"
+                                                   class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-shopping-cart"></i> Mua ngay
+                                                </a>
+                                                <button class="btn btn-primary btn-sm"
+                                                        onclick="removeWishlistItem(@item.WishlistId)">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function removeWishlistItem(wishlistId) {
+            if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
+                $.ajax({
+                    url: '/Wishlist/RemoveById',
+                    type: 'POST',
+                    data: { wishlistId: wishlistId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload(); // Làm mới trang
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi trong quá trình xóa sản phẩm.');
+                    }
+                });
+            }
+        }
+    </script>
+}
+}

@@ -72,35 +72,9 @@
     ]
   },
   {
-    "ContainingType": "ShoeStore.Controllers.Api.AuthController",
-    "Method": "Login",
-    "RelativePath": "api/Auth/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "ShoeStore.Models.DTO.Request.LoginRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ShoeStore.Models.DTO.Response.LoginResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ShoeStore.Controllers.Api.ProductsController",
+    "ContainingType": "ShoeStore.Controllers.Api.ApiProductsController",
     "Method": "GetProducts",
-    "RelativePath": "api/Products",
+    "RelativePath": "api/ApiProducts",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -118,9 +92,9 @@
     ]
   },
   {
-    "ContainingType": "ShoeStore.Controllers.Api.ProductsController",
+    "ContainingType": "ShoeStore.Controllers.Api.ApiProductsController",
     "Method": "GetProduct",
-    "RelativePath": "api/Products/{id}",
+    "RelativePath": "api/ApiProducts/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -134,6 +108,32 @@
     "ReturnTypes": [
       {
         "Type": "ShoeStore.Models.Product",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.ApiAuthController",
+    "Method": "Login",
+    "RelativePath": "api/auth/ApiAuth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ShoeStore.Models.DTO.Request.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ShoeStore.Models.DTO.Response.LoginResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
