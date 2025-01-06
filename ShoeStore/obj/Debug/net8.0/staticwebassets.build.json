@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6Bg38v7TANmupgSuGgWun+b8Kwn6qaIrYvfEUyJMraM=",
+  "Hash": "E3uSMpTvWG2Qhzbx4Gjayi7G3z1K0Ckz5lm5FnyfP6M=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -47707,6 +47707,25 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\7f0d8f19-bfde-4e8d-8317-2edd6cb4ee80_pexels-francesco-ungaro-1525041.jpg"
     },
     {
+      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\865e727b-c236-49c2-be14-f5bb50962134_img1.jpg",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/865e727b-c236-49c2-be14-f5bb50962134_img1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\865e727b-c236-49c2-be14-f5bb50962134_img1.jpg"
+    },
+    {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8ca29097-5ca9-4f50-8e50-ad12647b4896.jpeg",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -47743,25 +47762,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\8e1430ec-5110-4f9b-91da-e849f5332ae6.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8e50688f-8cf7-4633-b518-7610da02ef1c_fLJ1RXCz4BxlKupsb_wse5PAkLNLgaqYeGYQbZI12n9oTaU9YMD7jhSb0Ww80mSkSEI4AiG18SIzAyI1YlVODy5UBzrQsROYpM7jpCmtd-URiNUK9bAdKnQimDcxF7lBny17uxCl19IUCmpKXF8PaMGACIDAmVC0pAz9uib8YfGdBS64X4TZgh7mx4efZf.png",
-      "SourceId": "ShoeStore",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\",
-      "BasePath": "_content/ShoeStore",
-      "RelativePath": "images/products/8e50688f-8cf7-4633-b518-7610da02ef1c_fLJ1RXCz4BxlKupsb_wse5PAkLNLgaqYeGYQbZI12n9oTaU9YMD7jhSb0Ww80mSkSEI4AiG18SIzAyI1YlVODy5UBzrQsROYpM7jpCmtd-URiNUK9bAdKnQimDcxF7lBny17uxCl19IUCmpKXF8PaMGACIDAmVC0pAz9uib8YfGdBS64X4TZgh7mx4efZf.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\8e50688f-8cf7-4633-b518-7610da02ef1c_fLJ1RXCz4BxlKupsb_wse5PAkLNLgaqYeGYQbZI12n9oTaU9YMD7jhSb0Ww80mSkSEI4AiG18SIzAyI1YlVODy5UBzrQsROYpM7jpCmtd-URiNUK9bAdKnQimDcxF7lBny17uxCl19IUCmpKXF8PaMGACIDAmVC0pAz9uib8YfGdBS64X4TZgh7mx4efZf.png"
     },
     {
       "Identity": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\99c549c5-91de-4184-99cc-808e3924cffe.jpg",

@@ -17,6 +17,7 @@
                 </div>
                 <form asp-action="EditSize" method="post">
                     <div class="card-body">
+                        <partial name="_Notifications" />
                         <input type="hidden" asp-for="SizeID" />
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

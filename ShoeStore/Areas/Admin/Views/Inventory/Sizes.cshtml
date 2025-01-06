@@ -23,13 +23,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success">
-                            @TempData["Success"]
-                        </div>
-                    }
-
+                    <partial name="_Notifications" />
                     <div class="table-responsive">
                         <table id="sizeTable" class="display table table-striped table-hover">
                             <thead>

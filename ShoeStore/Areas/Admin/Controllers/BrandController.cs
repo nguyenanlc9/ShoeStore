@@ -119,7 +119,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 var currentUser = HttpContext.Session.Get<User>("AdminUserInfo");
                 var existingBrand = await _context.Brands.FindAsync(id);
-                
+
                 if (existingBrand == null)
                 {
                     return NotFound();
@@ -137,7 +137,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
             }
-            
+
             return View(brand);
         }
 

@@ -40,14 +40,14 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="Price" class="form-label font-weight-bold">Price</label>
                     <input type="hidden" asp-for="Price" id="actualPrice" />
-                    <input type="text" class="form-control price-display" data-type="currency" maxlength="9" />
+                    <input type="text" class="form-control price-display" data-type="currency" maxlength="12" onkeypress="return isNumberKey(event)" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label asp-for="DiscountPrice" class="form-label font-weight-bold">Discount Price</label>
                     <input type="hidden" asp-for="DiscountPrice" id="actualDiscountPrice" />
-                    <input type="text" class="form-control price-display" data-type="currency" maxlength="9" />
+                    <input type="text" class="form-control price-display" data-type="currency" maxlength="12" onkeypress="return isNumberKey(event)" />
                     <span asp-validation-for="DiscountPrice" class="text-danger"></span>
                 </div>
             </div>
@@ -179,6 +179,14 @@
             });
     </script>
     <script>
+        // Hàm chỉ cho phép nhập số
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
         // Validate form trước khi submit
         $('form').on('submit', function (e) {
             e.preventDefault();
@@ -189,52 +197,30 @@
             
             // Kiểm tra giá hợp lệ
             if (price <= 0) {
-                toastr.error('Giá sản phẩm phải lớn hơn 0');
+                alert('Giá sản phẩm phải lớn hơn 0');
                 return false;
             }
             
             if (price > 999999999) {
-                toastr.error('Giá sản phẩm không được vượt quá 999,999,999đ');
+                alert('Giá sản phẩm không được vượt quá 999,999,999đ');
                 return false;
             }
             
             // Kiểm tra giá khuyến mãi
             if (discountPrice >= price) {
-                toastr.error('Giá khuyến mãi phải nhỏ hơn giá gốc');
+                alert('Giá khuyến mãi phải nhỏ hơn giá gốc');
                 return false;
             }
             
             // Kiểm tra file ảnh
             var mainImage = document.getElementById('mainImage').files[0];
             if (!mainImage) {
-                toastr.error('Vui lòng chọn ảnh đại diện sản phẩm');
+                alert('Vui lòng chọn ảnh đại diện sản phẩm');
                 return false;
             }
             
             // Nếu mọi thứ ok thì submit form
-            var form = this;
-            var formData = new FormData(form);
-            
-            $.ajax({
-                url: form.action,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success('Thêm sản phẩm thành công');
-                        setTimeout(function() {
-                            window.location.href = '/Admin/Product';
-                        }, 1500);
-                    } else {
-                        toastr.error(response.message || 'Có lỗi xảy ra khi thêm sản phẩm');
-                    }
-                },
-                error: function() {
-                    toastr.error('Có lỗi xảy ra khi thêm sản phẩm');
-                }
-            });
+            this.submit();
         });
 
         // Preview ảnh khi chọn file
@@ -247,7 +233,7 @@
                     $('#imagePreview').show();
                 }
                 reader.readAsDataURL(file);
-                toastr.success('Đã chọn ảnh: ' + file.name);
+                alert('Đã chọn ảnh: ' + file.name);
             } else {
                 $('#imagePreview').hide();
             }
@@ -260,27 +246,42 @@
             },
             blur: function() { 
                 formatCurrency($(this));
+            },
+            // Ngăn chặn paste chữ
+            paste: function(e) {
+                e.preventDefault();
+                var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                if (!/^\d*$/.test(text)) { // Kiểm tra xem có chứa ký tự không phải số không
+                    return false;
+                }
+                var value = text.replace(/[^0-9]/g, "");
+                if (value.length > 9) {
+                    value = value.substring(0, 9);
+                }
+                $(this).val(value);
+                formatCurrency($(this));
+            },
+            // Ngăn chặn kéo thả chữ
+            drop: function(e) {
+                e.preventDefault();
+                return false;
             }
         });
-
-        function formatNumber(n) {
-            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
 
         function formatCurrency(input) {
             // Lấy giá trị và chỉ giữ lại số
             var value = input.val().replace(/[^0-9]/g, "");
             
-            // Giới hạn độ dài tối đa là 9 ký tự
-            if (value.length > 9) {
-                value = value.substring(0, 9);
+            // Giới hạn độ dài tối đa là 12 ký tự
+            if (value.length > 12) {
+                value = value.substring(0, 12);
             }
             
             // Kiểm tra giới hạn
-            var numValue = parseInt(value);
-            if (numValue > 999999999) {
-                value = "999999999";
-                toastr.warning('Giá tối đa là 999,999,999đ');
+            var numValue = parseInt(value) || 0;
+            if (numValue > 999999999999) {
+                value = "999999999999";
+                alert('Giá tối đa là 999,999,999,999đ');
             }
             
             // Format số với dấu phẩy nếu có giá trị
@@ -295,17 +296,9 @@
             }
         }
 
-        // Thêm sự kiện paste để xử lý khi user paste số lớn
-        $("input[data-type='currency']").on('paste', function(e) {
-            e.preventDefault();
-            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-            var value = text.replace(/[^0-9]/g, "");
-            if (value.length > 9) {
-                value = value.substring(0, 9);
-            }
-            $(this).val(value);
-            formatCurrency($(this));
-        });
+        function formatNumber(n) {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
         // Format giá trị ban đầu khi load trang
         $(document).ready(function() {

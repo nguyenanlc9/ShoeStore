@@ -116,7 +116,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product, IFormFile mainImage)
+        public async Task<IActionResult> Create([Bind("ProductId,CategoryId,BrandId,Name,Price,Description,DiscountPrice,Status,IsNew,IsHot,IsSale,ProductCode")] Product product, IFormFile mainImage)
         {
             if (ModelState.IsValid)
             {
@@ -145,11 +145,34 @@ namespace ShoeStore.Areas.Admin.Controllers
                         }
                         
                         product.ImagePath = relativePath;
+
+                        // Thêm ảnh vào bảng ProductImages
+                        var productImage = new ProductImage
+                        {
+                            ProductId = product.ProductId,
+                            ImagePath = relativePath,
+                            IsMainImage = true,
+                            CreatedAt = DateTime.Now
+                        };
+                        _context.ProductImages.Add(productImage);
                     }
 
                     // Thêm sản phẩm
                     _context.Add(product);
                     await _context.SaveChangesAsync();
+
+                    // Cập nhật ProductId cho ảnh sau khi đã có ID sản phẩm
+                    if (mainImage != null && mainImage.Length > 0)
+                    {
+                        var productImage = await _context.ProductImages
+                            .OrderByDescending(pi => pi.ImageId)
+                            .FirstOrDefaultAsync();
+                        if (productImage != null)
+                        {
+                            productImage.ProductId = product.ProductId;
+                            await _context.SaveChangesAsync();
+                        }
+                    }
 
                     // Lưu lịch sử tạo sản phẩm
                     var history = new ProductHistory
@@ -174,6 +197,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                     _context.ProductHistories.Add(history);
                     await _context.SaveChangesAsync();
 
+                    TempData["SuccessMessage"] = "Thêm sản phẩm thành công!";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -219,7 +243,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product, IFormFile mainImage)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,CategoryId,BrandId,Name,Price,Description,DiscountPrice,Status,IsNew,IsHot,IsSale,ProductCode")] Product product, IFormFile mainImage)
         {
             if (id != product.ProductId)
             {
@@ -269,6 +293,14 @@ namespace ShoeStore.Areas.Admin.Controllers
                         {
                             System.IO.File.Delete(oldMainPath);
                         }
+
+                        // Xóa ảnh cũ trong ProductImages
+                        var oldMainImage = await _context.ProductImages
+                            .FirstOrDefaultAsync(pi => pi.ProductId == id && pi.IsMainImage);
+                        if (oldMainImage != null)
+                        {
+                            _context.ProductImages.Remove(oldMainImage);
+                        }
                     }
 
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(mainImage.FileName);
@@ -283,6 +315,16 @@ namespace ShoeStore.Areas.Admin.Controllers
                     }
                     
                     existingProduct.ImagePath = relativePath;
+
+                    // Thêm ảnh mới vào ProductImages
+                    var productImage = new ProductImage
+                    {
+                        ProductId = id,
+                        ImagePath = relativePath,
+                        IsMainImage = true,
+                        CreatedAt = DateTime.Now
+                    };
+                    _context.ProductImages.Add(productImage);
                 }
 
                 // Lưu lịch sử cập nhật sản phẩm
@@ -310,6 +352,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 _context.Update(existingProduct);
                 await _context.SaveChangesAsync();
                 
+                TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -348,7 +391,6 @@ namespace ShoeStore.Areas.Admin.Controllers
         {
             var product = await _context.Products
                 .Include(p => p.ProductSizeStocks)
-                .Include(p => p.OrderDetails)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
 
             if (product == null)
@@ -356,17 +398,11 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            // Kiểm tra xem sản phẩm có tồn kho không
-            if (product.ProductSizeStocks.Any(pss => pss.StockQuantity > 0))
+            // Kiểm tra tồn kho
+            var totalStock = product.ProductSizeStocks?.Sum(pss => pss.StockQuantity) ?? 0;
+            if (totalStock > 0)
             {
                 TempData["Error"] = "Không thể xóa sản phẩm vì còn hàng trong kho";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Kiểm tra xem sản phẩm có trong đơn hàng không
-            if (product.OrderDetails.Any())
-            {
-                TempData["Error"] = "Không thể xóa sản phẩm vì đã có trong đơn hàng";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -384,10 +420,14 @@ namespace ShoeStore.Areas.Admin.Controllers
                     _context.ProductImages.Remove(image);
                 }
 
+                // Xóa các size-stock liên quan
+                var sizeStocks = await _context.ProductSizeStocks.Where(pss => pss.ProductID == id).ToListAsync();
+                _context.ProductSizeStocks.RemoveRange(sizeStocks);
+
                 // Xóa sản phẩm
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Xóa sản phẩm thành công";
+                TempData["SuccessMessage"] = "Xóa sản phẩm thành công";
             }
             catch (Exception ex)
             {
