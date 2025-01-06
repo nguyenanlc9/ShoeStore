@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zg9TS7lcu8OKADB/s0i84OD+83eVvcp1gH6VIZJ+HxQ=",
+  "Hash": "VQUtWv2j81L+Vx/8ai/p5rowSHyVSNSvthtFnT6PEB4=",
   "Source": "ShoeStore",
   "BasePath": "_content/ShoeStore",
   "Mode": "Default",
@@ -47403,6 +47403,25 @@
       "OriginalItemSpec": "wwwroot\\images\\person_4.jpg"
     },
     {
+      "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp"
+    },
+    {
       "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\193e86d8-c4bb-45bc-83e6-fbff2b6d850d.jpeg",
       "SourceId": "ShoeStore",
       "SourceType": "Discovered",
@@ -47838,6 +47857,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\9f5e0a59-78aa-4822-9f8a-30d000d8e8b5.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+      "SourceId": "ShoeStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\",
+      "BasePath": "_content/ShoeStore",
+      "RelativePath": "images/products/a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp"
     },
     {
       "Identity": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\aeca7408-e4f3-43f7-bb8f-3003ecf7823d.jpg",

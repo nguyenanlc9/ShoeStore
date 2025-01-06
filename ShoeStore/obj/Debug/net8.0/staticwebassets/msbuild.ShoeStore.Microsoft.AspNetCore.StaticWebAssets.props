@@ -39872,6 +39872,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\person_4.jpg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/products/0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\0f295b9e-b782-4174-a1ed-50b197983a2b_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\193e86d8-c4bb-45bc-83e6-fbff2b6d850d.jpeg))">
       <SourceType>Package</SourceType>
       <SourceId>ShoeStore</SourceId>
@@ -40239,6 +40255,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\9f5e0a59-78aa-4822-9f8a-30d000d8e8b5.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/products/a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\aeca7408-e4f3-43f7-bb8f-3003ecf7823d.jpg))">
       <SourceType>Package</SourceType>
