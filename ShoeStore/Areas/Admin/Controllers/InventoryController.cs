@@ -5,6 +5,7 @@ using ShoeStore.Models;
 using ShoeStore.Filters;
 using Microsoft.AspNetCore.Http;
 using ShoeStore.Utils;
+using ClosedXML.Excel;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -484,6 +485,68 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             ViewBag.ProductSizeStock = productSizeStock;
             return View(history);
+        }
+
+        // GET: Admin/Inventory/ExportExcel
+        public async Task<IActionResult> ExportExcel()
+        {
+            var stocks = await _context.ProductSizeStocks
+                .Include(p => p.Product)
+                .Include(p => p.Size)
+                .OrderBy(p => p.Product.Name)
+                .ThenBy(p => p.Size.SizeValue)
+                .ToListAsync();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Stock");
+
+                // Đặt tên cho các cột
+                worksheet.Cell(1, 1).Value = "Mã SP";
+                worksheet.Cell(1, 2).Value = "Tên sản phẩm";
+                worksheet.Cell(1, 3).Value = "Size";
+                worksheet.Cell(1, 4).Value = "Số lượng tồn";
+                worksheet.Cell(1, 5).Value = "Ngày tạo";
+                worksheet.Cell(1, 6).Value = "Người tạo";
+                worksheet.Cell(1, 7).Value = "Ngày cập nhật";
+                worksheet.Cell(1, 8).Value = "Người cập nhật";
+
+                // Style cho header
+                var headerRow = worksheet.Row(1);
+                headerRow.Style.Font.Bold = true;
+                headerRow.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Fill dữ liệu
+                int row = 2;
+                foreach (var item in stocks)
+                {
+                    worksheet.Cell(row, 1).Value = item.Product?.ProductCode;
+                    worksheet.Cell(row, 2).Value = item.Product?.Name;
+                    worksheet.Cell(row, 3).Value = item.Size?.SizeValue;
+                    worksheet.Cell(row, 4).Value = item.StockQuantity;
+                    worksheet.Cell(row, 5).Value = item.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                    worksheet.Cell(row, 6).Value = item.CreatedBy;
+                    worksheet.Cell(row, 7).Value = item.UpdatedDate?.ToString("dd/MM/yyyy HH:mm");
+                    worksheet.Cell(row, 8).Value = item.UpdatedBy;
+
+                    // Style cho cột số lượng
+                    worksheet.Cell(row, 4).Style.NumberFormat.Format = "#,##0";
+                    
+                    row++;
+                }
+
+                // Auto-fit columns
+                worksheet.Columns().AdjustToContents();
+
+                // Save to memory stream
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    string excelName = $"Stock_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+            }
         }
 
         private bool ProductSizeStockExists(int id)

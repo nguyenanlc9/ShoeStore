@@ -39,13 +39,23 @@ namespace ShoeStore
             });
 
             // Cấu hình Cookie Authentication
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Admin/Auth/Login";
-                    options.AccessDeniedPath = "/Admin/Auth/AccessDenied";
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                });
+            builder.Services.AddAuthentication(options => 
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Auth/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                options.CallbackPath = "/signin-google";
+            });
 
             // Cấu hình HTTP Context Accessor
             builder.Services.AddHttpContextAccessor();

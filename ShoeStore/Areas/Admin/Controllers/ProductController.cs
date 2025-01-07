@@ -9,6 +9,7 @@ using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.DTO.Requset;
 using ShoeStore.Utils;
+using ClosedXML.Excel;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -609,6 +610,79 @@ namespace ShoeStore.Areas.Admin.Controllers
             ViewBag.Histories = histories;
 
             return View(product);
+        }
+
+        // GET: Admin/Product/ExportExcel
+        public async Task<IActionResult> ExportExcel()
+        {
+            var products = await _context.Products
+                .Include(p => p.Categories)
+                .Include(p => p.Brands)
+                .Include(p => p.ProductSizeStocks)
+                .OrderByDescending(p => p.ProductId)
+                .ToListAsync();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Products");
+
+                // Đặt tên cho các cột
+                worksheet.Cell(1, 1).Value = "Mã SP";
+                worksheet.Cell(1, 2).Value = "Tên sản phẩm";
+                worksheet.Cell(1, 3).Value = "Danh mục";
+                worksheet.Cell(1, 4).Value = "Thương hiệu";
+                worksheet.Cell(1, 5).Value = "Giá gốc";
+                worksheet.Cell(1, 6).Value = "Giá khuyến mãi";
+                worksheet.Cell(1, 7).Value = "Tổng tồn kho";
+                worksheet.Cell(1, 8).Value = "Đã bán";
+                worksheet.Cell(1, 9).Value = "Trạng thái";
+                worksheet.Cell(1, 10).Value = "Ngày tạo";
+                worksheet.Cell(1, 11).Value = "Người tạo";
+                worksheet.Cell(1, 12).Value = "Ngày cập nhật";
+                worksheet.Cell(1, 13).Value = "Người cập nhật";
+
+                // Style cho header
+                var headerRow = worksheet.Row(1);
+                headerRow.Style.Font.Bold = true;
+                headerRow.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Fill dữ liệu
+                int row = 2;
+                foreach (var item in products)
+                {
+                    worksheet.Cell(row, 1).Value = item.ProductCode;
+                    worksheet.Cell(row, 2).Value = item.Name;
+                    worksheet.Cell(row, 3).Value = item.Categories?.Name;
+                    worksheet.Cell(row, 4).Value = item.Brands?.Name;
+                    worksheet.Cell(row, 5).Value = item.Price;
+                    worksheet.Cell(row, 6).Value = item.DiscountPrice;
+                    worksheet.Cell(row, 7).Value = item.ProductSizeStocks?.Sum(s => s.StockQuantity) ?? 0;
+                    worksheet.Cell(row, 8).Value = item.SoldQuantity;
+                    worksheet.Cell(row, 9).Value = item.Status.ToString();
+                    worksheet.Cell(row, 10).Value = item.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                    worksheet.Cell(row, 11).Value = item.CreatedBy;
+                    worksheet.Cell(row, 12).Value = item.UpdatedDate?.ToString("dd/MM/yyyy HH:mm");
+                    worksheet.Cell(row, 13).Value = item.UpdatedBy;
+
+                    // Style cho các cột số
+                    worksheet.Cell(row, 5).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(row, 6).Style.NumberFormat.Format = "#,##0";
+                    
+                    row++;
+                }
+
+                // Auto-fit columns
+                worksheet.Columns().AdjustToContents();
+
+                // Save to memory stream
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    string excelName = $"Products_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+            }
         }
 
         private bool ProductExists(int id)

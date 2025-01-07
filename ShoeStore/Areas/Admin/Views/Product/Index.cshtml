@@ -27,10 +27,16 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">Danh sách sản phẩm</h4>
-                        <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-primary btn-round ml-auto">
-                            <i class="fa fa-plus"></i>
-                            Thêm sản phẩm
-                        </a>
+                        <div class="ml-auto">
+                            <a asp-area="Admin" asp-controller="Product" asp-action="ExportExcel" class="btn btn-success btn-round mr-2">
+                                <i class="fas fa-file-excel"></i>
+                                Xuất Excel
+                            </a>
+                            <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-primary btn-round">
+                                <i class="fa fa-plus"></i>
+                                Thêm sản phẩm
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">

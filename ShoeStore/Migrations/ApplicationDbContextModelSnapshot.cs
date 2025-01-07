@@ -415,6 +415,7 @@ namespace ShoeStore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DiscountPrice")
@@ -453,7 +454,8 @@ namespace ShoeStore.Migrations
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -878,6 +880,32 @@ namespace ShoeStore.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.Wishlist", b =>
+                {
+                    b.Property<int>("WishlistId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WishlistId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Wishlists");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>
                 {
                     b.HasOne("ShoeStore.Models.Product", "Product")
@@ -1081,6 +1109,25 @@ namespace ShoeStore.Migrations
                     b.Navigation("MemberRank");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Wishlist", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoeStore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MemberRank", b =>

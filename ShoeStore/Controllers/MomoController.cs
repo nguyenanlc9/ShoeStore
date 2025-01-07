@@ -29,8 +29,8 @@ namespace ShoeStore.Controllers
 
                 if (order == null)
                 {
-                    TempData["Error"] = "Không tìm thấy đơn hàng";
-                    return RedirectToAction("Checkout", "Cart");
+                    TempData["ErrorMessage"] = "Không tìm thấy đơn hàng";
+                    return RedirectToAction("Index", "Cart");
                 }
 
                 var model = new OrderInfoModel
@@ -42,23 +42,39 @@ namespace ShoeStore.Controllers
                 };
 
                 var response = await _momoService.CreatePaymentAsync(model);
-                if (response.ErrorCode != 0)
+                
+                // Log response for debugging
+                Console.WriteLine($"MOMO Response - ErrorCode: {response.ErrorCode}, Message: {response.LocalMessage}");
+
+                if (response.ErrorCode == 0 && !string.IsNullOrEmpty(response.PayUrl))
                 {
-                    TempData["Error"] = $"Lỗi tạo thanh toán: {response.LocalMessage}";
-                    return RedirectToAction("Checkout", "Cart");
+                    // Cập nhật trạng thái đơn hàng
+                    order.PaymentMethod = PaymentMethod.Momo;
+                    order.PaymentStatus = PaymentStatus.Pending;
+                    await _context.SaveChangesAsync();
+
+                    return Redirect(response.PayUrl);
                 }
 
-                // Cập nhật trạng thái đơn hàng
-                order.PaymentMethod = PaymentMethod.Momo;
-                order.PaymentStatus = PaymentStatus.Pending;
-                await _context.SaveChangesAsync();
+                // Xử lý các trường hợp lỗi cụ thể
+                if (response.ErrorCode == 99) // Mã lỗi bảo trì
+                {
+                    TempData["ErrorMessage"] = "Hệ thống thanh toán MOMO đang bảo trì. Vui lòng thử lại sau hoặc chọn phương thức thanh toán khác.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Không thể kết nối đến MOMO: {response.LocalMessage}";
+                }
 
-                return Redirect(response.PayUrl);
+                return RedirectToAction("Checkout", "Cart", new { id = orderId });
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Lỗi khi tạo thanh toán MOMO: " + ex.Message;
-                return RedirectToAction("Checkout", "Cart");
+                Console.WriteLine($"MOMO Payment Error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                
+                TempData["ErrorMessage"] = "Có lỗi xảy ra trong quá trình xử lý thanh toán. Vui lòng thử lại sau.";
+                return RedirectToAction("Checkout", "Cart", new { id = orderId });
             }
         }
 

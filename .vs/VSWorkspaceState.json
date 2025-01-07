@@ -5,12 +5,13 @@
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers",
+    "\\ShoeStore\\ViewComponents",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
+  "SelectedNode": "\\ShoeStore\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

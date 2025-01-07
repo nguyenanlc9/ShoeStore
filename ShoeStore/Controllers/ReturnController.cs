@@ -37,7 +37,7 @@ namespace ShoeStore.Controllers
             if ((DateTime.Now - order.OrderDate).TotalDays > 7)
             {
                 TempData["Error"] = "Đơn hàng đã quá thời hạn đổi trả (7 ngày)";
-                return RedirectToAction("Orders", "Auth");
+                return RedirectToAction("Orders", "Account");
             }
 
             return View(order);
@@ -87,19 +87,18 @@ namespace ShoeStore.Controllers
                     UserId = userInfo.UserID,
                     Reason = reason,
                     Images = string.Join(",", imagesPaths),
-                    Status = ReturnStatus.Pending,
-                    RequestDate = DateTime.Now
+                    Status = ReturnStatus.Pending
                 };
 
                 _context.ReturnRequests.Add(returnRequest);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Yêu cầu đổi trả đã được gửi thành công. Chúng tôi sẽ xử lý trong thời gian sớm nhất!";
+                TempData["Success"] = "Yêu cầu đổi trả đã được gửi thành công";
                 return RedirectToAction("Orders", "Account");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
+                TempData["Error"] = "Có lỗi xảy ra: " + ex.Message;
                 return RedirectToAction("Orders", "Account");
             }
         }

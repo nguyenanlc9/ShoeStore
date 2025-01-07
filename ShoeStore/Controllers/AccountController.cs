@@ -96,6 +96,13 @@ namespace ShoeStore.Controllers
                         }
                     }
 
+                    // Kiểm tra định dạng số điện thoại
+                    if (!string.IsNullOrEmpty(model.Phone) && !System.Text.RegularExpressions.Regex.IsMatch(model.Phone, @"^\d{10}$"))
+                    {
+                        ModelState.AddModelError("Phone", "Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.");
+                        return View(model);
+                    }
+
                     user.FullName = model.FullName;
                     user.Email = model.Email;
                     user.Phone = model.Phone;

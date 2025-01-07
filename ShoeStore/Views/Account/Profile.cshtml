@@ -37,6 +37,22 @@
     }
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <!-- Thông tin cá nhân -->
 <div class="card">
     <div class="card-header">
@@ -58,7 +74,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4"><strong>Số điện thoại:</strong></div>
-                <div class="col-md-8">@Model.Phone</div>
+                <div class="col-md-8">@(string.IsNullOrEmpty(Model.Phone) ? "Chưa cập nhật" : Model.Phone)</div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-4"><strong>Ngày đăng ký:</strong></div>
@@ -317,3 +333,17 @@
         }
     }
 </style>
+
+@section Scripts {
+    <script>
+        function showEditPhone() {
+            document.getElementById('phoneDisplay').style.display = 'none';
+            document.getElementById('editPhoneForm').style.display = 'block';
+        }
+
+        function hideEditPhone() {
+            document.getElementById('phoneDisplay').style.display = 'block';
+            document.getElementById('editPhoneForm').style.display = 'none';
+        }
+    </script>
+}

@@ -832,8 +832,6 @@ C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bi
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
@@ -865,3 +863,21 @@ C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\ob
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\obj\Debug\net8.0\ShoeStore.genruntimeconfig.cache
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\obj\Debug\net8.0\ref\ShoeStore.dll
 C:\Users\thanhphong\OneDrive\Tài liệu\GitHub\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\EPPlus.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\EPPlus.Interfaces.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\EPPlus.System.Drawing.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\RBush.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
