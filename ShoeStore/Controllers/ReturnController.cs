@@ -87,19 +87,20 @@ namespace ShoeStore.Controllers
                     UserId = userInfo.UserID,
                     Reason = reason,
                     Images = string.Join(",", imagesPaths),
-                    Status = ReturnStatus.Pending
+                    Status = ReturnStatus.Pending,
+                    RequestDate = DateTime.Now
                 };
 
                 _context.ReturnRequests.Add(returnRequest);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Yêu cầu đổi trả đã được gửi thành công";
-                return RedirectToAction("Orders", "Auth");
+                TempData["SuccessMessage"] = "Yêu cầu đổi trả đã được gửi thành công. Chúng tôi sẽ xử lý trong thời gian sớm nhất!";
+                return RedirectToAction("Orders", "Account");
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Có lỗi xảy ra: " + ex.Message;
-                return RedirectToAction("Orders", "Auth");
+                TempData["ErrorMessage"] = "Có lỗi xảy ra: " + ex.Message;
+                return RedirectToAction("Orders", "Account");
             }
         }
 
