@@ -129,19 +129,26 @@
                                 <p>Coupons</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="User" asp-action="Index" class="nav-link">
-                                <i class="fas fa-desktop"></i>
-                                <p>User</p>
-                                <span class="badge badge-success"></span>
+                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "user" ? "active" : "")">
+                            <a data-bs-toggle="collapse" href="#userManagement" class="nav-link">
+                                <i class="fas fa-users"></i>
+                                <p>Quản lý người dùng</p>
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Role" asp-action="Index" class="nav-link">
-                                <i class="fas fa-file"></i>
-                                <p>Role</p>
-                                <span class="badge badge-secondary"></span>
-                            </a>
+                            <div class="collapse" id="userManagement">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a asp-area="admin" asp-controller="user" asp-action="Index">
+                                            <span class="sub-item">User</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="role" asp-action="Index">
+                                            <span class="sub-item">Role</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a asp-area="admin" asp-controller="Order" asp-action="Index" class="nav-link">

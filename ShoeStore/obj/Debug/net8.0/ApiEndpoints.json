@@ -142,5 +142,47 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.MomoApiController",
+    "Method": "CreatePayment",
+    "RelativePath": "api/MomoApi/create-payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "ShoeStore.Models.Payment.OrderInfoModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.MomoApiController",
+    "Method": "PaymentCallback",
+    "RelativePath": "api/MomoApi/payment-callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.MomoApiController",
+    "Method": "VerifySignature",
+    "RelativePath": "api/MomoApi/verify-signature",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "ShoeStore.Controllers.Api.MomoSignatureModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
