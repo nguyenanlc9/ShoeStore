@@ -54,7 +54,16 @@ namespace ShoeStore.Controllers
 
                 var order = await _context.Orders.FindAsync(orderId);
                 if (order == null || order.UserId != userInfo.UserID)
-                    return NotFound();
+                {
+                    TempData["Error"] = "Không tìm thấy đơn hàng hoặc bạn không có quyền thực hiện yêu cầu này";
+                    return RedirectToAction("Orders", "Account");
+                }
+
+                if (string.IsNullOrEmpty(reason))
+                {
+                    TempData["Error"] = "Vui lòng nhập lý do đổi trả";
+                    return RedirectToAction("Create", new { orderId = orderId });
+                }
 
                 var imagesPaths = new List<string>();
                 if (images != null && images.Count > 0)
@@ -70,7 +79,7 @@ namespace ShoeStore.Controllers
                         if (image.Length > 0)
                         {
                             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                            var filePath = Path.Combine(_environment.WebRootPath, "images", "returns", fileName);
+                            var filePath = Path.Combine(returnsPath, fileName);
 
                             using (var stream = new FileStream(filePath, FileMode.Create))
                             {
@@ -87,19 +96,20 @@ namespace ShoeStore.Controllers
                     UserId = userInfo.UserID,
                     Reason = reason,
                     Images = string.Join(",", imagesPaths),
-                    Status = ReturnStatus.Pending
+                    Status = ReturnStatus.Pending,
+                    RequestDate = DateTime.Now
                 };
 
                 _context.ReturnRequests.Add(returnRequest);
                 await _context.SaveChangesAsync();
 
                 TempData["Success"] = "Yêu cầu đổi trả đã được gửi thành công";
-                return RedirectToAction("Orders", "Account");
+                return RedirectToAction("History", "Return");
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Có lỗi xảy ra: " + ex.Message;
-                return RedirectToAction("Orders", "Account");
+                TempData["Error"] = "Có lỗi xảy ra khi gửi yêu cầu: " + ex.Message;
+                return RedirectToAction("Create", new { orderId = orderId });
             }
         }
 

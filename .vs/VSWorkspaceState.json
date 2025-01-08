@@ -4,15 +4,14 @@
     "\\ShoeStore",
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Controllers",
-    "\\ShoeStore\\ViewComponents",
-    "\\ShoeStore\\ViewModels",
+    "\\ShoeStore\\Areas\\Admin\\Views",
+    "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Controllers",
     "\\ShoeStore\\Views",
-    "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\ViewModels\\CheckoutViewModel.cs",
+  "SelectedNode": "\\ShoeStore\\Controllers\\ReturnController.cs",
   "PreviewInSolutionExplorer": false
 }

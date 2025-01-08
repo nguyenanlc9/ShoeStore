@@ -1,0 +1,94 @@
+@model IEnumerable<ShoeStore.Models.ReturnRequest>
+@{
+    ViewData["Title"] = "Lịch sử đổi trả";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Lịch sử yêu cầu đổi trả</h4>
+                </div>
+                <div class="card-body">
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info">
+                            Bạn chưa có yêu cầu đổi trả nào.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Ngày yêu cầu</th>
+                                        <th>Lý do</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hình ảnh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Order.OrderCode</td>
+                                            <td>@item.RequestDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                            <td>@item.Reason</td>
+                                            <td>
+                                                @{
+                                                    var statusClass = item.Status switch
+                                                    {
+                                                        ReturnStatus.Pending => "warning",
+                                                        ReturnStatus.Approved => "info",
+                                                        ReturnStatus.Completed => "success",
+                                                        ReturnStatus.Rejected => "danger",
+                                                        _ => "secondary"
+                                                    };
+
+                                                    var statusText = item.Status switch
+                                                    {
+                                                        ReturnStatus.Pending => "Đang chờ xử lý",
+                                                        ReturnStatus.Approved => "Đã duyệt",
+                                                        ReturnStatus.Completed => "Hoàn thành",
+                                                        ReturnStatus.Rejected => "Từ chối",
+                                                        _ => "Không xác định"
+                                                    };
+                                                }
+                                                <span class="badge bg-@statusClass">@statusText</span>
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.Images))
+                                                {
+                                                    foreach (var image in item.Images.Split(','))
+                                                    {
+                                                        <img src="@image" alt="Return image" class="img-thumbnail" style="max-width: 50px; margin: 2px;" />
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    <div class="mt-3">
+                        <a asp-controller="Account" asp-action="Orders" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Quay lại đơn hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

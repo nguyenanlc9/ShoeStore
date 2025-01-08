@@ -1,5 +1,6 @@
 @model IEnumerable<ShoeStore.Models.Order>
 @using ShoeStore.Models.Enums
+@inject ShoeStore.Models.ApplicationDbContext _context
 
 <style>
     /* Đảm bảo modal hiển thị trên navbar */
@@ -66,6 +67,7 @@
                 <tbody>
                     @foreach (var order in Model)
                     {
+                        var hasReturnRequest = _context.ReturnRequests.Any(r => r.OrderId == order.OrderId);
                         <tr>
                             <td>@order.OrderCode</td>
                             <td>@order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
@@ -123,9 +125,18 @@
                                     </button>
                                     @if ((DateTime.Now - order.OrderDate).TotalDays <= 7 && order.Status == OrderStatus.Completed)
                                     {
-                                        <a href="@Url.Action("Create", "Return", new { orderId = order.OrderId })" class="btn btn-warning btn-sm">
-                                            Yêu cầu đổi trả
-                                        </a>
+                                        @if (hasReturnRequest)
+                                        {
+                                            <a href="@Url.Action("History", "Return")" class="btn btn-secondary btn-sm">
+                                                Lịch sử đổi trả
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Create", "Return", new { orderId = order.OrderId })" class="btn btn-warning btn-sm">
+                                                Yêu cầu đổi trả
+                                            </a>
+                                        }
                                     }
                                     @if (order.Status == OrderStatus.Delivered)
                                     {
