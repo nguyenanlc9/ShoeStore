@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Filters;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
+using Microsoft.Extensions.DependencyInjection;
+using ShoeStore.Services.MemberRanking;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -17,10 +19,12 @@ namespace ShoeStore.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IServiceProvider _serviceProvider;
 
-        public OrderController(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context, IServiceProvider serviceProvider)
         {
             _context = context;
+            _serviceProvider = serviceProvider;
         }
 
         // GET: Admin/Order
@@ -274,6 +278,31 @@ namespace ShoeStore.Areas.Admin.Controllers
                 if (newStatus == OrderStatus.Completed && order.PaymentMethod == PaymentMethod.Cash)
                 {
                     order.PaymentStatus = PaymentStatus.Completed;
+                }
+
+                // Cập nhật TotalSpent và rank khi đơn hàng hoàn thành và đã thanh toán
+                if (newStatus == OrderStatus.Completed && order.PaymentStatus == PaymentStatus.Completed)
+                {
+                    var user = await _context.Users.FindAsync(order.UserId);
+                    if (user != null)
+                    {
+                        // Tính tổng tiền từ các đơn hàng đã hoàn thành
+                        var completedOrders = await _context.Orders
+                            .Where(o => o.UserId == order.UserId 
+                                && o.Status == OrderStatus.Completed 
+                                && o.PaymentStatus == PaymentStatus.Completed)
+                            .SumAsync(o => o.TotalAmount);
+                        
+                        user.TotalSpent = completedOrders;
+                        _context.Users.Update(user);
+
+                        // Tạo scope để sử dụng IMemberRankService
+                        using (var scope = _serviceProvider.CreateScope())
+                        {
+                            var memberRankService = scope.ServiceProvider.GetRequiredService<IMemberRankService>();
+                            await memberRankService.UpdateUserRank(order.UserId);
+                        }
+                    }
                 }
 
                 await _context.SaveChangesAsync();

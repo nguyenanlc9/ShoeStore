@@ -1,5 +1,4 @@
 @model ShoeStore.Models.User
-
 @{
     ViewData["Title"] = "Chỉnh sửa thông tin cá nhân";
 }
@@ -7,13 +6,6 @@
 <div class="container mt-4">
     <h2>@ViewData["Title"]</h2>
     <hr />
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
 
     @if (TempData["Error"] != null)
     {

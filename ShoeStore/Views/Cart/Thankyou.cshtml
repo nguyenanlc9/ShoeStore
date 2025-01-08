@@ -91,35 +91,25 @@
                             </div>
 
                             <!-- Giảm giá thành viên (nếu có) -->
-                            @{
-                                var user = await Context.RequestServices.GetService<ApplicationDbContext>()
-                                    .Users.Include(u => u.MemberRank)
-                                    .FirstOrDefaultAsync(u => u.UserID == Model.UserId);
-                                
-                                if (user?.MemberRank != null)
-                                {
-                                    var memberDiscount = Model.OrderDetails.Sum(x => x.Price * x.Quantity) * (user.MemberRank.DiscountPercent / 100m);
-                                    <div class="d-flex justify-content-between mb-3 text-success">
-                                        <span>Giảm giá thành viên (@user.MemberRank.RankName - @user.MemberRank.DiscountPercent%):</span>
-                                        <span>-@memberDiscount.ToString("N0") ₫</span>
-                                    </div>
-                                }
+                            @if (Model.User?.MemberRank != null)
+                            {
+                                var subtotal = Model.OrderDetails.Sum(x => x.Price * x.Quantity);
+                                var memberDiscount = subtotal * (Model.User.MemberRank.DiscountPercent / 100m);
+                                <div class="d-flex justify-content-between mb-3 text-success">
+                                    <span>Giảm giá thành viên (@Model.User.MemberRank.RankName - @Model.User.MemberRank.DiscountPercent%):</span>
+                                    <span>-@memberDiscount.ToString("N0") ₫</span>
+                                </div>
                             }
 
                             <!-- Giảm giá từ mã (nếu có) -->
                             @if (!string.IsNullOrEmpty(Model.OrderCoupon))
                             {
-                                var coupon = await Context.RequestServices.GetService<ApplicationDbContext>()
-                                    .Coupons.FirstOrDefaultAsync(c => c.CouponId == Model.CouponId);
-                                
-                                if (coupon != null)
-                                {
-                                    var couponDiscount = Model.OrderDetails.Sum(x => x.Price * x.Quantity) * (coupon.DiscountPercentage / 100m);
-                                    <div class="d-flex justify-content-between mb-3 text-success">
-                                        <span>Giảm giá từ mã (@Model.OrderCoupon - @coupon.DiscountPercentage%):</span>
-                                        <span>-@couponDiscount.ToString("N0") ₫</span>
-                                    </div>
-                                }
+                                var subtotal = Model.OrderDetails.Sum(x => x.Price * x.Quantity);
+                                var couponDiscount = subtotal * (Model.Coupon?.DiscountPercentage ?? 0 / 100m);
+                                <div class="d-flex justify-content-between mb-3 text-success">
+                                    <span>Giảm giá từ mã (@Model.OrderCoupon - @(Model.Coupon?.DiscountPercentage ?? 0)%):</span>
+                                    <span>-@couponDiscount.ToString("N0") ₫</span>
+                                </div>
                             }
 
                             <!-- Tổng tiền -->

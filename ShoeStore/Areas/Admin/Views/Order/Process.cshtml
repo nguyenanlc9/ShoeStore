@@ -54,7 +54,7 @@
                                 {
                                     <tr>
                                         <td>@item.Product.Name</td>
-                                        <td>@item.Size.SizeName</td>
+                                        <td>@(item.Size?.SizeValue.ToString() ?? "N/A")</td>
                                         <td>@item.Quantity</td>
                                         <td>@item.Price.ToString("N0") đ</td>
                                         <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>

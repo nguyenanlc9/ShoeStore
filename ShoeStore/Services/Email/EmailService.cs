@@ -1,45 +1,46 @@
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
-public class EmailService : IEmailService
+namespace ShoeStore.Services.Email
 {
-    private readonly IConfiguration _configuration;
-    private readonly EmailSettings _emailSettings;
-
-    public EmailService(IConfiguration configuration)
+    public class EmailService : IEmailService
     {
-        _configuration = configuration;
-        _emailSettings = _configuration.GetSection("EmailSettings").Get<EmailSettings>();
-    }
+        private readonly IConfiguration _configuration;
 
-    public async Task SendEmailAsync(string toEmail, string subject, string body)
-    {
-        try
+        public EmailService(IConfiguration configuration)
         {
-            var message = new MailMessage
-            {
-                From = new MailAddress(_emailSettings.FromEmail, _emailSettings.DisplayName),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            };
-            message.To.Add(toEmail);
+            _configuration = configuration;
+        }
 
-            using (var client = new SmtpClient(_emailSettings.SmtpServer))
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            using (var client = new SmtpClient())
             {
-                client.Port = _emailSettings.SmtpPort;
-                client.Credentials = new NetworkCredential(_emailSettings.FromEmail, _emailSettings.SmtpPassword);
-                client.EnableSsl = _emailSettings.EnableSsl;
+                var credential = new NetworkCredential
+                {
+                    UserName = _configuration["EmailSettings:FromEmail"],
+                    Password = _configuration["EmailSettings:SmtpPassword"]
+                };
 
-                await client.SendMailAsync(message);
+                client.Credentials = credential;
+                client.Host = _configuration["EmailSettings:SmtpServer"];
+                client.Port = int.Parse(_configuration["EmailSettings:SmtpPort"]);
+                client.EnableSsl = bool.Parse(_configuration["EmailSettings:EnableSsl"]);
+
+                using (var emailMessage = new MailMessage())
+                {
+                    emailMessage.To.Add(new MailAddress(email));
+                    emailMessage.From = new MailAddress(_configuration["EmailSettings:FromEmail"], _configuration["EmailSettings:DisplayName"]);
+                    emailMessage.Subject = subject;
+                    emailMessage.Body = message;
+                    emailMessage.IsBodyHtml = true;
+
+                    await client.SendMailAsync(emailMessage);
+                }
             }
         }
-        catch (Exception ex)
-        {
-            throw new Exception($"Lỗi gửi email: {ex.Message}");
-        }
+
     }
 } 

@@ -1,4 +1,7 @@
-public interface IEmailService
+namespace ShoeStore.Services.Email
 {
-    Task SendEmailAsync(string toEmail, string subject, string body);
+    public interface IEmailService
+    {
+        Task SendEmailAsync(string email, string subject, string message);
+    }
 } 

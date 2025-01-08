@@ -17,7 +17,31 @@
             </div>
             <div class="col-md-6">
                 <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
-                <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+                <p>
+                    Địa chỉ: @{
+                        var addressParts = Model.ShippingAddress?.Split(",").Select(p => p.Trim()).ToList();
+                        if (addressParts != null && addressParts.Count >= 4)
+                        {
+                            <text>@addressParts[0], @addressParts[1], @addressParts[2], @addressParts[3]</text>
+                        }
+                        else
+                        {
+                            <text>
+                                <!-- Debug info -->
+                                @if (addressParts != null)
+                                {
+                                    <span style="color: red">Parts count: @addressParts.Count</span>
+                                    foreach (var part in addressParts)
+                                    {
+                                        <span style="color: blue">[@part]</span>
+                                    }
+                                }
+                                <!-- Actual address -->
+                                @Model.ShippingAddress
+                            </text>
+                        }
+                    }
+                </p>
                 <p><strong>Ghi chú:</strong> @(string.IsNullOrEmpty(Model.Notes) ? "Không có" : Model.Notes)</p>
             </div>
         </div>

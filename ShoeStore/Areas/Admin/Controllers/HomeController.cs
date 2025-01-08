@@ -49,7 +49,11 @@ namespace ShoeStore.Areas.Admin.Controllers
             var dashboardViewModel = new DashboardViewModel
             {
                 TotalOrders = _context.Orders.Count(),
-                NewOrders = _context.Orders.Where(o => o.Status == OrderStatus.Pending).Count(),
+                NewOrders = _context.Orders
+                    .Where(o => o.Status == OrderStatus.Pending 
+                        || (o.Status == OrderStatus.Processing 
+                            && o.OrderDate.Date == DateTime.Today))
+                    .Count(),
                 TotalRevenue = _context.Orders
                     .Where(o => o.PaymentStatus == PaymentStatus.Completed 
                         && o.OrderDate >= startDate 

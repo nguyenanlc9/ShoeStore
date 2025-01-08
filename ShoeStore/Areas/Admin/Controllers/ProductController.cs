@@ -446,17 +446,17 @@ namespace ShoeStore.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Không tìm thấy ảnh" });
                 }
 
+                // Không cho phép xóa ảnh chính
+                if (image.IsMainImage)
+                {
+                    return Json(new { success = false, message = "Không thể xóa ảnh chính của sản phẩm" });
+                }
+
                 // Xóa file ảnh từ thư mục
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.ImagePath.TrimStart('/'));
                 if (System.IO.File.Exists(filePath))
                 {
                     System.IO.File.Delete(filePath);
-                }
-
-                // Nếu là ảnh chính, cập nhật ImagePath của sản phẩm
-                if (image.IsMainImage && image.Product != null)
-                {
-                    image.Product.ImagePath = null;
                 }
 
                 // Xóa record trong database
@@ -531,55 +531,38 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetMainImage([FromBody] SetMainImageRequest request)
+        public async Task<IActionResult> SetMainImage(int imageId)
         {
             try
             {
                 var image = await _context.ProductImages
                     .Include(pi => pi.Product)
-                    .FirstOrDefaultAsync(pi => pi.ImageId == request.ImageId);
+                    .FirstOrDefaultAsync(pi => pi.ImageId == imageId);
 
                 if (image == null)
                 {
                     return Json(new { success = false, message = "Không tìm thấy ảnh" });
                 }
 
+                // Cập nhật ảnh chính cũ thành false
+                var oldMainImage = await _context.ProductImages
+                    .FirstOrDefaultAsync(pi => pi.ProductId == image.ProductId && pi.IsMainImage);
+                if (oldMainImage != null)
+                {
+                    oldMainImage.IsMainImage = false;
+                }
+
+                // Đặt ảnh mới làm ảnh chính
+                image.IsMainImage = true;
                 image.Product.ImagePath = image.ImagePath;
+
                 await _context.SaveChangesAsync();
 
-                return Json(new { success = true });
+                return Json(new { success = true, message = "Đã đặt làm ảnh chính" });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteImage([FromBody] DeleteImageRequest request)
-        {
-            try
-            {
-                var image = await _context.ProductImages.FindAsync(request.ImageId);
-                if (image == null)
-                {
-                    return Json(new { success = false, message = "Không tìm thấy ảnh" });
-                }
-
-                var filePath = Path.Combine("wwwroot", image.ImagePath.TrimStart('/'));
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                }
-
-                _context.ProductImages.Remove(image);
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = "Lỗi khi đặt ảnh chính: " + ex.Message });
             }
         }
 

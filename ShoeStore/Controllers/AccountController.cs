@@ -74,53 +74,57 @@ namespace ShoeStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(User model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var user = await _context.Users.FindAsync(model.UserID);
+                if (user == null)
                 {
-                    var user = await _context.Users.FindAsync(model.UserID);
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
+                    return NotFound();
+                }
 
-                    // Kiểm tra xem email mới có bị trùng không (nếu email thay đổi)
-                    if (model.Email != user.Email)
+                // Kiểm tra xem email mới có bị trùng không (nếu email thay đổi)
+                if (model.Email != user.Email)
+                {
+                    var existingUser = await _context.Users
+                        .FirstOrDefaultAsync(u => u.Email == model.Email && u.UserID != model.UserID);
+                    if (existingUser != null)
                     {
-                        var existingUser = await _context.Users
-                            .FirstOrDefaultAsync(u => u.Email == model.Email && u.UserID != model.UserID);
-                        if (existingUser != null)
-                        {
-                            ModelState.AddModelError("Email", "Email đã được sử dụng");
-                            return View(model);
-                        }
-                    }
-
-                    // Kiểm tra định dạng số điện thoại
-                    if (!string.IsNullOrEmpty(model.Phone) && !System.Text.RegularExpressions.Regex.IsMatch(model.Phone, @"^\d{10}$"))
-                    {
-                        ModelState.AddModelError("Phone", "Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.");
+                        ModelState.AddModelError("Email", "Email đã được sử dụng");
                         return View(model);
                     }
-
-                    user.FullName = model.FullName;
-                    user.Email = model.Email;
-                    user.Phone = model.Phone;
-
-                    await _context.SaveChangesAsync();
-
-                    // Cập nhật lại session
-                    HttpContext.Session.Set("userInfo", user);
-
-                    TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
-                    return RedirectToAction(nameof(Profile));
                 }
-                catch (DbUpdateConcurrencyException)
+
+                // Kiểm tra số điện thoại
+                if (string.IsNullOrEmpty(model.Phone) || model.Phone == "Chưa cập nhật")
                 {
-                    ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi cập nhật thông tin");
+                    ModelState.AddModelError("Phone", "Vui lòng nhập số điện thoại");
+                    return View(model);
                 }
+
+                if (!System.Text.RegularExpressions.Regex.IsMatch(model.Phone, @"^\d{10}$"))
+                {
+                    ModelState.AddModelError("Phone", "Số điện thoại không hợp lệ. Vui lòng nhập đúng 10 chữ số.");
+                    return View(model);
+                }
+
+                // Chỉ cập nhật các trường được phép
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+                user.Phone = model.Phone;
+
+                await _context.SaveChangesAsync();
+
+                // Cập nhật lại session
+                HttpContext.Session.Set("userInfo", user);
+
+                TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+                return RedirectToAction(nameof(Profile));
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message);
+                return View(model);
+            }
         }
 
         public IActionResult ChangePassword()
@@ -198,10 +202,29 @@ namespace ShoeStore.Controllers
             {
                 order.Status = OrderStatus.Completed;
                 order.CreatedAt = DateTime.Now;
-                await _context.SaveChangesAsync();
 
-                // Cập nhật rank của user
-                await _memberRankService.UpdateUserRank(userInfo.UserID);
+                // Chỉ cập nhật TotalSpent khi đơn hàng đã thanh toán
+                if (order.PaymentStatus == PaymentStatus.Completed)
+                {
+                    // Tính tổng tiền từ các đơn hàng đã hoàn thành và thanh toán
+                    var completedOrders = await _context.Orders
+                        .Where(o => o.UserId == userInfo.UserID 
+                            && o.Status == OrderStatus.Completed 
+                            && o.PaymentStatus == PaymentStatus.Completed)
+                        .SumAsync(o => o.TotalAmount);
+
+                    var user = await _context.Users.FindAsync(userInfo.UserID);
+                    if (user != null)
+                    {
+                        user.TotalSpent = completedOrders;
+                        _context.Users.Update(user);
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    // Cập nhật rank của user sau khi đã cập nhật TotalSpent
+                    await _memberRankService.UpdateUserRank(userInfo.UserID);
+                }
 
                 TempData["SuccessMessage"] = "Xác nhận đã nhận hàng thành công!";
             }

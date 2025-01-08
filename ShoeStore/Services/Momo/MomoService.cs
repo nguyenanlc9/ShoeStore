@@ -18,13 +18,13 @@ namespace ShoeStore.Services.Momo
 
         public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model)
         {
-            model.OrderId = DateTime.UtcNow.Ticks.ToString();
+            var requestId = DateTime.UtcNow.Ticks.ToString();
             model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
 
             var rawData =
                 $"partnerCode={_options.Value.PartnerCode}" +
                 $"&accessKey={_options.Value.AccessKey}" +
-                $"&requestId={model.OrderId}" +
+                $"&requestId={requestId}" +
                 $"&amount={model.Amount}" +
                 $"&orderId={model.OrderId}" +
                 $"&orderInfo={model.OrderInfo}" +
@@ -48,7 +48,7 @@ namespace ShoeStore.Services.Momo
                 orderId = model.OrderId,
                 amount = model.Amount.ToString(),
                 orderInfo = model.OrderInfo,
-                requestId = model.OrderId,
+                requestId = requestId,
                 extraData = "",
                 signature
             };
@@ -61,6 +61,16 @@ namespace ShoeStore.Services.Momo
 
         public MomoExecuteResponseModel PaymentExecuteAsync(IQueryCollection collection)
         {
+            // Kiểm tra chữ ký
+            var rawSignature = collection.First(s => s.Key == "signature").Value;
+            var rawHash = BuildRawHash(collection);
+            var checkSignature = ComputeHmacSha256(rawHash, _options.Value.SecretKey);
+
+            if (rawSignature != checkSignature)
+            {
+                throw new Exception("Invalid signature");
+            }
+
             var amount = collection.First(s => s.Key == "amount").Value;
             var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
             var orderId = collection.First(s => s.Key == "orderId").Value;
@@ -83,6 +93,31 @@ namespace ShoeStore.Services.Momo
                 var hashBytes = hmac.ComputeHash(messageBytes);
                 return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
+        }
+
+        private string BuildRawHash(IQueryCollection collection)
+        {
+            var signatureFields = new List<string>
+            {
+                "accessKey", "amount", "extraData", "message", "orderId",
+                "orderInfo", "orderType", "partnerCode", "payType",
+                "requestId", "responseTime", "resultCode", "transId"
+            };
+
+            var rawHash = new StringBuilder();
+            foreach (var field in signatureFields)
+            {
+                if (collection.ContainsKey(field))
+                {
+                    if (rawHash.Length > 0)
+                    {
+                        rawHash.Append("&");
+                    }
+                    rawHash.Append($"{field}={collection.First(s => s.Key == field).Value}");
+                }
+            }
+
+            return rawHash.ToString();
         }
     }
 }

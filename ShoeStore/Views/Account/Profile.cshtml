@@ -55,8 +55,11 @@
 
 <!-- Thông tin cá nhân -->
 <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0">Thông tin cá nhân</h4>
+        <a href="@Url.Action("EditProfile", "Account")" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Chỉnh sửa thông tin
+        </a>
     </div>
     <div class="card-body">
         <div class="profile-info">

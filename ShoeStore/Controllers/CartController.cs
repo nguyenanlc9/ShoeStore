@@ -261,6 +261,15 @@ namespace ShoeStore.Controllers
                     return RedirectToAction("Login", "Auth");
                 }
 
+                // Kiểm tra số điện thoại
+                if (string.IsNullOrEmpty(model.PhoneNumber) || 
+                    model.PhoneNumber == "Chưa cập nhật" || 
+                    !System.Text.RegularExpressions.Regex.IsMatch(model.PhoneNumber, @"^\d+$"))
+                {
+                    TempData["Error"] = "Vui lòng cập nhật số điện thoại hợp lệ trước khi đặt hàng";
+                    return RedirectToAction("EditProfile", "Account");
+                }
+
                 var cartItems = await _context.CartItems
                     .Include(ci => ci.Product)
                     .Include(ci => ci.Size)
@@ -371,43 +380,8 @@ namespace ShoeStore.Controllers
                     }
                 }
 
-                // Cập nhật TotalSpent cho user
-                if (currentUser != null)
-                {
-                    currentUser.TotalSpent += finalTotal;
-                    _context.Users.Update(currentUser);
-                }
-
-                // Lưu tất cả thay đổi vào database
-                await _context.SaveChangesAsync();
-
                 // Xóa coupon khỏi session sau khi đã xử lý xong
                 HttpContext.Session.Remove("AppliedCoupon");
-
-                // Sau khi lưu đơn hàng thành công, gửi email
-                var newOrder = await _context.Orders
-                    .Include(o => o.OrderDetails)
-                        .ThenInclude(od => od.Product)
-                    .Include(o => o.OrderDetails)
-                        .ThenInclude(od => od.Size)
-                    .FirstOrDefaultAsync(o => o.OrderId == order.OrderId);
-
-                if (newOrder != null)
-                {
-                    try
-                    {
-                        await _emailService.SendEmailAsync(
-                            userInfo.Email,
-                            $"Xác nhận đơn hàng #{newOrder.OrderCode}",
-                            EmailTemplates.GetOrderConfirmationEmail(newOrder)
-                        );
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log lỗi nhưng không throw exception để không ảnh hưởng đến việc đặt hàng
-                        Console.WriteLine($"Lỗi gửi email: {ex.Message}");
-                    }
-                }
 
                 // Xử lý theo phương thức thanh toán
                 switch (model.PaymentMethod)
@@ -452,11 +426,46 @@ namespace ShoeStore.Controllers
                 .ThenInclude(od => od.Product)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Size)
+                .Include(o => o.User)
+                .ThenInclude(u => u.MemberRank)
                 .FirstOrDefaultAsync(o => o.OrderId == orderId);
 
             if (order == null)
             {
                 return RedirectToAction("Index", "Home");
+            }
+
+            // Tính toán giảm giá thành viên
+            decimal memberDiscountAmount = 0;
+            if (order.User?.MemberRank != null)
+            {
+                decimal subtotal = order.OrderDetails.Sum(od => od.Price * od.Quantity);
+                memberDiscountAmount = subtotal * (order.User.MemberRank.DiscountPercent / 100m);
+            }
+
+            ViewBag.MemberDiscountAmount = memberDiscountAmount;
+
+            // Chỉ gửi email khi đơn hàng đã thanh toán thành công hoặc là thanh toán COD
+            if ((order.PaymentMethod == PaymentMethod.VNPay || order.PaymentMethod == PaymentMethod.Momo) && order.PaymentStatus == PaymentStatus.Completed
+                || order.PaymentMethod == PaymentMethod.Cash)
+            {
+                try
+                {
+                    var user = await _context.Users.FindAsync(order.UserId);
+                    if (user != null && !string.IsNullOrEmpty(user.Email))
+                    {
+                        await _emailService.SendEmailAsync(
+                            user.Email,
+                            $"Xác nhận đơn hàng #{order.OrderCode}",
+                            EmailTemplates.GetOrderConfirmationEmail(order)
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log lỗi nhưng không throw exception để không ảnh hưởng đến việc hiển thị trang thank you
+                    Console.WriteLine($"Lỗi gửi email: {ex.Message}");
+                }
             }
 
             return View(order);
@@ -467,7 +476,12 @@ namespace ShoeStore.Controllers
             var user = await _context.Users.FindAsync(userId);
             if (user != null)
             {
-                user.TotalSpent += orderAmount;
+                // Chỉ cập nhật TotalSpent và rank khi đơn hàng hoàn thành
+                var completedOrders = await _context.Orders
+                    .Where(o => o.UserId == userId && o.Status == OrderStatus.Completed)
+                    .SumAsync(o => o.TotalAmount);
+                
+                user.TotalSpent = completedOrders;
                 await _context.SaveChangesAsync();
                 await _memberRankService.UpdateUserRank(userId);
             }
@@ -488,4 +502,3 @@ namespace ShoeStore.Controllers
         }
     }
 }
-

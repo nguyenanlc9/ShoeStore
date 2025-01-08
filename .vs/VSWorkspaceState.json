@@ -6,12 +6,13 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Controllers",
     "\\ShoeStore\\ViewComponents",
+    "\\ShoeStore\\ViewModels",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\appsettings.json",
+  "SelectedNode": "\\ShoeStore\\ViewModels\\CheckoutViewModel.cs",
   "PreviewInSolutionExplorer": false
 }

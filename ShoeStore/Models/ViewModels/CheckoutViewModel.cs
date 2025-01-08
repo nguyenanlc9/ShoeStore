@@ -1,4 +1,4 @@
-using ShoeStore.Models.Enums;
+﻿using ShoeStore.Models.Enums;
 
 namespace ShoeStore.Models.ViewModels
 {

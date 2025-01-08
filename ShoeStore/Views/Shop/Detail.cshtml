@@ -145,7 +145,7 @@
         <div class="product-info-section mb-5">
             <h3 class="mb-4">Thông Tin Sản Phẩm</h3>
             <div class="product-description">
-                <pre>@Html.Raw(Model.Description?.StripHtml(true))</pre>
+                @Html.Raw(Model.Description)
             </div>
         </div>
 
@@ -370,16 +370,15 @@
 
     /* Style cho các tiêu đề trong mô tả */
     .product-description strong {
-        display: block;
-        font-size: 1.1rem;
+        display: inline;
+        font-weight: bold;
         color: #333;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
     }
 
     /* Khoảng cách giữa các đoạn */
     .product-description p {
         margin-bottom: 1rem;
+        line-height: 1.6;
     }
 
     /* Style cho danh sách nếu có */
@@ -394,6 +393,23 @@
         padding-bottom: 2rem;
         border-bottom: 1px solid #eee;
         margin-bottom: 3rem;
+    }
+
+    /* Style cho toàn bộ phần mô tả */
+    .product-description {
+        font-size: 1rem;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* Style cho các link trong mô tả */
+    .product-description a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .product-description a:hover {
+        text-decoration: underline;
     }
 
     .product-review-section {
