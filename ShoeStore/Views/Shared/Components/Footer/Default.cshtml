@@ -1,55 +1,176 @@
+@model ShoeStore.Models.Footer
+
 <footer class="site-footer border-top">
     <div class="container">
         <div class="row">
+            <!-- Cột thông tin liên hệ -->
             <div class="col-md-4 mb-4">
                 <h3 class="footer-heading">Thông tin liên hệ</h3>
-                <ul class="list-unstyled footer-info">
-                    @if (ViewData["FooterInfo"] is ShoeStore.Models.Footer footerInfo)
-                    {
-                        @if (!string.IsNullOrEmpty(footerInfo.FooterAddress))
-                        {
-                            <li><i class="fas fa-map-marker-alt"></i> @footerInfo.FooterAddress</li>
-                        }
-                        @if (!string.IsNullOrEmpty(footerInfo.FooterPhone))
-                        {
-                            <li><i class="fas fa-phone"></i> @footerInfo.FooterPhone</li>
-                        }
-                        @if (!string.IsNullOrEmpty(footerInfo.FooterEmail))
-                        {
-                            <li><i class="fas fa-envelope"></i> @footerInfo.FooterEmail</li>
-                        }
-                    }
-                </ul>
+                @if (Model != null)
+                {
+                    <p class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i> @Model.FooterAddress
+                    </p>
+                    <p class="contact-item">
+                        <i class="fas fa-phone"></i> @Model.FooterPhone
+                    </p>
+                    <p class="contact-item">
+                        <i class="fas fa-envelope"></i> @Model.FooterEmail
+                    </p>
+                }
             </div>
 
+            <!-- Cột Liên kết nhanh -->
             <div class="col-md-4 mb-4">
                 <h3 class="footer-heading">Liên kết nhanh</h3>
-                <ul class="list-unstyled">
-                    <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                    <li><a asp-controller="Shop" asp-action="Index">Sản phẩm</a></li>
-                    <li><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
-                    <li><a asp-controller="Home" asp-action="Returns"> Đổi trả</a></li>
+                <ul class="list-unstyled quick-links">
+                    <li><a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    <li><a asp-controller="Shop" asp-action="Index"><i class="fas fa-shopping-bag"></i> Sản phẩm</a></li>
+                    <li><a asp-controller="Home" asp-action="About"><i class="fas fa-info-circle"></i> Về chúng tôi</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact"><i class="fas fa-envelope"></i> Liên hệ</a></li>
+                    <li><a asp-controller="Home" asp-action="Return"><i class="fas fa-envelope"></i> Đổi trả</a></li>
                 </ul>
             </div>
 
+            <!-- Cột Theo dõi chúng tôi -->
             <div class="col-md-4 mb-4">
                 <h3 class="footer-heading">Theo dõi chúng tôi</h3>
                 <div class="social-links">
-                    <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
 
+        <!-- Copyright -->
         <div class="row mt-4">
-            <div class="col-12 text-center">
+            <div class="col-md-12 text-center">
+                <hr class="footer-divider">
                 <p class="copyright">
-                    Copyright &copy; @DateTime.Now.Year All rights reserved | Made with <i class="fas fa-heart"></i> by ShoeStore
+                    Copyright &copy; @DateTime.Now.Year All rights reserved | Made with <i class="fas fa-heart text-danger"></i> by ShoeStore
                 </p>
             </div>
         </div>
     </div>
-</footer> 
+</footer>
+
+<style>
+    .site-footer {
+        padding: 4em 0;
+        background: #f8f9fa;
+    }
+
+    .footer-heading {
+        font-size: 20px;
+        color: #000;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .footer-heading:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: #7971ea;
+            margin: 10px 0;
+        }
+
+    .contact-item {
+        margin-bottom: 15px;
+        color: #666;
+    }
+
+        .contact-item i {
+            width: 25px;
+            color: #7971ea;
+        }
+
+    .quick-links li {
+        margin-bottom: 10px;
+    }
+
+    .quick-links a {
+        color: #666;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .quick-links a:hover {
+            color: #7971ea;
+            padding-left: 5px;
+        }
+
+    .quick-links i {
+        margin-right: 10px;
+        color: #7971ea;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f1f1f1;
+        color: #666;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-icon.facebook:hover {
+            background: #3b5998;
+            color: white;
+        }
+
+        .social-icon.instagram:hover {
+            background: #e1306c;
+            color: white;
+        }
+
+        .social-icon.twitter:hover {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .social-icon.youtube:hover {
+            background: #ff0000;
+            color: white;
+        }
+
+    .footer-divider {
+        margin: 20px 0;
+        border-color: #dee2e6;
+    }
+
+    .copyright {
+        color: #666;
+        font-size: 14px;
+    }
+
+        .copyright i {
+            margin: 0 5px;
+        }
+
+    @@media (max-width: 768px) {
+        .site-footer {
+            padding: 2em 0;
+        }
+
+        .social-links {
+            justify-content: center;
+        }
+    }
+</style> 

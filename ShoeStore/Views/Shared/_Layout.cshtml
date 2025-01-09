@@ -1,4 +1,5 @@
-﻿@using ShoeStore.Models
+﻿
+@using ShoeStore.Models
 @using ShoeStore.Utils
 
 @{
@@ -33,89 +34,89 @@
 </head>
 <body>
     <div class="site-wrap">
-    <header class="site-navbar" role="banner">
-        <div class="site-navbar-top">
-            <div class="container">
-                <div class="row align-items-center">
+        <header class="site-navbar" role="banner">
+            <div class="site-navbar-top">
+                <div class="container">
+                    <div class="row align-items-center">
 
-                    <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-                        <form action="" class="site-block-top-search">
-                            <span class="icon icon-search2"></span>
-                            <input type="text" class="form-control border-0" placeholder="Search">
-                        </form>
-                    </div>
+                        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                            <form action="" class="site-block-top-search">
+                                <span class="icon icon-search2"></span>
+                                <input type="text" class="form-control border-0" placeholder="Search">
+                            </form>
+                        </div>
 
-                    <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
-                        <div class="site-logo">
+                        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                            <div class="site-logo">
                                 <a asp-controller="Home" asp-action="index" class="js-logo-clone">APT Shop</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-6 col-md-4 order-3 order-md-3 text-right">
-                        <div class="site-top-icons">
-                            <ul>
-                                @if (userInfo != null)
-                                {
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="icon icon-person"></span>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                            <span class="dropdown-item">@userInfo.FullName</span>
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
-                                                <i class="fas fa-user"></i> Thông tin cá nhân
+                        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+                            <div class="site-top-icons">
+                                <ul>
+                                    @if (userInfo != null)
+                                    {
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="icon icon-person"></span>
                                             </a>
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="Orders">
-                                                <i class="fas fa-history"></i> Lịch sử đơn hàng
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
-                                                <i class="fas fa-user-edit"></i> Chỉnh sửa thông tin
-                                            </a>
-                                            <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">
-                                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                                            </a>
-                                        </div>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li><a asp-controller="Auth" asp-action="Login"><span class="icon icon-person"></span> Đăng nhập</a></li>
-                                }
+                                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                                <span class="dropdown-item">@userInfo.FullName</span>
+                                                <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
+                                                    <i class="fas fa-user"></i> Thông tin cá nhân
+                                                </a>
+                                                <a class="dropdown-item" asp-controller="Account" asp-action="Orders">
+                                                    <i class="fas fa-history"></i> Lịch sử đơn hàng
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
+                                                    <i class="fas fa-user-edit"></i> Chỉnh sửa thông tin
+                                                </a>
+                                                <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">
+                                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                                </a>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li><a asp-controller="Auth" asp-action="Login"><span class="icon icon-person"></span> Đăng nhập</a></li>
+                                    }
                                     <li><a asp-controller="Wishlist" asp-action="Index"><span class="icon icon-heart-o"></span></a></li>
-                                <li>
+                                    <li>
                                         <a asp-controller="Cart" asp-action="Index" class="site-cart">
-                                        <span class="icon icon-shopping_cart"></span>
-                                        @await Component.InvokeAsync("CartCount")
-                                    </a>
-                                </li>
-                                <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                            </ul>
+                                            <span class="icon icon-shopping_cart"></span>
+                                            @await Component.InvokeAsync("CartCount")
+                                        </a>
+                                    </li>
+                                    <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <nav class="site-navigation text-right text-md-center" role="navigation">
-            <div class="container">
-                <ul class="site-menu js-clone-nav d-none d-md-block">
-                    <li class="">
-                        <a asp-controller="Home" asp-action="index">Home</a>
-                        
-                    </li>
-                    <li class="">
-                        <a asp-controller="Home" asp-action="Sale">Sale</a>
-                        <ul class="dropdown">
-                        </ul>
-                    </li>
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+                <div class="container">
+                    <ul class="site-menu js-clone-nav d-none d-md-block">
+                        <li class="">
+                            <a asp-controller="Home" asp-action="index">Home</a>
+
+                        </li>
+                        <li class="">
+                            <a asp-controller="Home" asp-action="Sale">Sale</a>
+                            <ul class="dropdown">
+                            </ul>
+                        </li>
                         <li><a asp-controller="Shop" asp-action="Index">Shop</a></li>
-                    <li><a asp-controller="Home" asp-action="NewArrivals">New Arrivals</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+                        <li><a asp-controller="Home" asp-action="NewArrivals">New Arrivals</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
     </div>
     <div class="container">
         <main role="main" class="pb-3">
@@ -130,16 +131,16 @@
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    
+
     <!-- Plugin Scripts -->
     <script src="~/js/owl.carousel.min.js"></script>
     <script src="~/js/jquery.magnific-popup.min.js"></script>
     <script src="~/js/aos.js"></script>
-    
+
     <!-- Custom Scripts -->
     <script src="~/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
+
     @await RenderSectionAsync("Scripts", required: false)
 
     @if (TempData["SuccessMessage"] != null)
@@ -155,31 +156,6 @@
             toastr.error('@TempData["ErrorMessage"]');
         </script>
     }
-    <div id="fb-root"></div>
-    <div id="fb-customer-chat" class="fb-customerchat"></div>
-    <script>
-        var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "thuong.khac.418797");
-        chatbox.setAttribute("attribution", "biz_inbox");
-    </script>
-
-    <!-- Facebook SDK -->
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v18.0'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
 </body>
 </html>
 
@@ -193,28 +169,28 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .site-footer .contact-info h5 {
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
+        .site-footer .contact-info h5 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
 
-    .site-footer .contact-info p {
-        margin-bottom: 10px;
-        color: #555;
-    }
+        .site-footer .contact-info p {
+            margin-bottom: 10px;
+            color: #555;
+        }
 
-    .site-footer .contact-info a {
-        color: #007bff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
+        .site-footer .contact-info a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-    .site-footer .contact-info a:hover {
-        color: #0056b3;
-        text-decoration: underline;
-    }
+            .site-footer .contact-info a:hover {
+                color: #0056b3;
+                text-decoration: underline;
+            }
 
     /* Map Container */
     .site-footer .map-container {
@@ -226,12 +202,12 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .site-footer .map-container iframe,
-    .site-footer .map-container img {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
+        .site-footer .map-container iframe,
+        .site-footer .map-container img {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
     /* Progress Bar */
     .progress {
