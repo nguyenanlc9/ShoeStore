@@ -22,50 +22,6 @@ namespace ShoeStore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Blog", b =>
-                {
-                    b.Property<int>("Blog_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Blog_ID"));
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Img")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Sort")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Blog_ID");
-
-                    b.ToTable("Blogs");
-                });
-
             modelBuilder.Entity("MemberRank", b =>
                 {
                     b.Property<int>("RankId")
@@ -94,34 +50,6 @@ namespace ShoeStore.Migrations
                     b.HasKey("RankId");
 
                     b.ToTable("MemberRanks");
-                });
-
-            modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
-                {
-                    b.Property<int>("ImgId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImgId"));
-
-                    b.Property<int>("Blog_ID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Img")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsMainImage")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ImgId");
-
-                    b.HasIndex("Blog_ID");
-
-                    b.ToTable("BlogImages");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>
@@ -1015,17 +943,6 @@ namespace ShoeStore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Wishlists");
-                });
-
-            modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
-                {
-                    b.HasOne("Blog", "Blog")
-                        .WithMany()
-                        .HasForeignKey("Blog_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>

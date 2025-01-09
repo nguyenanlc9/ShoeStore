@@ -38,12 +38,7 @@ namespace ShoeStore.Models
         public DbSet<ProductSizeStockHistory> ProductSizeStockHistories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ReturnRequest> ReturnRequests { get; set; }
-<<<<<<< Updated upstream
         public DbSet<PaymentMethodConfig> PaymentMethodConfigs { get; set; }
-=======
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<BlogImage> BlogImages { get; set; }
->>>>>>> Stashed changes
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
