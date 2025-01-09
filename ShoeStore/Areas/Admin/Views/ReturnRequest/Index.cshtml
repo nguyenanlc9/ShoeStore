@@ -5,10 +5,29 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@Html.AntiForgeryToken()
+
 <div class="page-inner">
     <div class="page-header">
         <h4 class="page-title">Quản lý yêu cầu đổi trả</h4>
     </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">

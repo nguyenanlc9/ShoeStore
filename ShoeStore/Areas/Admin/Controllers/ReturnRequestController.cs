@@ -111,6 +111,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                 {
                     _context.Update(returnRequest);
                     await _context.SaveChangesAsync();
+                    TempData["Success"] = "Cập nhật yêu cầu đổi trả thành công";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -174,22 +176,23 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStatus(int id, ReturnStatus status, string note)
         {
-            var returnRequest = await _context.ReturnRequests
-                .Include(r => r.User)
-                .Include(r => r.Order)
-                .FirstOrDefaultAsync(r => r.ReturnId == id);
-
-            if (returnRequest == null)
+            try 
             {
-                return NotFound();
-            }
+                var returnRequest = await _context.ReturnRequests
+                    .Include(r => r.User)
+                    .Include(r => r.Order)
+                    .FirstOrDefaultAsync(r => r.ReturnId == id);
 
-            var oldStatus = returnRequest.Status;
-            returnRequest.Status = status;
-            returnRequest.AdminNote = note;
+                if (returnRequest == null)
+                {
+                    TempData["Error"] = "Không tìm thấy yêu cầu đổi trả";
+                    return RedirectToAction(nameof(Index));
+                }
 
-            try
-            {
+                var oldStatus = returnRequest.Status;
+                returnRequest.Status = status;
+                returnRequest.AdminNote = note;
+
                 _context.Update(returnRequest);
                 await _context.SaveChangesAsync();
 
@@ -212,21 +215,14 @@ namespace ShoeStore.Areas.Admin.Controllers
 
                 await _emailService.SendEmailAsync(returnRequest.User.Email, emailSubject, emailBody);
                 
-                TempData["Success"] = "Cập nhật trạng thái thành công";
+                TempData["Success"] = $"Cập nhật trạng thái thành công thành {statusText}";
+                return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!ReturnRequestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                TempData["Error"] = $"Lỗi khi cập nhật trạng thái: {ex.Message}";
+                return RedirectToAction(nameof(Index));
             }
-
-            return RedirectToAction(nameof(Details), new { id = id });
         }
     }
 }
