@@ -3,16 +3,111 @@
   "WorkspaceRootPath": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\migrations\\20250109082926_addblogimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:migrations\\20250109082926_addblogimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\blogimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\blogimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\blog\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\blog\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\blog\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\blog\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\blog\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\blog\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\blog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\blog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\blog\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\blog\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\blog\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\blog\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\dto\\requset\\blogdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\dto\\requset\\blogdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\migrations\\20250107082733_add.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:migrations\\20250107082733_add.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\controllers\\returncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:controllers\\returncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.400\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\views\\return\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\return\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\user\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\user\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\user\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\user\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\areas\\admin\\views\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:areas\\admin\\views\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:views\\shop\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -83,16 +178,16 @@
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\services\\email\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:services\\email\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\services\\email\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:services\\email\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|c:\\users\\thanhphong\\onedrive\\ta\u0300i li\u00EA\u0323u\\github\\shoestore\\shoestore\\migrations\\20250109082802_addblogs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B3BFE18-44B7-44FD-B264-F2D853C87E27}|ShoeStore.csproj|solutionrelative:migrations\\20250109082802_addblogs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,7 +197,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Bookmark",
@@ -138,7 +233,222 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Blog\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Blog\\Index.cshtml",
+              "ViewState": "AgIAAC8AAAAAAAAAAAD4v0MAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:21:36.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAAADEAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:15:32.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "Models\\Product.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Product.cs",
+              "RelativeToolTip": "Models\\Product.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAIAxwEkAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:45:13.161Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ProductImage.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ProductImage.cs",
+              "RelativeDocumentMoniker": "Models\\ProductImage.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ProductImage.cs",
+              "RelativeToolTip": "Models\\ProductImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:41:58.864Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BlogDTO.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\DTO\\Requset\\BlogDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\Requset\\BlogDTO.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\DTO\\Requset\\BlogDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\Requset\\BlogDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:34:29.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T02:19:41.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BlogImage.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\BlogImage.cs",
+              "RelativeDocumentMoniker": "Models\\BlogImage.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\BlogImage.cs",
+              "RelativeToolTip": "Models\\BlogImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:28:33.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20250109082926_addBlogImages.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250109082926_addBlogImages.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250109082926_addBlogImages.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250109082926_addBlogImages.cs",
+              "RelativeToolTip": "Migrations\\20250109082926_addBlogImages.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:29:26.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Create.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Blog\\Create.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Create.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Blog\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:43:23.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Blog\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Delete.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Blog\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAD4vxoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:52:57.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Details.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Blog\\Details.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Details.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Blog\\Details.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAD4vx0AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:57:04.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BlogController.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\BlogController.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\BlogController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\BlogController.cs",
+              "ViewState": "AgIAAK4CAAAAAAAAAAA8wMECAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:33:08.182Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Blog.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Blog.cs",
+              "RelativeDocumentMoniker": "Models\\Blog.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Blog.cs",
+              "RelativeToolTip": "Models\\Blog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:26:11.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Blog\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Blog\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Blog\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-09T09:21:42.846Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "20250107082733_add.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250107082733_add.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250107082733_add.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250107082733_add.cs",
+              "RelativeToolTip": "Migrations\\20250107082733_add.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:29:40.562Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "20250109082802_addBlogs.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250109082802_addBlogs.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250109082802_addBlogs.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Migrations\\20250109082802_addBlogs.cs",
+              "RelativeToolTip": "Migrations\\20250109082802_addBlogs.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:28:02.499Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ReturnController.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Controllers\\ReturnController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReturnController.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Controllers\\ReturnController.cs",
+              "RelativeToolTip": "Controllers\\ReturnController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T08:15:07.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -146,24 +456,119 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAACHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-08T07:21:32.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T07:21:32.776Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DashboardController.cs",
-              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\DashboardController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\DashboardController.cs",
-              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\DashboardController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\DashboardController.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAAAowAAAAAAAAAAA",
+              "DocumentIndex": 18,
+              "Title": "Microsoft.PackageDependencyResolution.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\8.0.400\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\8.0.400\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "ViewState": "AgIAAPQAAAAAAAAAAAAwwAsBAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-01-09T08:25:14.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Details.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Details.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Details.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:25:29.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:24:39.635Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Models\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Models\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAIAwwCkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T04:04:25.393Z"
+              "WhenOpened": "2025-01-08T03:41:56.571Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 23,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Delete.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Delete.cshtml",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAIwC0AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:26:18.462Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:24:30.8Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Create.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\User\\Create.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\User\\Create.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\User\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:26:33.621Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Return\\Create.cshtml",
+              "RelativeDocumentMoniker": "Views\\Return\\Create.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Return\\Create.cshtml",
+              "RelativeToolTip": "Views\\Return\\Create.cshtml",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAAAFQAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T08:14:52.106Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shop\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Shop\\Index.cshtml",
+              "RelativeToolTip": "Views\\Shop\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T07:23:54.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
               "Title": "PaymentStatus.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Enums\\PaymentStatus.cs",
               "RelativeDocumentMoniker": "Models\\Enums\\PaymentStatus.cs",
@@ -175,7 +580,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 20,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-08T04:17:30.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\DashboardController.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T04:04:25.393Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
               "Title": "PaymentMethod.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Enums\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "Models\\Enums\\PaymentMethod.cs",
@@ -187,7 +616,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 35,
               "Title": "OrderStatus.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Enums\\OrderStatus.cs",
               "RelativeDocumentMoniker": "Models\\Enums\\OrderStatus.cs",
@@ -199,7 +628,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 41,
               "Title": "Thankyou.cshtml",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Cart\\Thankyou.cshtml",
               "RelativeDocumentMoniker": "Views\\Cart\\Thankyou.cshtml",
@@ -211,7 +640,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 39,
               "Title": "CartController.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "Controllers\\CartController.cs",
@@ -223,7 +652,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 42,
               "Title": "DashboardViewModel.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ViewModels\\DashboardViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ViewModels\\DashboardViewModel.cs",
@@ -235,20 +664,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAALQAAAAAAAAAAAD4v8UAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T02:19:41.697Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 31,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\HomeController.cs",
@@ -260,7 +676,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 29,
               "Title": "Process.cshtml",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Order\\Process.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Order\\Process.cshtml",
@@ -272,19 +688,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAABcAAAAAAAAAAAAtwDQAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-08T04:17:30.947Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 27,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -296,7 +700,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 28,
               "Title": "_Notifications.cshtml",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Notifications.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_Notifications.cshtml",
@@ -308,19 +712,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Models\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Models\\ApplicationDbContext.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAD4vxcAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T03:41:56.571Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 40,
               "Title": "OrderDetail.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\OrderDetail.cs",
               "RelativeDocumentMoniker": "Models\\OrderDetail.cs",
@@ -332,7 +724,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 30,
               "Title": "OrderController.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Areas\\Admin\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\OrderController.cs",
@@ -344,7 +736,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 43,
               "Title": "Order.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Order.cs",
               "RelativeDocumentMoniker": "Models\\Order.cs",
@@ -356,7 +748,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 38,
               "Title": "Coupon.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Models\\Coupon.cs",
               "RelativeDocumentMoniker": "Models\\Coupon.cs",
@@ -368,7 +760,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 36,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
@@ -380,7 +772,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 45,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Services\\Email\\EmailService.cs",
               "RelativeDocumentMoniker": "Services\\Email\\EmailService.cs",
@@ -392,7 +784,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 37,
               "Title": "EmailTemplates.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Services\\Email\\EmailTemplates.cs",
               "RelativeDocumentMoniker": "Services\\Email\\EmailTemplates.cs",
@@ -404,7 +796,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 44,
               "Title": "IEmailService.cs",
               "DocumentMoniker": "C:\\Users\\thanhphong\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\ShoeStore\\ShoeStore\\Services\\Email\\IEmailService.cs",
               "RelativeDocumentMoniker": "Services\\Email\\IEmailService.cs",

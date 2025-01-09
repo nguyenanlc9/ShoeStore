@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ShoeStore.Models.Blog>
+
+@{
+    ViewData["Title"] = "Blog Management";
+    ViewData["ActiveMenu"] = "blog";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Blog Management</h4>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Blog List</h4>
+                        <div class="ml-auto">
+                            <a asp-area="Admin" asp-controller="Blog" asp-action="Create" class="btn btn-primary btn-round">
+                                <i class="fa fa-plus"></i>
+                                Add New Blog
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="blogTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Sort Order</th>
+                                    <th>Created Info</th>
+                                    <th>Updated Info</th>
+                                    <th style="width: 10%">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Blog_ID</td>
+                                        <td>@item.Title</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Img))
+                                            {
+                                                <img src="@item.Img" alt="@item.Title" style="max-width: 50px;" />
+                                            }
+                                        </td>
+                                        <td>@(item.Description?.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</td>
+                                        <td>
+                                            @if (item.Status == 1)
+                                            {
+                                                <span class="badge badge-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>@item.Sort</td>
+                                        <td>
+                                            <small class="text-muted">Created by:</small> @(string.IsNullOrEmpty(item.CreatedBy) ? "N/A" : item.CreatedBy)<br/>
+                                            <small class="text-muted">Date:</small> @item.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">Updated by:</small> @(string.IsNullOrEmpty(item.UpdatedBy) ? "N/A" : item.UpdatedBy)<br/>
+                                            <small class="text-muted">Date:</small> @(item.UpdatedDate?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")
+                                        </td>
+                                        <td>
+                                            <div class="form-button-action">
+                                                <a asp-action="Edit" asp-route-id="@item.Blog_ID" class="btn btn-link btn-primary btn-lg" title="Edit">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.Blog_ID" class="btn btn-link btn-info btn-lg" title="Details">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.Blog_ID" class="btn btn-link btn-danger btn-lg" title="Delete">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#blogTable').DataTable({
+                "pageLength": 10,
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}

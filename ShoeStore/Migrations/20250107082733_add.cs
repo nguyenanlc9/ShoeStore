@@ -30,12 +30,21 @@ namespace ShoeStore.Migrations
                 oldType: "nvarchar(max)",
                 oldNullable: true);
 
+<<<<<<< Updated upstream
+=======
+         
+>>>>>>> Stashed changes
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+<<<<<<< Updated upstream
           
+=======
+
+
+>>>>>>> Stashed changes
             migrationBuilder.AlterColumn<string>(
                 name: "ProductCode",
                 table: "Products",

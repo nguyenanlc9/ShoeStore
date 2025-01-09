@@ -32,6 +32,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Models\DTO\Response\" />
     <Folder Include="wwwroot\images\contacts\" />
+    <Folder Include="wwwroot\images\blogs\" />
     <Folder Include="wwwroot\img\sliders\" />
     <Folder Include="wwwroot\img\products\" />
   </ItemGroup>

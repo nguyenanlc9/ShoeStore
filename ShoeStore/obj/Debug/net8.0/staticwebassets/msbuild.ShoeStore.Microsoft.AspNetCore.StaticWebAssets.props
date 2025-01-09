@@ -39680,6 +39680,54 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\fonts\summernote\summernote.woff2))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\04c07cf0-7990-4862-9e6a-8cc4597b8f24_2bfd88b3-c2e0-406f-a647-7c6960dc0ef2_anh (2).jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/blogs/04c07cf0-7990-4862-9e6a-8cc4597b8f24_2bfd88b3-c2e0-406f-a647-7c6960dc0ef2_anh (2).jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\04c07cf0-7990-4862-9e6a-8cc4597b8f24_2bfd88b3-c2e0-406f-a647-7c6960dc0ef2_anh (2).jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\0c2724cc-e0be-405d-a1b9-18858091d601_2f9139c3-da7e-466f-a6ef-2e9fde5d528c_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/blogs/0c2724cc-e0be-405d-a1b9-18858091d601_2f9139c3-da7e-466f-a6ef-2e9fde5d528c_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\0c2724cc-e0be-405d-a1b9-18858091d601_2f9139c3-da7e-466f-a6ef-2e9fde5d528c_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\2174b36b-efab-4f0b-a605-a4d58d31ea92_7f0d8f19-bfde-4e8d-8317-2edd6cb4ee80_pexels-francesco-ungaro-1525041.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ShoeStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ShoeStore</BasePath>
+      <RelativePath>images/blogs/2174b36b-efab-4f0b-a605-a4d58d31ea92_7f0d8f19-bfde-4e8d-8317-2edd6cb4ee80_pexels-francesco-ungaro-1525041.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blogs\2174b36b-efab-4f0b-a605-a4d58d31ea92_7f0d8f19-bfde-4e8d-8317-2edd6cb4ee80_pexels-francesco-ungaro-1525041.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\blog_1.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>ShoeStore</SourceId>
