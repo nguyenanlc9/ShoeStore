@@ -10,6 +10,7 @@ using ShoeStore.Services.Payment;
 using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Data;
+using ShoeStore.Services.ZaloPay;
 
 namespace ShoeStore
 {
@@ -69,6 +70,11 @@ namespace ShoeStore
             // Đăng ký HttpClient và AddressService
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<IAddressService, AddressService>();
+
+            // Configure ZaloPay
+            builder.Services.Configure<ZaloPayConfig>(builder.Configuration.GetSection("ZaloPay"));
+            builder.Services.AddHttpClient<IZaloPayService, ZaloPayService>();
+            builder.Services.AddScoped<IZaloPayService, ZaloPayService>();
 
             var app = builder.Build();
 

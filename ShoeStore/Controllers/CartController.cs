@@ -406,6 +406,12 @@ namespace ShoeStore.Controllers
                             amount = finalTotal
                         });
 
+                    case PaymentMethod.ZaloPay:
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("ProcessPayment", "ZaloPay", new { 
+                            orderId = order.OrderId
+                        });
+
                     default:
                         TempData["Error"] = "Phương thức thanh toán không hợp lệ";
                         return RedirectToAction("Checkout");

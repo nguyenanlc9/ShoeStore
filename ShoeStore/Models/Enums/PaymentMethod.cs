@@ -1,11 +1,19 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ShoeStore.Models.Enums
 {
     public enum PaymentMethod
     {
-        Cash = 1,
-        VNPay = 2,
-        Momo = 3,
-        PayPal = 4,
-        Visa = 5
+        [Display(Name = "Thanh toán khi nhận hàng")]
+        Cash = 0,
+
+        [Display(Name = "Thanh toán qua VNPay")]
+        VNPay = 1,
+
+        [Display(Name = "Thanh toán qua Momo")]
+        Momo = 2,
+
+        [Display(Name = "Thanh toán qua ZaloPay")]
+        ZaloPay = 3
     }
 } 
