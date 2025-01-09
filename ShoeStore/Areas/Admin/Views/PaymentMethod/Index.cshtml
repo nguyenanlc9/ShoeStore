@@ -1,0 +1,94 @@
+@model IEnumerable<ShoeStore.Models.PaymentMethodConfig>
+@{
+    ViewData["Title"] = "Quản lý phương thức thanh toán";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Quản lý phương thức thanh toán</h6>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm mới
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Loại</th>
+                            <th>Trạng thái</th>
+                            <th>Mô tả</th>
+                            <th>Cập nhật lần cuối</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Type.ToString()</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle @(item.Status == PaymentMethodStatus.Active ? "btn-success" : 
+                                                                          item.Status == PaymentMethodStatus.Hidden ? "btn-secondary" : "btn-warning")"
+                                                type="button" data-toggle="dropdown">
+                                            @item.Status.ToString()
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#" onclick="updateStatus(@item.Id, @((int)PaymentMethodStatus.Active))">
+                                                <i class="fas fa-check text-success"></i> Kích hoạt
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="updateStatus(@item.Id, @((int)PaymentMethodStatus.Hidden))">
+                                                <i class="fas fa-eye-slash text-secondary"></i> Ẩn
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="updateStatus(@item.Id, @((int)PaymentMethodStatus.Maintenance))">
+                                                <i class="fas fa-tools text-warning"></i> Bảo trì
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@item.Description</td>
+                                <td>@item.LastUpdated?.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateStatus(id, status) {
+            $.ajax({
+                url: '@Url.Action("UpdateStatus")',
+                type: 'POST',
+                data: { id: id, status: status },
+                success: function (result) {
+                    if (result.success) {
+                        toastr.success(result.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        toastr.error(result.message);
+                    }
+                },
+                error: function () {
+                    toastr.error('Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            });
+        }
+    </script>
+} 

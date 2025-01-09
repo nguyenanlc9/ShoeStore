@@ -1,4 +1,4 @@
-﻿@using ShoeStore.Models.Enums
+﻿@using ShoeStore.Models
 @model CheckoutViewModel
 
 <div class="site-section">
@@ -51,11 +51,77 @@
 
                         <div class="form-group">
                             <label asp-for="PaymentMethod" class="text-black">Phương thức thanh toán <span class="text-danger">*</span></label>
-                            <select asp-for="PaymentMethod" class="form-control" required>
-                                <option value="@PaymentMethod.Cash">Tiền mặt khi nhận hàng</option>
-                                <option value="@PaymentMethod.VNPay">VNPay</option>
-                                <option value="@PaymentMethod.Momo">Momo</option>
-                            </select>
+                            <div class="payment-methods">
+                                @if (ViewBag.PaymentMethods != null && ViewBag.PaymentMethods.Count > 0)
+                                {
+                                    foreach (var method in ViewBag.PaymentMethods)
+                                    {
+                                        string statusClass = method.Status switch
+                                        {
+                                            PaymentMethodStatus.Active => "",
+                                            PaymentMethodStatus.Hidden => "payment-hidden",
+                                            PaymentMethodStatus.Maintenance => "payment-maintenance",
+                                            _ => ""
+                                        };
+
+                                        <div class="payment-method-item mb-3 @statusClass">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" 
+                                                                   name="PaymentMethod" 
+                                                                   id="payment_@((int)method.Type)" 
+                                                                   value="@((int)method.Type)" 
+                                                                   @(method.Status != PaymentMethodStatus.Active ? "disabled" : "")
+                                                                   required>
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            <label class="form-check-label d-block" for="payment_@((int)method.Type)">
+                                                                <span class="h6 mb-0">@method.Name</span>
+                                                                @if (!string.IsNullOrEmpty(method.Description))
+                                                                {
+                                                                    <small class="text-muted d-block">@method.Description</small>
+                                                                }
+                                                            </label>
+                                                            @if (method.Status == PaymentMethodStatus.Maintenance)
+                                                            {
+                                                                <div class="alert alert-warning mt-2 mb-0">
+                                                                    <i class="fas fa-tools me-2"></i>
+                                                                    @(string.IsNullOrEmpty(method.MaintenanceMessage) 
+                                                                        ? "Phương thức thanh toán đang bảo trì" 
+                                                                        : method.MaintenanceMessage)
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        @{
+                                                            string iconClass = method.Type switch
+                                                            {
+                                                                PaymentMethodType.VNPay => "vnpay-icon",
+                                                                PaymentMethodType.Momo => "momo-icon",
+                                                                PaymentMethodType.ZaloPay => "zalopay-icon",
+                                                                PaymentMethodType.COD => "fas fa-money-bill-wave",
+                                                                PaymentMethodType.Visa => "fab fa-cc-visa",
+                                                                _ => "fas fa-credit-card"
+                                                            };
+                                                        }
+                                                        <div class="ms-auto">
+                                                            <i class="@iconClass fa-2x"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Hiện tại không có phương thức thanh toán nào khả dụng
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,3 +273,59 @@
         });
     </script>
 }
+
+<style>
+.payment-method-item .card {
+    transition: all 0.3s ease;
+    border: 1px solid #dee2e6;
+}
+
+.payment-method-item .card:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0,123,255,0.1);
+}
+
+.payment-method-item.payment-maintenance .card {
+    background-color: #fff9e6;
+    border-color: #ffeeba;
+}
+
+.payment-method-item.payment-hidden {
+    display: none;
+}
+
+.payment-method-item input[type="radio"]:checked + label {
+    font-weight: bold;
+}
+
+.payment-method-item input[type="radio"]:disabled + label {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Icons */
+.vnpay-icon {
+    color: #0066FF;
+}
+
+.momo-icon {
+    color: #A50064;
+}
+
+.zalopay-icon {
+    color: #0068FF;
+}
+
+.payment-method-item .alert {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}
+
+.payment-method-item .card-body {
+    padding: 1rem;
+}
+
+.payment-method-item .form-check-input {
+    margin-top: 0.3rem;
+}
+</style>
