@@ -27,37 +27,43 @@ namespace Project_BE.Controllers
             ViewBag.Contacts = contacts ?? new List<Contact>(); // Đảm bảo không null
             return View(new Contact()); // Truyền model rỗng
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Lấy slider có trạng thái active (Status = 1)
-            var sliders = _context.Sliders.Where(s => s.Status == 1).ToList();
+            // Lấy slider
+            var sliders = await _context.Sliders.ToListAsync();
             ViewBag.Sliders = sliders;
 
-            // Lấy thông tin footer
-            ViewData["FooterInfo"] = _context.Footers
-                .OrderByDescending(f => f.FooterId)
-                .FirstOrDefault();
-
-            // Lấy sản phẩm nổi bật (5 sản phẩm mới nhất)
-            var products = _context.Products
-                .Include(p => p.ProductSizeStocks)
-                    .ThenInclude(ps => ps.Size)
-                .Include(p => p.Categories)
+            // Lấy 8 sản phẩm mới nhất
+            var newProducts = await _context.Products
                 .Include(p => p.Brands)
-                .Where(p => p.Status == ProductStatus.Available)
-                .OrderByDescending(p => p.UpdatedDate)
-                .Take(5)
-                .Select(p => new ProductViewModel
-                {
-                    Product = p,
-                    AvailableSizes = p.ProductSizeStocks
-                        .Where(ps => ps.StockQuantity > 0)
-                        .Select(ps => ps.Size.SizeValue)
-                        .ToList()
-                })
-                .ToList();
+                .Include(p => p.Categories)
+                .OrderByDescending(p => p.CreatedDate)
+                .Take(8)
+                .Select(p => new ProductViewModel { Product = p })
+                .ToListAsync();
+            ViewData["NewProducts"] = newProducts;
 
-            ViewData["FeaturedProducts"] = products;
+            // Lấy 8 sản phẩm đang giảm giá
+            var saleProducts = await _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.Categories)
+                .Where(p => p.DiscountPrice > 0)
+                .OrderByDescending(p => p.DiscountPrice)
+                .Take(8)
+                .Select(p => new ProductViewModel { Product = p })
+                .ToListAsync();
+            ViewData["SaleProducts"] = saleProducts;
+
+            // Lấy 8 sản phẩm hot (có nhiều đơn hàng nhất)
+            var hotProducts = await _context.Products
+                .Include(p => p.Brands)
+                .Include(p => p.Categories)
+                .Include(p => p.OrderDetails)
+                .OrderByDescending(p => p.OrderDetails.Count)
+                .Take(8)
+                .Select(p => new ProductViewModel { Product = p })
+                .ToListAsync();
+            ViewData["HotProducts"] = hotProducts;
 
             return View();
         }

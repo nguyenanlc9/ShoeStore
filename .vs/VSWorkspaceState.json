@@ -5,15 +5,14 @@
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Views",
-    "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Areas\\Admin\\Views\\ReturnRequest",
     "\\ShoeStore\\Controllers",
-    "\\ShoeStore\\Models",
-    "\\ShoeStore\\Models\\Enums",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Home",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\appsettings.json",
+  "SelectedNode": "\\ShoeStore\\Views\\Home\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

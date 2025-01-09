@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/footer-label.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     @await RenderSectionAsync("Styles", required: false)
     @await RenderSectionAsync("Header", required: false)
 </head>
@@ -123,15 +125,21 @@
     <footer>
         @await Component.InvokeAsync("Footer")
     </footer>
+    <!-- Core Scripts -->
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
+    
+    <!-- Plugin Scripts -->
     <script src="~/js/owl.carousel.min.js"></script>
     <script src="~/js/jquery.magnific-popup.min.js"></script>
     <script src="~/js/aos.js"></script>
+    
+    <!-- Custom Scripts -->
     <script src="~/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 
     @if (TempData["SuccessMessage"] != null)
