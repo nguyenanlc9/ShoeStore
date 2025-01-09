@@ -7,11 +7,13 @@
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
     "\\ShoeStore\\Controllers",
+    "\\ShoeStore\\Models",
+    "\\ShoeStore\\Models\\Enums",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Controllers\\ReturnController.cs",
+  "SelectedNode": "\\ShoeStore\\Models\\Enums\\PaymentMethod.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -159,6 +159,12 @@ namespace ShoeStore.Controllers
                 finalTotal = subtotal - discountAmount;
             }
 
+            // Lấy các phương thức thanh toán (bao gồm cả đang bảo trì, loại bỏ các phương thức ẩn)
+            var availablePaymentMethods = await _context.PaymentMethodConfigs
+                .Where(p => p.Status != PaymentMethodStatus.Hidden)
+                .OrderBy(p => p.Type)
+                .ToListAsync();
+
             var model = new CheckoutViewModel
             {
                 CartItems = cartItems,
@@ -171,6 +177,7 @@ namespace ShoeStore.Controllers
                 PhoneNumber = user?.Phone,
             };
 
+            ViewBag.PaymentMethods = availablePaymentMethods;
             return View(model);
         }
 

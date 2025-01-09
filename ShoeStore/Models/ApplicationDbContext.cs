@@ -38,6 +38,7 @@ namespace ShoeStore.Models
         public DbSet<ProductSizeStockHistory> ProductSizeStockHistories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ReturnRequest> ReturnRequests { get; set; }
+        public DbSet<PaymentMethodConfig> PaymentMethodConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +52,11 @@ namespace ShoeStore.Models
             modelBuilder.Entity<Product>()
                 .Property(p => p.DiscountPrice)
                 .HasPrecision(18, 2);
+
+            // Cấu hình cho PaymentMethodConfig
+            modelBuilder.Entity<PaymentMethodConfig>()
+                .Property(p => p.LastUpdated)
+                .HasDefaultValueSql("GETDATE()");
 
             // Cấu hình quan hệ giữa Product và Category
             modelBuilder.Entity<Product>()

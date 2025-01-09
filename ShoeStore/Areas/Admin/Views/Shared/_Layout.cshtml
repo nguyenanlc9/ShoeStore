@@ -17,7 +17,7 @@
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
           name="viewport" />
     <link rel="icon"
-          href="~/img/kaiadmin/logo.png"
+          href="~/img/kaiadmin/favicon.ico"
           type="image/x-icon" />
 
     <!-- Fonts and icons -->
@@ -38,6 +38,8 @@
     <link rel="stylesheet" href="~/css/demo.css" />
     @RenderSection("Styles", required: false)
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
@@ -47,10 +49,10 @@
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
                     <a asp-action="index" asp-controller="home" class="logo">
-                        <img src="~/img/kaiadmin/logo.png"
+                        <img src="~/img/kaiadmin/logo_light.svg"
                              alt="navbar brand"
                              class="navbar-brand"
-                             height="100" />
+                             height="20" />
                     </a>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
@@ -129,31 +131,30 @@
                                 <p>Coupons</p>
                             </a>
                         </li>
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "user" ? "active" : "")">
-                            <a data-bs-toggle="collapse" href="#userManagement" class="nav-link">
-                                <i class="fas fa-users"></i>
-                                <p>Quản lý người dùng</p>
-                                <span class="caret"></span>
+                        <li class="nav-item">
+                            <a asp-area="admin" asp-controller="User" asp-action="Index" class="nav-link">
+                                <i class="fas fa-desktop"></i>
+                                <p>User</p>
+                                <span class="badge badge-success"></span>
                             </a>
-                            <div class="collapse" id="userManagement">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="user" asp-action="Index">
-                                            <span class="sub-item">User</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="role" asp-action="Index">
-                                            <span class="sub-item">Role</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="admin" asp-controller="Role" asp-action="Index" class="nav-link">
+                                <i class="fas fa-file"></i>
+                                <p>Role</p>
+                                <span class="badge badge-secondary"></span>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="admin" asp-controller="Order" asp-action="Index" class="nav-link">
                                 <i class="fas fa-table"></i>
                                 <p>Order</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="admin" asp-controller="Return" asp-action="Index" class="nav-link">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p>Quản lý đổi trả</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -199,12 +200,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="admin" asp-controller="ReturnRequest" asp-action="Index" class="nav-link">
+                            <a asp-area="admin" asp-controller="PaymentMethod" asp-action="Index" class="nav-link">
                                 <i class="fas fa-table"></i>
-                                <p>Return</p>
+                                <p>Cài đặt</p>
                             </a>
                         </li>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -553,5 +554,7 @@
     </script>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
