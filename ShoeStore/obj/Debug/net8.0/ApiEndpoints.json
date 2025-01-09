@@ -184,5 +184,69 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.ZaloPayTestController",
+    "Method": "CreateTestOrder",
+    "RelativePath": "api/ZaloPayTest/create-test-order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "amount",
+        "Type": "System.Decimal",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.ZaloPayTestController",
+    "Method": "QueryTransaction",
+    "RelativePath": "api/ZaloPayTest/query-transaction/{appTransId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appTransId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.ZaloPayTestController",
+    "Method": "TestCallback",
+    "RelativePath": "api/ZaloPayTest/test-callback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "callbackData",
+        "Type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShoeStore.Controllers.Api.ZaloPayTestController",
+    "Method": "GetTestOrder",
+    "RelativePath": "api/ZaloPayTest/test-order/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

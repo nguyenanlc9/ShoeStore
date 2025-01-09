@@ -52,6 +52,66 @@ namespace ShoeStore.Migrations
                     b.ToTable("MemberRanks");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.Blog", b =>
+                {
+                    b.Property<int>("BlogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogId"));
+
+                    b.Property<string>("Author")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("ntext");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ThumbnailImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("BlogId");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsContentImage")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogImages");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>
                 {
                     b.Property<int>("BrandId")
@@ -403,7 +463,6 @@ namespace ShoeStore.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -413,7 +472,6 @@ namespace ShoeStore.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("MaintenanceMessage")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -945,6 +1003,17 @@ namespace ShoeStore.Migrations
                     b.ToTable("Wishlists");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Blog", "Blog")
+                        .WithMany("BlogImages")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>
                 {
                     b.HasOne("ShoeStore.Models.Product", "Product")
@@ -1172,6 +1241,11 @@ namespace ShoeStore.Migrations
             modelBuilder.Entity("MemberRank", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.Blog", b =>
+                {
+                    b.Navigation("BlogImages");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>

@@ -1,0 +1,66 @@
+@model ShoeStore.Models.Blog
+
+@{
+    ViewData["Title"] = "Xóa Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa Blog</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <h4>Bạn có chắc chắn muốn xóa bài viết này?</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <dl class="row">
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Title)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Title)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Author)</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Author)</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CreatedDate)</dt>
+                        <dd class="col-sm-9">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IsVisible)</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.IsVisible)
+                            {
+                                <span class="badge badge-success">Hiển thị</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">Ẩn</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.ThumbnailImage))
+                    {
+                        <img src="@Model.ThumbnailImage" class="img-fluid" alt="Blog Image" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="BlogId" />
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Xác nhận xóa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

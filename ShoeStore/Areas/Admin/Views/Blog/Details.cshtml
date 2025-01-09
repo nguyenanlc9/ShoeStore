@@ -1,0 +1,86 @@
+@model ShoeStore.Models.Blog
+
+@{
+    ViewData["Title"] = "Chi tiết Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Chi tiết Blog</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.BlogId" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Chỉnh sửa
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Author)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Author)
+                        </dd>
+
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.CreatedDate)
+                        </dd>
+
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.IsVisible)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.IsVisible)
+                        </dd>
+
+                        @if (!string.IsNullOrEmpty(Model.ThumbnailImage))
+                        {
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.ThumbnailImage)
+                            </dt>
+                            <dd class="col-sm-10">
+                                <img src="@Model.ThumbnailImage" class="img-fluid" style="max-width: 300px;" />
+                            </dd>
+                        }
+                    </dl>
+
+                    <div class="mt-4">
+                        <h4>Nội dung</h4>
+                        <div class="border p-3 rounded">
+                            @Html.Raw(Model.Content)
+                            @if (Model.BlogImages != null && Model.BlogImages.Any())
+                            {
+                                <div class="mt-3">
+                                    <h5>Hình ảnh trong bài viết:</h5>
+                                    <div class="row">
+                                        @foreach (var image in Model.BlogImages.Where(i => i.IsContentImage))
+                                        {
+                                            <div class="col-md-4 mb-3">
+                                                <img src="@image.ImageUrl" class="img-fluid" alt="Blog content image" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
