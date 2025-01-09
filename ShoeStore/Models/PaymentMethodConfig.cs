@@ -4,10 +4,10 @@ namespace ShoeStore.Models
 {
     public enum PaymentMethodType
     {
+        Cash = 4,
         VNPay = 1,
         Momo = 2,
         ZaloPay = 3,
-        COD = 4,
         Visa = 5
     }
 
