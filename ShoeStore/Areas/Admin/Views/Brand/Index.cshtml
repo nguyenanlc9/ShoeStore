@@ -77,9 +77,17 @@
                                                     data-original-title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-link btn-danger" onclick="deleteBrand(@item.BrandId)">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
+                                                @{
+                                                    var hasProducts = item.Products?.Any() ?? false;
+                                                    var hasStock = item.Products?.Any(p => p.ProductSizeStocks.Sum(pss => pss.StockQuantity) > 0) ?? false;
+                                                    
+                                                    if (!hasStock)
+                                                    {
+                                                        <button type="button" class="btn btn-link btn-danger" onclick="deleteBrand(@item.BrandId)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    }
+                                                }
                                             </div>
                                         </td>
                                     </tr>

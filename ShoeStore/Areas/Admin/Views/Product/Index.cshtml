@@ -152,17 +152,15 @@
                                                 <a asp-area="Admin" asp-controller="Product" asp-action="History" asp-route-id="@item.ProductId" class="btn btn-link btn-warning btn-lg" title="Lịch sử thay đổi">
                                                     <i class="fa fa-history"></i>
                                                 </a>
-                                                @{
-                                                    if (totalStock <= 5)
-                                                    {
-                                                        <form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" 
-                                                              method="post" style="display:inline" 
-                                                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
-                                                            <button type="submit" class="btn btn-link btn-danger" title="Xóa">
-                                                                <i class="fa fa-times"></i>
-                                                            </button>
-                                                        </form>
-                                                    }
+                                                @if (totalStock == 0)
+                                                {
+                                                    <form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" 
+                                                          method="post" style="display:inline" 
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                                                        <button type="submit" class="btn btn-link btn-danger btn-lg" title="Xóa">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 }
                                             </div>
                                         </td>

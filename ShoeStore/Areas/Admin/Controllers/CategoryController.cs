@@ -27,7 +27,10 @@ namespace ShoeStore.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["ActiveMenu"] = "category";
-            return View(await _context.Categories.ToListAsync());
+            return View(await _context.Categories
+                .Include(c => c.Products)
+                .ThenInclude(p => p.ProductSizeStocks)
+                .ToListAsync());
         }
 
         // GET: Admin/Category/Details/5
@@ -165,6 +168,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         {
             var category = await _context.Categories
                 .Include(c => c.Products)
+                .ThenInclude(p => p.ProductSizeStocks)
                 .FirstOrDefaultAsync(c => c.CategoryId == id);
 
             if (category == null)
@@ -175,7 +179,12 @@ namespace ShoeStore.Areas.Admin.Controllers
             // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
             if (category.Products.Any())
             {
-                return Json(new { success = false, message = "Không thể xóa danh mục vì còn sản phẩm thuộc danh mục này" });
+                // Kiểm tra xem có sản phẩm nào còn tồn kho không
+                var hasStock = category.Products.Any(p => p.ProductSizeStocks.Sum(pss => pss.StockQuantity) > 0);
+                if (hasStock)
+                {
+                    return Json(new { success = false, message = "Không thể xóa danh mục vì còn sản phẩm tồn kho" });
+                }
             }
 
             try
