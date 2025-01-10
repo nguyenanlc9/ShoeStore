@@ -10,13 +10,13 @@ namespace ShoeStore.Models
         public int Slider_ID { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(25)]
         public string Name { get; set; }
 
-        [StringLength(255)]
+        [StringLength(50)]
         public string Title { get; set; }
 
-        [StringLength(255)] 
+        [StringLength(50)] 
         public string Description { get; set; }
 
         [Required]

@@ -9953,11 +9953,19 @@
       "PackagePath": "staticwebassets\\images\\blogs\\content\\6bf7cf76-4a27-4e4b-999c-79cf9f8ef4df.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\blogs\\content\\70a6fa4e-2892-4f4f-a99b-a1ff30c975c7.jpg",
       "PackagePath": "staticwebassets\\images\\blogs\\content\\70a6fa4e-2892-4f4f-a99b-a1ff30c975c7.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\blogs\\content\\7da12440-4d7c-46b3-8a11-57eb38624c65.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\blogs\\content\\70a6fa4e-2892-4f4f-a99b-a1ff30c975c7.jpg",
+      "PackagePath": "staticwebassets\\images\\blogs\\content\\70a6fa4e-2892-4f4f-a99b-a1ff30c975c7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\blogs\\content\\7da12440-4d7c-46b3-8a11-57eb38624c65.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\blogs\\content\\7da12440-4d7c-46b3-8a11-57eb38624c65.jpg"
     },
     {
@@ -9981,11 +9989,15 @@
       "PackagePath": "staticwebassets\\images\\blogs\\content\\fbbfc9c2-30d7-4d9e-bf9e-0a5ed724d5ce.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\blogs\\ee5e07a4-ed09-463c-b7d6-af5153f84a5b.jpg",
       "PackagePath": "staticwebassets\\images\\blogs\\ee5e07a4-ed09-463c-b7d6-af5153f84a5b.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\children.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\children.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\children.jpg"
     },
     {
@@ -10065,11 +10077,23 @@
       "PackagePath": "staticwebassets\\images\\products\\214bec9f-02a9-4118-b0d9-3f01fc4d1cf4_img1.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\23f183b0-43d6-4c7c-91bd-261136303e21_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
       "PackagePath": "staticwebassets\\images\\products\\23f183b0-43d6-4c7c-91bd-261136303e21_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\278335c1-a528-4e7a-9c11-7f00b00ddcf7_1a9ee152-05db-45ba-8b05-047363a67f8d.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\23f183b0-43d6-4c7c-91bd-261136303e21_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+      "PackagePath": "staticwebassets\\images\\products\\23f183b0-43d6-4c7c-91bd-261136303e21_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\25066322-2136-4eef-bc8d-b03dc8b92cff.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\25066322-2136-4eef-bc8d-b03dc8b92cff.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\278335c1-a528-4e7a-9c11-7f00b00ddcf7_1a9ee152-05db-45ba-8b05-047363a67f8d.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\278335c1-a528-4e7a-9c11-7f00b00ddcf7_1a9ee152-05db-45ba-8b05-047363a67f8d.jpg"
     },
     {
@@ -10125,7 +10149,15 @@
       "PackagePath": "staticwebassets\\images\\products\\567b11fe-ea54-4f70-bb66-10137809f36f_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6013e54d-a0ec-43bd-b8a0-3ad74f77094d_img1.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\58ed141b-d9a2-4ee9-a804-5bc15a324a35_4f7ce87b-272f-40b3-980f-9eaa7d7f7b7d_Anh4.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\58ed141b-d9a2-4ee9-a804-5bc15a324a35_4f7ce87b-272f-40b3-980f-9eaa7d7f7b7d_Anh4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6013e54d-a0ec-43bd-b8a0-3ad74f77094d_img1.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\6013e54d-a0ec-43bd-b8a0-3ad74f77094d_img1.jpg"
     },
     {
@@ -10137,7 +10169,15 @@
       "PackagePath": "staticwebassets\\images\\products\\680c1ee0-4fb8-46da-ab79-3fbbd85776b5.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6d751812-57c3-4832-afaf-6eb50a54abbc_4-549196.jpeg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6d3213bc-f2e8-44e2-800b-dfdad9b6ab79_48d8e0fa-7aca-496e-84ce-706bb58bed15.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\6d3213bc-f2e8-44e2-800b-dfdad9b6ab79_48d8e0fa-7aca-496e-84ce-706bb58bed15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\6d751812-57c3-4832-afaf-6eb50a54abbc_4-549196.jpeg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\6d751812-57c3-4832-afaf-6eb50a54abbc_4-549196.jpeg"
     },
     {
@@ -10161,11 +10201,19 @@
       "PackagePath": "staticwebassets\\images\\products\\7f0d8f19-bfde-4e8d-8317-2edd6cb4ee80_pexels-francesco-ungaro-1525041.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8386adf4-5673-45ff-822e-15eee25cda74_z5587275934955_e5a9bffb5e164c6cdf4031a0a556999c.jpg",
       "PackagePath": "staticwebassets\\images\\products\\8386adf4-5673-45ff-822e-15eee25cda74_z5587275934955_e5a9bffb5e164c6cdf4031a0a556999c.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\864d288b-4fca-4aa1-9c63-c44f99f7950d.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8386adf4-5673-45ff-822e-15eee25cda74_z5587275934955_e5a9bffb5e164c6cdf4031a0a556999c.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\8386adf4-5673-45ff-822e-15eee25cda74_z5587275934955_e5a9bffb5e164c6cdf4031a0a556999c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\864d288b-4fca-4aa1-9c63-c44f99f7950d.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\864d288b-4fca-4aa1-9c63-c44f99f7950d.jpg"
     },
     {
@@ -10173,7 +10221,15 @@
       "PackagePath": "staticwebassets\\images\\products\\865e727b-c236-49c2-be14-f5bb50962134_img1.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8c5a4feb-17d1-4ce0-8dec-fdd8943e4031.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\87a2b459-ea19-45ee-a384-16ecb0615db0_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\87a2b459-ea19-45ee-a384-16ecb0615db0_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\8c5a4feb-17d1-4ce0-8dec-fdd8943e4031.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\8c5a4feb-17d1-4ce0-8dec-fdd8943e4031.jpg"
     },
     {
@@ -10189,11 +10245,19 @@
       "PackagePath": "staticwebassets\\images\\products\\9110de32-d1de-44d3-a1a7-0536916d05e3_1a9ee152-05db-45ba-8b05-047363a67f8d.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\941e7bb8-83ad-4948-bb73-7285d1647e4a_z5440785144849_96bc4533720e6d366c874f669c63c7fe.jpg",
       "PackagePath": "staticwebassets\\images\\products\\941e7bb8-83ad-4948-bb73-7285d1647e4a_z5440785144849_96bc4533720e6d366c874f669c63c7fe.jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\96c362fd-18e8-4ad5-b044-51c5737bf11e_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\941e7bb8-83ad-4948-bb73-7285d1647e4a_z5440785144849_96bc4533720e6d366c874f669c63c7fe.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\941e7bb8-83ad-4948-bb73-7285d1647e4a_z5440785144849_96bc4533720e6d366c874f669c63c7fe.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\96c362fd-18e8-4ad5-b044-51c5737bf11e_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\96c362fd-18e8-4ad5-b044-51c5737bf11e_4fd53eb7-beec-49ef-85e6-49ff49ff765e_istockphoto-1436061606-612x612.jpg"
     },
     {
@@ -10205,11 +10269,19 @@
       "PackagePath": "staticwebassets\\images\\products\\99c549c5-91de-4184-99cc-808e3924cffe.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a0acfa60-d20a-4561-b5e8-26393d217c0a_anh (2).jpg",
       "PackagePath": "staticwebassets\\images\\products\\a0acfa60-d20a-4561-b5e8-26393d217c0a_anh (2).jpg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a0acfa60-d20a-4561-b5e8-26393d217c0a_anh (2).jpg",
+      "PackagePath": "staticwebassets\\images\\products\\a0acfa60-d20a-4561-b5e8-26393d217c0a_anh (2).jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\a0be3811-e02e-48e8-9c48-ca98396aaa4e_shucare_1_3fa95e9bd9bf485d82a61c368f5c0aa9_4545a639ee9b446ebe49905052be6038_large.webp"
     },
     {
@@ -10229,7 +10301,15 @@
       "PackagePath": "staticwebassets\\images\\products\\b0c0a2fd-8fe6-4ea4-84c8-ab598bcb32f5_img2.png"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b8e8d51c-a8f7-4b9c-8c06-c686ea3ca1a7.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b14039c5-97b6-40ca-a7c7-9943e2b33ae1.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\b14039c5-97b6-40ca-a7c7-9943e2b33ae1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\b8e8d51c-a8f7-4b9c-8c06-c686ea3ca1a7.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\products\\b8e8d51c-a8f7-4b9c-8c06-c686ea3ca1a7.jpg"
     },
     {
@@ -10297,7 +10377,15 @@
       "PackagePath": "staticwebassets\\images\\products\\f70d9292-cf12-4244-b3a9-2ae8ba08079f_dj0292-101-giay-nike-blazer-low-platform-gia-tot-den-king-shoes-2.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\0403210b-6152-4672-8d96-785f95378d86.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\products\\fc93f8b5-4d7c-4498-8cba-500a15ac7e56.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\fc93f8b5-4d7c-4498-8cba-500a15ac7e56.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\0403210b-6152-4672-8d96-785f95378d86.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\returns\\0403210b-6152-4672-8d96-785f95378d86.jpg"
     },
     {
@@ -10337,11 +10425,19 @@
       "PackagePath": "staticwebassets\\images\\returns\\7c025ce9-3916-422a-bd9c-3fc1d771639d.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\81101b26-994a-4b55-b044-7e01e0f37219.webp",
       "PackagePath": "staticwebassets\\images\\returns\\81101b26-994a-4b55-b044-7e01e0f37219.webp"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\8401e675-4a7d-4dad-b50a-35312749b768.webp",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\81101b26-994a-4b55-b044-7e01e0f37219.webp",
+      "PackagePath": "staticwebassets\\images\\returns\\81101b26-994a-4b55-b044-7e01e0f37219.webp"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\8401e675-4a7d-4dad-b50a-35312749b768.webp",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\returns\\8401e675-4a7d-4dad-b50a-35312749b768.webp"
     },
     {
@@ -10369,7 +10465,15 @@
       "PackagePath": "staticwebassets\\images\\returns\\f19e3dda-7d56-4c21-aa86-8e30c3fd2659.png"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\shoe.png",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\returns\\f3699a48-84eb-41c5-bf68-10cfda83c85f.jpeg",
+      "PackagePath": "staticwebassets\\images\\returns\\f3699a48-84eb-41c5-bf68-10cfda83c85f.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\shoe.png",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\shoe.png"
     },
     {
@@ -10381,11 +10485,19 @@
       "PackagePath": "staticwebassets\\images\\sliders\\0bc8159a-4ff0-4bc9-b813-aca38413932d_images.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\0dc764a3-a6e2-4dca-b880-c2b8f6e7c84f_4-549196.jpeg",
       "PackagePath": "staticwebassets\\images\\sliders\\0dc764a3-a6e2-4dca-b880-c2b8f6e7c84f_4-549196.jpeg"
     },
     {
       "Id": "C:\\Users\\USER\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg",
+=======
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\0dc764a3-a6e2-4dca-b880-c2b8f6e7c84f_4-549196.jpeg",
+      "PackagePath": "staticwebassets\\images\\sliders\\0dc764a3-a6e2-4dca-b880-c2b8f6e7c84f_4-549196.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\thanhphong\\OneDrive\\Tài liệu\\GitHub\\ShoeStore\\ShoeStore\\wwwroot\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg",
+>>>>>>> Stashed changes
       "PackagePath": "staticwebassets\\images\\sliders\\2056eea7-1197-4315-b8b0-d935104d6cf2_giaynikeairforce1.jpg"
     },
     {
