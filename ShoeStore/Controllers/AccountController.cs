@@ -8,6 +8,7 @@ using ShoeStore.Utils;
 using ShoeStore.Models.Enums;
 using ShoeStore.Services.Email;
 using ShoeStore.Services.MemberRanking;
+using Microsoft.Extensions.Configuration;
 
 namespace ShoeStore.Controllers
 {
@@ -17,17 +18,20 @@ namespace ShoeStore.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailService _emailService;
         private readonly IMemberRankService _memberRankService;
+        private readonly IConfiguration _configuration;
 
         public AccountController(
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
-            IMemberRankService memberRankService)
+            IMemberRankService memberRankService,
+            IConfiguration configuration)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _emailService = emailService;
             _memberRankService = memberRankService;
+            _configuration = configuration;
         }
 
         [TypeFilter(typeof(AuthenticationFilter))]
@@ -288,6 +292,163 @@ namespace ShoeStore.Controllers
             }
 
             return View(order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Kiểm tra username đã tồn tại chưa
+                if (await _context.Users.AnyAsync(u => u.Username == model.Username))
+                {
+                    ModelState.AddModelError("Username", "Username đã tồn tại");
+                    return View(model);
+                }
+
+                // Kiểm tra email đã tồn tại chưa
+                if (await _context.Users.AnyAsync(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "Email đã tồn tại");
+                    return View(model);
+                }
+
+                // Tạo token xác thực email
+                model.EmailConfirmationToken = Guid.NewGuid().ToString();
+                model.EmailConfirmationTokenExpiry = DateTime.Now.AddHours(24);
+                model.Status = false; // Tài khoản chưa kích hoạt
+                model.RoleID = 1; // Role mặc định là User
+
+                // Hash mật khẩu
+                model.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+
+                // Lưu user vào database
+                _context.Users.Add(model);
+                await _context.SaveChangesAsync();
+
+                // Tạo link xác thực
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = model.UserID, token = model.EmailConfirmationToken },
+                    protocol: HttpContext.Request.Scheme);
+
+                // Gửi email xác thực
+                await _emailService.SendEmailConfirmationAsync(model.Email, confirmationLink);
+
+                TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.";
+                return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(int userId, string token)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Kiểm tra token có hợp lệ không
+            if (user.EmailConfirmationToken != token)
+            {
+                TempData["ErrorMessage"] = "Link xác thực không hợp lệ.";
+                return RedirectToAction("Login");
+            }
+
+            // Kiểm tra token có hết hạn không
+            if (user.EmailConfirmationTokenExpiry < DateTime.Now)
+            {
+                TempData["ErrorMessage"] = "Link xác thực đã hết hạn.";
+                return RedirectToAction("Login");
+            }
+
+            // Xác thực email thành công
+            user.EmailConfirmed = true;
+            user.Status = true; // Kích hoạt tài khoản
+            user.EmailConfirmationToken = null;
+            user.EmailConfirmationTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Xác thực email thành công! Bạn có thể đăng nhập ngay bây giờ.";
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResendConfirmation(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null || user.EmailConfirmed)
+            {
+                return Json(new { success = false, message = "Không thể gửi lại email xác thực." });
+            }
+
+            // Tạo token mới
+            user.EmailConfirmationToken = Guid.NewGuid().ToString();
+            user.EmailConfirmationTokenExpiry = DateTime.Now.AddHours(24);
+
+            await _context.SaveChangesAsync();
+
+            // Tạo link xác thực mới
+            var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                new { userId = user.UserID, token = user.EmailConfirmationToken },
+                protocol: HttpContext.Request.Scheme);
+
+            // Gửi lại email xác thực
+            await _emailService.SendEmailConfirmationAsync(user.Email, confirmationLink);
+
+            return Json(new { success = true, message = "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn." });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(UserLoginDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Username == model.Username);
+
+                if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+                {
+                    // Kiểm tra email đã xác thực chưa
+                    if (!user.EmailConfirmed)
+                    {
+                        ModelState.AddModelError("", "Tài khoản chưa được xác thực. Vui lòng kiểm tra email để xác thực.");
+                        ViewBag.Email = user.Email;
+                        return View(model);
+                    }
+
+                    // Kiểm tra tài khoản có bị khóa không
+                    if (!user.Status)
+                    {
+                        ModelState.AddModelError("", "Tài khoản đã bị khóa. Vui lòng liên hệ admin.");
+                        return View(model);
+                    }
+
+                    // Cập nhật thời gian đăng nhập
+                    user.LastLogin = DateTime.Now;
+                    await _context.SaveChangesAsync();
+
+                    // Lưu thông tin user vào session
+                    HttpContext.Session.Set("userInfo", user);
+
+                    // Chuyển hướng dựa vào role
+                    if (user.Role.RoleName == "Admin")
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Username hoặc mật khẩu không đúng");
+            }
+
+            return View(model);
         }
     }
 } 

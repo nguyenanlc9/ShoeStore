@@ -10,29 +10,38 @@ namespace ShoeStore.Models
         [Key]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "Username không được để trống")]
-        [StringLength(50)]
+        [Required(ErrorMessage = "Tên đăng nhập không được để trống")]
+        [StringLength(50, ErrorMessage = "Tên đăng nhập không được vượt quá 50 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới")]
         public string Username { get; set; }
 
-        [Required]
-        [StringLength(255)]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
+        [StringLength(100, ErrorMessage = "Mật khẩu không được vượt quá 100 ký tự")]
         public string PasswordHash { get; set; }
 
         [NotMapped]
+        [StringLength(50, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6-50 ký tự")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$", 
+            ErrorMessage = "Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 ký tự đặc biệt")]
         public string? NewPassword { get; set; }
 
+        [Required(ErrorMessage = "Họ tên không được để trống")]
+        [StringLength(100, ErrorMessage = "Họ tên không được vượt quá 100 ký tự")]
+        [RegularExpression(@"^[a-zA-Z\s\u0100-\u017F\u0180-\u024F\u1E00-\u1EFF]+$", ErrorMessage = "Họ tên chỉ được chứa chữ cái và khoảng trắng")]
         [Display(Name = "Họ và tên")]
-        [StringLength(100)]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Email không được để trống")]
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
-        [StringLength(255)]
+        [StringLength(100, ErrorMessage = "Email không được vượt quá 100 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email không đúng định dạng")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Số điện thoại không được để trống")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Số điện thoại chỉ được chứa số")]
+        [StringLength(20, ErrorMessage = "Số điện thoại không được vượt quá 20 ký tự")]
         [Display(Name = "Số điện thoại")]
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
-        [StringLength(20)]
         public string Phone { get; set; }
 
         public bool Status { get; set; } = true;
@@ -45,6 +54,12 @@ namespace ShoeStore.Models
 
         [Display(Name = "Ngày tạo")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public bool EmailConfirmed { get; set; } = false;
+        
+        public string? EmailConfirmationToken { get; set; }
+        
+        public DateTime? EmailConfirmationTokenExpiry { get; set; }
 
         [Required]
         [Display(Name = "Vai trò")]
@@ -59,5 +74,11 @@ namespace ShoeStore.Models
         public virtual MemberRank MemberRank { get; set; }
 
         public decimal TotalSpent { get; set; }  // Tổng số tiền đã chi tiêu
+
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<ReturnRequest> ReturnRequests { get; set; }
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

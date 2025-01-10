@@ -1,0 +1,223 @@
+@model ShoeStore.Models.Blog
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Chi tiết bài viết</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ</a>
+                        <a href="/Blog">Tin tức</a>
+                        <span>@Model.Title</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 order-md-1">
+                <div class="blog__details__text">
+                    <h2 class="blog__details__title">@Model.Title</h2>
+                    <div class="blog__details__author d-flex align-items-center mb-4">
+                        <div class="blog__details__author__pic">
+                            <img src="/img/blog/details/details-author.jpg" alt="">
+                        </div>
+                        <div class="blog__details__author__text">
+                            <h6>@Model.Author</h6>
+                            <span><i class="fa fa-calendar"></i> @Model.CreatedDate.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.ThumbnailImage))
+                    {
+                        <div class="blog__details__thumbnail">
+                            <img src="@Model.ThumbnailImage" alt="@Model.Title" class="img-fluid rounded">
+                        </div>
+                    }
+                    <div class="blog__details__content mt-4">
+                        @Html.Raw(Model.Content)
+                    </div>
+                    @if (Model.BlogImages != null && Model.BlogImages.Any())
+                    {
+                        <div class="blog__details__gallery mt-5">
+                            <h4 class="mb-4">Hình ảnh bài viết</h4>
+                            <div class="row g-4">
+                                @foreach (var image in Model.BlogImages)
+                                {
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="blog__details__gallery__item">
+                                            <img src="@image.ImageUrl" alt="Blog Image" class="img-fluid rounded">
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-5 order-md-2">
+                <div class="blog__sidebar">
+                    <div class="blog__sidebar__item">
+                        <h4>Bài viết liên quan</h4>
+                        <div class="blog__sidebar__recent">
+                            @foreach (var relatedBlog in ViewBag.RelatedBlogs)
+                            {
+                                <a href="@Url.Action("Details", new { id = relatedBlog.BlogId })" class="blog__sidebar__recent__item">
+                                    <div class="blog__sidebar__recent__item__pic">
+                                        <img src="@relatedBlog.ThumbnailImage" alt="@relatedBlog.Title" style="width: 70px; height: 70px; object-fit: cover;">
+                                    </div>
+                                    <div class="blog__sidebar__recent__item__text">
+                                        <h6>@relatedBlog.Title</h6>
+                                        <span><i class="fa fa-calendar"></i> @relatedBlog.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+
+@section Styles {
+    <style>
+        .blog__details__title {
+            font-size: 36px;
+            color: #1c1c1c;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .blog__details__author {
+            margin-bottom: 40px;
+        }
+
+        .blog__details__author__pic {
+            float: left;
+            margin-right: 15px;
+        }
+
+        .blog__details__author__pic img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+        }
+
+        .blog__details__author__text {
+            overflow: hidden;
+            padding-top: 5px;
+        }
+
+        .blog__details__author__text h6 {
+            color: #1c1c1c;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .blog__details__author__text span {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .blog__details__thumbnail {
+            margin-bottom: 30px;
+        }
+
+        .blog__details__thumbnail img {
+            min-width: 100%;
+        }
+
+        .blog__details__content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #666666;
+        }
+
+        .blog__details__gallery {
+            margin-bottom: 40px;
+        }
+
+        .blog__details__gallery h4 {
+            color: #1c1c1c;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .blog__details__gallery__item {
+            margin-bottom: 20px;
+        }
+
+        .blog__details__gallery__item img {
+            min-width: 100%;
+        }
+
+        .blog__sidebar {
+            padding-top: 50px;
+        }
+
+        .blog__sidebar__item {
+            margin-bottom: 50px;
+        }
+
+        .blog__sidebar__item h4 {
+            color: #1c1c1c;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .blog__sidebar__recent__item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .blog__sidebar__recent__item__pic {
+            margin-right: 15px;
+        }
+
+        .blog__sidebar__recent__item__text {
+            overflow: hidden;
+        }
+
+        .blog__sidebar__recent__item__text h6 {
+            color: #1c1c1c;
+            line-height: 1.4;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .blog__sidebar__recent__item__text span {
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .blog__sidebar__recent__item:hover h6 {
+            color: #7fad39;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Set background image for breadcrumb section
+            var breadcrumbSection = $('.breadcrumb-section');
+            var bgImage = breadcrumbSection.data('setbg');
+            breadcrumbSection.css('background-image', 'url(' + bgImage + ')');
+        });
+    </script>
+} 

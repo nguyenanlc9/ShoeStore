@@ -20,7 +20,8 @@ namespace ShoeStore.Models
 
         [Required(ErrorMessage = "Vui lòng nhập số lượng tồn")]
         [Display(Name = "Số lượng tồn")]
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0")]
+        [Range(0, 999, ErrorMessage = "Số lượng tồn phải từ 0 đến 999")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Số lượng tồn chỉ được nhập số")]
         public int StockQuantity { get; set; }
 
         public string CreatedBy { get; set; }

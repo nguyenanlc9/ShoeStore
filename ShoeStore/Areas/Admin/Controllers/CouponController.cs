@@ -53,6 +53,13 @@ namespace ShoeStore.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Kiểm tra tên coupon đã tồn tại chưa
+                if (await _context.Coupons.AnyAsync(c => c.CouponName == request.CouponName))
+                {
+                    ModelState.AddModelError("CouponName", "Tên coupon này đã tồn tại. Vui lòng chọn tên khác.");
+                    return View(request);
+                }
+
                 // Kiểm tra logic ngày bắt đầu và ngày kết thúc
                 if (request.DateStart > request.DateEnd)
                 {
@@ -110,6 +117,13 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                // Kiểm tra tên coupon đã tồn tại chưa (trừ coupon hiện tại)
+                if (await _context.Coupons.AnyAsync(c => c.CouponName == coupon.CouponName && c.CouponId != coupon.CouponId))
+                {
+                    ModelState.AddModelError("CouponName", "Tên coupon này đã tồn tại. Vui lòng chọn tên khác.");
+                    return View(coupon);
+                }
+
                 // Kiểm tra logic ngày bắt đầu và ngày kết thúc
                 if (coupon.DateStart > coupon.DateEnd)
                 {

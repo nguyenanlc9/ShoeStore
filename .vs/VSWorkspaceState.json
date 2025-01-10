@@ -13,6 +13,6 @@
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Views\\Home\\Index.cshtml",
+  "SelectedNode": "\\ShoeStore\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }

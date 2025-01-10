@@ -47,7 +47,7 @@ namespace ShoeStore.Controllers
                     Username = result.Principal.FindFirstValue(ClaimTypes.Email).Split('@')[0], // Sử dụng phần trước @ của email làm username
                     FullName = result.Principal.FindFirstValue(ClaimTypes.Name),
                     PasswordHash = "", // Không cần mật khẩu cho tài khoản Google
-                    RoleID = 1, // Role User
+                    RoleID = 1, // Role mặc định là User
                     Status = true,
                     RegisterDate = DateTime.Now,
                     CreatedDate = DateTime.Now,

@@ -22,6 +22,7 @@ namespace ShoeStore.Models
 
         [Required(ErrorMessage = "Phần trăm giảm giá là bắt buộc")]
         [Range(0, 100, ErrorMessage = "Phần trăm giảm giá phải nằm trong khoảng từ 0 đến 100")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Phần trăm giảm giá chỉ được nhập số")]
         [Display(Name = "Phần trăm giảm (%)")]
         public decimal DiscountPercentage { get; set; }
 
@@ -39,7 +40,8 @@ namespace ShoeStore.Models
         public DateTime DateEnd { get; set; }
 
         [Required(ErrorMessage = "Số lượng là bắt buộc")]
-        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải lớn hơn 0")]
+        [Range(1, 999, ErrorMessage = "Số lượng phải từ 1 đến 999")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Số lượng chỉ được nhập số")]
         [Display(Name = "Số lượng")]
         public int Quantity { get; set; }
 

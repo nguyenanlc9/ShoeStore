@@ -83,10 +83,25 @@ namespace ShoeStore.Controllers
 
             var user = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Username == login.UserName);
+                .FirstOrDefaultAsync(x => x.Username == login.Username);
 
             if (user != null && PasswordHelper.VerifyPassword(login.Password, user.PasswordHash))
             {
+                // Kiểm tra email đã xác thực chưa
+                if (!user.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Tài khoản chưa được xác thực. Vui lòng kiểm tra email để xác thực tài khoản.");
+                    ViewBag.Email = user.Email; // Để hiển thị nút gửi lại email xác thực
+                    return View(login);
+                }
+
+                // Kiểm tra tài khoản có bị khóa không
+                if (!user.Status)
+                {
+                    ModelState.AddModelError(string.Empty, "Tài khoản đã bị khóa. Vui lòng liên hệ admin.");
+                    return View(login);
+                }
+
                 // Lưu thông tin user vào session
                 HttpContext.Session.Set<User>("userInfo", user);
 
@@ -94,7 +109,7 @@ namespace ShoeStore.Controllers
                 if (login.RememberMe)
                 {
                     // Tạo chuỗi thông tin đăng nhập được mã hóa
-                    var loginInfo = $"{login.UserName}|{user.PasswordHash}";
+                    var loginInfo = $"{login.Username}|{user.PasswordHash}";
                     var encryptedLoginInfo = CookieHelper.Encrypt(loginInfo);
 
                     // Tạo cookie với thời hạn 30 ngày
@@ -165,16 +180,27 @@ namespace ShoeStore.Controllers
                     FullName = model.FullName,
                     Phone = model.Phone,
                     PasswordHash = PasswordHelper.HashPassword(model.Password),
-                    RoleID = 2, // Role User
-                    Status = true,
-                    RegisterDate = DateTime.Now
+                    RoleID = 1, // Mặc định là User
+                    Status = false, // Tài khoản chưa kích hoạt
+                    RegisterDate = DateTime.Now,
+                    EmailConfirmationToken = Guid.NewGuid().ToString(),
+                    EmailConfirmationTokenExpiry = DateTime.Now.AddHours(24),
+                    EmailConfirmed = false
                 };
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
+                // Tạo link xác thực
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = user.UserID, token = user.EmailConfirmationToken },
+                    protocol: HttpContext.Request.Scheme);
+
+                // Gửi email xác thực
+                await _emailService.SendEmailConfirmationAsync(user.Email, confirmationLink);
+
                 // Thêm thông báo thành công vào TempData
-                TempData["SuccessMessage"] = "Đăng ký tài khoản thành công! Vui lòng đăng nhập.";
+                TempData["SuccessMessage"] = "Đăng ký tài khoản thành công! Vui lòng kiểm tra email để xác thực tài khoản.";
                 
                 return RedirectToAction("Login");
             }

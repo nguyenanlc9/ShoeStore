@@ -10,11 +10,6 @@
 
 <h4 class="text-center mb-4">Đăng nhập</h4>
 
-@if (!string.IsNullOrEmpty(ViewData["Message"]?.ToString()))
-{
-    <div class="alert alert-danger">@ViewData["Message"]</div>
-}
-
 @if (!ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger">
@@ -22,9 +17,25 @@
         {
             foreach (var error in modelState.Errors)
             {
-                <p class="mb-0">@error.ErrorMessage</p>
+                <p>@error.ErrorMessage</p>
             }
         }
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (ViewBag.Email != null)
+{
+    <div class="text-center mb-3">
+        <button type="button" class="btn btn-link" onclick="resendConfirmation('@ViewBag.Email')">
+            Gửi lại email xác thực
+        </button>
     </div>
 }
 
@@ -39,9 +50,9 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input asp-for="UserName" class="form-control" placeholder="Tên đăng nhập" />
+            <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" />
         </div>
-        <span asp-validation-for="UserName" class="text-danger"></span>
+        <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -89,4 +100,87 @@
     .auth-links a:hover {
         text-decoration: underline;
     }
-</style> 
+    .auth-divider {
+        text-align: center;
+        margin: 20px 0;
+        position: relative;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background-color: #ddd;
+    }
+    .auth-divider::before {
+        left: 0;
+    }
+    .auth-divider::after {
+        right: 0;
+    }
+    .auth-divider span {
+        background-color: #fff;
+        padding: 0 10px;
+        color: #666;
+        font-size: 14px;
+    }
+    .social-login {
+        text-align: center;
+    }
+    .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 0 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .social-btn.google {
+        background-color: #db4437;
+        color: white;
+    }
+    .social-btn.google:hover {
+        background-color: #c1351d;
+        transform: translateY(-2px);
+    }
+    .social-btn i {
+        font-size: 20px;
+    }
+    .btn-auth {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+    .btn-auth:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        color: white;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function resendConfirmation(email) {
+            $.get('/Account/ResendConfirmation', { email: email })
+                .done(function(response) {
+                    if (response.success) {
+                        alert('Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn.');
+                    } else {
+                        alert('Không thể gửi lại email xác thực. Vui lòng thử lại sau.');
+                    }
+                })
+                .fail(function() {
+                    alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                });
+        }
+    </script>
+} 

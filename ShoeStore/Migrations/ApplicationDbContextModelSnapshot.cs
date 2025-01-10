@@ -17,7 +17,7 @@ namespace ShoeStore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -786,12 +786,17 @@ namespace ShoeStore.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("ReturnId");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserID");
 
                     b.HasIndex("UserId");
 
@@ -927,8 +932,17 @@ namespace ShoeStore.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EmailConfirmationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EmailConfirmationTokenExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -943,8 +957,8 @@ namespace ShoeStore.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -1029,7 +1043,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1048,7 +1062,7 @@ namespace ShoeStore.Migrations
                         .HasForeignKey("CouponId");
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1172,6 +1186,10 @@ namespace ShoeStore.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ShoeStore.Models.User", null)
+                        .WithMany("ReturnRequests")
+                        .HasForeignKey("UserID");
+
                     b.HasOne("ShoeStore.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -1192,7 +1210,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1228,7 +1246,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Wishlists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1282,6 +1300,19 @@ namespace ShoeStore.Migrations
             modelBuilder.Entity("ShoeStore.Models.Size", b =>
                 {
                     b.Navigation("ProductSizeStocks");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.User", b =>
+                {
+                    b.Navigation("CartItems");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("ReturnRequests");
+
+                    b.Navigation("Reviews");
+
+                    b.Navigation("Wishlists");
                 });
 #pragma warning restore 612, 618
         }
