@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ShoeStore.Models.Enums;
 
 namespace ShoeStore.Models
 {
@@ -18,9 +17,6 @@ namespace ShoeStore.Models
         public int ProductId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        [Required]
-        public WishlistStatus Status { get; set; } = WishlistStatus.InStock;
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

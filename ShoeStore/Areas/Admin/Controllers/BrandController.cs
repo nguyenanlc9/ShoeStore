@@ -27,10 +27,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["ActiveMenu"] = "brand";
-            return View(await _context.Brands
-                .Include(c => c.Products)
-                .ThenInclude(p => p.ProductSizeStocks)
-                .ToListAsync());
+            return View(await _context.Brands.ToListAsync());
         }
 
         // GET: Admin/Brand/Details/5
@@ -166,29 +163,21 @@ namespace ShoeStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var brand = await _context.Brands
-                .Include(c => c.Products)
-                .ThenInclude(p => p.ProductSizeStocks)
-                .FirstOrDefaultAsync(c => c.BrandId == id);
-
+            var brand = await _context.Brands.FindAsync(id);
             if (brand == null)
             {
                 return Json(new { success = false, message = "Không tìm thấy thương hiệu" });
             }
 
-            // Kiểm tra xem có sản phẩm nào thuộc thương hiệu này không
-            if (brand.Products.Any())
-            {
-                // Kiểm tra xem có sản phẩm nào còn tồn kho không
-                var hasStock = brand.Products.Any(p => p.ProductSizeStocks.Sum(pss => pss.StockQuantity) > 0);
-                if (hasStock)
-                {
-                    return Json(new { success = false, message = "Không thể xóa thương hiệu vì còn sản phẩm tồn kho" });
-                }
-            }
-
             try
             {
+                // Kiểm tra xem có sản phẩm nào thuộc thương hiệu này không
+                var products = await _context.Products.Where(p => p.BrandId == id).ToListAsync();
+                if (products.Any())
+                {
+                    return Json(new { success = false, message = "Không thể xóa vì còn sản phẩm thuộc thương hiệu này" });
+                }
+
                 _context.Brands.Remove(brand);
                 await _context.SaveChangesAsync();
                 return Json(new { success = true });
