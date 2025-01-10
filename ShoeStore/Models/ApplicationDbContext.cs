@@ -41,6 +41,7 @@ namespace ShoeStore.Models
         public DbSet<PaymentMethodConfig> PaymentMethodConfigs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogImage> BlogImages { get; set; }
+        public DbSet<About> Abouts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,58 @@
+@model ShoeStore.Models.About
+
+@{
+    ViewData["Title"] = "Chi tiết trang giới thiệu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Chi tiết trang giới thiệu</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <dl class="row">
+                        <dt class="col-sm-3">Tiêu đề</dt>
+                        <dd class="col-sm-9">@Model.Title</dd>
+
+                        <dt class="col-sm-3">Nội dung</dt>
+                        <dd class="col-sm-9">@Html.Raw(Model.Content)</dd>
+
+                        <dt class="col-sm-3">Ngày tạo</dt>
+                        <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-3">Cập nhật lần cuối</dt>
+                        <dd class="col-sm-9">
+                            @(Model.UpdatedAt.HasValue ? Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "Chưa cập nhật")
+                        </dd>
+
+                        <dt class="col-sm-3">Trạng thái</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.Status == 1)
+                            {
+                                <span class="badge badge-success">Hiển thị</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">Ẩn</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <div class="text-center">
+                            <img src="/images/about/@Model.ImagePath" class="img-fluid rounded" alt="About Image" style="max-width: 100%;" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a asp-action="Edit" asp-route-id="@Model.AboutId" class="btn btn-warning">Chỉnh sửa</a>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div> 

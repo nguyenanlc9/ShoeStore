@@ -1,0 +1,49 @@
+@model ShoeStore.Models.About
+
+@{
+    ViewData["Title"] = "Giới thiệu";
+}
+
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title">
+                    <h2 class="py-2">Giới thiệu</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="about-page section-b-space">
+    <div class="container">
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="banner-section">
+                        @if (!string.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <img src="/images/about/@Model.ImagePath" class="img-fluid w-100" alt="@Model.Title">
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <h4 class="mt-4">@Model.Title</h4>
+                    <div class="about-content">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>Thông tin đang được cập nhật...</p>
+                </div>
+            </div>
+        }
+    </div>
+</section> 
