@@ -1,0 +1,63 @@
+@model ShoeStore.Models.About
+
+@{
+    ViewData["Title"] = "Xóa trang giới thiệu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa trang giới thiệu</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <h4>Bạn có chắc chắn muốn xóa trang giới thiệu này?</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <dl class="row">
+                        <dt class="col-sm-3">Tiêu đề</dt>
+                        <dd class="col-sm-9">@Model.Title</dd>
+
+                        <dt class="col-sm-3">Nội dung</dt>
+                        <dd class="col-sm-9">@Html.Raw(Model.Content)</dd>
+
+                        <dt class="col-sm-3">Ngày tạo</dt>
+                        <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-3">Cập nhật lần cuối</dt>
+                        <dd class="col-sm-9">
+                            @(Model.UpdatedAt.HasValue ? Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "Chưa cập nhật")
+                        </dd>
+
+                        <dt class="col-sm-3">Trạng thái</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.Status == 1)
+                            {
+                                <span class="badge badge-success">Hiển thị</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">Ẩn</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <div class="text-center">
+                            <img src="/images/about/@Model.ImagePath" class="img-fluid rounded" alt="About Image" style="max-width: 100%;" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <form asp-action="Delete" class="mt-3">
+                <input type="hidden" asp-for="AboutId" />
+                <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div> 

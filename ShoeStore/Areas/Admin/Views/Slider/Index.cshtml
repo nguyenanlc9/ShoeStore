@@ -2,76 +2,67 @@
 
 @{
     ViewData["Title"] = "Quản lý Slider";
-    ViewData["ActiveMenu"] = "slider";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="page-inner">
-    <div class="page-header">
-        <h4 class="page-title">Quản lý Slider</h4>
-        <ul class="breadcrumbs">
-            <li class="nav-home">
-                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-home"></i>
-                </a>
-            </li>
-            <li class="separator">
-                <i class="fas fa-angle-right"></i>
-            </li>
-            <li class="nav-item">
-                <span>Slider</span>
-            </li>
-        </ul>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex align-items-center">
-                        <h4 class="card-title">
-                            <i class="fas fa-box-open mr-2"></i>
-                            Danh sách Slider
-                        </h4>
-                        <a asp-action="Create" class="btn btn-primary btn-round ml-auto">
-                            <i class="fa fa-plus mr-2"></i>
-                            Thêm Slider mới
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="sliderTable" class="display table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Title)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Description)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Status)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Sort)</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Sort)</td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Slider_ID">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.Slider_ID">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.Slider_ID">Delete</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="container-fluid">
+    <h1 class="mt-4">Quản lý Slider</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm mới
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên Slider</th>
+                            <th>Tiêu đề</th>
+                            <th>Thứ tự</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderBy(s => s.Sort))
+                        {
+                            <tr>
+                                <td style="width: 150px;">
+                                    <img src="/images/sliders/@item.Img" class="img-fluid" alt="Slider Image" style="max-height: 100px; object-fit: cover;" />
+                                </td>
+                                <td>@item.Name</td>
+                                <td>@item.Title</td>
+                                <td>@item.Sort</td>
+                                <td>
+                                    @if (item.Status == 1)
+                                    {
+                                        <span class="badge badge-success">Hiển thị</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary">Ẩn</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.Slider_ID" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Slider_ID" class="btn btn-info btn-sm" title="Chi tiết">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Slider_ID" class="btn btn-danger btn-sm" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -80,83 +71,12 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#sliderTable').DataTable({
-                "pageLength": 10,
-                "order": [[1, "asc"]],
+            $('#dataTable').DataTable({
+                "order": [[3, "asc"]], // Sắp xếp theo cột thứ tự (index 3) tăng dần
                 "language": {
-                    "lengthMenu": "Hiển thị _MENU_ mục",
-                    "zeroRecords": "Không tìm thấy dữ liệu",
-                    "info": "Hiển thị trang _PAGE_ của _PAGES_",
-                    "infoEmpty": "Không có dữ liệu",
-                    "infoFiltered": "(lọc từ _MAX_ mục)",
-                    "search": "Tìm kiếm:",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Sau",
-                        "previous": "Trước"
-                    }
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Vietnamese.json"
                 }
             });
-
-            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-}
-
-@section Styles {
-    <style>
-        .slider-image {
-            max-width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .slider-meta {
-            margin-top: 5px;
-        }
-
-        .form-button-action {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-link {
-            padding: 5px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            color: white;
-        }
-
-            .btn-link.btn-primary {
-                background-color: #007bff;
-            }
-
-            .btn-link.btn-info {
-                background-color: #17a2b8;
-            }
-
-            .btn-link.btn-danger {
-                background-color: #dc3545;
-            }
-
-            .btn-link i {
-                font-size: 16px;
-                color: #fff;
-            }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .text-info {
-            color: #17a2b8;
-            font-weight: bold;
-        }
-    </style>
 }

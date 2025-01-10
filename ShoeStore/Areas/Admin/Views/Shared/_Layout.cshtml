@@ -125,6 +125,27 @@
                                 <p>Sliders</p>
                             </a>
                         </li>
+                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "content" ? "active" : "")">
+                            <a data-bs-toggle="collapse" href="#content" class="nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <p>Quản lý nội dung</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="content">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a asp-area="admin" asp-controller="blog" asp-action="Index">
+                                            <span class="sub-item">Blogs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="about" asp-action="Index">
+                                            <span class="sub-item">Abouts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a asp-area="admin" asp-controller="coupon" asp-action="Index" class="nav-link">
                                 <i class="fas fa-ticket-alt"></i>
@@ -205,13 +226,6 @@
                                 <p>PaymentMethod</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Blog" asp-action="Index" class="nav-link">
-                                <i class="fas fa-newspaper"></i>
-                                <p>Blog</p>
-                            </a>
-                        </li>
-                        
                     </ul>
                 </div>
             </div>

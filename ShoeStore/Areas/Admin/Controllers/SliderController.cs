@@ -15,7 +15,6 @@ namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [AdminAuthorize]
-
     public class SliderController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -97,8 +96,6 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         // POST: Admin/Slider/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SliderDTO sliderDTO)
@@ -118,17 +115,17 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
 
                 // Kiểm tra file ảnh
-                if (sliderDTO.Img == null || sliderDTO.Img.Length == 0)
+                if (sliderDTO.ImageFile == null || sliderDTO.ImageFile.Length == 0)
                 {
-                    ModelState.AddModelError("Img", "Vui lòng chọn hình ảnh");
+                    ModelState.AddModelError("ImageFile", "Vui lòng chọn hình ảnh");
                     return View(sliderDTO);
                 }
 
                 // Upload ảnh và lưu tên file
-                string fileName = await UploadImage(sliderDTO.Img);
+                string fileName = await UploadImage(sliderDTO.ImageFile);
                 if (string.IsNullOrEmpty(fileName))
                 {
-                    ModelState.AddModelError("Img", "Không thể upload hình ảnh");
+                    ModelState.AddModelError("ImageFile", "Không thể upload hình ảnh");
                     return View(sliderDTO);
                 }
 
@@ -168,7 +165,6 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
         }
 
-
         // GET: Admin/Slider/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -192,15 +188,14 @@ namespace ShoeStore.Areas.Admin.Controllers
                 Description = slider.Description,
                 Link = slider.Link,
                 Status = slider.Status,
-                Sort = slider.Sort
+                Sort = slider.Sort,
+                ImgPath = slider.Img
             };
 
             return View(sliderDTO);
         }
 
         // POST: Admin/Slider/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SliderDTO sliderDTO)
@@ -229,12 +224,12 @@ namespace ShoeStore.Areas.Admin.Controllers
                     slider.Sort = sliderDTO.Sort;
 
                     // Xử lý upload ảnh mới nếu có
-                    if (sliderDTO.Img != null)
+                    if (sliderDTO.ImageFile != null)
                     {
                         // Xóa ảnh cũ
                         DeleteImage(slider.Img);
                         // Upload ảnh mới
-                        string newImagePath = await UploadImage(sliderDTO.Img);
+                        string newImagePath = await UploadImage(sliderDTO.ImageFile);
                         if (!string.IsNullOrEmpty(newImagePath))
                         {
                             slider.Img = newImagePath;

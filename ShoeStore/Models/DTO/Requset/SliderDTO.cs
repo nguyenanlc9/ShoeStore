@@ -21,6 +21,8 @@ namespace ShoeStore.Models.DTO.Requset
 
         public int Sort { get; set; }
 
-        public IFormFile? Img { get; set; }
+        public string? ImgPath { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
     }
 }
