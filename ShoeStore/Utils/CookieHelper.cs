@@ -5,7 +5,7 @@ namespace ShoeStore.Utils
 {
     public static class CookieHelper
     {
-        private const string EncryptionKey = "YourSecretKey123!@#"; // Thay đổi key này
+        private const string EncryptionKey = "01234567890123456789012345678901"; // 32 bytes key for AES-256
 
         public static string Encrypt(string plainText)
         {

@@ -176,7 +176,7 @@ namespace ShoeStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStatus(int id, ReturnStatus status, string note)
         {
-            try 
+            try
             {
                 var returnRequest = await _context.ReturnRequests
                     .Include(r => r.User)
@@ -214,7 +214,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                     <p>Trân trọng,<br>ShoeStore</p>";
 
                 await _emailService.SendEmailAsync(returnRequest.User.Email, emailSubject, emailBody);
-                
+
                 TempData["Success"] = $"Cập nhật trạng thái thành công thành {statusText}";
                 return RedirectToAction(nameof(Index));
             }

@@ -25,7 +25,8 @@
                     <h4 class="mb-0">Yêu cầu đổi trả đơn hàng #@Model.OrderCode</h4>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="orderId" value="@Model.OrderId" />
                         
                         <div class="mb-4">
@@ -61,7 +62,8 @@
                         <div class="mb-3">
                             <label class="form-label">Hình ảnh sản phẩm</label>
                             <input type="file" name="images" class="form-control" multiple accept="image/*" />
-                            <small class="text-muted">Có thể chọn nhiều ảnh (nếu có)</small>
+                            <small class="text-muted">Có thể chọn nhiều ảnh (tối đa 5MB mỗi ảnh)</small>
+                            <small class="d-block text-muted">Định dạng hỗ trợ: .jpg, .jpeg, .png, .gif</small>
                         </div>
 
                         <div class="alert alert-info">
@@ -74,7 +76,7 @@
                         </div>
 
                         <div class="text-end">
-                            <a asp-controller="Auth" asp-action="Orders" class="btn btn-secondary">Hủy</a>
+                            <a asp-controller="Account" asp-action="Orders" class="btn btn-secondary">Hủy</a>
                             <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
                         </div>
                     </form>

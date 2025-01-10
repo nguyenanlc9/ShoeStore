@@ -135,9 +135,9 @@
                                         </td>
                                         <td>
                                             <div id="product-@item.ProductId">
-                                                <small class="text-muted">Tạo bởi:</small> <span class="created-by">@(string.IsNullOrEmpty(item.CreatedBy) ? "N/A" : item.CreatedBy)</span><br/>
-                                                <small class="text-muted">Ngày tạo:</small> <span class="created-date">@(item.CreatedDate.ToString("dd/MM/yyyy HH:mm"))</span><br/>
-                                                <small class="text-muted">Cập nhật bởi:</small> <span class="updated-by">@(string.IsNullOrEmpty(item.UpdatedBy) ? "N/A" : item.UpdatedBy)</span><br/>
+                                                <small class="text-muted">Tạo bởi:</small> <span class="created-by">@(string.IsNullOrEmpty(item.CreatedBy) ? "N/A" : item.CreatedBy)</span><br />
+                                                <small class="text-muted">Ngày tạo:</small> <span class="created-date">@(item.CreatedDate.ToString("dd/MM/yyyy HH:mm"))</span><br />
+                                                <small class="text-muted">Cập nhật bởi:</small> <span class="updated-by">@(string.IsNullOrEmpty(item.UpdatedBy) ? "N/A" : item.UpdatedBy)</span><br />
                                                 <small class="text-muted">Ngày cập nhật:</small> <span class="updated-date">@(item.UpdatedDate?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")</span>
                                             </div>
                                         </td>
@@ -152,17 +152,15 @@
                                                 <a asp-area="Admin" asp-controller="Product" asp-action="History" asp-route-id="@item.ProductId" class="btn btn-link btn-warning btn-lg" title="Lịch sử thay đổi">
                                                     <i class="fa fa-history"></i>
                                                 </a>
-                                                @{
-                                                    if (totalStock <= 5)
-                                                    {
-                                                        <form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" 
-                                                              method="post" style="display:inline" 
-                                                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
-                                                            <button type="submit" class="btn btn-link btn-danger" title="Xóa">
-                                                                <i class="fa fa-times"></i>
-                                                            </button>
-                                                        </form>
-                                                    }
+                                                @if (totalStock == 0)
+                                                {
+                                                    <form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId"
+                                                          method="post" style="display:inline"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                                                        <button type="submit" class="btn btn-link btn-danger btn-lg" title="Xóa">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 }
                                             </div>
                                         </td>
@@ -179,7 +177,7 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#productTable').DataTable({
                 "pageLength": 10,
                 "order": [[0, "desc"]]

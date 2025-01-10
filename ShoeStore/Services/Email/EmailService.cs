@@ -18,7 +18,7 @@ namespace ShoeStore.Services.Email
         public async Task SendEmailAsync(string to, string subject, string body)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_configuration["EmailSettings:Username"]));
+            email.From.Add(MailboxAddress.Parse(_configuration["EmailSettings:FromEmail"]));
             email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
 
@@ -29,13 +29,13 @@ namespace ShoeStore.Services.Email
             using var smtp = new SmtpClient();
             await smtp.ConnectAsync(
                 _configuration["EmailSettings:SmtpServer"],
-                int.Parse(_configuration["EmailSettings:Port"]),
+                int.Parse(_configuration["EmailSettings:SmtpPort"]),
                 SecureSocketOptions.StartTls
             );
 
             await smtp.AuthenticateAsync(
                 _configuration["EmailSettings:Username"],
-                _configuration["EmailSettings:Password"]
+                _configuration["EmailSettings:SmtpPassword"]
             );
 
             await smtp.SendAsync(email);

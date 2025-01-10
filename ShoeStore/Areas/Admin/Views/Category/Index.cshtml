@@ -73,13 +73,21 @@
                                         <td>
                                             <div class="form-button-action">
                                                 <a asp-action="Edit" asp-route-id="@item.CategoryId"
-                                                    class="btn btn-link btn-primary btn-lg" data-toggle="tooltip"
-                                                    data-original-title="Sửa">
+                                                   class="btn btn-link btn-primary btn-lg" data-toggle="tooltip"
+                                                   data-original-title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-link btn-danger" onclick="deleteCategory(@item.CategoryId)">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
+                                                @{
+                                                    var hasProducts = item.Products?.Any() ?? false;
+                                                    var hasStock = item.Products?.Any(p => p.ProductSizeStocks.Sum(pss => pss.StockQuantity) > 0) ?? false;
+
+                                                    if (!hasStock)
+                                                    {
+                                                        <button type="button" class="btn btn-link btn-danger" onclick="deleteCategory(@item.CategoryId)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    }
+                                                }
                                             </div>
                                         </td>
                                     </tr>
@@ -124,14 +132,14 @@
                     url: '@Url.Action("Delete")',
                     type: 'POST',
                     data: { id: id },
-                    success: function(result) {
+                    success: function (result) {
                         if (result.success) {
                             location.reload();
                         } else {
                             alert(result.message || 'Có lỗi xảy ra');
                         }
                     },
-                    error: function() {
+                    error: function () {
                         alert('Có lỗi xảy ra');
                     }
                 });

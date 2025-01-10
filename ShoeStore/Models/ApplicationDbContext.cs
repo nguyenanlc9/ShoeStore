@@ -21,7 +21,7 @@ namespace ShoeStore.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Brand> Brands { get; set; } 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Coupon> Coupons { get; set; }

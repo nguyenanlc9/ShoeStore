@@ -1,8 +1,43 @@
 ﻿@using ShoeStore.Models
 @using ShoeStore.Utils
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.DependencyInjection
 
 @{
     var userInfo = Context.Session.Get<User>("userInfo");
+    
+    // Kiểm tra cookie nếu session null
+    if (userInfo == null)
+    {
+        var rememberMeCookie = Context.Request.Cookies["RememberMe"];
+        if (!string.IsNullOrEmpty(rememberMeCookie))
+        {
+            try
+            {
+                var decryptedLoginInfo = CookieHelper.Decrypt(rememberMeCookie);
+                var loginInfo = decryptedLoginInfo.Split('|');
+                var username = loginInfo[0];
+                var passwordHash = loginInfo[1];
+
+                using (var scope = Context.RequestServices.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    userInfo = dbContext.Users
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Username == username && x.PasswordHash == passwordHash);
+
+                    if (userInfo != null)
+                    {
+                        Context.Session.Set("userInfo", userInfo);
+                    }
+                }
+            }
+            catch
+            {
+                Context.Response.Cookies.Delete("RememberMe");
+            }
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -113,6 +148,7 @@
                         <li><a asp-controller="Home" asp-action="NewArrivals">New Arrivals</a></li>
                         <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                         <li><a asp-controller="About" asp-action="Index">About</a></li>
+                        <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
                     </ul>
                 </div>
             </nav>

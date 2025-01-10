@@ -15,7 +15,7 @@ namespace ShoeStore.Models
         public int UserId { get; set; }
 
         [Required]
-        public DateTime RequestDate { get; set; } = DateTime.Now;
+        public DateTime RequestDate { get; set; }
 
         [Required]
         [StringLength(500)]
@@ -23,15 +23,15 @@ namespace ShoeStore.Models
 
         public string? Images { get; set; }
 
-        public ReturnStatus Status { get; set; } = ReturnStatus.Pending;
+        public ReturnStatus Status { get; set; }
 
         public string? AdminNote { get; set; }
 
         [ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
+        public virtual Order? Order { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 
     public enum ReturnStatus

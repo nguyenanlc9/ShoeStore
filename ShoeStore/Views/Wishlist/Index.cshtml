@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<ShoeStore.Models.Wishlist>
+@using ShoeStore.Models.Enums
 @{
     ViewData["Title"] = "Danh sách yêu thích";
-    
-}
 }
 
 <div class="bg-light py-3">
@@ -67,24 +66,33 @@
                                             }
                                         </td>
                                         <td>
-                                            @if (item.Product.ProductSizeStocks.Any(x => x.StockQuantity > 0))
+                                            @switch (item.Status)
                                             {
-                                                <span class="badge bg-success">Còn hàng</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-danger">Hết hàng</span>
+                                                case WishlistStatus.InStock:
+                                                    <span class="badge bg-success">Đang bán</span>
+                                                    break;
+                                                case WishlistStatus.OutOfStock:
+                                                    <span class="badge bg-warning text-dark">Hết hàng</span>
+                                                    break;
+                                                case WishlistStatus.Discontinued:
+                                                    <span class="badge bg-danger">Ngưng kinh doanh</span>
+                                                    break;
                                             }
                                         </td>
                                         <td>
                                             <div class="btn-group">
                                                 <a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.ProductId"
                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-shopping-cart"></i> Mua ngay
+                                                    <i class="fas fa-eye"></i> Xem
                                                 </a>
-                                                <button class="btn btn-primary btn-sm"
-                                                        onclick="removeWishlistItem(@item.WishlistId)">
-                                                    X
+                                                @if (item.Status == WishlistStatus.InStock)
+                                                {
+                                                    <a href="@Url.Action("Detail", "Shop", new { id = item.ProductId })" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-shopping-cart"></i> Mua ngay
+                                                    </a>
+                                                }
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWishlist(@item.WishlistId)">
+                                                    <i class="fas fa-trash"></i> Xóa
                                                 </button>
                                             </div>
                                         </td>
@@ -101,26 +109,33 @@
 
 @section Scripts {
     <script>
-        function removeWishlistItem(wishlistId) {
-            if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
+        function removeFromWishlist(wishlistId) {
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?')) {
                 $.ajax({
                     url: '/Wishlist/RemoveById',
                     type: 'POST',
                     data: { wishlistId: wishlistId },
-                    success: function (response) {
-                        if (response.success) {
-                            alert(response.message);
-                            location.reload(); // Làm mới trang
+                    success: function(result) {
+                        if (result.success) {
+                            // Xóa dòng khỏi bảng
+                            $(`tr:has(button[onclick="removeFromWishlist(${wishlistId})"])`).fadeOut(300, function() {
+                                $(this).remove();
+                                // Kiểm tra nếu không còn sản phẩm nào
+                                if ($('tbody tr').length === 0) {
+                                    $('.site-blocks-table').replaceWith(
+                                        '<div class="text-center"><h3>Danh sách yêu thích trống</h3><p>Bạn chưa có sản phẩm nào trong danh sách yêu thích</p><a asp-controller="Shop" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a></div>'
+                                    );
+                                }
+                            });
                         } else {
-                            alert(response.message);
+                            alert(result.message);
                         }
                     },
-                    error: function () {
-                        alert('Đã xảy ra lỗi trong quá trình xóa sản phẩm.');
+                    error: function() {
+                        alert('Có lỗi xảy ra khi xóa sản phẩm khỏi danh sách yêu thích');
                     }
                 });
             }
         }
     </script>
-}
 }

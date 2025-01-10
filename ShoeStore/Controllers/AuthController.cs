@@ -192,7 +192,7 @@ namespace ShoeStore.Controllers
                 await _context.SaveChangesAsync();
 
                 // Tạo link xác thực
-                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                var confirmationLink = Url.Action("ConfirmEmail", "Auth",
                     new { userId = user.UserID, token = user.EmailConfirmationToken },
                     protocol: HttpContext.Request.Scheme);
 
@@ -260,6 +260,67 @@ namespace ShoeStore.Controllers
             // Xóa cookie ghi nhớ đăng nhập
             Response.Cookies.Delete("RememberMe");
             return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(int userId, string token)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Kiểm tra token có hợp lệ không
+            if (user.EmailConfirmationToken != token)
+            {
+                TempData["ErrorMessage"] = "Link xác thực không hợp lệ.";
+                return RedirectToAction("Login");
+            }
+
+            // Kiểm tra token có hết hạn không
+            if (user.EmailConfirmationTokenExpiry < DateTime.Now)
+            {
+                TempData["ErrorMessage"] = "Link xác thực đã hết hạn.";
+                return RedirectToAction("Login");
+            }
+
+            // Xác thực email thành công
+            user.EmailConfirmed = true;
+            user.Status = true; // Kích hoạt tài khoản
+            user.EmailConfirmationToken = null;
+            user.EmailConfirmationTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Xác thực email thành công! Bạn có thể đăng nhập ngay bây giờ.";
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResendConfirmation(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null || user.EmailConfirmed)
+            {
+                return Json(new { success = false, message = "Không thể gửi lại email xác thực." });
+            }
+
+            // Tạo token mới
+            user.EmailConfirmationToken = Guid.NewGuid().ToString();
+            user.EmailConfirmationTokenExpiry = DateTime.Now.AddHours(24);
+
+            await _context.SaveChangesAsync();
+
+            // Tạo link xác thực mới
+            var confirmationLink = Url.Action("ConfirmEmail", "Auth",
+                new { userId = user.UserID, token = user.EmailConfirmationToken },
+                protocol: HttpContext.Request.Scheme);
+
+            // Gửi lại email xác thực
+            await _emailService.SendEmailConfirmationAsync(user.Email, confirmationLink);
+
+            return Json(new { success = true, message = "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn." });
         }
     }
 } 
