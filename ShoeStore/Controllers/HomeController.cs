@@ -30,7 +30,10 @@ namespace Project_BE.Controllers
         public async Task<IActionResult> Index()
         {
             // Lấy slider
-            var sliders = await _context.Sliders.ToListAsync();
+            var sliders = await _context.Sliders
+                .Where(s => s.Status == 1)
+                .OrderBy(s => s.Sort)
+                .ToListAsync();
             ViewBag.Sliders = sliders;
 
             // Lấy 8 sản phẩm mới nhất
