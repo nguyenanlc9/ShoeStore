@@ -189,7 +189,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 Link = slider.Link,
                 Status = slider.Status,
                 Sort = slider.Sort,
-                ImgPath = slider.Img
+                Img = slider.Img
             };
 
             return View(sliderDTO);

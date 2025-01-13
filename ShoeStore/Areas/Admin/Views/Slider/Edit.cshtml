@@ -13,7 +13,7 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Slider_ID" />
-            <input type="hidden" asp-for="ImgPath" />
+            <input type="hidden" asp-for="Img" />
 
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Tên Slider</label>
@@ -41,10 +41,10 @@
 
             <div class="form-group">
                 <label class="control-label">Hình ảnh hiện tại</label>
-                @if (!string.IsNullOrEmpty(Model.ImgPath))
+                @if (!string.IsNullOrEmpty(Model.Img))
                 {
                     <div class="mb-2">
-                        <img src="/images/sliders/@Model.ImgPath" class="img-thumbnail" style="max-width: 200px" />
+                        <img src="/images/sliders/@Model.Img" class="img-thumbnail" style="max-width: 200px" />
                     </div>
                 }
                 <input type="file" name="ImageFile" class="form-control" accept="image/*" />
