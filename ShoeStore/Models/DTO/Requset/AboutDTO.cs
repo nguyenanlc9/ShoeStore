@@ -8,10 +8,11 @@ namespace ShoeStore.Models.DTO.Requset
         public int AboutId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập tiêu đề")]
-        [StringLength(200)]
+        [StringLength(50)]
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập nội dung")]
+        [StringLength(255)]
         public string Content { get; set; }
 
         public string? ImagePath { get; set; }
