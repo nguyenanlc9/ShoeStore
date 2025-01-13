@@ -1,0 +1,42 @@
+@model ShoeStore.Models.Size
+
+@{
+    ViewData["Title"] = "Thêm kích thước mới";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form asp-action="CreateSize" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label asp-for="SizeValue">Kích thước</label>
+                    <input type="number" class="form-control" asp-for="SizeValue" required min="35" max="45" step="0.5">
+                    <span asp-validation-for="SizeValue" class="text-danger"></span>
+                    <small class="form-text text-muted">Nhập kích thước từ 35-45, có thể dùng số thập phân (vd: 38.5)</small>
+                </div>
+
+
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Lưu
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Hủy
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

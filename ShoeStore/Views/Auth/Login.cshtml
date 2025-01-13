@@ -1,4 +1,5 @@
 @model ShoeStore.Models.DTO.Request.UserLoginDTO
+@inject Microsoft.Extensions.Options.IOptions<ShoeStore.Models.GoogleReCaptchaConfig> GoogleReCaptchaConfig
 @{
     ViewData["Title"] = "Đăng nhập";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
@@ -50,7 +51,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" />
+            <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" autocomplete="username" />
         </div>
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
@@ -60,7 +61,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input asp-for="Password" class="form-control" type="password" placeholder="Mật khẩu" />
+            <input asp-for="Password" class="form-control" type="password" placeholder="Mật khẩu" autocomplete="current-password" />
         </div>
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
@@ -70,6 +71,14 @@
             <input asp-for="RememberMe" class="custom-control-input" id="rememberMe" />
             <label class="custom-control-label" for="rememberMe">Ghi nhớ đăng nhập</label>
         </div>
+    </div>
+
+    <div class="form-group">
+        <div class="g-recaptcha mb-3" data-sitekey="@GoogleReCaptchaConfig.Value.SiteKey"></div>
+        @if (!string.IsNullOrEmpty(ViewBag.ReCaptchaError))
+        {
+            <span class="text-danger">@ViewBag.ReCaptchaError</span>
+        }
     </div>
 
     <button type="submit" class="btn btn-auth">Đăng nhập</button>
@@ -168,7 +177,9 @@
 </style>
 
 @section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
+
         function resendConfirmation(email) {
             $.get('/Account/ResendConfirmation', { email: email })
                 .done(function(response) {

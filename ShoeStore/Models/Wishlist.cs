@@ -20,7 +20,7 @@ namespace ShoeStore.Models
         [Required]
         public WishlistStatus Status { get; set; } = WishlistStatus.InStock;
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime AddedDate { get; set; } = DateTime.Now;
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

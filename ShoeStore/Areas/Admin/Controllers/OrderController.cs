@@ -186,7 +186,7 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 order.Status = status;
                 // Cập nhật trạng thái thanh toán dựa trên phương thức thanh toán và trạng thái đơn hàng
-                if (order.PaymentMethod == PaymentMethod.VNPay)
+                if (order.PaymentMethod == PaymentMethod.VNPay )
                 {
                     // Nếu là VNPay, giữ nguyên trạng thái thanh toán vì đã được xử lý trong callback
                     // Chỉ cập nhật trạng thái đơn hàng
@@ -275,7 +275,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 order.Status = newStatus;
                 
                 // Cập nhật trạng thái thanh toán nếu cần
-                if (newStatus == OrderStatus.Completed && order.PaymentMethod == PaymentMethod.Cash)
+                if (newStatus == OrderStatus.Completed && order.PaymentMethod == PaymentMethod.COD)
                 {
                     order.PaymentStatus = PaymentStatus.Completed;
                 }

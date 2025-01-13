@@ -14,6 +14,7 @@ using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.Email;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Areas.Admin.Controllers;
+using ShoeStore.Services.Momo;
 
 namespace ShoeStore.Controllers
 {
@@ -25,6 +26,7 @@ namespace ShoeStore.Controllers
         private readonly IMemberRankService _memberRankService;
         private readonly IAddressService _addressService;
         private readonly IEmailService _emailService;
+        private readonly IMomoService _momoService;
 
         public CartController(
             ApplicationDbContext context, 
@@ -32,7 +34,8 @@ namespace ShoeStore.Controllers
             IHttpContextAccessor httpContextAccessor,
             IMemberRankService memberRankService,
             IAddressService addressService,
-            IEmailService emailService)
+            IEmailService emailService,
+            IMomoService momoService)
         {
             _context = context;
             _configuration = configuration;
@@ -40,6 +43,7 @@ namespace ShoeStore.Controllers
             _memberRankService = memberRankService;
             _addressService = addressService;
             _emailService = emailService;
+            _momoService = momoService;
         }
 
         public IActionResult Index()
@@ -162,7 +166,7 @@ namespace ShoeStore.Controllers
             // Lấy các phương thức thanh toán (bao gồm cả đang bảo trì, loại bỏ các phương thức ẩn)
             var availablePaymentMethods = await _context.PaymentMethodConfigs
                 .Where(p => p.Status != PaymentMethodStatus.Hidden)
-                .OrderBy(p => p.Type)
+                .OrderBy(p => (int)p.Type)
                 .ToListAsync();
 
             var model = new CheckoutViewModel
@@ -393,7 +397,7 @@ namespace ShoeStore.Controllers
                 // Xử lý theo phương thức thanh toán
                 switch (model.PaymentMethod)
                 {
-                    case PaymentMethod.Cash:
+                    case PaymentMethod.COD:
                         order.Status = OrderStatus.Processing;
                         order.PaymentStatus = PaymentStatus.Pending;
                         await _context.SaveChangesAsync();
@@ -408,10 +412,20 @@ namespace ShoeStore.Controllers
 
                     case PaymentMethod.Momo:
                         await _context.SaveChangesAsync();
-                        return RedirectToAction("ProcessPayment", "Momo", new { 
-                            orderId = order.OrderId,
-                            amount = finalTotal
-                        });
+                        var orderInfo = new OrderInfoModel
+                        {
+                            OrderId = order.OrderCode,
+                            Amount = (long)finalTotal,
+                            OrderInfo = $"Thanh toán đơn hàng {order.OrderCode}",
+                            FullName = order.OrderUsName
+                        };
+                        var response = await _momoService.CreatePaymentAsync(orderInfo);
+                        if (response.ResultCode == 0)
+                        {
+                            return Redirect(response.PayUrl);
+                        }
+                        TempData["Error"] = $"Lỗi thanh toán Momo: {response.Message}";
+                        return RedirectToAction("Checkout");
 
                     case PaymentMethod.ZaloPay:
                         await _context.SaveChangesAsync();
@@ -460,7 +474,7 @@ namespace ShoeStore.Controllers
 
             // Chỉ gửi email khi đơn hàng đã thanh toán thành công hoặc là thanh toán COD
             if ((order.PaymentMethod == PaymentMethod.VNPay || order.PaymentMethod == PaymentMethod.Momo) && order.PaymentStatus == PaymentStatus.Completed
-                || order.PaymentMethod == PaymentMethod.Cash)
+                || order.PaymentMethod == PaymentMethod.COD)
             {
                 try
                 {

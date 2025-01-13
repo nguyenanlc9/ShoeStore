@@ -29,9 +29,6 @@ namespace ShoeStore.Models
 
         [ForeignKey("OrderId")]
         public virtual Order? Order { get; set; }
-
-        [ForeignKey("UserId")]
-        public virtual User? User { get; set; }
     }
 
     public enum ReturnStatus

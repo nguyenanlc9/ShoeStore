@@ -180,7 +180,7 @@ namespace ShoeStore.Controllers
 
             var returns = await _context.ReturnRequests
                 .Include(r => r.Order)
-                .Include(r => r.User)
+                    .ThenInclude(o => o.User)
                 .Where(r => r.UserId == userInfo.UserID)
                 .OrderByDescending(r => r.RequestDate)
                 .ToListAsync();

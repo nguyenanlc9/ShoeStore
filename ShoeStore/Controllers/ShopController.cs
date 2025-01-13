@@ -302,7 +302,7 @@ namespace ShoeStore.Controllers
                 }
 
                 // Kiểm tra xem sản phẩm đã có trong wishlist chưa
-                var existingWishlist = _context.Wishlist
+                var existingWishlist = _context.Wishlists
                     .FirstOrDefault(w => w.UserId == user.UserID && w.ProductId == productId);
 
                 if (existingWishlist != null)
@@ -317,7 +317,7 @@ namespace ShoeStore.Controllers
                     ProductId = productId,
                 };
 
-                _context.Wishlist.Add(wishlist);
+                _context.Wishlists.Add(wishlist);
                 _context.SaveChanges();
 
                 return Json(new { success = true, message = "Đã thêm sản phẩm vào danh sách yêu thích" });

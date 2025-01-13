@@ -210,6 +210,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW52ZW50b3J5XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Inventory/CreateSize.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW52ZW50b3J5XENyZWF0ZVNpemUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Inventory/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW52ZW50b3J5XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -368,6 +372,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shipping/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hpcHBpbmdcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shipping/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hpcHBpbmdcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Shipping/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hpcHBpbmdcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Areas/Admin/Views/Slider/Create.cshtml]
@@ -550,6 +566,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRm9vdGVyXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/Shared/Components/WishlistCount/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcV2lzaGxpc3RDb3VudFxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -588,6 +608,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/Shop/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/TestMomo/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdE1vbW9cRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/TestMomo/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdE1vbW9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/TestMomo/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdE1vbW9cU3VjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/OneDrive - SAIGON COLLEGE/data hoc/BackEnd/ShoeStore/ShoeStore/Views/Wishlist/Index.cshtml]

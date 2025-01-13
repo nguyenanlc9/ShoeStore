@@ -1,22 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
-using ShoeStore.Utils;
-using Microsoft.Extensions.Configuration;
-using ShoeStore.Services.Payment;
+using ShoeStore.Filters;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
-using ShoeStore.Models.Payment;
-using ShoeStore.Helpers;
-using ShoeStore.Models.ViewModels;
-using ShoeStore.Services.APIAddress;
-using ShoeStore.Services.Email;
-using ShoeStore.Services.MemberRanking;
-using ShoeStore.Areas.Admin.Controllers;
+using ShoeStore.Utils;
 
 namespace ShoeStore.Controllers
 {
+    [UserAuthorize] 
     public class WishlistController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,78 +19,100 @@ namespace ShoeStore.Controllers
             _context = context;
         }
 
-        // Hiển thị danh sách yêu thích
-        [HttpGet]
-        public async Task<IActionResult> Index(int userId)
+        public async Task<IActionResult> Index()
         {
-
-
             var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
+            var wishlist = await _context.Wishlists
+                .Include(w => w.Product)
+                .Where(w => w.UserId == userInfo.UserID)
+                .OrderByDescending(w => w.AddedDate)
+                .ToListAsync();
 
-            var wishlists = _context.Wishlist
-                .Include(ci => ci.Product)
-                .Where(ci => ci.UserId == userInfo.UserID)
-                .ToList();
-
-            return View(wishlists);
+            return View(wishlist);
         }
 
-        // Thêm sản phẩm vào danh sách yêu thích
         [HttpPost]
-        public async Task<IActionResult> AddToWishlist(int userId, int productId)
+        public async Task<IActionResult> Add(int productId)
         {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+
+            // Kiểm tra sản phẩm tồn tại
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return Json(new { success = false, message = "Sản phẩm không tồn tại" });
+            }
+
             // Kiểm tra sản phẩm đã có trong wishlist chưa
-            var existingItem = await _context.Wishlist
-                .FirstOrDefaultAsync(w => w.UserId == userId && w.ProductId == productId);
+            var existingItem = await _context.Wishlists
+                .FirstOrDefaultAsync(w => w.UserId == userInfo.UserID && w.ProductId == productId);
 
             if (existingItem != null)
             {
-                return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích." });
+                return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích" });
             }
 
-            // Tạo một mục mới trong wishlist
+            // Thêm vào wishlist
             var wishlistItem = new Wishlist
             {
-                UserId = userId,
-                ProductId = productId
+                UserId = userInfo.UserID,
+                ProductId = productId,
+                Status = WishlistStatus.InStock,
+                AddedDate = DateTime.Now
             };
 
-            _context.Wishlist.Add(wishlistItem);
+            _context.Wishlists.Add(wishlistItem);
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Sản phẩm đã được thêm vào danh sách yêu thích." });
+            return Json(new { success = true, message = "Đã thêm vào danh sách yêu thích" });
         }
 
-        // Xóa sản phẩm khỏi danh sách yêu thích
         [HttpPost]
-        [Route("Wishlist/RemoveById")]
-        public async Task<IActionResult> RemoveFromWishlist(int wishlistId)
+        public async Task<IActionResult> RemoveById(int wishlistId)
         {
-            // Kiểm tra người dùng đã đăng nhập hay chưa
             var userInfo = HttpContext.Session.Get<User>("userInfo");
-            if (userInfo == null)
-            {
-                return Json(new { success = false, message = "Vui lòng đăng nhập để thực hiện thao tác này." });
-            }
-
-            // Kiểm tra sản phẩm trong danh sách yêu thích
-            var wishlistItem = await _context.Wishlist
-                .FirstOrDefaultAsync(ci => ci.WishlistId == wishlistId && ci.UserId == userInfo.UserID);
+            var wishlistItem = await _context.Wishlists
+                .FirstOrDefaultAsync(w => w.WishlistId == wishlistId && w.UserId == userInfo.UserID);
 
             if (wishlistItem == null)
             {
-                return Json(new { success = false, message = "Không tìm thấy sản phẩm trong danh sách yêu thích." });
+                return Json(new { success = false, message = "Không tìm thấy sản phẩm trong danh sách yêu thích" });
             }
 
-            // Xóa sản phẩm khỏi danh sách yêu thích
-            _context.Wishlist.Remove(wishlistItem);
+            _context.Wishlists.Remove(wishlistItem);
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "Đã xóa sản phẩm khỏi danh sách yêu thích." });
+            return Json(new { success = true, message = "Đã xóa sản phẩm khỏi danh sách yêu thích" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Clear()
+        {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+            var userWishlist = await _context.Wishlists
+                .Where(w => w.UserId == userInfo.UserID)
+                .ToListAsync();
+
+            if (userWishlist.Any())
+            {
+                _context.Wishlists.RemoveRange(userWishlist);
+                await _context.SaveChangesAsync();
+            }
+
+            return Json(new { success = true, message = "Đã xóa toàn bộ danh sách yêu thích" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetWishlistCount()
+        {
+            var userInfo = HttpContext.Session.Get<User>("userInfo");
+            if (userInfo == null)
+            {
+                return Json(new { count = 0 });
+            }
+
+            var count = await _context.Wishlists.CountAsync(w => w.UserId == userInfo.UserID);
+            return Json(new { count });
         }
     }
-}
+} 

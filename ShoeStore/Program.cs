@@ -4,13 +4,15 @@ using ShoeStore.Models;
 using ShoeStore.Models.Payment;
 using ShoeStore.Services;
 using ShoeStore.Services.Email;
-using ShoeStore.Services.Momo;
 using ShoeStore.Services.Order;
 using ShoeStore.Services.Payment;
 using ShoeStore.Services.APIAddress;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Data;
 using ShoeStore.Services.ZaloPay;
+using ShoeStore.Models.Payment.Momo;
+using ShoeStore.Services.Momo;
+using ShoeStore.Services.ReCaptcha;
 
 namespace ShoeStore
 {
@@ -62,9 +64,6 @@ namespace ShoeStore
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IVnPayService, VnPayService>();
 
-            //Momo API Payment
-            builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
-            builder.Services.AddScoped<IMomoService, MomoService>();
             builder.Services.AddScoped<IMemberRankService, MemberRankService>();
 
             // Đăng ký HttpClient và AddressService
@@ -75,6 +74,17 @@ namespace ShoeStore
             builder.Services.Configure<ZaloPayConfig>(builder.Configuration.GetSection("ZaloPay"));
             builder.Services.AddHttpClient<IZaloPayService, ZaloPayService>();
             builder.Services.AddScoped<IZaloPayService, ZaloPayService>();
+
+            // Configure Momo
+            builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("Momo"));
+            builder.Services.AddHttpClient<IMomoService, MomoService>();
+            builder.Services.AddScoped<IMomoService, MomoService>();
+
+            // Add services to the container.
+            builder.Services.AddScoped<IShippingService, ShippingService>();
+
+            builder.Services.Configure<GoogleReCaptchaConfig>(builder.Configuration.GetSection("GoogleReCaptcha"));
+            builder.Services.AddHttpClient<IGoogleReCaptchaService, GoogleReCaptchaService>();
 
             var app = builder.Build();
 

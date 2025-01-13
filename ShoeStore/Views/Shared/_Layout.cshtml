@@ -117,7 +117,12 @@
                                     {
                                         <li><a asp-controller="Auth" asp-action="Login"><span class="icon icon-person"></span> Đăng nhập</a></li>
                                     }
-                                    <li><a asp-controller="Wishlist" asp-action="Index"><span class="icon icon-heart-o"></span></a></li>
+                                    <li>
+                                        <a asp-controller="Wishlist" asp-action="Index" class="site-wishlist">
+                                            <span class="icon icon-heart-o"></span>
+                                            @await Component.InvokeAsync("WishlistCount")
+                                        </a>
+                                    </li>
                                     <li>
                                         <a asp-controller="Cart" asp-action="Index" class="site-cart">
                                             <span class="icon icon-shopping_cart"></span>
@@ -251,6 +256,26 @@
         border-radius: 5px;
         background-color: #e9ecef;
         margin: 10px 0;
+    }
+
+    /* Wishlist Badge */
+    .site-wishlist {
+        position: relative;
+    }
+
+    .site-wishlist .count {
+        position: absolute;
+        display: inline-block;
+        right: -5px;
+        top: -5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #7971ea;
+        color: #fff;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
     }
 
     .progress-bar {

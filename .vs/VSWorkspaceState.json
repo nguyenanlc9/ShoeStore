@@ -6,11 +6,14 @@
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Views",
     "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
+    "\\ShoeStore\\Controllers",
+    "\\ShoeStore\\Models",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Auth",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\ShoeStore\\Controllers\\AuthController.cs",
   "PreviewInSolutionExplorer": false
 }

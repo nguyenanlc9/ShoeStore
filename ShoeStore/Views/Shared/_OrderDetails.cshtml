@@ -78,7 +78,15 @@
         <div class="col-12">
             <h5>Thông tin thanh toán</h5>
             <p><strong>Phương thức thanh toán:</strong> 
-                @(Model.PaymentMethod == PaymentMethod.Cash ? "Thanh toán khi nhận hàng" : "VNPay")
+                @(Model.PaymentMethod switch
+                {
+                    PaymentMethod.COD => "Thanh toán khi nhận hàng",
+                    PaymentMethod.VNPay => "VNPay",
+                    PaymentMethod.Momo => "Momo",
+                    PaymentMethod.ZaloPay => "ZaloPay",
+                    PaymentMethod.Visa => "Visa",
+                    _ => Model.PaymentMethod.ToString()
+                })
             </p>
             <p><strong>Trạng thái thanh toán:</strong>
                 <span class="badge bg-@(Model.PaymentStatus switch {

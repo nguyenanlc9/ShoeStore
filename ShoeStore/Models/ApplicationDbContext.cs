@@ -43,6 +43,10 @@ namespace ShoeStore.Models
         public DbSet<BlogImage> BlogImages { get; set; }
         public DbSet<About> Abouts { get; set; }
 
+        public DbSet<Wishlist> Wishlists { get; set; }
+
+        public DbSet<ShippingRate> ShippingRates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -120,13 +124,9 @@ namespace ShoeStore.Models
                 .HasOne(r => r.Order)
                 .WithMany()
                 .HasForeignKey(r => r.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ReturnRequest>()
-                .HasOne(r => r.User)
-                .WithMany()
-                .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Bỏ cấu hình User relationship
 
             // Cấu hình quan hệ giữa Blog và BlogImage
             modelBuilder.Entity<BlogImage>()
@@ -135,6 +135,5 @@ namespace ShoeStore.Models
                 .HasForeignKey(bi => bi.BlogId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-        public DbSet<Wishlist> Wishlist { get; set; } = default!;
     }
 }

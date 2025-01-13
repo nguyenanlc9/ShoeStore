@@ -31,7 +31,7 @@ namespace ShoeStore.Services.Order
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                var fifteenMinutesAgo = DateTime.Now.AddMinutes(-15);
+                var fifteenMinutesAgo = DateTime.Now.AddMinutes(-10);
 
                 var pendingOrders = await context.Orders
                     .Where(o => o.Status == OrderStatus.Pending
@@ -43,7 +43,7 @@ namespace ShoeStore.Services.Order
                 {
                     order.Status = OrderStatus.Cancelled;
                     order.PaymentStatus = PaymentStatus.Failed;
-                    order.CancelReason = "Đơn hàng đã quá thời gian thanh toán (15 phút)";
+                    order.CancelReason = "Đơn hàng đã quá thời gian thanh toán (10 phút)";
                 }
 
                 if (pendingOrders.Any())

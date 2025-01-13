@@ -118,7 +118,14 @@
             </div>
             <div>
                 <strong>Phương thức thanh toán:</strong>
-                @Model.PaymentMethod.ToString()
+                @(Model.PaymentMethod switch {
+                    PaymentMethod.COD => "Thanh toán khi nhận hàng",
+                    PaymentMethod.VNPay => "VNPay",
+                    PaymentMethod.Momo => "Momo",
+                    PaymentMethod.ZaloPay => "ZaloPay",
+                    PaymentMethod.Visa => "Visa",
+                    _ => Model.PaymentMethod.ToString()
+                })
             </div>
         </div>
     </div>

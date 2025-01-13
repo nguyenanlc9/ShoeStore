@@ -25,8 +25,12 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/ReturnRequest
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ReturnRequests.Include(r => r.Order).Include(r => r.User);
-            return View(await applicationDbContext.ToListAsync());
+            var returnRequests = await _context.ReturnRequests
+                .Include(r => r.Order)
+                    .ThenInclude(o => o.User)
+                .OrderByDescending(r => r.RequestDate)
+                .ToListAsync();
+            return View(returnRequests);
         }
 
         // GET: Admin/ReturnRequest/Details/5
@@ -39,7 +43,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             var returnRequest = await _context.ReturnRequests
                 .Include(r => r.Order)
-                .Include(r => r.User)
+                    .ThenInclude(o => o.User)
                 .FirstOrDefaultAsync(m => m.ReturnId == id);
             if (returnRequest == null)
             {
@@ -52,14 +56,11 @@ namespace ShoeStore.Areas.Admin.Controllers
         // GET: Admin/ReturnRequest/Create
         public IActionResult Create()
         {
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PhoneNumber");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserID", "Email");
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderCode");
             return View();
         }
 
         // POST: Admin/ReturnRequest/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReturnId,OrderId,UserId,RequestDate,Reason,Images,Status,AdminNote")] ReturnRequest returnRequest)
@@ -70,8 +71,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PhoneNumber", returnRequest.OrderId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserID", "Email", returnRequest.UserId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderCode", returnRequest.OrderId);
             return View(returnRequest);
         }
 
@@ -83,19 +83,19 @@ namespace ShoeStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var returnRequest = await _context.ReturnRequests.FindAsync(id);
+            var returnRequest = await _context.ReturnRequests
+                .Include(r => r.Order)
+                    .ThenInclude(o => o.User)
+                .FirstOrDefaultAsync(r => r.ReturnId == id);
             if (returnRequest == null)
             {
                 return NotFound();
             }
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PhoneNumber", returnRequest.OrderId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserID", "Email", returnRequest.UserId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderCode", returnRequest.OrderId);
             return View(returnRequest);
         }
 
         // POST: Admin/ReturnRequest/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReturnId,OrderId,UserId,RequestDate,Reason,Images,Status,AdminNote")] ReturnRequest returnRequest)
@@ -125,10 +125,8 @@ namespace ShoeStore.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PhoneNumber", returnRequest.OrderId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserID", "Email", returnRequest.UserId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderCode", returnRequest.OrderId);
             return View(returnRequest);
         }
 
@@ -142,7 +140,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             var returnRequest = await _context.ReturnRequests
                 .Include(r => r.Order)
-                .Include(r => r.User)
+                    .ThenInclude(o => o.User)
                 .FirstOrDefaultAsync(m => m.ReturnId == id);
             if (returnRequest == null)
             {
@@ -179,8 +177,8 @@ namespace ShoeStore.Areas.Admin.Controllers
             try
             {
                 var returnRequest = await _context.ReturnRequests
-                    .Include(r => r.User)
                     .Include(r => r.Order)
+                        .ThenInclude(o => o.User)
                     .FirstOrDefaultAsync(r => r.ReturnId == id);
 
                 if (returnRequest == null)
@@ -207,15 +205,15 @@ namespace ShoeStore.Areas.Admin.Controllers
 
                 string emailSubject = $"Cập nhật trạng thái yêu cầu đổi trả #{returnRequest.ReturnId}";
                 string emailBody = $@"
-                    <h2>Xin chào {returnRequest.User.FullName},</h2>
+                    <h2>Xin chào {returnRequest.Order.User.FullName},</h2>
                     <p>Yêu cầu đổi trả cho đơn hàng <strong>{returnRequest.Order.OrderCode}</strong> của bạn {statusText}.</p>
                     {(status == ReturnStatus.Rejected ? $"<p>Lý do: {note}</p>" : "")}
                     <p>Vui lòng đăng nhập vào tài khoản của bạn để xem chi tiết.</p>
                     <p>Trân trọng,<br>ShoeStore</p>";
 
-                await _emailService.SendEmailAsync(returnRequest.User.Email, emailSubject, emailBody);
+                await _emailService.SendEmailAsync(returnRequest.Order.User.Email, emailSubject, emailBody);
 
-                TempData["Success"] = $"Cập nhật trạng thái thành công thành {statusText}";
+                TempData["Success"] = $"Cập nhật trạng thái thành {statusText}";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

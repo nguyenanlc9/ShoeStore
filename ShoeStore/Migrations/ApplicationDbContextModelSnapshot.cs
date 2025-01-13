@@ -49,7 +49,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("RankId");
 
-                    b.ToTable("MemberRanks", (string)null);
+                    b.ToTable("MemberRanks");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.About", b =>
@@ -83,7 +83,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("AboutId");
 
-                    b.ToTable("Abouts", (string)null);
+                    b.ToTable("Abouts");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Blog", b =>
@@ -118,7 +118,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("BlogId");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
@@ -143,7 +143,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("BlogId");
 
-                    b.ToTable("BlogImages", (string)null);
+                    b.ToTable("BlogImages");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>
@@ -175,7 +175,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>
@@ -209,7 +209,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Category", b =>
@@ -241,7 +241,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Contact", b =>
@@ -268,7 +268,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("ContactName");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ContactUser", b =>
@@ -309,7 +309,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("ContactUId");
 
-                    b.ToTable("ContactUsers", (string)null);
+                    b.ToTable("ContactUsers");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Coupon", b =>
@@ -351,7 +351,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CouponId");
 
-                    b.ToTable("Coupons", (string)null);
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Footer", b =>
@@ -376,7 +376,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("FooterId");
 
-                    b.ToTable("Footers", (string)null);
+                    b.ToTable("Footers");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Order", b =>
@@ -395,6 +395,9 @@ namespace ShoeStore.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -420,6 +423,9 @@ namespace ShoeStore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
@@ -436,8 +442,14 @@ namespace ShoeStore.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<decimal>("ShippingFee")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -451,7 +463,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.OrderDetail", b =>
@@ -485,7 +497,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.PaymentMethodConfig", b =>
@@ -522,7 +534,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethodConfigs", (string)null);
+                    b.ToTable("PaymentMethodConfigs");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Product", b =>
@@ -612,7 +624,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductHistory", b =>
@@ -681,7 +693,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductHistories", (string)null);
+                    b.ToTable("ProductHistories");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductImage", b =>
@@ -709,7 +721,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductSizeStock", b =>
@@ -749,7 +761,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeID");
 
-                    b.ToTable("ProductSizeStocks", (string)null);
+                    b.ToTable("ProductSizeStocks");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductSizeStockHistory", b =>
@@ -789,7 +801,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("ProductSizeStockHistories", (string)null);
+                    b.ToTable("ProductSizeStockHistories");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ReturnRequest", b =>
@@ -820,9 +832,6 @@ namespace ShoeStore.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -830,11 +839,9 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("UserID");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("ReturnRequests", (string)null);
+                    b.ToTable("ReturnRequests");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Review", b =>
@@ -867,7 +874,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Role", b =>
@@ -885,7 +892,40 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("RoleID");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.ShippingRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("BaseFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DeliveryDays")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingRates");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Size", b =>
@@ -906,7 +946,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("SizeID");
 
-                    b.ToTable("Sizes", (string)null);
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Slider", b =>
@@ -950,7 +990,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Slider_ID");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.User", b =>
@@ -1022,7 +1062,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Wishlist", b =>
@@ -1033,10 +1073,13 @@ namespace ShoeStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistId"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -1048,7 +1091,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wishlists", (string)null);
+                    b.ToTable("Wishlists");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
@@ -1217,22 +1260,16 @@ namespace ShoeStore.Migrations
                     b.HasOne("ShoeStore.Models.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", null)
                         .WithMany("ReturnRequests")
-                        .HasForeignKey("UserID");
-
-                    b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Review", b =>

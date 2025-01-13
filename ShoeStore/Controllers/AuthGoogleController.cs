@@ -40,15 +40,28 @@ namespace ShoeStore.Controllers
 
             if (user == null)
             {
+                // Tạo username duy nhất từ email
+                string baseUsername = email.Split('@')[0];
+                string username = baseUsername;
+                int counter = 1;
+                
+                // Kiểm tra xem username đã tồn tại chưa
+                while (await _context.Users.AnyAsync(u => u.Username == username))
+                {
+                    username = $"{baseUsername}{counter}";
+                    counter++;
+                }
+
                 // Tạo tài khoản mới nếu chưa tồn tại
                 user = new User
                 {
                     Email = email,
-                    Username = result.Principal.FindFirstValue(ClaimTypes.Email).Split('@')[0], // Sử dụng phần trước @ của email làm username
+                    Username = username,
                     FullName = result.Principal.FindFirstValue(ClaimTypes.Name),
                     PasswordHash = "", // Không cần mật khẩu cho tài khoản Google
                     RoleID = 1, // Role mặc định là User
                     Status = true,
+                    EmailConfirmed = true, // Email Google đã được xác thực
                     RegisterDate = DateTime.Now,
                     CreatedDate = DateTime.Now,
                     Phone = "Chưa cập nhật" // Đặt giá trị mặc định cho Phone

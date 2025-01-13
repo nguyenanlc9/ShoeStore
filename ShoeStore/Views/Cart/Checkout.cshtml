@@ -97,10 +97,10 @@
                                                         @{
                                                             string iconClass = method.Type switch
                                                             {
+                                                                PaymentMethodType.COD => "fas fa-money-bill-wave",
                                                                 PaymentMethodType.VNPay => "vnpay-icon",
                                                                 PaymentMethodType.Momo => "momo-icon",
                                                                 PaymentMethodType.ZaloPay => "zalopay-icon",
-                                                                PaymentMethodType.Cash => "fas fa-money-bill-wave",
                                                                 PaymentMethodType.Visa => "fab fa-cc-visa",
                                                                 _ => "fas fa-credit-card"
                                                             };
@@ -162,6 +162,29 @@
                                     }
                                 </div>
 
+                                <!-- Phần phí vận chuyển -->
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Phí vận chuyển:</span>
+                                    <span id="shippingFee">Vui lòng chọn địa chỉ</span>
+                                </div>
+                                <div class="shipping-discount-info mb-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle"></i> Chính sách giảm phí vận chuyển:
+                                        <ul class="list-unstyled mb-0 pl-3">
+                                            <li>- Đơn hàng từ 500,000đ đến 999,999đ: Giảm 10%</li>
+                                            <li>- Đơn hàng từ 1,000,000đ trở lên: Giảm 20%</li>
+                                        </ul>
+                                    </small>
+                                </div>
+
+                                <!-- Hiển thị thời gian giao hàng dự kiến -->
+                                <div class="mb-3" id="estimatedDeliveryTime" style="display: none;">
+                                    <small class="text-muted">
+                                        <i class="fas fa-truck me-1"></i>
+                                        Thời gian giao hàng dự kiến: <span id="deliveryTime"></span>
+                                    </small>
+                                </div>
+
                                 @if (Model.MemberRankDiscountPercent > 0)
                                 {
                                     <div class="d-flex justify-content-between mb-3 text-success">
@@ -170,7 +193,7 @@
                                     </div>
                                 }
 
-                                <!-- Hiển thị giảm giá từ mã giảm giá -->
+                                <!-- Phần giảm giá từ mã -->
                                 <div id="couponDiscount" class="d-flex justify-content-between mb-3" style="display: none;">
                                     <span id="couponLabel">Giảm giá từ mã:</span>
                                     <span id="couponDiscountAmount">-0 ₫</span>
@@ -203,7 +226,7 @@
     <script>
         $(document).ready(function () {
             // Load tỉnh/thành phố
-            $.get('/api/address/provinces', function (provinces) {
+            $.get('/api/shipping/provinces', function (provinces) {
                 provinces.forEach(function (province) {
                     $('#province').append(`<option value="${province.code}">${province.name}</option>`);
                 });
@@ -211,12 +234,13 @@
 
             // Load quận/huyện khi chọn tỉnh/thành phố
             $('#province').change(function () {
-                var provinceCode = parseInt($(this).val());
+                var provinceCode = $(this).val();
                 $('#district').empty().append('<option value="">Chọn Quận/Huyện</option>');
                 $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+                resetShippingFee();
 
                 if (provinceCode) {
-                    $.get(`/api/address/districts/${provinceCode}`, function (districts) {
+                    $.get(`/api/shipping/districts/${provinceCode}`, function (districts) {
                         districts.forEach(function (district) {
                             $('#district').append(`<option value="${district.code}">${district.name}</option>`);
                         });
@@ -226,17 +250,92 @@
 
             // Load phường/xã khi chọn quận/huyện
             $('#district').change(function () {
-                var districtCode = parseInt($(this).val());
+                var districtCode = $(this).val();
                 $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+                resetShippingFee();
 
                 if (districtCode) {
-                    $.get(`/api/address/wards/${districtCode}`, function (wards) {
+                    $.get(`/api/shipping/wards/${districtCode}`, function (wards) {
                         wards.forEach(function (ward) {
                             $('#ward').append(`<option value="${ward.code}">${ward.name}</option>`);
                         });
                     });
                 }
             });
+
+            // Tính phí vận chuyển khi chọn đủ địa chỉ
+            $('#ward').change(function () {
+                calculateShippingFee();
+            });
+
+            function calculateShippingFee() {
+                var provinceCode = $('#province').val();
+                var districtCode = $('#district').val();
+                var wardCode = $('#ward').val();
+
+                if (provinceCode && districtCode && wardCode) {
+                    var data = {
+                        province: provinceCode,
+                        district: districtCode,
+                        ward: wardCode,
+                        orderAmount: @Model.SubTotal,
+                        weight: 1 // Mặc định 1kg
+                    };
+
+                    $.ajax({
+                        url: '/api/shipping/calculate',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            if (response.success) {
+                                $('#shippingFee').text(formatCurrency(response.shippingFee));
+                                $('#estimatedDeliveryTime').show();
+                                $('#deliveryTime').text(response.estimatedDeliveryTime);
+                                updateFinalTotal();
+                            } else {
+                                $('#shippingFee').text('Không thể tính phí vận chuyển');
+                                $('#estimatedDeliveryTime').hide();
+                            }
+                        },
+                        error: function (xhr) {
+                            console.error('Error:', xhr.responseText);
+                            $('#shippingFee').text('Có lỗi xảy ra');
+                            $('#estimatedDeliveryTime').hide();
+                        }
+                    });
+                }
+            }
+
+            function resetShippingFee() {
+                $('#shippingFee').text('Vui lòng chọn địa chỉ');
+                $('#estimatedDeliveryTime').hide();
+                updateFinalTotal();
+            }
+
+            function updateFinalTotal() {
+                var subtotal = @Model.SubTotal;
+                var shippingFee = parseCurrency($('#shippingFee').text());
+                var discountAmount = @Model.DiscountAmount;
+                var couponDiscount = parseCurrency($('#couponDiscountAmount').text().replace('-', ''));
+
+                var finalTotal = subtotal + shippingFee - discountAmount - couponDiscount;
+                $('#finalTotal').text(formatCurrency(finalTotal));
+            }
+
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                    .format(amount)
+                    .replace('₫', '')
+                    .trim() + ' ₫';
+            }
+
+            function parseCurrency(str) {
+                if (!str || str === 'Vui lòng chọn địa chỉ' || str === 'Không thể tính phí vận chuyển' || str === 'Có lỗi xảy ra') {
+                    return 0;
+                }
+                return parseInt(str.replace(/[^\d]/g, ''));
+            }
 
             $('#applyCoupon').click(function () {
                 var couponCode = $('#couponCode').val();
@@ -253,20 +352,20 @@
                         if (response.success) {
                             $('#couponMessage').removeClass().addClass('text-success').text(response.message);
                             $('#couponDiscount').css('display', 'flex').addClass('text-success');
-                            $('#couponDiscountAmount').text('-' + response.discountAmount + ' ₫');
-                            $('#finalTotal').text(response.finalTotal + ' ₫');
+                            $('#couponDiscountAmount').text('-' + formatCurrency(response.discountAmount));
+                            updateFinalTotal();
                         } else {
                             $('#couponMessage').removeClass().addClass('text-danger').text(response.message);
-                            $('#couponDiscount').hide().removeClass('text-success');
+                            $('#couponDiscount').hide();
                             $('#couponDiscountAmount').text('-0 ₫');
-                            $('#finalTotal').text('@Model.FinalTotal.ToString("N0") ₫');
+                            updateFinalTotal();
                         }
                     },
                     error: function () {
                         $('#couponMessage').removeClass().addClass('text-danger').text('Có lỗi xảy ra');
-                        $('#couponDiscount').hide().removeClass('text-success');
+                        $('#couponDiscount').hide();
                         $('#couponDiscountAmount').text('-0 ₫');
-                        $('#finalTotal').text('@Model.FinalTotal.ToString("N0") ₫');
+                        updateFinalTotal();
                     }
                 });
             });

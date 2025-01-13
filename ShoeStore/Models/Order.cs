@@ -77,5 +77,11 @@ namespace ShoeStore.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public string? CancelReason { get; set; }
+
+        public decimal SubTotal { get; set; }
+        public decimal ShippingFee { get; set; }
+        public decimal Discount { get; set; }
+
+        public DateTime? PaidAt { get; set; }
     }
 }

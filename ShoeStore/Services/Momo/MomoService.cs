@@ -1,86 +1,115 @@
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using RestSharp;
-using ShoeStore.Models.Payment;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Options;
+using ShoeStore.Models.Payment;
+using ShoeStore.Models.Payment.Momo;
 
 namespace ShoeStore.Services.Momo
 {
     public class MomoService : IMomoService
     {
         private readonly IOptions<MomoOptionModel> _options;
+        private readonly HttpClient _httpClient;
 
-        public MomoService(IOptions<MomoOptionModel> options)
+        public MomoService(IOptions<MomoOptionModel> options, HttpClient httpClient)
         {
             _options = options;
+            _httpClient = httpClient;
         }
 
-        public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model)
+        public async Task<MomoCreatePaymentResponse> CreatePaymentAsync(OrderInfoModel model)
         {
-            var requestId = DateTime.UtcNow.Ticks.ToString();
-            model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
-
-            var rawData =
-                $"partnerCode={_options.Value.PartnerCode}" +
-                $"&accessKey={_options.Value.AccessKey}" +
-                $"&requestId={requestId}" +
-                $"&amount={model.Amount}" +
-                $"&orderId={model.OrderId}" +
-                $"&orderInfo={model.OrderInfo}" +
-                $"&returnUrl={_options.Value.ReturnUrl}" +
-                $"&notifyUrl={_options.Value.NotifyUrl}" +
-                $"&extraData=";
-
-            var signature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
-
-            var client = new RestClient(_options.Value.MomoApiUrl);
-            var request = new RestRequest() { Method = Method.Post };
-            request.AddHeader("Content-Type", "application/json; charset=UTF-8");
-
-            var requestData = new
+            try
             {
-                accessKey = _options.Value.AccessKey,
-                partnerCode = _options.Value.PartnerCode,
-                requestType = _options.Value.RequestType,
-                notifyUrl = _options.Value.NotifyUrl,
-                returnUrl = _options.Value.ReturnUrl,
-                orderId = model.OrderId,
-                amount = model.Amount.ToString(),
-                orderInfo = model.OrderInfo,
-                requestId = requestId,
-                extraData = "",
-                signature
-            };
+                var request = new MomoCreatePaymentRequest
+                {
+                    PartnerCode = _options.Value.PartnerCode,
+                    AccessKey = _options.Value.AccessKey,
+                    RequestId = DateTime.UtcNow.Ticks.ToString(),
+                    Amount = model.Amount,
+                    OrderId = model.OrderId,
+                    OrderInfo = model.OrderInfo,
+                    RedirectUrl = _options.Value.ReturnUrl,
+                    IpnUrl = _options.Value.NotifyUrl,
+                    RequestType = "captureWallet",
+                    ExtraData = "",
+                    Lang = "vi"
+                };
 
-            request.AddParameter("application/json", JsonConvert.SerializeObject(requestData), ParameterType.RequestBody);
+                var rawData = $"accessKey={_options.Value.AccessKey}" +
+                             $"&amount={request.Amount}" +
+                             $"&extraData={request.ExtraData}" +
+                             $"&ipnUrl={request.IpnUrl}" +
+                             $"&orderId={request.OrderId}" +
+                             $"&orderInfo={request.OrderInfo}" +
+                             $"&partnerCode={request.PartnerCode}" +
+                             $"&redirectUrl={request.RedirectUrl}" +
+                             $"&requestId={request.RequestId}" +
+                             $"&requestType={request.RequestType}";
 
-            var response = await client.ExecuteAsync(request);
-            return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
-        }
+                request.Signature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
 
-        public MomoExecuteResponseModel PaymentExecuteAsync(IQueryCollection collection)
-        {
-            // Kiểm tra chữ ký
-            var rawSignature = collection.First(s => s.Key == "signature").Value;
-            var rawHash = BuildRawHash(collection);
-            var checkSignature = ComputeHmacSha256(rawHash, _options.Value.SecretKey);
+                var jsonRequest = JsonSerializer.Serialize(request);
+                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-            if (rawSignature != checkSignature)
-            {
-                throw new Exception("Invalid signature");
+                var response = await _httpClient.PostAsync(_options.Value.PaymentEndpoint, content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"Request: {jsonRequest}");
+                Console.WriteLine($"Response: {responseContent}");
+
+                return JsonSerializer.Deserialize<MomoCreatePaymentResponse>(responseContent);
             }
-
-            var amount = collection.First(s => s.Key == "amount").Value;
-            var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
-            var orderId = collection.First(s => s.Key == "orderId").Value;
-
-            return new MomoExecuteResponseModel()
+            catch (Exception ex)
             {
-                Amount = amount,
-                OrderId = orderId,
-                OrderInfo = orderInfo
-            };
+                Console.WriteLine($"Error creating Momo payment: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<bool> PaymentExecuteAsync(Dictionary<string, string> queryParams)
+        {
+            try
+            {
+                var rawSignature = queryParams["signature"];
+                var rawData = BuildRawHash(queryParams);
+                var checkSignature = ComputeHmacSha256(rawData, _options.Value.SecretKey);
+
+                Console.WriteLine("Raw Data: " + rawData);
+                Console.WriteLine("Momo Signature: " + rawSignature);
+                Console.WriteLine("Our Signature: " + checkSignature);
+
+                return rawSignature.Equals(checkSignature);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error executing Momo payment: {ex.Message}");
+                return false;
+            }
+        }
+
+        private string BuildRawHash(Dictionary<string, string> queryParams)
+        {
+            var signatureRaw = string.Join("&", new[] {
+                $"accessKey={_options.Value.AccessKey}",
+                $"amount={queryParams["amount"]}",
+                $"extraData={queryParams.GetValueOrDefault("extraData", "")}",
+                $"message={queryParams["message"]}",
+                $"orderId={queryParams["orderId"]}",
+                $"orderInfo={queryParams["orderInfo"]}",
+                $"orderType={queryParams.GetValueOrDefault("orderType", "momo_wallet")}",
+                $"partnerCode={queryParams["partnerCode"]}",
+                $"payType={queryParams.GetValueOrDefault("payType", "")}", 
+                $"requestId={queryParams.GetValueOrDefault("requestId", "")}",
+                $"responseTime={queryParams.GetValueOrDefault("responseTime", "")}",
+                $"resultCode={queryParams["resultCode"]}",
+                $"transId={queryParams["transId"]}"
+            });
+
+            Console.WriteLine($"AccessKey: {_options.Value.AccessKey}");
+            Console.WriteLine($"SecretKey: {_options.Value.SecretKey}");
+            return signatureRaw;
         }
 
         private string ComputeHmacSha256(string message, string secretKey)
@@ -91,33 +120,9 @@ namespace ShoeStore.Services.Momo
             using (var hmac = new HMACSHA256(keyBytes))
             {
                 var hashBytes = hmac.ComputeHash(messageBytes);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                var hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                return hashString;
             }
-        }
-
-        private string BuildRawHash(IQueryCollection collection)
-        {
-            var signatureFields = new List<string>
-            {
-                "accessKey", "amount", "extraData", "message", "orderId",
-                "orderInfo", "orderType", "partnerCode", "payType",
-                "requestId", "responseTime", "resultCode", "transId"
-            };
-
-            var rawHash = new StringBuilder();
-            foreach (var field in signatureFields)
-            {
-                if (collection.ContainsKey(field))
-                {
-                    if (rawHash.Length > 0)
-                    {
-                        rawHash.Append("&");
-                    }
-                    rawHash.Append($"{field}={collection.First(s => s.Key == field).Value}");
-                }
-            }
-
-            return rawHash.ToString();
         }
     }
-}
+} 

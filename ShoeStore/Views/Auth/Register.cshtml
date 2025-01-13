@@ -1,4 +1,5 @@
 @model ShoeStore.Models.DTO.Request.UserRegisterDTO
+@inject Microsoft.Extensions.Options.IOptions<ShoeStore.Models.GoogleReCaptchaConfig> GoogleReCaptchaConfig
 @{
     ViewData["Title"] = "Đăng ký";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
@@ -9,18 +10,6 @@
 </div>
 
 <h4 class="text-center mb-4">Đăng ký tài khoản</h4>
-
-@if (!string.IsNullOrEmpty(ViewData["Message"]?.ToString()))
-{
-    <div class="alert alert-danger">@ViewData["Message"]</div>
-}
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
 
 @if (!ViewData.ModelState.IsValid)
 {
@@ -35,6 +24,13 @@
     </div>
 }
 
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["Message"]
+    </div>
+}
+
 <div class="auth-links mb-4">
     <span>Đã có tài khoản?</span>
     <a asp-controller="Auth" asp-action="Login">Đăng nhập</a>
@@ -46,7 +42,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" />
+            <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" autocomplete="username" />
         </div>
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
@@ -56,7 +52,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
             </div>
-            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <input asp-for="Email" class="form-control" placeholder="Email" autocomplete="email" />
         </div>
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
@@ -66,7 +62,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
             </div>
-            <input asp-for="FullName" class="form-control" placeholder="Họ và tên" />
+            <input asp-for="FullName" class="form-control" placeholder="Họ và tên" autocomplete="name" />
         </div>
         <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
@@ -76,7 +72,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
             </div>
-            <input asp-for="Phone" class="form-control" placeholder="Số điện thoại" />
+            <input asp-for="Phone" class="form-control" placeholder="Số điện thoại" autocomplete="tel" />
         </div>
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
@@ -86,7 +82,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input asp-for="Password" class="form-control" type="password" placeholder="Mật khẩu" />
+            <input asp-for="Password" class="form-control" type="password" placeholder="Mật khẩu" autocomplete="new-password" />
         </div>
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
@@ -96,14 +92,124 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Xác nhận mật khẩu" />
+            <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Xác nhận mật khẩu" autocomplete="new-password" />
         </div>
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="g-recaptcha mb-3" data-sitekey="@GoogleReCaptchaConfig.Value.SiteKey"></div>
+        @if (!string.IsNullOrEmpty(ViewBag.ReCaptchaError))
+        {
+            <span class="text-danger">@ViewBag.ReCaptchaError</span>
+        }
     </div>
 
     <button type="submit" class="btn btn-auth">Đăng ký</button>
 </form>
 
+    <div class="auth-divider">
+        <span>hoặc</span>
+    </div>
+
+    <div class="social-login">
+        <a asp-controller="AuthGoogle" asp-action="Login" class="social-btn google">
+            <i class="fab fa-google"></i>
+        </a>
+    </div>
+
+<style>
+    .auth-links {
+        text-align: center;
+    }
+
+        .auth-links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .auth-links a:hover {
+                text-decoration: underline;
+            }
+
+    .auth-divider {
+        text-align: center;
+        margin: 20px 0;
+        position: relative;
+    }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .auth-divider::before {
+            left: 0;
+        }
+
+        .auth-divider::after {
+            right: 0;
+        }
+
+        .auth-divider span {
+            background-color: #fff;
+            padding: 0 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+    .social-login {
+        text-align: center;
+    }
+
+    .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 0 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .social-btn.google {
+            background-color: #db4437;
+            color: white;
+        }
+
+            .social-btn.google:hover {
+                background-color: #c1351d;
+                transform: translateY(-2px);
+            }
+
+        .social-btn i {
+            font-size: 20px;
+        }
+
+    .btn-auth {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+        .btn-auth:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            color: white;
+        }
+</style>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 }

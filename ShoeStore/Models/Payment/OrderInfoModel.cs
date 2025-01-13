@@ -1,10 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ShoeStore.Models.Payment
 {
     public class OrderInfoModel
     {
+        [Required]
         public string OrderId { get; set; }
-        public string FullName { get; set; }
+
+        [Required]
+        public long Amount { get; set; }
+
+        [Required]
         public string OrderInfo { get; set; }
-        public int Amount { get; set; }
+
+        public string FullName { get; set; }
     }
 } 
