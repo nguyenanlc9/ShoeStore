@@ -20,16 +20,22 @@
                             <p><strong>Mã đơn hàng:</strong> @Model.OrderCode</p>
                             <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
                             <p><strong>Trạng thái:</strong> 
-                                <span class="badge @(Model.Status switch {
-                                    OrderStatus.Pending => "badge-warning",
-                                    OrderStatus.Processing => "badge-info",
-                                    OrderStatus.Shipped => "badge-primary",
-                                    OrderStatus.Delivered => "badge-success",
-                                    OrderStatus.Cancelled => "badge-danger",
-                                    _ => "badge-secondary"
-                                })">
-                                    @Model.Status.ToString()
-                                </span>
+                                @if (Model.Status == OrderStatus.Completed)
+                                {
+                                    <span class="badge badge-success">Đã giao hàng</span>
+                                }
+                                else if (Model.Status == OrderStatus.Shipping)
+                                {
+                                    <span class="badge badge-info">Đang vận chuyển</span>
+                                }
+                                else if (Model.Status == OrderStatus.Cancelled)
+                                {
+                                    <span class="badge badge-danger">Đã hủy</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-warning">@Model.Status.ToString()</span>
+                                }
                             </p>
                             <p><strong>Trạng thái thanh toán:</strong>
                                 <span class="badge @(Model.PaymentStatus switch {
@@ -72,21 +78,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.OrderDetails)
+                                @if (Model?.OrderDetails != null)
+                                {
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (item?.Product != null)
+                                                    {
+                                                        <img src="@item.Product.ImagePath" alt="@item.Product.Name" style="width: 50px; height: 50px; object-fit: cover;" class="mr-2">
+                                                        <div>
+                                                            <div>@item.Product.Name</div>
+                                                            <small class="text-muted">Size: @(item.Size?.SizeValue ?? 0)</small>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td>@item.Price.ToString("N0")₫</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@((item.Price * item.Quantity).ToString("N0"))₫</td>
+                                        </tr>
+                                    }
+                                }
+                                else
                                 {
                                     <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" style="width: 50px; height: 50px; object-fit: cover;" class="mr-2">
-                                                <div>
-                                                    <div>@item.Product.Name</div>
-                                                    <small class="text-muted">Size: @item.Size</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>@item.Price.ToString("N0")₫</td>
-                                        <td>@item.Quantity</td>
-                                        <td>@((item.Price * item.Quantity).ToString("N0"))₫</td>
+                                        <td colspan="4" class="text-center">Không có chi tiết đơn hàng</td>
                                     </tr>
                                 }
                             </tbody>
@@ -103,7 +121,7 @@
                 </div>
                 <div class="card-body">
                     <p><strong>Tên khách hàng:</strong> @Model.OrderUsName</p>
-                    <p><strong>Email:</strong> @Model.User.Email</p>
+                    <p><strong>Email:</strong> @(Model.User?.Email ?? "Không có")</p>
                     <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
                     <p><strong>Địa chỉ giao hàng:</strong> @Model.ShippingAddress</p>
                     @if (!string.IsNullOrEmpty(Model.Notes))

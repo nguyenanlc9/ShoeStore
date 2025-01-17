@@ -10,6 +10,8 @@ using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using ShoeStore.Services.MemberRanking;
+using ShoeStore.Services.GHN;
+using ShoeStore.Models.GHN;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -20,11 +22,16 @@ namespace ShoeStore.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IGHNService _ghnService;
+        private readonly IConfiguration _configuration;
 
-        public OrderController(ApplicationDbContext context, IServiceProvider serviceProvider)
+        public OrderController(ApplicationDbContext context, IServiceProvider serviceProvider, 
+            IGHNService ghnService, IConfiguration configuration)
         {
             _context = context;
             _serviceProvider = serviceProvider;
+            _ghnService = ghnService;
+            _configuration = configuration;
         }
 
         // GET: Admin/Order
@@ -42,7 +49,13 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
 
             var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Size)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
+
             if (order == null)
             {
                 return NotFound();
@@ -179,25 +192,22 @@ namespace ShoeStore.Areas.Admin.Controllers
             return _context.Orders.Any(e => e.OrderId == id);
         }
 
+        [HttpPost]
         public async Task<IActionResult> UpdateStatus(int orderId, OrderStatus status)
         {
             var order = await _context.Orders.FindAsync(orderId);
             if (order != null)
             {
                 order.Status = status;
-                // Cập nhật trạng thái thanh toán dựa trên phương thức thanh toán và trạng thái đơn hàng
-                if (order.PaymentMethod == PaymentMethod.VNPay )
+                if (order.PaymentMethod == PaymentMethod.VNPay)
                 {
-                    // Nếu là VNPay, giữ nguyên trạng thái thanh toán vì đã được xử lý trong callback
-                    // Chỉ cập nhật trạng thái đơn hàng
                     if (status == OrderStatus.Cancelled)
                     {
                         order.PaymentStatus = PaymentStatus.Failed;
                     }
                 }
-                else
+                else if (order.PaymentMethod == PaymentMethod.COD)
                 {
-                    // Với các phương thức thanh toán khác
                     switch (status)
                     {
                         case OrderStatus.Completed:
@@ -206,13 +216,44 @@ namespace ShoeStore.Areas.Admin.Controllers
                         case OrderStatus.Cancelled:
                             order.PaymentStatus = PaymentStatus.Failed;
                             break;
-                        case OrderStatus.Processing:
-                            // Giữ nguyên trạng thái thanh toán
-                            break;
                     }
                 }
 
                 await _context.SaveChangesAsync();
+
+                // Cập nhật TotalSpent và rank khi đơn hàng hoàn thành và đã thanh toán
+                if (status == OrderStatus.Completed && order.PaymentStatus == PaymentStatus.Completed)
+                {
+                    var user = await _context.Users.FindAsync(order.UserId);
+                    if (user != null)
+                    {
+                        // Tính tổng tiền từ các đơn hàng đã hoàn thành
+                        var completedOrders = await _context.Orders
+                            .Where(o => o.UserId == user.UserID 
+                                && o.Status == OrderStatus.Completed 
+                                && o.PaymentStatus == PaymentStatus.Completed)
+                            .ToListAsync();
+
+                        user.TotalSpent = completedOrders.Sum(o => o.TotalAmount);
+
+                        // Cập nhật rank dựa trên tổng chi tiêu
+                        if (user.TotalSpent >= 10000000) // 10 triệu
+                        {
+                            user.MemberRankId = 3; // Gold
+                        }
+                        else if (user.TotalSpent >= 5000000) // 5 triệu
+                        {
+                            user.MemberRankId = 2; // Silver
+                        }
+                        else
+                        {
+                            user.MemberRankId = 1; // Bronze
+                        }
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
                 return Json(new { success = true });
             }
             return Json(new { success = false });
@@ -237,7 +278,8 @@ namespace ShoeStore.Areas.Admin.Controllers
             return View(order);
         }
 
-        // Thêm action mới
+        // Thêm action GET cho Process
+        [HttpGet]
         public async Task<IActionResult> Process(int id)
         {
             var order = await _context.Orders
@@ -256,6 +298,93 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Process(int id, string wardCode, int districtId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Size)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Kiểm tra thông tin bắt buộc
+            if (string.IsNullOrEmpty(order.ShippingAddress))
+            {
+                TempData["ErrorMessage"] = "Thiếu địa chỉ giao hàng";
+                return View(order);
+            }
+
+            if (string.IsNullOrEmpty(order.PhoneNumber))
+            {
+                TempData["ErrorMessage"] = "Thiếu số điện thoại người nhận";
+                return View(order);
+            }
+
+            if (string.IsNullOrEmpty(wardCode))
+            {
+                TempData["ErrorMessage"] = "Vui lòng chọn Phường/Xã";
+                return View(order);
+            }
+
+            if (districtId <= 0)
+            {
+                TempData["ErrorMessage"] = "Vui lòng chọn Quận/Huyện";
+                return View(order);
+            }
+
+            // Cập nhật thông tin địa chỉ
+            order.WardCode = wardCode;
+            order.DistrictId = districtId;
+            await _context.SaveChangesAsync();
+
+            try
+            {
+                var result = await _ghnService.CreateShippingOrder(order, wardCode, districtId);
+                if (result.Success)
+                {
+                    // Lưu response từ GHN
+                    order.ShippingOrderCode = result.OrderCode;
+                    order.Status = OrderStatus.Shipped;
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = $"Đã tạo đơn vận chuyển thành công! Mã vận đơn: {result.OrderCode}";
+                    return RedirectToAction(nameof(Process), new { id = order.OrderId });
+                }
+
+                TempData["ErrorMessage"] = $"Lỗi khi tạo đơn vận chuyển: {result.Message}";
+                return View(order);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Lỗi khi tạo đơn vận chuyển: {ex.Message}";
+                return View(order);
+            }
+        }
+
+        private int CalculateTotalWeight(ICollection<OrderDetail> orderDetails)
+        {
+            // Tính tổng trọng lượng (gram)
+            return orderDetails.Sum(od => od.Product.Weight * od.Quantity);
+        }
+
+        private List<GHN_OrderItem> CreateGHNOrderItems(ICollection<OrderDetail> orderDetails)
+        {
+            return orderDetails.Select(od => new GHN_OrderItem
+            {
+                Name = od.Product.Name,
+                Code = od.Product.Code,
+                Quantity = od.Quantity,
+                Price = (int)od.Price,
+                Weight = od.Product.Weight
+            }).ToList();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> UpdateOrderStatus(int orderId, OrderStatus newStatus)
         {
             try
@@ -266,19 +395,23 @@ namespace ShoeStore.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
                 }
 
-                // Kiểm tra logic chuyển trạng thái
-                if (!IsValidStatusTransition(order.Status, newStatus))
+                // Cập nhật trạng thái đơn hàng
+                order.Status = newStatus;
+
+                // Cập nhật trạng thái thanh toán nếu cần
+                if (order.PaymentMethod == PaymentMethod.COD)
                 {
-                    return Json(new { success = false, message = "Không thể chuyển sang trạng thái này" });
+                    if (newStatus == OrderStatus.Completed)
+                    {
+                        order.PaymentStatus = PaymentStatus.Completed;
+                    }
+                    else if (newStatus == OrderStatus.Cancelled)
+                    {
+                        order.PaymentStatus = PaymentStatus.Failed;
+                    }
                 }
 
-                order.Status = newStatus;
-                
-                // Cập nhật trạng thái thanh toán nếu cần
-                if (newStatus == OrderStatus.Completed && order.PaymentMethod == PaymentMethod.COD)
-                {
-                    order.PaymentStatus = PaymentStatus.Completed;
-                }
+                await _context.SaveChangesAsync();
 
                 // Cập nhật TotalSpent và rank khi đơn hàng hoàn thành và đã thanh toán
                 if (newStatus == OrderStatus.Completed && order.PaymentStatus == PaymentStatus.Completed)
@@ -288,35 +421,36 @@ namespace ShoeStore.Areas.Admin.Controllers
                     {
                         // Tính tổng tiền từ các đơn hàng đã hoàn thành
                         var completedOrders = await _context.Orders
-                            .Where(o => o.UserId == order.UserId 
+                            .Where(o => o.UserId == user.UserID 
                                 && o.Status == OrderStatus.Completed 
                                 && o.PaymentStatus == PaymentStatus.Completed)
-                            .SumAsync(o => o.TotalAmount);
-                        
-                        user.TotalSpent = completedOrders;
-                        _context.Users.Update(user);
+                            .ToListAsync();
 
-                        // Tạo scope để sử dụng IMemberRankService
-                        using (var scope = _serviceProvider.CreateScope())
+                        user.TotalSpent = completedOrders.Sum(o => o.TotalAmount);
+
+                        // Cập nhật rank dựa trên tổng chi tiêu
+                        if (user.TotalSpent >= 10000000) // 10 triệu
                         {
-                            var memberRankService = scope.ServiceProvider.GetRequiredService<IMemberRankService>();
-                            await memberRankService.UpdateUserRank(order.UserId);
+                            user.MemberRankId = 3; // Gold
                         }
+                        else if (user.TotalSpent >= 5000000) // 5 triệu
+                        {
+                            user.MemberRankId = 2; // Silver
+                        }
+                        else
+                        {
+                            user.MemberRankId = 1; // Bronze
+                        }
+
+                        await _context.SaveChangesAsync();
                     }
                 }
 
-                await _context.SaveChangesAsync();
-
-                return Json(new { 
-                    success = true, 
-                    message = $"Đã cập nhật trạng thái thành {GetStatusText(newStatus)}",
-                    newStatus = newStatus.ToString(),
-                    newStatusText = GetStatusText(newStatus)
-                });
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Lỗi khi cập nhật trạng thái: " + ex.Message });
+                return Json(new { success = false, message = ex.Message });
             }
         }
 
@@ -329,9 +463,13 @@ namespace ShoeStore.Areas.Admin.Controllers
                 case OrderStatus.Processing:
                     return newStatus == OrderStatus.Shipped;
                 case OrderStatus.Shipped:
-                    return newStatus == OrderStatus.Delivered || newStatus == OrderStatus.Cancelled;
-                case OrderStatus.Delivered:
-                    return newStatus == OrderStatus.Completed;
+                    return newStatus == OrderStatus.Shipping;
+                case OrderStatus.Shipping:
+                    return newStatus == OrderStatus.Completed || newStatus == OrderStatus.Cancelled;
+                case OrderStatus.Completed:
+                    return false; // Không thể chuyển từ trạng thái hoàn thành
+                case OrderStatus.Cancelled:
+                    return false; // Không thể chuyển từ trạng thái hủy
                 default:
                     return false;
             }
@@ -339,16 +477,154 @@ namespace ShoeStore.Areas.Admin.Controllers
 
         private string GetStatusText(OrderStatus status)
         {
-            return status switch
+            switch (status)
             {
-                OrderStatus.Pending => "Chờ xử lý",
-                OrderStatus.Processing => "Đang xử lý",
-                OrderStatus.Shipped => "Đã giao cho vận chuyển",
-                OrderStatus.Delivered => "Đã giao hàng",
-                OrderStatus.Completed => "Hoàn thành",
-                OrderStatus.Cancelled => "Đã hủy",
-                _ => "Không xác định"
-            };
+                case OrderStatus.Pending:
+                    return "Chờ xử lý";
+                case OrderStatus.Processing:
+                    return "Đang xử lý";
+                case OrderStatus.Shipped:
+                    return "Đã giao cho đơn vị vận chuyển";
+                case OrderStatus.Shipping:
+                    return "Đang vận chuyển";
+                case OrderStatus.Completed:
+                    return "Hoàn thành";
+                case OrderStatus.Cancelled:
+                    return "Đã hủy";
+                default:
+                    return status.ToString();
+            }
+        }
+
+        public class CreateShippingOrderRequest
+        {
+            public string Id { get; set; }
+            public string WardCode { get; set; }
+            public int DistrictId { get; set; }
+            public int Length { get; set; } = 20;
+            public int Width { get; set; } = 20;
+            public int Height { get; set; } = 10;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateShippingOrder([FromBody] CreateShippingOrderRequest request)
+        {
+            try
+            {
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                    .FirstOrDefaultAsync(o => o.OrderId.ToString() == request.Id);
+
+                if (order == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+                }
+
+                // Tạo đơn hàng trên GHN
+                var result = await _ghnService.CreateShippingOrder(
+                    order, 
+                    request.WardCode, 
+                    request.DistrictId,
+                    request.Length,
+                    request.Width,
+                    request.Height);
+
+                if (result.Success)
+                {
+                    order.ShippingOrderCode = result.OrderCode;
+                    order.Status = OrderStatus.Shipped;
+                    await _context.SaveChangesAsync();
+                    return Json(new { success = true });
+                }
+
+                return Json(new { success = false, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAllUserRanks()
+        {
+            try
+            {
+                var users = await _context.Users.ToListAsync();
+                foreach (var user in users)
+                {
+                    // Tính tổng tiền từ các đơn hàng đã hoàn thành
+                    var totalSpent = await _context.Orders
+                        .Where(o => o.UserId == user.UserID 
+                            && o.Status == OrderStatus.Completed 
+                            && o.PaymentStatus == PaymentStatus.Completed)
+                        .SumAsync(o => o.TotalAmount);
+
+                    user.TotalSpent = totalSpent;
+
+                    // Cập nhật rank dựa trên tổng chi tiêu
+                    if (totalSpent >= 10000000) // 10 triệu
+                    {
+                        user.MemberRankId = 3; // Gold
+                    }
+                    else if (totalSpent >= 5000000) // 5 triệu
+                    {
+                        user.MemberRankId = 2; // Silver
+                    }
+                    else
+                    {
+                        user.MemberRankId = 1; // Bronze
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Đã cập nhật rank cho tất cả người dùng" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CalculateShippingFee([FromBody] CreateShippingOrderRequest request)
+        {
+            try
+            {
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                    .FirstOrDefaultAsync(o => o.OrderId.ToString() == request.Id);
+
+                if (order == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
+                }
+
+                // Tính tổng trọng lượng từ các sản phẩm trong đơn hàng
+                var totalWeight = CalculateTotalWeight(order.OrderDetails);
+
+                // Tính phí vận chuyển
+                var result = await _ghnService.CalculateShippingFee(
+                    request.WardCode,
+                    request.DistrictId,
+                    totalWeight,
+                    request.Length,
+                    request.Width,
+                    request.Height);
+
+                if (result.Success)
+                {
+                    return Json(new { success = true, fee = result.Fee });
+                }
+
+                return Json(new { success = false, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

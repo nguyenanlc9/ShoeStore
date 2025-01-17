@@ -75,26 +75,21 @@
                                         <td>@Html.DisplayFor(modelItem => item.OrderCoupon)</td>
                                         <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
                                         <td>
-                                            @switch (item.Status)
+                                            @if (item.Status == OrderStatus.Completed)
                                             {
-                                                case OrderStatus.Pending:
-                                                    <span class="badge badge-warning">Chờ xử lý</span>
-                                                    break;
-                                                case OrderStatus.Processing:
-                                                    <span class="badge badge-info">Đang xử lý</span>
-                                                    break;
-                                                case OrderStatus.Shipped:
-                                                    <span class="badge badge-primary">Đã giao cho vận chuyển</span>
-                                                    break;
-                                                case OrderStatus.Delivered:
-                                                    <span class="badge badge-info">Đã giao hàng</span>
-                                                    break;
-                                                case OrderStatus.Completed:
-                                                    <span class="badge badge-success">Hoàn thành</span>
-                                                    break;
-                                                case OrderStatus.Cancelled:
-                                                    <span class="badge badge-danger">Đã hủy</span>
-                                                    break;
+                                                <span class="badge badge-success">Đã giao hàng</span>
+                                            }
+                                            else if (item.Status == OrderStatus.Shipping)
+                                            {
+                                                <span class="badge badge-info">Đang vận chuyển</span>
+                                            }
+                                            else if (item.Status == OrderStatus.Cancelled)
+                                            {
+                                                <span class="badge badge-danger">Đã hủy</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">@item.Status.ToString()</span>
                                             }
                                         </td>
                                         <td>

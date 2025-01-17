@@ -173,7 +173,7 @@
             OrderStatus.Pending => "warning",
             OrderStatus.Processing => "info",
             OrderStatus.Shipped => "primary",
-            OrderStatus.Delivered => "info",
+            OrderStatus.Shipping => "info",
             OrderStatus.Completed => "success",
             OrderStatus.Cancelled => "danger",
             _ => "secondary"
@@ -187,7 +187,7 @@
             OrderStatus.Pending => "Chờ xử lý",
             OrderStatus.Processing => "Đang xử lý",
             OrderStatus.Shipped => "Đã giao cho vận chuyển",
-            OrderStatus.Delivered => "Đã giao hàng",
+            OrderStatus.Shipping => "Đang vận chuyển",
             OrderStatus.Completed => "Hoàn thành",
             OrderStatus.Cancelled => "Đã hủy",
             _ => "Không xác định"

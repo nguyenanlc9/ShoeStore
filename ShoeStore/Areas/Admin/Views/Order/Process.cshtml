@@ -1,45 +1,95 @@
 @model ShoeStore.Models.Order
 @using ShoeStore.Models.Enums
-
 @{
     ViewData["Title"] = "Xử lý đơn hàng";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="page-inner">
-    <div class="page-header">
-        <h4 class="page-title">Xử lý đơn hàng #@Model.OrderCode</h4>
-        <ul class="breadcrumbs">
-            <li class="nav-home">
-                <a asp-area="Admin" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-home"></i>
-                </a>
-            </li>
-            <li class="separator">
-                <i class="fas fa-angle-right"></i>
-            </li>
-            <li class="nav-item">
-                <a asp-action="Index">Đơn hàng</a>
-            </li>
-            <li class="separator">
-                <i class="fas fa-angle-right"></i>
-            </li>
-            <li class="nav-item">
-                <span>Xử lý đơn hàng</span>
-            </li>
-        </ul>
-    </div>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Xử lý đơn hàng #@Model.OrderCode</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
 
     <div class="row">
-        <div class="col-md-8">
-            <!-- Thông tin đơn hàng -->
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Chi tiết đơn hàng</h4>
+        <!-- Thông tin đơn hàng -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin đơn hàng</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table">
+                            <tr>
+                                <th>Mã đơn hàng:</th>
+                                <td>@Model.OrderCode</td>
+                            </tr>
+                            <tr>
+                                <th>Khách hàng:</th>
+                                <td>@Model.OrderUsName</td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại:</th>
+                                <td>@Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ:</th>
+                                <td>@Model.ShippingAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Phương thức thanh toán:</th>
+                                <td>@Model.PaymentMethod.ToString()</td>
+                            </tr>
+                            <tr>
+                                <th>Trạng thái thanh toán:</th>
+                                <td>@Model.PaymentStatus.ToString()</td>
+                            </tr>
+                            <tr>
+                                <th>Tổng tiền:</th>
+                                <td>@Model.TotalAmount.ToString("N0") VNĐ</td>
+                            </tr>
+                            @if (!string.IsNullOrEmpty(Model.ShippingOrderCode))
+                            {
+                                <tr>
+                                    <th>Mã vận đơn:</th>
+                                    <td>
+                                        <span class="badge badge-success">@Model.ShippingOrderCode</span>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chi tiết sản phẩm -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Chi tiết sản phẩm</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Sản phẩm</th>
@@ -54,89 +104,132 @@
                                 {
                                     <tr>
                                         <td>@item.Product.Name</td>
-                                        <td>@(item.Size?.SizeValue.ToString() ?? "N/A")</td>
+                                        <td>@item.Size.SizeValue</td>
                                         <td>@item.Quantity</td>
-                                        <td>@item.Price.ToString("N0") đ</td>
-                                        <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>
+                                        <td>@item.Price.ToString("N0") VNĐ</td>
+                                        <td>@((item.Price * item.Quantity).ToString("N0")) VNĐ</td>
                                     </tr>
                                 }
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
-                                    <td><strong>@Model.TotalAmount.ToString("N0") đ</strong></td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-md-4">
-            <!-- Thông tin xử lý -->
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Xử lý đơn hàng</h4>
+    <!-- Thông tin giao hàng -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin giao hàng</h6>
                 </div>
                 <div class="card-body">
-                    <div class="current-status mb-4">
-                        <h5>Trạng thái hiện tại:</h5>
-                        <div class="status-badge @GetStatusClass(Model.Status)">
-                            @GetStatusText(Model.Status)
-                        </div>
-                    </div>
-
-                    @if (Model.Status != OrderStatus.Completed && Model.Status != OrderStatus.Cancelled)
+                    @if (string.IsNullOrEmpty(Model.ShippingOrderCode))
                     {
-                        <div class="status-actions">
-                            <h5>Cập nhật trạng thái:</h5>
-                            <div class="btn-group-vertical w-100">
-                                @if (Model.Status == OrderStatus.Pending)
-                                {
-                                    <button class="btn btn-info mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Processing))">
-                                        <i class="fas fa-box"></i> Xử lý đơn hàng
-                                    </button>
-                                }
-                                @if (Model.Status == OrderStatus.Processing)
-                                {
-                                    <button class="btn btn-primary mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Shipped))">
-                                        <i class="fas fa-shipping-fast"></i> Giao cho vận chuyển
-                                    </button>
-                                }
-                                @if (Model.Status == OrderStatus.Shipped)
-                                {
-                                    <button class="btn btn-info mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Delivered))">
-                                        <i class="fas fa-truck"></i> Xác nhận đã giao
-                                    </button>
-                                    <button class="btn btn-danger" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Cancelled))">
-                                        <i class="fas fa-times-circle"></i> Hủy đơn hàng
-                                    </button>
-                                }
-                                @if (Model.Status == OrderStatus.Delivered)
-                                {
-                                    <button class="btn btn-success mb-2" onclick="updateStatus(@Model.OrderId, @((int)OrderStatus.Completed))">
-                                        <i class="fas fa-check-circle"></i> Hoàn thành đơn hàng
-                                    </button>
-                                }
+                        <form asp-action="Process" method="post" id="shippingForm">
+                            <input type="hidden" name="id" value="@Model.OrderId" />
+                            <input type="hidden" name="WardCode" id="WardCode" value="@Model.WardCode" />
+                            <input type="hidden" name="DistrictId" id="DistrictId" value="@Model.DistrictId" />
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tỉnh/Thành phố</label>
+                                        <select class="form-control" id="provinceSelect">
+                                            <option value="">Chọn Tỉnh/Thành phố</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Quận/Huyện</label>
+                                        <select class="form-control" id="districtSelect" disabled>
+                                            <option value="">Chọn Quận/Huyện</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Phường/Xã</label>
+                                        <select class="form-control" id="wardSelect" disabled>
+                                            <option value="">Chọn Phường/Xã</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    }
-                </div>
-            </div>
 
-            <!-- Thông tin khách hàng -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h4 class="card-title">Thông tin khách hàng</h4>
-                </div>
-                <div class="card-body">
-                    <p><strong>Họ tên:</strong> @Model.OrderUsName</p>
-                    <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
-                    <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
-                    @if (!string.IsNullOrEmpty(Model.Notes))
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Chiều dài (cm)</label>
+                                        <input type="number" class="form-control" id="Length" name="Length" value="20">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Chiều rộng (cm)</label>
+                                        <input type="number" class="form-control" id="Width" name="Width" value="20">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Chiều cao (cm)</label>
+                                        <input type="number" class="form-control" id="Height" name="Height" value="10">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info" id="shippingFeeInfo" style="display: none;">
+                                        <i class="fas fa-info-circle"></i> Phí vận chuyển ước tính: <strong id="shippingFee">0</strong> VNĐ
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-info mr-2" onclick="calculateShippingFee()">
+                                        <i class="fas fa-calculator"></i> Tính phí vận chuyển
+                                    </button>
+
+                                    <button type="button" class="btn btn-primary mr-2" onclick="createShippingOrder()">
+                                        <i class="fas fa-truck"></i> Tạo đơn vận chuyển GHN
+                                    </button>
+
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index")'">
+                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    else
                     {
-                        <p><strong>Ghi chú:</strong> @Model.Notes</p>
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> Đã tạo vận đơn thành công với mã: <strong>@Model.ShippingOrderCode</strong>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Cập nhật trạng thái:</label>
+                            <select class="form-control" id="orderStatus" style="width: 200px; display: inline-block; margin-left: 10px;">
+                                @if (Model.Status == OrderStatus.Shipped || Model.Status == OrderStatus.Shipping)
+                                {
+                                    <option value="@OrderStatus.Shipping" selected>Đang vận chuyển</option>
+                                    <option value="@OrderStatus.Completed">Hoàn thành</option>
+                                    <option value="@OrderStatus.Cancelled">Hủy đơn hàng</option>
+                                }
+                                else if (Model.Status == OrderStatus.Completed)
+                                {
+                                    <option value="@OrderStatus.Completed" selected>Hoàn thành</option>
+                                }
+                            </select>
+                            <button class="btn btn-primary ml-2" onclick="updateOrderStatus()">
+                                <i class="fas fa-save"></i> Cập nhật
+                            </button>
+                        </div>
                     }
                 </div>
             </div>
@@ -145,63 +238,226 @@
 </div>
 
 @section Scripts {
-    <script>
-        function updateStatus(orderId, newStatus) {
-            if (!confirm('Bạn có chắc muốn cập nhật trạng thái đơn hàng?')) {
-                return;
+    @if (string.IsNullOrEmpty(Model.ShippingOrderCode))
+    {
+        <script>
+            $(document).ready(function() {
+                // Load tỉnh/thành phố khi trang được tải
+                loadProvinces();
+
+                // Xử lý sự kiện thay đổi tỉnh/thành phố
+                $('#provinceSelect').change(function() {
+                    const provinceId = $(this).val();
+                    if (provinceId) {
+                        loadDistricts(provinceId);
+                        $('#districtSelect').prop('disabled', false);
+                        $('#wardSelect').prop('disabled', true).html('<option value="">Chọn Phường/Xã</option>');
+                    } else {
+                        $('#districtSelect').prop('disabled', true).html('<option value="">Chọn Quận/Huyện</option>');
+                        $('#wardSelect').prop('disabled', true).html('<option value="">Chọn Phường/Xã</option>');
+                    }
+                    validateForm();
+                });
+
+                // Xử lý sự kiện thay đổi quận/huyện
+                $('#districtSelect').change(function() {
+                    const districtId = $(this).val();
+                    if (districtId) {
+                        loadWards(districtId);
+                        $('#wardSelect').prop('disabled', false);
+                        $('#DistrictId').val(districtId);
+                    } else {
+                        $('#wardSelect').prop('disabled', true).html('<option value="">Chọn Phường/Xã</option>');
+                        $('#DistrictId').val('');
+                    }
+                    validateForm();
+                });
+
+                // Xử lý sự kiện thay đổi phường/xã
+                $('#wardSelect').change(function() {
+                    const wardCode = $(this).val();
+                    $('#WardCode').val(wardCode);
+                    validateForm();
+                });
+
+                // Hàm tải danh sách tỉnh/thành phố
+                function loadProvinces() {
+                    $.get('/api/address/provinces', function(data) {
+                        let html = '<option value="">Chọn Tỉnh/Thành phố</option>';
+                        data.forEach(function(province) {
+                            html += `<option value="${province.provinceId}">${province.provinceName}</option>`;
+                        });
+                        $('#provinceSelect').html(html);
+                    });
+                }
+
+                // Hàm tải danh sách quận/huyện
+                function loadDistricts(provinceId) {
+                    $.get(`/api/address/districts/${provinceId}`, function(data) {
+                        let html = '<option value="">Chọn Quận/Huyện</option>';
+                        data.forEach(function(district) {
+                            html += `<option value="${district.districtId}">${district.districtName}</option>`;
+                        });
+                        $('#districtSelect').html(html);
+                    });
+                }
+
+                // Hàm tải danh sách phường/xã
+                function loadWards(districtId) {
+                    $.get(`/api/address/wards/${districtId}`, function(data) {
+                        let html = '<option value="">Chọn Phường/Xã</option>';
+                        data.forEach(function(ward) {
+                            html += `<option value="${ward.wardCode}">${ward.wardName}</option>`;
+                        });
+                        $('#wardSelect').html(html);
+                    });
+                }
+
+                // Hàm kiểm tra form
+                function validateForm() {
+                    const wardCode = $('#WardCode').val();
+                    const districtId = $('#DistrictId').val();
+                    const isValid = wardCode && districtId;
+                    $('#submitBtn').prop('disabled', !isValid);
+                }
+            });
+
+            function calculateShippingFee() {
+                const wardCode = $('#WardCode').val();
+                const districtId = $('#DistrictId').val();
+                const length = $('#Length').val();
+                const width = $('#Width').val();
+                const height = $('#Height').val();
+
+                if (!wardCode || !districtId) {
+                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng');
+                    return;
+                }
+
+                console.log('Calculating shipping fee with:', {
+                    wardCode,
+                    districtId,
+                    length,
+                    width,
+                    height
+                });
+
+                const data = {
+                    id: '@Model.OrderId',
+                    wardCode: wardCode,
+                    districtId: parseInt(districtId),
+                    length: parseInt(length),
+                    width: parseInt(width),
+                    height: parseInt(height)
+                };
+
+                $.ajax({
+                    url: '/Admin/Order/CalculateShippingFee',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    beforeSend: function() {
+                        $('#shippingFee').html('<i class="fas fa-spinner fa-spin"></i>');
+                        $('#shippingFeeInfo').show();
+                    },
+                    success: function(response) {
+                        console.log('Response:', response);
+                        if (response.success) {
+                            $('#shippingFee').text(response.fee.toLocaleString('vi-VN'));
+                            $('#shippingFeeInfo').show();
+                        } else {
+                            alert('Lỗi khi tính phí vận chuyển: ' + response.message);
+                            $('#shippingFeeInfo').hide();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error:', xhr);
+                        alert('Có lỗi xảy ra khi tính phí vận chuyển');
+                        $('#shippingFeeInfo').hide();
+                    }
+                });
             }
 
-            $.ajax({
-                url: '@Url.Action("UpdateOrderStatus")',
-                type: 'POST',
-                data: {
-                    orderId: orderId,
-                    newStatus: newStatus
-                },
-                success: function(response) {
+            function createShippingOrder() {
+                const wardCode = $('#WardCode').val();
+                const districtId = $('#DistrictId').val();
+                const length = $('#Length').val();
+                const width = $('#Width').val();
+                const height = $('#Height').val();
+
+                if (!wardCode || !districtId) {
+                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng');
+                    return;
+                }
+
+                const data = {
+                    id: '@Model.OrderId',
+                    wardCode: wardCode,
+                    districtId: parseInt(districtId),
+                    length: parseInt(length),
+                    width: parseInt(width),
+                    height: parseInt(height)
+                };
+
+                $.ajax({
+                    url: '/Admin/Order/CreateShippingOrder',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Lỗi khi tạo đơn vận chuyển: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra khi tạo đơn vận chuyển');
+                    }
+                });
+            }
+        </script>
+    }
+    else
+    {
+        <script>
+            function updateOrderStatus() {
+                const status = $('#orderStatus').val();
+                $.post('/Admin/Order/UpdateOrderStatus', { 
+                    orderId: @Model.OrderId, 
+                    newStatus: status 
+                })
+                .done(function(response) {
                     if (response.success) {
-                        toastr.success(response.message);
+                        // Hiển thị thông báo thành công
+                        const alertHtml = `
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle"></i> Cập nhật trạng thái thành công!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
+                        $('.card-body').prepend(alertHtml);
+                        
+                        // Tự động động tải lại trang sau 1 giây
                         setTimeout(function() {
                             location.reload();
                         }, 1000);
                     } else {
-                        toastr.error(response.message);
+                        alert(response.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
                     }
-                },
-                error: function() {
-                    toastr.error('Có lỗi xảy ra khi cập nhật trạng thái');
-                }
-            });
-        }
+                })
+                .fail(function(xhr) {
+                    alert('Có lỗi xảy ra khi cập nhật trạng thái: ' + xhr.responseText);
+                });
+            }
+        </script>
+    }
+
+    <script>
+        // Tự động ẩn alert thông báo sau 5 giây
+        setTimeout(function() {
+            $('.alert:not(#shippingFeeInfo)').alert('close');
+        }, 5000);
     </script>
-}
-
-@functions {
-    string GetStatusClass(OrderStatus status)
-    {
-        return status switch
-        {
-            OrderStatus.Pending => "badge badge-warning",
-            OrderStatus.Processing => "badge badge-info",
-            OrderStatus.Shipped => "badge badge-primary",
-            OrderStatus.Delivered => "badge badge-info",
-            OrderStatus.Completed => "badge badge-success",
-            OrderStatus.Cancelled => "badge badge-danger",
-            _ => "badge badge-secondary"
-        };
-    }
-
-    string GetStatusText(OrderStatus status)
-    {
-        return status switch
-        {
-            OrderStatus.Pending => "Chờ xử lý",
-            OrderStatus.Processing => "Đang xử lý",
-            OrderStatus.Shipped => "Đã giao cho vận chuyển",
-            OrderStatus.Delivered => "Đã giao hàng",
-            OrderStatus.Completed => "Hoàn thành",
-            OrderStatus.Cancelled => "Đã hủy",
-            _ => "Không xác định"
-        };
-    }
 } 

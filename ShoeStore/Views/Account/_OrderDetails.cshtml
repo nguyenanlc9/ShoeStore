@@ -97,7 +97,7 @@
                         OrderStatus.Pending => "secondary",
                         OrderStatus.Processing => "info",
                         OrderStatus.Shipped => "primary",
-                        OrderStatus.Delivered => "success",
+                        OrderStatus.Shipping => "info",
                         OrderStatus.Completed => "success",
                         OrderStatus.Cancelled => "danger",
                         _ => "secondary"
@@ -105,12 +105,12 @@
 
                     var statusText = Model.Status switch
                     {
-                        OrderStatus.Pending => "Chờ xử lý",
-                        OrderStatus.Processing => "Đang xử lý",
-                        OrderStatus.Shipped => "Đã giao cho vận chuyển",
-                        OrderStatus.Delivered => "Đã giao hàng",
-                        OrderStatus.Completed => "Hoàn thành",
-                        OrderStatus.Cancelled => "Đã hủy",
+                        OrderStatus.Pending => "secondary",
+                        OrderStatus.Processing => "info",
+                        OrderStatus.Shipped => "primary",
+                        OrderStatus.Shipping => "info",
+                        OrderStatus.Completed => "success",
+                        OrderStatus.Cancelled => "danger",
                         _ => "Không xác định"
                     };
                 }

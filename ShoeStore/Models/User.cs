@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ShoeStore.Models.Enums;
 
 namespace ShoeStore.Models
 {
@@ -63,22 +64,18 @@ namespace ShoeStore.Models
 
         [Required]
         [Display(Name = "Vai trò")]
-        public int RoleID { get; set; }
+        public int RoleID { get; set; }  // Phân quyền người dùng (Admin, User)
 
         [ForeignKey("RoleID")]
-        public virtual Role Role { get; set; }
+        public virtual Role Role { get; set; }  // Quan hệ với bảng Role để phân quyền
 
-        public int? MemberRankId { get; set; }
+        public int? MemberRankId { get; set; }  // Hạng thành viên (Bronze, Silver, Gold)
         
         [ForeignKey("MemberRankId")]
-        public virtual MemberRank MemberRank { get; set; }
+        public virtual MemberRank MemberRank { get; set; }  // Quan hệ với bảng MemberRank để xác định hạng thành viên
 
-        public decimal TotalSpent { get; set; }  // Tổng số tiền đã chi tiêu
+        public decimal TotalSpent { get; set; } = 0;  // Tổng tiền đã chi tiêu, dùng để tính hạng thành viên
 
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<ReturnRequest> ReturnRequests { get; set; }
-        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

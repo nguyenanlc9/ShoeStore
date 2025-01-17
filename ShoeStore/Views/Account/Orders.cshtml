@@ -74,12 +74,12 @@
                             <td>@order.TotalAmount.ToString("N0") đ</td>
                             <td>
                                 @{
-                                    var statusClass = order.Status switch
+                                    var badgeClass = order.Status switch
                                     {
                                         OrderStatus.Pending => "secondary",
                                         OrderStatus.Processing => "info",
-                                        OrderStatus.Shipped => "primary", 
-                                        OrderStatus.Delivered => "success",
+                                        OrderStatus.Shipped => "primary",
+                                        OrderStatus.Shipping => "info",
                                         OrderStatus.Completed => "success",
                                         OrderStatus.Cancelled => "danger",
                                         _ => "secondary"
@@ -90,13 +90,13 @@
                                         OrderStatus.Pending => "Chờ xử lý",
                                         OrderStatus.Processing => "Đang xử lý",
                                         OrderStatus.Shipped => "Đã giao cho vận chuyển",
-                                        OrderStatus.Delivered => "Đã giao hàng",
+                                        OrderStatus.Shipping => "Đang vận chuyển",
                                         OrderStatus.Completed => "Hoàn thành",
                                         OrderStatus.Cancelled => "Đã hủy",
                                         _ => "Không xác định"
                                     };
                                 }
-                                <span class="badge bg-@statusClass">@statusText</span>
+                                <span class="badge badge-@badgeClass">@statusText</span>
                             </td>
                             <td>
                                 @{
@@ -138,18 +138,28 @@
                                             </a>
                                         }
                                     }
-                                    @if (order.Status == OrderStatus.Delivered)
+                                    @if (order.Status == OrderStatus.Completed)
                                     {
-                                        <button type="button" class="btn btn-sm btn-success" 
-                                                onclick="confirmOrder('@order.OrderId')">
-                                            Xác nhận đã nhận
+                                        <button class="btn btn-success btn-sm" disabled>
+                                            <i class="fas fa-check"></i> Đã giao hàng
                                         </button>
                                     }
-                                    @if (order.Status == OrderStatus.Pending)
+                                    else if (order.Status == OrderStatus.Shipping)
                                     {
-                                        <button type="button" class="btn btn-sm btn-danger" 
-                                                onclick="cancelOrder('@order.OrderId')">
-                                            Hủy đơn
+                                        <button class="btn btn-info btn-sm" disabled>
+                                            <i class="fas fa-truck"></i> Đang vận chuyển
+                                        </button>
+                                    }
+                                    else if (order.Status == OrderStatus.Cancelled)
+                                    {
+                                        <button class="btn btn-danger btn-sm" disabled>
+                                            <i class="fas fa-times"></i> Đã hủy
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-warning btn-sm" disabled>
+                                            <i class="fas fa-clock"></i> @order.Status.ToString()
                                         </button>
                                     }
                                 </div>

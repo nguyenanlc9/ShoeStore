@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ShoeStore.Services.APIAddress;
-using Microsoft.Extensions.Logging;
-using ShoeStore.Models.APIAddress;
+using ShoeStore.Services.GHN;
 
 namespace ShoeStore.Controllers.Api
 {
@@ -9,60 +7,52 @@ namespace ShoeStore.Controllers.Api
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly IAddressService _addressService;
-        private readonly ILogger<AddressController> _logger;
+        private readonly IGHNAddressService _addressService;
 
-        public AddressController(IAddressService addressService, ILogger<AddressController> logger)
+        public AddressController(IGHNAddressService addressService)
         {
             _addressService = addressService;
-            _logger = logger;
         }
 
         [HttpGet("provinces")]
-        public async Task<ActionResult<List<Province>>> GetProvinces()
+        public async Task<IActionResult> GetProvinces()
         {
             try
             {
-                _logger.LogInformation("Getting provinces...");
                 var provinces = await _addressService.GetProvinces();
                 return Ok(provinces);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting provinces");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("districts/{provinceCode}")]
-        public async Task<ActionResult<List<District>>> GetDistricts(int provinceCode)
+        [HttpGet("districts/{provinceId}")]
+        public async Task<IActionResult> GetDistricts(int provinceId)
         {
             try
             {
-                _logger.LogInformation($"Getting districts for province {provinceCode}");
-                var districts = await _addressService.GetDistricts(provinceCode);
+                var districts = await _addressService.GetDistricts(provinceId);
                 return Ok(districts);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error getting districts for province {provinceCode}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("wards/{districtCode}")]
-        public async Task<ActionResult<List<Ward>>> GetWards(int districtCode)
+        [HttpGet("wards/{districtId}")]
+        public async Task<IActionResult> GetWards(int districtId)
         {
             try
             {
-                _logger.LogInformation($"Getting wards for district {districtCode}");
-                var wards = await _addressService.GetWards(districtCode);
+                var wards = await _addressService.GetWards(districtId);
                 return Ok(wards);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error getting wards for district {districtCode}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
     }

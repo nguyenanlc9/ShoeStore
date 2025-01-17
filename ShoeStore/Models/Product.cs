@@ -80,6 +80,12 @@ namespace ShoeStore.Models
         [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "Mã sản phẩm chỉ được chứa chữ, số và dấu gạch ngang")]
         public string ProductCode { get; set; }
 
+        public string Code { get; set; } = string.Empty;
+        public int Weight { get; set; } = 500; // Default weight in grams
+        public int Length { get; set; } = 20; // Default length in cm
+        public int Width { get; set; } = 20; // Default width in cm
+        public int Height { get; set; } = 10; // Default height in cm
+
         public Product()
         {
             ProductSizeStocks = new HashSet<ProductSizeStock>();

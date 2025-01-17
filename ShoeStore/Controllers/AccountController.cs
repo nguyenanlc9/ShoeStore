@@ -202,7 +202,7 @@ namespace ShoeStore.Controllers
                 return NotFound();
             }
 
-            if (order.Status == OrderStatus.Delivered)
+            if (order.Status == OrderStatus.Completed)
             {
                 order.Status = OrderStatus.Completed;
                 order.CreatedAt = DateTime.Now;

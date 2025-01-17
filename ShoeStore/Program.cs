@@ -13,6 +13,7 @@ using ShoeStore.Services.ZaloPay;
 using ShoeStore.Models.Payment.Momo;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.ReCaptcha;
+using ShoeStore.Services.GHN;
 
 namespace ShoeStore
 {
@@ -85,6 +86,10 @@ namespace ShoeStore
 
             builder.Services.Configure<GoogleReCaptchaConfig>(builder.Configuration.GetSection("GoogleReCaptcha"));
             builder.Services.AddHttpClient<IGoogleReCaptchaService, GoogleReCaptchaService>();
+
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<IGHNService, GHNService>();
+            builder.Services.AddScoped<IGHNAddressService, GHNAddressService>();
 
             var app = builder.Build();
 

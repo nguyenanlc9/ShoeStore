@@ -83,5 +83,13 @@ namespace ShoeStore.Models
         public decimal Discount { get; set; }
 
         public DateTime? PaidAt { get; set; }
+
+        // Shipping Information
+        public string Address { get; set; } = string.Empty;
+        public string WardCode { get; set; } = string.Empty;
+        public int DistrictId { get; set; }
+        public string? ShippingOrderCode { get; set; }
+        public string? ShippingNote { get; set; }
+        public string? ShippingOrderResponse { get; set; }
     }
 }

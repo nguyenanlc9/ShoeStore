@@ -387,6 +387,10 @@ namespace ShoeStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CancelReason")
                         .HasColumnType("nvarchar(max)");
 
@@ -398,6 +402,9 @@ namespace ShoeStore.Migrations
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -445,6 +452,15 @@ namespace ShoeStore.Migrations
                     b.Property<decimal>("ShippingFee")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ShippingNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingOrderCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingOrderResponse")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -456,6 +472,10 @@ namespace ShoeStore.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");
 
@@ -551,6 +571,10 @@ namespace ShoeStore.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -564,6 +588,9 @@ namespace ShoeStore.Migrations
                     b.Property<decimal>("DiscountPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -585,6 +612,9 @@ namespace ShoeStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("Length")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -617,6 +647,12 @@ namespace ShoeStore.Migrations
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId");
 
@@ -838,8 +874,6 @@ namespace ShoeStore.Migrations
                     b.HasKey("ReturnId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ReturnRequests");
                 });
@@ -1120,7 +1154,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1263,12 +1297,6 @@ namespace ShoeStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShoeStore.Models.User", null)
-                        .WithMany("ReturnRequests")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Order");
                 });
 
@@ -1281,7 +1309,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1317,7 +1345,7 @@ namespace ShoeStore.Migrations
                         .IsRequired();
 
                     b.HasOne("ShoeStore.Models.User", "User")
-                        .WithMany("Wishlists")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1375,15 +1403,7 @@ namespace ShoeStore.Migrations
 
             modelBuilder.Entity("ShoeStore.Models.User", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("Orders");
-
-                    b.Navigation("ReturnRequests");
-
-                    b.Navigation("Reviews");
-
-                    b.Navigation("Wishlists");
                 });
 #pragma warning restore 612, 618
         }
