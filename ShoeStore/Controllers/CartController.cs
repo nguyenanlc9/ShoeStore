@@ -15,6 +15,7 @@ using ShoeStore.Services.Email;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Areas.Admin.Controllers;
 using ShoeStore.Services.Momo;
+using ShoeStore.Services.GHN;
 
 namespace ShoeStore.Controllers
 {
@@ -24,7 +25,7 @@ namespace ShoeStore.Controllers
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemberRankService _memberRankService;
-        private readonly IAddressService _addressService;
+        private readonly IGHNAddressService _ghnAddressService;
         private readonly IEmailService _emailService;
         private readonly IMomoService _momoService;
 
@@ -33,7 +34,7 @@ namespace ShoeStore.Controllers
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             IMemberRankService memberRankService,
-            IAddressService addressService,
+            IGHNAddressService ghnAddressService,
             IEmailService emailService,
             IMomoService momoService)
         {
@@ -41,7 +42,7 @@ namespace ShoeStore.Controllers
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _memberRankService = memberRankService;
-            _addressService = addressService;
+            _ghnAddressService = ghnAddressService;
             _emailService = emailService;
             _momoService = momoService;
         }
@@ -322,7 +323,7 @@ namespace ShoeStore.Controllers
                 decimal finalTotal = subtotal - memberDiscountAmount - couponDiscountAmount;
 
                 var fullAddress = await BuildFullAddress(
-                    _addressService,
+                    _ghnAddressService,
                     model.ProvinceCode,
                     model.DistrictCode,
                     model.WardCode,
@@ -336,6 +337,11 @@ namespace ShoeStore.Controllers
                     OrderCode = GenerateOrderCode(),
                     OrderDate = DateTime.Now,
                     ShippingAddress = fullAddress,
+                    Address = model.AddressDetail,
+                    ProvinceCode = model.ProvinceCode.ToString(),
+                    DistrictCode = model.DistrictCode.ToString(),
+                    WardCode = model.WardCode.ToString(),
+                    DistrictId = model.DistrictCode,
                     PhoneNumber = model.PhoneNumber,
                     Notes = model.Notes,
                     Status = OrderStatus.Pending,
@@ -462,6 +468,36 @@ namespace ShoeStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            // Lấy thông tin địa chỉ từ GHN API
+            try 
+            {
+                if (!string.IsNullOrEmpty(order.ProvinceCode))
+                {
+                    var provinces = await _ghnAddressService.GetProvinces();
+                    var province = provinces.FirstOrDefault(p => p.ProvinceId == int.Parse(order.ProvinceCode));
+                    ViewBag.ProvinceName = province?.ProvinceName;
+                }
+                
+                if (!string.IsNullOrEmpty(order.DistrictCode))
+                {
+                    var districts = await _ghnAddressService.GetDistricts(int.Parse(order.ProvinceCode));
+                    var district = districts.FirstOrDefault(d => d.DistrictId == int.Parse(order.DistrictCode));
+                    ViewBag.DistrictName = district?.DistrictName;
+                }
+                
+                if (!string.IsNullOrEmpty(order.WardCode))
+                {
+                    var wards = await _ghnAddressService.GetWards(int.Parse(order.DistrictCode));
+                    var ward = wards.FirstOrDefault(w => w.WardCode == order.WardCode);
+                    ViewBag.WardName = ward?.WardName;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nhưng không throw exception
+                Console.WriteLine($"Lỗi lấy thông tin địa chỉ: {ex.Message}");
+            }
+
             // Tính toán giảm giá thành viên
             decimal memberDiscountAmount = 0;
             if (order.User?.MemberRank != null)
@@ -515,17 +551,37 @@ namespace ShoeStore.Controllers
         }
 
         private async Task<string> BuildFullAddress(
-            IAddressService addressService,
+            IGHNAddressService ghnAddressService,
             int provinceCode,
             int districtCode,
             int wardCode,
             string addressDetail)
         {
-            var province = await addressService.GetProvinceName(provinceCode);
-            var district = await addressService.GetDistrictName(districtCode);
-            var ward = await addressService.GetWardName(wardCode);
+            string provinceName = "", districtName = "", wardName = "";
 
-            return $"{addressDetail}, {ward}, {district}, {province}";
+            try
+            {
+                // Lấy tên tỉnh/thành phố
+                var provinces = await ghnAddressService.GetProvinces();
+                var province = provinces.FirstOrDefault(p => p.ProvinceId == provinceCode);
+                provinceName = province?.ProvinceName ?? "";
+
+                // Lấy tên quận/huyện
+                var districts = await ghnAddressService.GetDistricts(provinceCode);
+                var district = districts.FirstOrDefault(d => d.DistrictId == districtCode);
+                districtName = district?.DistrictName ?? "";
+
+                // Lấy tên phường/xã
+                var wards = await ghnAddressService.GetWards(districtCode);
+                var ward = wards.FirstOrDefault(w => w.WardCode == wardCode.ToString());
+                wardName = ward?.WardName ?? "";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi lấy thông tin địa chỉ: {ex.Message}");
+            }
+
+            return $"{addressDetail}, {wardName}, {districtName}, {provinceName}".TrimEnd(' ', ',');
         }
     }
 }

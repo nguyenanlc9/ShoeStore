@@ -1,122 +1,109 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using ShoeStore.Services.GHN;
 using ShoeStore.Models;
-using ShoeStore.Services.Order;
-using ShoeStore.Services.APIAddress;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace ShoeStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ghn")]
     [ApiController]
-    public class ShippingController : ControllerBase
+    public class ShippingController : Controller
     {
-        private readonly IShippingService _shippingService;
-        private readonly IAddressService _addressService;
+        private readonly IGHNService _ghnService;
+        private readonly IGHNAddressService _ghnAddressService;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<ShippingController> _logger;
 
-        public ShippingController(IShippingService shippingService, IAddressService addressService)
+        public ShippingController(IGHNService ghnService, IGHNAddressService ghnAddressService, IConfiguration configuration, ILogger<ShippingController> logger)
         {
-            _shippingService = shippingService;
-            _addressService = addressService;
-        }
-
-        [HttpPost("calculate")]
-        public async Task<IActionResult> CalculateShippingFee([FromBody] ShippingFeeRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                // Lấy thông tin tỉnh/thành phố từ API
-                var provinces = await _addressService.GetProvinces();
-                var province = provinces.FirstOrDefault(p => p.Code == int.Parse(request.Province));
-
-                if (province == null)
-                {
-                    return BadRequest(new { success = false, message = "Tỉnh/thành phố không hợp lệ" });
-                }
-
-                // Lấy thông tin quận/huyện
-                var districts = await _addressService.GetDistricts(int.Parse(request.Province));
-                var district = districts.FirstOrDefault(d => d.Code == int.Parse(request.District));
-
-                if (district == null)
-                {
-                    return BadRequest(new { success = false, message = "Quận/huyện không hợp lệ" });
-                }
-
-                // Lấy thông tin phường/xã
-                var wards = await _addressService.GetWards(int.Parse(request.District));
-                var ward = wards.FirstOrDefault(w => w.Code == int.Parse(request.Ward));
-
-                if (ward == null)
-                {
-                    return BadRequest(new { success = false, message = "Phường/xã không hợp lệ" });
-                }
-
-                // Tính phí vận chuyển
-                var shippingFee = await _shippingService.CalculateShippingFee(province.Name, request.OrderAmount);
-
-                // Lấy thông tin phí vận chuyển từ database
-                var shippingRate = await _shippingService.GetShippingRateByProvince(province.Name);
-
-                var response = new ShippingFeeResponse
-                {
-                    Success = true,
-                    ShippingFee = shippingFee,
-                    EstimatedDeliveryTime = shippingRate?.DeliveryDays + "-" + (shippingRate?.DeliveryDays + 1) + " ngày",
-                    Message = "Tính phí vận chuyển thành công"
-                };
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = ex.Message });
-            }
+            _ghnService = ghnService;
+            _ghnAddressService = ghnAddressService;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet("provinces")]
         public async Task<IActionResult> GetProvinces()
         {
-            try
-            {
-                var provinces = await _addressService.GetProvinces();
-                return Ok(provinces);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = ex.Message });
-            }
+            var provinces = await _ghnAddressService.GetProvinces();
+            return Ok(provinces);
         }
 
-        [HttpGet("districts/{provinceCode}")]
-        public async Task<IActionResult> GetDistricts(int provinceCode)
+        [HttpGet("districts/{provinceId}")]
+        public async Task<IActionResult> GetDistricts(int provinceId)
+        {
+            var districts = await _ghnAddressService.GetDistricts(provinceId);
+            return Ok(districts);
+        }
+
+        [HttpGet("wards/{districtId}")]
+        public async Task<IActionResult> GetWards(int districtId)
+        {
+            var wards = await _ghnAddressService.GetWards(districtId);
+            return Ok(wards);
+        }
+
+        [HttpGet("calculate-fee")]
+        public async Task<IActionResult> CalculateShippingFee([FromQuery] string wardCode, [FromQuery] int districtId)
         {
             try
             {
-                var districts = await _addressService.GetDistricts(provinceCode);
-                return Ok(districts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = ex.Message });
-            }
-        }
+                var (success, shippingFee, message) = await _ghnService.CalculateShippingFee(wardCode, districtId);
+                if (!success)
+                {
+                    return BadRequest(new { success = false, message = message });
+                }
 
-        [HttpGet("wards/{districtCode}")]
-        public async Task<IActionResult> GetWards(int districtCode)
-        {
-            try
-            {
-                var wards = await _addressService.GetWards(districtCode);
-                return Ok(wards);
+                // Lấy thời gian giao hàng dự kiến
+                var fromDistrictId = int.Parse(_configuration["GHN:FromDistrictId"]);
+                var fromWardCode = _configuration["GHN:FromWardCode"];
+                var serviceId = 53320; // Hoặc lấy từ configuration
+
+                var (leadTimeSuccess, leadTime, leadTimeMessage) = await _ghnService.GetLeadTime(
+                    fromDistrictId,
+                    fromWardCode,
+                    districtId,
+                    wardCode,
+                    serviceId
+                );
+
+                if (!leadTimeSuccess)
+                {
+                    _logger.LogWarning($"Failed to get lead time: {leadTimeMessage}");
+                }
+
+                // Tính ngày giao hàng dự kiến
+                var expectedDelivery = "";
+                if (leadTimeSuccess)
+                {
+                    var startDate = DateTime.Now.AddDays(leadTime - 1);
+                    var endDate = DateTime.Now.AddDays(leadTime);
+                    expectedDelivery = $"{startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}";
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    shippingFee = shippingFee,
+                    expectedDelivery = expectedDelivery
+                });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, message = ex.Message });
+                _logger.LogError($"Error calculating shipping fee: {ex}");
+                return BadRequest(new { success = false, message = "Lỗi khi tính phí vận chuyển" });
             }
         }
+    }
+
+    public class ShippingFeeRequest
+    {
+        public string ToWardCode { get; set; }
+        public int ToDistrictId { get; set; }
     }
 } 

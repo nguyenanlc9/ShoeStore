@@ -124,11 +124,19 @@
                             <h5 class="mb-3">Thông tin giao hàng</h5>
                             <p><strong>Người nhận:</strong> @Model.OrderUsName</p>
                             <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
-                            <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
                             @if (!string.IsNullOrEmpty(Model.Notes))
                             {
                                 <p><strong>Ghi chú:</strong> @Model.Notes</p>
                             }
+                            
+                            <!-- Thông tin địa chỉ GHN -->
+                            <div class="mt-3">
+                                <h6 class="mb-2">Thông tin địa chỉ giao hàng:</h6>
+                                <p class="mb-1">Địa chỉ: @Model.Address</p>
+                                <p class="mb-1">Phường/Xã: @ViewBag.WardName</p>
+                                <p class="mb-1">Quận/Huyện: @ViewBag.DistrictName</p>
+                                <p class="mb-1">Tỉnh/Thành phố: @ViewBag.ProvinceName</p>
+                            </div>
                         </div>
                     </div>
                 </div>

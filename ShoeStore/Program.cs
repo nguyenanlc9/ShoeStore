@@ -59,6 +59,14 @@ namespace ShoeStore
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
                 options.CallbackPath = "/signin-google";
+            })
+            .AddFacebook(options =>
+            {
+                options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+                options.Fields.Add("name");
+                options.Fields.Add("email");
+                options.SaveTokens = true;
             });
 
             // Cấu hình HTTP Context Accessor
@@ -88,6 +96,9 @@ namespace ShoeStore
             builder.Services.AddHttpClient<IGoogleReCaptchaService, GoogleReCaptchaService>();
 
             builder.Services.AddHttpClient();
+
+
+            // Đăng ký GHN Service
             builder.Services.AddScoped<IGHNService, GHNService>();
             builder.Services.AddScoped<IGHNAddressService, GHNAddressService>();
 

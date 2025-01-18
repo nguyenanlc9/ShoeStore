@@ -20,28 +20,29 @@
 
                         <div class="form-group">
                             <label class="text-black">Tỉnh/Thành phố <span class="text-danger">*</span></label>
-                            <select id="province" asp-for="ProvinceCode" class="form-control" required>
+                            <select id="province" name="ProvinceCode" class="form-control" required>
                                 <option value="">Chọn Tỉnh/Thành phố</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="text-black">Quận/Huyện <span class="text-danger">*</span></label>
-                            <select id="district" asp-for="DistrictCode" class="form-control" required>
+                            <select id="district" name="DistrictCode" class="form-control" required>
                                 <option value="">Chọn Quận/Huyện</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="text-black">Phường/Xã <span class="text-danger">*</span></label>
-                            <select id="ward" asp-for="WardCode" class="form-control" required>
+                            <select id="ward" name="WardCode" class="form-control" required>
                                 <option value="">Chọn Phường/Xã</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label asp-for="AddressDetail" class="text-black">Địa chỉ cụ thể <span class="text-danger">*</span></label>
-                            <input asp-for="AddressDetail" class="form-control" required>
+                            <input asp-for="AddressDetail" class="form-control" required placeholder="Số nhà, tên đường">
+                            <div class="invalid-feedback">Vui lòng nhập địa chỉ cụ thể</div>
                         </div>
 
                         <div class="form-group">
@@ -225,149 +226,347 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Load tỉnh/thành phố
-            $.get('/api/shipping/provinces', function (provinces) {
-                provinces.forEach(function (province) {
-                    $('#province').append(`<option value="${province.code}">${province.name}</option>`);
-                });
-            });
+            // Thêm biến để lưu tên địa chỉ
+            let selectedProvinceName = '';
+            let selectedDistrictName = '';
+            let selectedWardName = '';
 
-            // Load quận/huyện khi chọn tỉnh/thành phố
+            // Load tỉnh/thành phố khi trang được tải
+            loadProvinces();
+
+            // Xử lý sự kiện thay đổi tỉnh/thành phố
             $('#province').change(function () {
-                var provinceCode = $(this).val();
-                $('#district').empty().append('<option value="">Chọn Quận/Huyện</option>');
-                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+                var provinceId = $(this).val();
+                selectedProvinceName = $(this).find('option:selected').data('name') || '';
+                console.log('Province changed:', provinceId, selectedProvinceName);
+                
+                $('#district').empty().append('<option value="">Chọn Quận/Huyện</option>').prop('disabled', !provinceId);
+                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
                 resetShippingFee();
+                
+                // Cập nhật ProvinceCode ngay khi thay đổi
+                $('#ProvinceCode').val(provinceId);
+                updateFormattedAddress();
 
-                if (provinceCode) {
-                    $.get(`/api/shipping/districts/${provinceCode}`, function (districts) {
-                        districts.forEach(function (district) {
-                            $('#district').append(`<option value="${district.code}">${district.name}</option>`);
-                        });
-                    });
+                if (provinceId) {
+                    loadDistricts(provinceId);
                 }
             });
 
-            // Load phường/xã khi chọn quận/huyện
+            // Xử lý sự kiện thay đổi quận/huyện
             $('#district').change(function () {
-                var districtCode = $(this).val();
-                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>');
+                var districtId = $(this).val();
+                selectedDistrictName = $(this).find('option:selected').data('name') || '';
+                console.log('District changed:', districtId, selectedDistrictName);
+                
+                $('#ward').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', !districtId);
                 resetShippingFee();
+                
+                // Cập nhật DistrictCode ngay khi thay đổi
+                $('#DistrictCode').val(districtId);
+                updateFormattedAddress();
 
-                if (districtCode) {
-                    $.get(`/api/shipping/wards/${districtCode}`, function (wards) {
-                        wards.forEach(function (ward) {
-                            $('#ward').append(`<option value="${ward.code}">${ward.name}</option>`);
-                        });
-                    });
+                if (districtId) {
+                    loadWards(districtId);
                 }
             });
 
-            // Tính phí vận chuyển khi chọn đủ địa chỉ
+            // Xử lý sự kiện thay đổi phường/xã
             $('#ward').change(function () {
+                var wardCode = $(this).val();
+                selectedWardName = $(this).find('option:selected').data('name') || '';
+                console.log('Ward changed:', wardCode, selectedWardName);
+                
+                // Cập nhật WardCode ngay khi thay đổi
+                $('#WardCode').val(wardCode);
+                updateFormattedAddress();
                 calculateShippingFee();
             });
 
+            $('#AddressDetail').on('input', function() {
+                updateFormattedAddress();
+            });
+
+            function loadProvinces() {
+                $.ajax({
+                    url: '/api/ghn/provinces',
+                    method: 'GET',
+                    success: function(provinces) {
+                        const select = $('#province');
+                        select.empty();
+                        select.append('<option value="">Chọn Tỉnh/Thành phố</option>');
+                        provinces.forEach(function(province) {
+                            select.append(`<option value="${province.provinceId}" data-name="${province.provinceName}">${province.provinceName}</option>`);
+                        });
+                        select.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading provinces:', error);
+                        alert('Không thể tải danh sách tỉnh/thành phố. Vui lòng thử lại sau.');
+                    }
+                });
+            }
+
+            function loadDistricts(provinceId) {
+                if (!provinceId) return;
+                
+                $.ajax({
+                    url: `/api/ghn/districts/${provinceId}`,
+                    method: 'GET',
+                    success: function(districts) {
+                        const select = $('#district');
+                        select.empty();
+                        select.append('<option value="">Chọn Quận/Huyện</option>');
+                        districts.forEach(function(district) {
+                            select.append(`<option value="${district.districtId}" data-name="${district.districtName}">${district.districtName}</option>`);
+                        });
+                        select.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading districts:', error);
+                        alert('Không thể tải danh sách quận/huyện. Vui lòng thử lại sau.');
+                    }
+                });
+            }
+
+            function loadWards(districtId) {
+                if (!districtId) return;
+                
+                $.ajax({
+                    url: `/api/ghn/wards/${districtId}`,
+                    method: 'GET',
+                    success: function(wards) {
+                        const select = $('#ward');
+                        select.empty();
+                        select.append('<option value="">Chọn Phường/Xã</option>');
+                        wards.forEach(function(ward) {
+                            select.append(`<option value="${ward.wardCode}" data-name="${ward.wardName}">${ward.wardName}</option>`);
+                        });
+                        select.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading wards:', error);
+                        alert('Không thể tải danh sách phường/xã. Vui lòng thử lại sau.');
+                    }
+                });
+            }
+
             function calculateShippingFee() {
-                var provinceCode = $('#province').val();
-                var districtCode = $('#district').val();
-                var wardCode = $('#ward').val();
+                const wardCode = $('#ward').val();
+                const districtId = parseInt($('#district').val());
 
-                if (provinceCode && districtCode && wardCode) {
-                    var data = {
-                        province: provinceCode,
-                        district: districtCode,
-                        ward: wardCode,
-                        orderAmount: @Model.SubTotal,
-                        weight: 1 // Mặc định 1kg
-                    };
+                if (!wardCode || !districtId) {
+                    console.log('Missing required values:', { wardCode, districtId });
+                    return;
+                }
 
-                    $.ajax({
-                        url: '/api/shipping/calculate',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(data),
-                        success: function (response) {
-                            if (response.success) {
-                                $('#shippingFee').text(formatCurrency(response.shippingFee));
+                // Lưu giá trị vào hidden inputs
+                $('#WardCode').val(wardCode);
+                $('#DistrictCode').val(districtId);
+
+                $.ajax({
+                    url: `/api/ghn/calculate-fee?wardCode=${wardCode}&districtId=${districtId}`,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#shippingFee').text(formatCurrency(response.shippingFee));
+                            updateTotalAmount(response.shippingFee);
+                            
+                            // Hiển thị thời gian giao hàng dự kiến
+                            if (response.expectedDelivery) {
                                 $('#estimatedDeliveryTime').show();
-                                $('#deliveryTime').text(response.estimatedDeliveryTime);
-                                updateFinalTotal();
+                                $('#deliveryTime').text(response.expectedDelivery);
                             } else {
-                                $('#shippingFee').text('Không thể tính phí vận chuyển');
                                 $('#estimatedDeliveryTime').hide();
                             }
-                        },
-                        error: function (xhr) {
-                            console.error('Error:', xhr.responseText);
-                            $('#shippingFee').text('Có lỗi xảy ra');
+                        } else {
+                            $('#shippingFee').text('Không thể tính phí vận chuyển');
                             $('#estimatedDeliveryTime').hide();
                         }
-                    });
-                }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#shippingFee').text('Không thể tính phí vận chuyển');
+                        $('#estimatedDeliveryTime').hide();
+                    }
+                });
             }
 
             function resetShippingFee() {
                 $('#shippingFee').text('Vui lòng chọn địa chỉ');
                 $('#estimatedDeliveryTime').hide();
-                updateFinalTotal();
+                updateTotalAmount(0);
             }
 
-            function updateFinalTotal() {
-                var subtotal = @Model.SubTotal;
-                var shippingFee = parseCurrency($('#shippingFee').text());
+            function updateTotalAmount(shippingFee) {
+                var subTotal = @Model.SubTotal;
                 var discountAmount = @Model.DiscountAmount;
-                var couponDiscount = parseCurrency($('#couponDiscountAmount').text().replace('-', ''));
-
-                var finalTotal = subtotal + shippingFee - discountAmount - couponDiscount;
+                var couponDiscount = parseFloat($('#couponDiscountAmount').data('value') || 0);
+                
+                var finalTotal = subTotal - discountAmount - couponDiscount + shippingFee;
                 $('#finalTotal').text(formatCurrency(finalTotal));
             }
 
             function formatCurrency(amount) {
-                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                    .format(amount)
-                    .replace('₫', '')
-                    .trim() + ' ₫';
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(amount);
             }
 
-            function parseCurrency(str) {
-                if (!str || str === 'Vui lòng chọn địa chỉ' || str === 'Không thể tính phí vận chuyển' || str === 'Có lỗi xảy ra') {
-                    return 0;
-                }
-                return parseInt(str.replace(/[^\d]/g, ''));
-            }
-
-            $('#applyCoupon').click(function () {
+            // Xử lý mã giảm giá
+            $('#applyCoupon').click(function() {
                 var couponCode = $('#couponCode').val();
                 if (!couponCode) {
-                    $('#couponMessage').removeClass().addClass('text-danger').text('Vui lòng nhập mã giảm giá');
+                    showCouponMessage('Vui lòng nhập mã giảm giá', 'warning');
                     return;
                 }
 
                 $.ajax({
-                    url: '/Cart/ApplyCoupon',
-                    type: 'POST',
-                    data: { couponCode: couponCode },
-                    success: function (response) {
+                    url: '/api/coupon/apply',
+                    method: 'POST',
+                    data: {
+                        code: couponCode,
+                        subTotal: @Model.SubTotal
+                    },
+                    success: function(response) {
                         if (response.success) {
-                            $('#couponMessage').removeClass().addClass('text-success').text(response.message);
-                            $('#couponDiscount').css('display', 'flex').addClass('text-success');
-                            $('#couponDiscountAmount').text('-' + formatCurrency(response.discountAmount));
-                            updateFinalTotal();
+                            $('#couponDiscount').show();
+                            $('#couponDiscountAmount')
+                                .text('-' + formatCurrency(response.discountAmount))
+                                .data('value', response.discountAmount);
+                            showCouponMessage(response.message, 'success');
+                            calculateShippingFee(); // Tính lại tổng tiền
                         } else {
-                            $('#couponMessage').removeClass().addClass('text-danger').text(response.message);
-                            $('#couponDiscount').hide();
-                            $('#couponDiscountAmount').text('-0 ₫');
-                            updateFinalTotal();
+                            showCouponMessage(response.message, 'danger');
                         }
                     },
-                    error: function () {
-                        $('#couponMessage').removeClass().addClass('text-danger').text('Có lỗi xảy ra');
-                        $('#couponDiscount').hide();
-                        $('#couponDiscountAmount').text('-0 ₫');
-                        updateFinalTotal();
+                    error: function() {
+                        showCouponMessage('Có lỗi xảy ra khi áp dụng mã giảm giá', 'danger');
                     }
                 });
+            });
+
+            function showCouponMessage(message, type) {
+                $('#couponMessage')
+                    .removeClass()
+                    .addClass(`small text-${type} mt-2`)
+                    .text(message);
+            }
+
+            function updateShippingInfo() {
+                const provinceId = $('#ProvinceId').val();
+                const districtId = $('#DistrictId').val();
+                const wardCode = $('#WardCode').val();
+
+                if (!provinceId || !districtId || !wardCode) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/ghn/shipping-fee',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        provinceId: provinceId,
+                        districtId: districtId,
+                        wardCode: wardCode
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#shippingFee').text(formatCurrency(response.total));
+                            updateTotalAmount();
+                        } else {
+                            console.error('Lỗi tính phí vận chuyển:', response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi gọi API tính phí vận chuyển:', error);
+                    }
+                });
+
+                // Tính thời gian giao hàng dự kiến
+                $.ajax({
+                    url: '/api/ghn/leadtime',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        districtId: districtId,
+                        wardCode: wardCode
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#expectedDelivery').text('Ngày giao dự kiến: ' + response.expectedDelivery);
+                        } else {
+                            console.error('Lỗi tính thời gian giao hàng:', response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi gọi API tính thời gian giao hàng:', error);
+                    }
+                });
+            }
+
+            function updateFormattedAddress() {
+                var addressDetail = $('#AddressDetail').val();
+                var formattedAddress = [
+                    addressDetail,
+                    selectedWardName,
+                    selectedDistrictName,
+                    selectedProvinceName
+                ].filter(Boolean).join(', ');
+
+                // Lưu thông tin địa chỉ GHN
+                $('#FormattedAddress').val(formattedAddress);
+                $('#WardCode').val($('#ward').val());
+                $('#DistrictCode').val($('#district').val());
+                $('#ProvinceCode').val($('#province').val());
+
+                // Hiển thị địa chỉ đầy đủ
+                $('#fullAddress').text(formattedAddress || 'Vui lòng nhập đầy đủ thông tin địa chỉ');
+            }
+
+            // Thêm validation form
+            $('form').on('submit', function(e) {
+                // Lấy giá trị hiện tại từ các select
+                const provinceCode = $('#province').val();
+                const districtCode = $('#district').val();
+                const wardCode = $('#ward').val();
+                const addressDetail = $('#AddressDetail').val().trim();
+
+                console.log('Form submission - Address codes:', {
+                    provinceCode,
+                    districtCode,
+                    wardCode,
+                    addressDetail
+                });
+
+                if (!provinceCode || !districtCode || !wardCode || !addressDetail) {
+                    e.preventDefault();
+                    alert('Vui lòng nhập đầy đủ thông tin địa chỉ');
+                    return false;
+                }
+
+                // Cập nhật lại các hidden inputs trước khi submit
+                $('#ProvinceCode').val(provinceCode);
+                $('#DistrictCode').val(districtCode);
+                $('#WardCode').val(wardCode);
+
+                // Cập nhật địa chỉ đầy đủ
+                updateFormattedAddress();
+
+                // Log để kiểm tra giá trị cuối cùng
+                console.log('Final form values:', {
+                    provinceCode: $('#ProvinceCode').val(),
+                    districtCode: $('#DistrictCode').val(),
+                    wardCode: $('#WardCode').val(),
+                    formattedAddress: $('#FormattedAddress').val()
+                });
+
+                return true;
+            });
+
+            $(document).ready(function() {
+                loadProvinces();
             });
         });
     </script>
@@ -428,3 +627,9 @@
         margin-top: 0.3rem;
     }
 </style>
+
+<!-- Hidden inputs for GHN address -->
+<input type="hidden" name="FormattedAddress" id="FormattedAddress" />
+<input type="hidden" name="WardCode" id="WardCode" />
+<input type="hidden" name="DistrictCode" id="DistrictCode" />
+<input type="hidden" name="ProvinceCode" id="ProvinceCode" />

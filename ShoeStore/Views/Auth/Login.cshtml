@@ -95,6 +95,9 @@
         <a asp-controller="AuthGoogle" asp-action="Login" class="social-btn google">
             <i class="fab fa-google"></i>
         </a>
+        <a asp-controller="Auth" asp-action="FacebookLogin" class="social-btn facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
     </div>
 </form>
 
@@ -173,6 +176,14 @@
         background-color: #218838;
         border-color: #1e7e34;
         color: white;
+    }
+    .social-btn.facebook {
+        background-color: #3b5998;
+        color: white;
+    }
+    .social-btn.facebook:hover {
+        background-color: #2d4373;
+        transform: translateY(-2px);
     }
 </style>
 

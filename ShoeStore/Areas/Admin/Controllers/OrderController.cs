@@ -606,20 +606,21 @@ namespace ShoeStore.Areas.Admin.Controllers
                 var totalWeight = CalculateTotalWeight(order.OrderDetails);
 
                 // Tính phí vận chuyển
-                var result = await _ghnService.CalculateShippingFee(
+                var (success, total, message) = await _ghnService.CalculateShippingFeeDetail(
                     request.WardCode,
                     request.DistrictId,
                     totalWeight,
                     request.Length,
                     request.Width,
-                    request.Height);
+                    request.Height
+                );
 
-                if (result.Success)
+                if (success)
                 {
-                    return Json(new { success = true, fee = result.Fee });
+                    return Json(new { success = true, fee = total });
                 }
 
-                return Json(new { success = false, message = result.Message });
+                return Json(new { success = false, message = message });
             }
             catch (Exception ex)
             {

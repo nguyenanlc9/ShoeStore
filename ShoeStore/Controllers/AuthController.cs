@@ -9,6 +9,10 @@ using ShoeStore.Models.Enums;
 using ShoeStore.Services.Email;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Services.ReCaptcha;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 namespace ShoeStore.Controllers
 {
@@ -364,6 +368,78 @@ namespace ShoeStore.Controllers
             await _emailService.SendEmailConfirmationAsync(user.Email, confirmationLink);
 
             return Json(new { success = true, message = "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn." });
+        }
+
+        [AllowAnonymous]
+        public IActionResult FacebookLogin()
+        {
+            var properties = new AuthenticationProperties 
+            { 
+                RedirectUri = Url.Action("FacebookResponse"),
+                // Thêm state để xác thực request
+                Items = { { "LoginProvider", "Facebook" } }
+            };
+            return Challenge(properties, FacebookDefaults.AuthenticationScheme);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> FacebookResponse()
+        {
+            try
+            {
+                var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                
+                // Kiểm tra nếu đăng nhập thất bại hoặc bị hủy
+                if (!result.Succeeded || result.Principal == null)
+                {
+                    TempData["ErrorMessage"] = "Đăng nhập Facebook không thành công hoặc đã bị hủy.";
+                    return RedirectToAction("Login");
+                }
+
+                var fbInfo = result.Principal;
+                var email = fbInfo.FindFirst(ClaimTypes.Email)?.Value;
+                var name = fbInfo.FindFirst(ClaimTypes.Name)?.Value;
+
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(name))
+                {
+                    TempData["ErrorMessage"] = "Không thể lấy thông tin từ Facebook. Vui lòng thử lại.";
+                    return RedirectToAction("Login");
+                }
+
+                // Kiểm tra xem user đã tồn tại chưa
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user == null)
+                {
+                    // Tạo user mới
+                    user = new User
+                    {
+                        Email = email,
+                        FullName = name,
+                        Username = email,
+                        Status = true,
+                        RegisterDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        EmailConfirmed = true,
+                        RoleID = 1, // Role mặc định là User
+                        Phone = "", // Để trống vì Facebook không cung cấp số điện thoại
+                        PasswordHash = "" // Không cần mật khẩu vì đăng nhập qua Facebook
+                    };
+
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Lưu thông tin user vào session
+                HttpContext.Session.Set("userInfo", user);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nếu cần
+                TempData["ErrorMessage"] = "Đã xảy ra lỗi trong quá trình đăng nhập Facebook.";
+                return RedirectToAction("Login");
+            }
         }
     }
 } 

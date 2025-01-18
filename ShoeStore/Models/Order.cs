@@ -87,6 +87,8 @@ namespace ShoeStore.Models
         // Shipping Information
         public string Address { get; set; } = string.Empty;
         public string WardCode { get; set; } = string.Empty;
+        public string DistrictCode { get; set; } = string.Empty;
+        public string ProvinceCode { get; set; } = string.Empty;
         public int DistrictId { get; set; }
         public string? ShippingOrderCode { get; set; }
         public string? ShippingNote { get; set; }
