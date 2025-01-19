@@ -1,5 +1,6 @@
 @model ShoeStore.Models.Order
 @using ShoeStore.Models.Enums
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Xử lý đơn hàng";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -72,6 +73,19 @@
                                     <th>Mã vận đơn:</th>
                                     <td>
                                         <span class="badge badge-success">@Model.ShippingOrderCode</span>
+                                        <div class="mt-2">
+                                            <div class="btn-group">
+                                                <button onclick="printOrder('A5')" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-print"></i> A5
+                                                </button>
+                                                <button onclick="printOrder('80x80')" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-print"></i> 80x80
+                                                </button>
+                                                <button onclick="printOrder('50x72')" class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-print"></i> 50x72
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -163,6 +177,14 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label>Gói dịch vụ</label>
+                                        <select class="form-control" id="serviceSelect" name="ServiceId" disabled>
+                                            <option value="">Chọn gói dịch vụ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label>Chiều dài (cm)</label>
                                         <input type="number" class="form-control" id="Length" name="Length" value="20">
                                     </div>
@@ -173,6 +195,9 @@
                                         <input type="number" class="form-control" id="Width" name="Width" value="20">
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Chiều cao (cm)</label>
@@ -323,57 +348,65 @@
             });
 
             function calculateShippingFee() {
-                const wardCode = $('#WardCode').val();
-                const districtId = $('#DistrictId').val();
-                const length = $('#Length').val();
-                const width = $('#Width').val();
-                const height = $('#Height').val();
+                const wardCode = $('#wardSelect').val();
+                const districtId = parseInt($('#districtSelect').val());
+                const serviceId = parseInt($('#serviceSelect').val());
 
-                if (!wardCode || !districtId) {
-                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng');
+                if (!wardCode || !districtId || !serviceId) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Thông báo',
+                        text: 'Vui lòng chọn đầy đủ địa chỉ giao hàng và gói dịch vụ'
+                    });
                     return;
                 }
 
-                console.log('Calculating shipping fee with:', {
-                    wardCode,
-                    districtId,
-                    length,
-                    width,
-                    height
-                });
+                // Lưu giá trị vào hidden inputs
+                $('#WardCode').val(wardCode);
+                $('#DistrictId').val(districtId);
 
-                const data = {
-                    id: '@Model.OrderId',
-                    wardCode: wardCode,
-                    districtId: parseInt(districtId),
-                    length: parseInt(length),
-                    width: parseInt(width),
-                    height: parseInt(height)
-                };
+                const length = parseInt($('#Length').val()) || 20;
+                const width = parseInt($('#Width').val()) || 20;
+                const height = parseInt($('#Height').val()) || 10;
 
                 $.ajax({
-                    url: '/Admin/Order/CalculateShippingFee',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    beforeSend: function() {
-                        $('#shippingFee').html('<i class="fas fa-spinner fa-spin"></i>');
-                        $('#shippingFeeInfo').show();
+                    url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
+                    method: 'POST',
+                    headers: {
+                        'Token': '@Configuration["GHN:Token"]',
+                        'Content-Type': 'application/json'
                     },
+                    data: JSON.stringify({
+                        service_id: serviceId,
+                        insurance_value: parseInt(@Model.TotalAmount),
+                        coupon: null,
+                        from_district_id: parseInt(@Configuration["GHN:FromDistrictId"]),
+                        to_district_id: districtId,
+                        to_ward_code: wardCode,
+                        height: height,
+                        length: length,
+                        weight: 200,
+                        width: width
+                    }),
                     success: function(response) {
-                        console.log('Response:', response);
-                        if (response.success) {
-                            $('#shippingFee').text(response.fee.toLocaleString('vi-VN'));
+                        if (response.code === 200) {
                             $('#shippingFeeInfo').show();
+                            $('#shippingFee').text(response.data.total.toLocaleString());
                         } else {
-                            alert('Lỗi khi tính phí vận chuyển: ' + response.message);
-                            $('#shippingFeeInfo').hide();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: response.message || 'Không thể tính phí vận chuyển'
+                            });
                         }
                     },
                     error: function(xhr) {
-                        console.error('Error:', xhr);
-                        alert('Có lỗi xảy ra khi tính phí vận chuyển');
-                        $('#shippingFeeInfo').hide();
+                        console.error('API Error:', xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Không thể kết nối đến server GHN'
+                        });
                     }
                 });
             }
@@ -381,12 +414,13 @@
             function createShippingOrder() {
                 const wardCode = $('#WardCode').val();
                 const districtId = $('#DistrictId').val();
+                const serviceId = $('#serviceSelect').val();
                 const length = $('#Length').val();
                 const width = $('#Width').val();
                 const height = $('#Height').val();
 
-                if (!wardCode || !districtId) {
-                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng');
+                if (!wardCode || !districtId || !serviceId) {
+                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng và gói dịch vụ');
                     return;
                 }
 
@@ -394,6 +428,7 @@
                     id: '@Model.OrderId',
                     wardCode: wardCode,
                     districtId: parseInt(districtId),
+                    serviceId: parseInt(serviceId),
                     length: parseInt(length),
                     width: parseInt(width),
                     height: parseInt(height)
@@ -416,6 +451,82 @@
                     }
                 });
             }
+
+            function loadShippingServices() {
+                const districtId = $('#districtSelect').val();
+                if (!districtId) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Thông báo',
+                        text: 'Vui lòng chọn quận/huyện trước'
+                    });
+                    return;
+                }
+
+                // Reset và disable service select
+                $('#serviceSelect').html('<option value="">Đang tải gói dịch vụ...</option>').prop('disabled', true);
+                
+                // Gọi API lấy services
+                $.ajax({
+                    url: '/Admin/Order/GetAvailableServices',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        from_district: parseInt(@Configuration["GHN:FromDistrictId"]), // District ID của shop
+                        to_district: parseInt(districtId)
+                    }),
+                    success: function(response) {
+                        console.log('API Response:', response); // Debug log
+                        if (response.success) {
+                            let html = '<option value="">Chọn gói dịch vụ</option>';
+                            response.data.forEach(service => {
+                                html += `<option value="${service.service_id}">${service.short_name}</option>`;
+                            });
+                            $('#serviceSelect').html(html).prop('disabled', false);
+                        } else {
+                            $('#serviceSelect').html('<option value="">Không thể tải gói dịch vụ</option>');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: response.message || 'Không thể tải gói dịch vụ'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('API Error:', xhr); // Debug log
+                        $('#serviceSelect').html('<option value="">Lỗi khi tải gói dịch vụ</option>');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Không thể kết nối đến server: ' + (xhr.responseText || 'Unknown error')
+                        });
+                    }
+                });
+            }
+
+            // Thêm event listener cho district select
+            $('#districtSelect').change(function() {
+                loadShippingServices();
+            });
+
+            // Thêm event listener cho service select
+            $('#serviceSelect').change(function() {
+                const serviceName = $(this).find('option:selected').text();
+                if ($(this).val()) {
+                    Swal.fire({
+                        title: 'Xác nhận',
+                        text: `Bạn có muốn tính phí vận chuyển cho gói "${serviceName}"?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Có, tính phí',
+                        cancelButtonText: 'Không'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            calculateShippingFee();
+                        }
+                    });
+                }
+            });
         </script>
     }
     else
@@ -459,5 +570,50 @@
         setTimeout(function() {
             $('.alert:not(#shippingFeeInfo)').alert('close');
         }, 5000);
+    </script>
+
+    <script>
+        function printOrder(type) {
+            // Gọi API để lấy token
+            fetch('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token', {
+                method: 'POST',
+                headers: {
+                    'Token': '@Configuration["GHN:Token"]',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    order_codes: ['@Model.ShippingOrderCode']
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const token = data.data.token;
+                    let printUrl = '';
+                    
+                    // Chọn URL in dựa vào loại in
+                    switch(type) {
+                        case 'A5':
+                            printUrl = `https://dev-online-gateway.ghn.vn/a5/public-api/printA5?token=${token}`;
+                            break;
+                        case '80x80':
+                            printUrl = `https://dev-online-gateway.ghn.vn/a5/public-api/print80x80?token=${token}`;
+                            break;
+                        case '50x72':
+                            printUrl = `https://dev-online-gateway.ghn.vn/a5/public-api/print52x70?token=${token}`;
+                            break;
+                    }
+                    
+                    // Mở tab mới để in
+                    window.open(printUrl, '_blank');
+                } else {
+                    alert('Không thể lấy token in vận đơn. Vui lòng thử lại!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi lấy token in vận đơn!');
+            });
+        }
     </script>
 } 

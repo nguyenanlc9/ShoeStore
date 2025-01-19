@@ -15,6 +15,7 @@ public class CheckoutViewModel
     // Các property cho tính toán giá
     public decimal SubTotal { get; set; }
     public decimal DiscountAmount { get; set; }
+    public decimal CouponDiscountAmount { get; set; }
     public decimal ShippingFee { get; set; }
     public decimal FinalTotal { get; set; }
     public int? MemberRankDiscountPercent { get; set; }
@@ -25,4 +26,9 @@ public class CheckoutViewModel
 
     // Property cho danh sách sản phẩm trong giỏ hàng
     public List<CartItem> CartItems { get; set; }
+
+    // Property cho coupon đã áp dụng
+    public Coupon AppliedCoupon { get; set; }
+
+    public decimal ShipFeeGHN { get; set; }
 } 

@@ -156,15 +156,24 @@ namespace ShoeStore.Controllers
                 return finalPrice * x.Quantity;
             });
             decimal finalTotal = subtotal;
-            decimal discountAmount = 0;
+            decimal memberDiscountAmount = 0;
+            decimal couponDiscountAmount = 0;
 
             if (user?.MemberRank != null)
             {
-                discountAmount = subtotal * (user.MemberRank.DiscountPercent / 100m);
-                finalTotal = subtotal - discountAmount;
+                memberDiscountAmount = subtotal * (user.MemberRank.DiscountPercent / 100m);
+                finalTotal = subtotal - memberDiscountAmount;
             }
 
-            // Lấy các phương thức thanh toán (bao gồm cả đang bảo trì, loại bỏ các phương thức ẩn)
+            // Lấy coupon từ session nếu có
+            var appliedCoupon = HttpContext.Session.Get<Coupon>("AppliedCoupon");
+            if (appliedCoupon != null)
+            {
+                couponDiscountAmount = subtotal * (appliedCoupon.DiscountPercentage / 100m);
+                finalTotal -= couponDiscountAmount;
+            }
+
+            // Lấy các phương thức thanh toán
             var availablePaymentMethods = await _context.PaymentMethodConfigs
                 .Where(p => p.Status != PaymentMethodStatus.Hidden)
                 .OrderBy(p => (int)p.Type)
@@ -174,12 +183,14 @@ namespace ShoeStore.Controllers
             {
                 CartItems = cartItems,
                 SubTotal = subtotal,
-                DiscountAmount = discountAmount,
+                DiscountAmount = memberDiscountAmount,
+                CouponDiscountAmount = couponDiscountAmount,
                 FinalTotal = finalTotal,
                 MemberRankDiscountPercent = user?.MemberRank?.DiscountPercent,
                 MemberRankName = user?.MemberRank?.RankName,
                 FullName = user?.FullName,
                 PhoneNumber = user?.Phone,
+                AppliedCoupon = appliedCoupon
             };
 
             ViewBag.PaymentMethods = availablePaymentMethods;
@@ -200,12 +211,12 @@ namespace ShoeStore.Controllers
                 return Json(new { success = false, message = "Vui lòng nhập mã giảm giá" });
             }
 
-            var coupon = _context.Coupons
-                .FirstOrDefault(c => c.CouponCode == couponCode && 
-                                    c.Status && 
-                                    DateTime.Now >= c.DateStart && 
-                                    DateTime.Now <= c.DateEnd &&
-                                    c.Quantity > 0);
+            var coupon = await _context.Coupons
+                .FirstOrDefaultAsync(c => c.CouponCode == couponCode && 
+                                        c.Status && 
+                                        DateTime.Now >= c.DateStart && 
+                                        DateTime.Now <= c.DateEnd &&
+                                        c.Quantity > 0);
 
             if (coupon == null)
             {
@@ -217,6 +228,11 @@ namespace ShoeStore.Controllers
                 .Include(ci => ci.Product)
                 .Where(ci => ci.UserId == userInfo.UserID)
                 .ToListAsync();
+
+            if (!cartItems.Any())
+            {
+                return Json(new { success = false, message = "Giỏ hàng trống" });
+            }
 
             decimal subtotal = cartItems.Sum(x => {
                 decimal finalPrice = x.Product.DiscountPrice > 0 ? x.Product.DiscountPrice : x.Product.Price;
@@ -236,17 +252,16 @@ namespace ShoeStore.Controllers
 
             // Tính giảm giá từ mã
             decimal couponDiscountAmount = subtotal * (coupon.DiscountPercentage / 100m);
-            
-            // Tổng tiền sau khi trừ cả hai loại giảm giá
-            decimal finalTotal = subtotal - memberDiscountAmount - couponDiscountAmount;
 
             HttpContext.Session.Set("AppliedCoupon", coupon);
 
             return Json(new { 
                 success = true, 
                 message = $"Đã áp dụng mã giảm giá: {coupon.DiscountPercentage}%",
+                subtotal = subtotal.ToString("N0"),
+                memberDiscountAmount = memberDiscountAmount.ToString("N0"),
                 discountAmount = couponDiscountAmount.ToString("N0"),
-                finalTotal = finalTotal.ToString("N0")
+                couponPercentage = coupon.DiscountPercentage
             });
         }
 
@@ -319,8 +334,9 @@ namespace ShoeStore.Controllers
                     couponDiscountAmount = subtotal * (appliedCoupon.DiscountPercentage / 100m);
                 }
 
-                // Tổng tiền sau khi trừ cả hai loại giảm giá
-                decimal finalTotal = subtotal - memberDiscountAmount - couponDiscountAmount;
+                // Tổng tiền sau khi trừ cả hai loại giảm giá và cộng phí vận chuyển
+                decimal totalDiscount = memberDiscountAmount + couponDiscountAmount;
+                decimal finalTotal = subtotal - totalDiscount + model.ShipFeeGHN;
 
                 var fullAddress = await BuildFullAddress(
                     _ghnAddressService,
@@ -347,6 +363,11 @@ namespace ShoeStore.Controllers
                     Status = OrderStatus.Pending,
                     PaymentMethod = model.PaymentMethod,
                     PaymentStatus = PaymentStatus.Pending,
+                    SubTotal = subtotal,
+                    ShipFeeGHN = model.ShipFeeGHN,
+                    MemberDiscount = memberDiscountAmount,
+                    CouponDiscount = couponDiscountAmount,
+                    Discount = totalDiscount,
                     TotalAmount = finalTotal,
                     CouponId = appliedCoupon?.CouponId,
                     OrderCoupon = appliedCoupon?.CouponCode

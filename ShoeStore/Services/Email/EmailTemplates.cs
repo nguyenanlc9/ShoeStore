@@ -28,144 +28,129 @@ public static class EmailTemplates
 
     public static string GetOrderConfirmationEmail(Order order)
     {
-        var orderDetails = string.Join("\n",
-            order.OrderDetails.Select(item => $@"
-                <tr>
-                    <td style='padding: 12px; border-bottom: 1px solid #eee;'>
-                        <span style='color: #333;'>{item.Product.Name}</span>
-                    </td>
-                    <td style='padding: 12px; border-bottom: 1px solid #eee; text-align: center;'>
-                        {item.Size.SizeValue}
-                    </td>
-                    <td style='padding: 12px; border-bottom: 1px solid #eee; text-align: center;'>
-                        {item.Quantity}
-                    </td>
-                    <td style='padding: 12px; border-bottom: 1px solid #eee; text-align: right;'>
-                        {item.Price.ToString("N0")} ₫
-                    </td>
-                    <td style='padding: 12px; border-bottom: 1px solid #eee; text-align: right;'>
-                        {(item.Price * item.Quantity).ToString("N0")} ₫
-                    </td>
-                </tr>"));
+        var template = $@"
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                <h2>Xác nhận đơn hàng #{order.OrderCode}</h2>
+                <p>Cảm ơn bạn đã đặt hàng tại ShoeStore!</p>
 
-        var subtotal = order.OrderDetails.Sum(x => x.Price * x.Quantity);
-        var discountInfo = "";
-        
-        // Thêm thông tin giảm giá thành viên nếu có
-        if (order.User?.MemberRank != null)
-        {
-            var memberDiscount = subtotal * (order.User.MemberRank.DiscountPercent / 100m);
-            discountInfo += $@"
-                <tr>
-                    <td colspan='4' style='padding: 12px; text-align: right; color: #28a745;'>
-                        Giảm giá thành viên ({order.User.MemberRank.RankName} - {order.User.MemberRank.DiscountPercent}%):
-                    </td>
-                    <td style='padding: 12px; text-align: right; color: #28a745;'>
-                        -{memberDiscount.ToString("N0")} ₫
-                    </td>
-                </tr>";
-        }
-
-        // Thêm thông tin mã giảm giá nếu có
-        if (!string.IsNullOrEmpty(order.OrderCoupon))
-        {
-            var couponDiscount = subtotal * ((order.Coupon?.DiscountPercentage ?? 0) / 100m);
-            discountInfo += $@"
-                <tr>
-                    <td colspan='4' style='padding: 12px; text-align: right; color: #28a745;'>
-                        Mã giảm giá ({order.OrderCoupon} - {(order.Coupon?.DiscountPercentage ?? 0)}%):
-                    </td>
-                    <td style='padding: 12px; text-align: right; color: #28a745;'>
-                        -{couponDiscount.ToString("N0")} ₫
-                    </td>
-                </tr>";
-        }
-
-        return $@"
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset='utf-8'>
-                <title>Xác nhận đơn hàng</title>
-            </head>
-            <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;'>
-                <div style='text-align: center; margin-bottom: 30px;'>
-                    <h1 style='color: #28a745;'>ShoeStore</h1>
-                </div>
-
-                <div style='background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 30px;'>
-                    <h2 style='color: #28a745; margin-bottom: 20px;'>Cảm ơn bạn đã đặt hàng!</h2>
-                    <p>Xin chào <strong>{order.OrderUsName}</strong>,</p>
-                    <p>Đơn hàng của bạn đã được xác nhận và đang được xử lý.</p>
-                </div>
-
-                <div style='margin-bottom: 30px;'>
-                    <h3 style='color: #333; border-bottom: 2px solid #28a745; padding-bottom: 10px;'>Thông tin đơn hàng</h3>
+                <div style='margin: 20px 0; padding: 15px; border: 1px solid #ddd;'>
+                    <h3>Thông tin đơn hàng</h3>
                     <p><strong>Mã đơn hàng:</strong> {order.OrderCode}</p>
                     <p><strong>Ngày đặt:</strong> {order.OrderDate:dd/MM/yyyy HH:mm}</p>
-                    <p><strong>Phương thức thanh toán:</strong> {order.PaymentMethod}</p>
-                    <p><strong>Trạng thái thanh toán:</strong> 
-                        <span style='color: {(order.PaymentStatus == PaymentStatus.Completed ? "#28a745" : "#ffc107")};'>
-                            {order.PaymentStatus}
-                        </span>
-                    </p>
+                    <p><strong>Trạng thái:</strong> {GetOrderStatus(order.Status)}</p>
+                    <p><strong>Phương thức thanh toán:</strong> {GetPaymentMethod(order.PaymentMethod)}</p>
+                    <p><strong>Trạng thái thanh toán:</strong> {GetPaymentStatus(order.PaymentStatus)}</p>
                 </div>
 
-                <div style='margin-bottom: 30px;'>
-                    <h3 style='color: #333; border-bottom: 2px solid #28a745; padding-bottom: 10px;'>Chi tiết đơn hàng</h3>
+                <div style='margin: 20px 0;'>
+                    <h3>Chi tiết đơn hàng</h3>
                     <table style='width: 100%; border-collapse: collapse;'>
-                        <thead>
-                            <tr style='background-color: #f8f9fa;'>
-                                <th style='padding: 12px; text-align: left;'>Sản phẩm</th>
-                                <th style='padding: 12px; text-align: center;'>Size</th>
-                                <th style='padding: 12px; text-align: center;'>Số lượng</th>
-                                <th style='padding: 12px; text-align: right;'>Đơn giá</th>
-                                <th style='padding: 12px; text-align: right;'>Thành tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orderDetails}
-                            <tr>
-                                <td colspan='4' style='padding: 12px; text-align: right;'>
-                                    <strong>Tạm tính:</strong>
-                                </td>
-                                <td style='padding: 12px; text-align: right;'>
-                                    {subtotal.ToString("N0")} ₫
-                                </td>
-                            </tr>
-                            {discountInfo}
-                            <tr>
-                                <td colspan='4' style='padding: 12px; text-align: right; font-size: 18px;'>
-                                    <strong>Tổng tiền:</strong>
-                                </td>
-                                <td style='padding: 12px; text-align: right; color: #28a745; font-size: 18px; font-weight: bold;'>
-                                    {order.TotalAmount.ToString("N0")} ₫
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tr style='background-color: #f8f9fa;'>
+                            <th style='padding: 10px; text-align: left; border: 1px solid #ddd;'>Sản phẩm</th>
+                            <th style='padding: 10px; text-align: right; border: 1px solid #ddd;'>Giá</th>
+                        </tr>";
+
+        foreach (var item in order.OrderDetails)
+        {
+            template += $@"
+                        <tr>
+                            <td style='padding: 10px; border: 1px solid #ddd;'>{item.Product.Name} x {item.Quantity} ({item.Size.SizeValue})</td>
+                            <td style='padding: 10px; text-align: right; border: 1px solid #ddd;'>{item.Price:N0} ₫</td>
+                        </tr>";
+        }
+
+        template += $@"
                     </table>
                 </div>
 
-                <div style='margin-bottom: 30px;'>
-                    <h3 style='color: #333; border-bottom: 2px solid #28a745; padding-bottom: 10px;'>Thông tin giao hàng</h3>
+                <div style='margin: 20px 0;'>
+                    <h3>Tổng thanh toán</h3>
+                    <table style='width: 100%;'>
+                        <tr>
+                            <td style='padding: 5px 0;'>Tạm tính:</td>
+                            <td style='text-align: right;'>{order.SubTotal:N0} ₫</td>
+                        </tr>";
+
+        if (order.MemberDiscount > 0)
+        {
+            template += $@"
+                        <tr>
+                            <td style='padding: 5px 0;'>Giảm giá thành viên:</td>
+                            <td style='text-align: right; color: #28a745;'>-{order.MemberDiscount:N0} ₫</td>
+                        </tr>";
+        }
+
+        if (order.CouponDiscount > 0)
+        {
+            template += $@"
+                        <tr>
+                            <td style='padding: 5px 0;'>Giảm giá từ mã:</td>
+                            <td style='text-align: right; color: #28a745;'>-{order.CouponDiscount:N0} ₫</td>
+                        </tr>";
+        }
+
+        template += $@"
+                        <tr>
+                            <td style='padding: 5px 0;'>Phí vận chuyển:</td>
+                            <td style='text-align: right;'>{order.ShipFeeGHN:N0} ₫</td>
+                        </tr>
+                        <tr style='font-weight: bold;'>
+                            <td style='padding: 5px 0;'>Tổng cộng:</td>
+                            <td style='text-align: right; color: #007bff;'>{order.TotalAmount:N0} ₫</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style='margin: 20px 0; padding: 15px; border: 1px solid #ddd;'>
+                    <h3>Thông tin giao hàng</h3>
                     <p><strong>Người nhận:</strong> {order.OrderUsName}</p>
                     <p><strong>Số điện thoại:</strong> {order.PhoneNumber}</p>
                     <p><strong>Địa chỉ:</strong> {order.ShippingAddress}</p>
                     {(!string.IsNullOrEmpty(order.Notes) ? $"<p><strong>Ghi chú:</strong> {order.Notes}</p>" : "")}
                 </div>
 
-                <div style='background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 30px;'>
-                    <p style='margin-bottom: 10px;'>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua:</p>
-                    <p><strong>Email:</strong> shoestorebe@gmail.com</p>
-                    <p><strong>Hotline:</strong> 1900 xxxx</p>
-                </div>
+                <p style='margin-top: 20px;'>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua email hoặc hotline.</p>
+                <p>Trân trọng,<br>ShoeStore Team</p>
+            </div>";
 
-                <div style='text-align: center; color: #666; font-size: 14px;'>
-                    <p>Email này được gửi tự động, vui lòng không trả lời.</p>
-                    <p>&copy; 2024 ShoeStore. All rights reserved.</p>
-                </div>
-            </body>
-            </html>";
+        return template;
+    }
+
+    private static string GetOrderStatus(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.Pending => "Chờ xử lý",
+            OrderStatus.Processing => "Đang xử lý",
+            OrderStatus.Shipping => "Đang giao hàng",
+            OrderStatus.Completed => "Đã hoàn thành",
+            OrderStatus.Cancelled => "Đã hủy",
+            _ => "Không xác định"
+        };
+    }
+
+    private static string GetPaymentMethod(PaymentMethod method)
+    {
+        return method switch
+        {
+            PaymentMethod.COD => "Thanh toán khi nhận hàng (COD)",
+            PaymentMethod.VNPay => "VNPay",
+            PaymentMethod.Momo => "Momo",
+            PaymentMethod.ZaloPay => "ZaloPay",
+            _ => "Không xác định"
+        };
+    }
+
+    private static string GetPaymentStatus(PaymentStatus status)
+    {
+        return status switch
+        {
+            PaymentStatus.Pending => "Chưa thanh toán",
+            PaymentStatus.Completed => "Đã thanh toán",
+            PaymentStatus.Failed => "Thanh toán thất bại",
+            PaymentStatus.Refunded => "Đã hoàn tiền",
+            _ => "Không xác định"
+        };
     }
 
     public static string GetResetPasswordEmail(string fullName, string newPassword)

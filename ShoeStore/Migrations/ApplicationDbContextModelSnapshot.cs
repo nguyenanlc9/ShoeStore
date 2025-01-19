@@ -394,6 +394,9 @@ namespace ShoeStore.Migrations
                     b.Property<string>("CancelReason")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("CouponDiscount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int?>("CouponId")
                         .HasColumnType("int");
 
@@ -409,6 +412,9 @@ namespace ShoeStore.Migrations
 
                     b.Property<int>("DistrictId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("MemberDiscount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -451,6 +457,9 @@ namespace ShoeStore.Migrations
                     b.Property<string>("ProvinceCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ShipFeeGHN")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()

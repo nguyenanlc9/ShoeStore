@@ -93,15 +93,22 @@
                                             }
                                         </td>
                                         <td>
-                                            <span class="badge @(item.PaymentStatus == PaymentStatus.Pending ? "badge-warning" : 
-                                                item.PaymentStatus == PaymentStatus.Completed ? "badge-success" : 
-                                                item.PaymentStatus == PaymentStatus.Failed ? "badge-danger" : 
-                                                item.PaymentStatus == PaymentStatus.Refunded ? "badge-info" : "badge-secondary")">
-                                                @(item.PaymentStatus == PaymentStatus.Pending ? "Đang xác thực" :
-                                                  item.PaymentStatus == PaymentStatus.Completed ? "Thành công" :
-                                                  item.PaymentStatus == PaymentStatus.Failed ? "Thất bại" :
-                                                  item.PaymentStatus == PaymentStatus.Refunded ? "Đã hoàn tiền" : "Không xác định")
-                                            </span>
+                                            @if (item.Status == OrderStatus.Cancelled)
+                                            {
+                                                <span class="badge badge-danger">Thất bại</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @(item.PaymentStatus == PaymentStatus.Pending ? "badge-warning" : 
+                                                    item.PaymentStatus == PaymentStatus.Completed ? "badge-success" : 
+                                                    item.PaymentStatus == PaymentStatus.Failed ? "badge-danger" : 
+                                                    item.PaymentStatus == PaymentStatus.Refunded ? "badge-info" : "badge-secondary")">
+                                                    @(item.PaymentStatus == PaymentStatus.Pending ? "Đang xác thực" :
+                                                      item.PaymentStatus == PaymentStatus.Completed ? "Thành công" :
+                                                      item.PaymentStatus == PaymentStatus.Failed ? "Thất bại" :
+                                                      item.PaymentStatus == PaymentStatus.Refunded ? "Đã hoàn tiền" : "Không xác định")
+                                                </span>
+                                            }
                                         </td>
                                         <td>
                                             <div class="form-button-action">

@@ -1,50 +1,61 @@
+@{
+    Layout = null;
+}
+
 @using ShoeStore.Models.Enums
 @model ShoeStore.Models.Order
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <h5>Thông tin đơn hàng</h5>
-            <p><strong>Mã đơn hàng:</strong> @Model.OrderCode</p>
-            <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
-            <p><strong>Trạng thái:</strong> 
-                <span class="badge bg-@(Model.Status switch {
-                    OrderStatus.Pending => "secondary",
-                    OrderStatus.Processing => "info",
-                    OrderStatus.Shipped => "primary",
-                    OrderStatus.Shipping => "info",
-                    OrderStatus.Completed => "success",
-                    OrderStatus.Cancelled => "danger",
-                    _ => "secondary"
-                })">
-                    @(Model.Status switch {
-                        OrderStatus.Pending => "Chờ xử lý",
-                        OrderStatus.Processing => "Đang xử lý",
-                        OrderStatus.Shipped => "Đã giao cho vận chuyển",
-                        OrderStatus.Shipping => "Đang vận chuyển",
-                        OrderStatus.Completed => "Hoàn thành",
-                        OrderStatus.Cancelled => "Đã hủy",
-                        _ => "Không xác định"
-                    })
-                </span>
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h5>Thông tin giao hàng</h5>
-            <p><strong>Người nhận:</strong> @Model.OrderUsName</p>
-            <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
-            <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+<div class="order-details">
+    <!-- Thông tin đơn hàng -->
+    <div class="mb-4">
+        <h6 class="font-weight-bold">Thông tin đơn hàng</h6>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Mã đơn hàng:</strong> @Model.OrderCode</p>
+                <p><strong>Ngày đặt:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+                <p><strong>Người nhận:</strong> @Model.OrderUsName</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
+                <p>
+                    Địa chỉ: @{
+                        var addressParts = Model.ShippingAddress?.Split(",").Select(p => p.Trim()).ToList();
+                        if (addressParts != null && addressParts.Count >= 4)
+                        {
+                            <text>@addressParts[0], @addressParts[1], @addressParts[2], @addressParts[3]</text>
+                        }
+                        else
+                        {
+                            <text>
+                                <!-- Debug info -->
+                                @if (addressParts != null)
+                                {
+                                    <span style="color: red">Parts count: @addressParts.Count</span>
+                                    foreach (var part in addressParts)
+                                    {
+                                        <span style="color: blue">[@part]</span>
+                                    }
+                                }
+                                <!-- Actual address -->
+                                @Model.ShippingAddress
+                            </text>
+                        }
+                    }
+                </p>
+                <p><strong>Ghi chú:</strong> @(string.IsNullOrEmpty(Model.Notes) ? "Không có" : Model.Notes)</p>
+            </div>
         </div>
     </div>
 
+    <!-- Chi tiết sản phẩm -->
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Sản phẩm</th>
                     <th>Size</th>
-                    <th>Số lượng</th>
                     <th>Đơn giá</th>
+                    <th>Số lượng</th>
                     <th>Thành tiền</th>
                 </tr>
             </thead>
@@ -54,13 +65,14 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" style="width: 50px; height: 50px; object-fit: cover;" class="me-2">
-                                @item.Product.Name
+                                <img src="@item.Product.ImagePath" alt="@item.Product.Name"
+                                     style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                <span>@item.Product.Name</span>
                             </div>
                         </td>
-                        <td>@item.Size.SizeValue</td>
-                        <td>@item.Quantity</td>
+                        <td>@(item.Size?.SizeValue.ToString() ?? "N/A")</td>
                         <td>@item.Price.ToString("N0") đ</td>
+                        <td>@item.Quantity</td>
                         <td>@((item.Price * item.Quantity).ToString("N0")) đ</td>
                     </tr>
                 }
@@ -68,16 +80,44 @@
             <tfoot>
                 <tr>
                     <td colspan="4" class="text-end"><strong>Tổng tiền:</strong></td>
-                    <td><strong>@Model.TotalAmount.ToString("N0") đ</strong></td>
+                    <td>@Model.TotalAmount.ToString("N0") đ</td>
                 </tr>
             </tfoot>
         </table>
     </div>
 
-    <div class="row mt-3">
-        <div class="col-12">
-            <h5>Thông tin thanh toán</h5>
-            <p><strong>Phương thức thanh toán:</strong> 
+    <!-- Trạng thái đơn hàng -->
+    <div class="mt-3">
+        <h6 class="font-weight-bold">Trạng thái đơn hàng</h6>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                @{
+                    var statusClass = Model.Status switch
+                    {
+                        OrderStatus.Pending => "secondary",
+                        OrderStatus.Processing => "info",
+                        OrderStatus.Shipped => "primary",
+                        OrderStatus.Shipping => "info",
+                        OrderStatus.Completed => "success",
+                        OrderStatus.Cancelled => "danger",
+                        _ => "secondary"
+                    };
+
+                    var statusText = Model.Status switch
+                    {
+                        OrderStatus.Pending => "Chờ xử lý",
+                        OrderStatus.Processing => "Đang xử lý",
+                        OrderStatus.Shipped => "Đã giao cho vận chuyển",
+                        OrderStatus.Shipping => "Đang giao hàng",
+                        OrderStatus.Completed => "Đã hoàn thành",
+                        OrderStatus.Cancelled => "Đã hủy",
+                        _ => "Không xác định"
+                    };
+                }
+                <span class="badge bg-@statusClass">@statusText</span>
+            </div>
+            <div>
+                <strong>Phương thức thanh toán:</strong>
                 @(Model.PaymentMethod switch
                 {
                     PaymentMethod.COD => "Thanh toán khi nhận hàng",
@@ -87,22 +127,59 @@
                     PaymentMethod.Visa => "Visa",
                     _ => Model.PaymentMethod.ToString()
                 })
-            </p>
-            <p><strong>Trạng thái thanh toán:</strong>
-                <span class="badge bg-@(Model.PaymentStatus switch {
-                    PaymentStatus.Pending => "warning",
-                    PaymentStatus.Completed => "success",
-                    PaymentStatus.Failed => "danger",
-                    _ => "secondary"
-                })">
-                    @(Model.PaymentStatus switch {
-                        PaymentStatus.Pending => "Chờ thanh toán",
-                        PaymentStatus.Completed => "Đã thanh toán",
-                        PaymentStatus.Failed => "Thất bại",
-                        _ => "Không xác định"
-                    })
-                </span>
-            </p>
+            </div>
         </div>
     </div>
-</div> 
+
+    <!-- Nút hủy đơn hàng - hiện khi đơn hàng đang ở trạng thái Pending hoặc Processing -->
+    @if (Model.Status == OrderStatus.Pending || Model.Status == OrderStatus.Processing)
+    {
+        <div class="mt-3">
+            <button class="btn btn-danger" onclick="cancelOrder(@Model.OrderId)">
+                <i class="fas fa-times"></i> Hủy đơn hàng
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    .order-details {
+        font-size: 14px;
+    }
+
+        .order-details p {
+            margin-bottom: 0.5rem;
+        }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .badge {
+        font-size: 0.9em;
+        padding: 0.5em 1em;
+    }
+</style>
+
+<script>
+    function cancelOrder(orderId) {
+        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+            $.ajax({
+                url: '/Order/CancelOrder',
+                type: 'POST',
+                data: { orderId: orderId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra, vui lòng thử lại sau');
+                }
+            });
+        }
+    }
+</script> 

@@ -286,6 +286,44 @@ namespace ShoeStore.Services.GHN
             }
         }
 
+        public async Task<(bool Success, string Message)> CancelShippingOrder(string orderCode)
+        {
+            try
+            {
+                var request = new
+                {
+                    order_codes = new[] { orderCode }
+                };
+
+                var jsonRequest = JsonSerializer.Serialize(request);
+                var httpContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+                _logger.LogInformation($"Canceling shipping order: {orderCode}");
+
+                var response = await _httpClient.PostAsync("/shiip/public-api/v2/switch-status/cancel", httpContent);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                
+                _logger.LogInformation($"Cancel shipping order response: {responseContent}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonSerializer.Deserialize<GHNResponse<object>>(responseContent);
+                    if (result?.Code == 200)
+                    {
+                        return (true, "Hủy đơn hàng thành công");
+                    }
+                    return (false, result?.Message ?? "Lỗi không xác định từ GHN");
+                }
+
+                return (false, $"Lỗi khi hủy đơn hàng: {responseContent}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error canceling shipping order: {ex}");
+                return (false, ex.Message);
+            }
+        }
+
         public class GHNLeadTimeData
         {
             [JsonPropertyName("leadtime")]

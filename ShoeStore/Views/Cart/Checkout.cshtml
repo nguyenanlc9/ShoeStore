@@ -360,97 +360,145 @@
                     return;
                 }
 
-                // Lưu giá trị vào hidden inputs
-                $('#WardCode').val(wardCode);
-                $('#DistrictCode').val(districtId);
-
                 $.ajax({
                     url: `/api/ghn/calculate-fee?wardCode=${wardCode}&districtId=${districtId}`,
                     method: 'GET',
                     success: function(response) {
                         if (response.success) {
-                            $('#shippingFee').text(formatCurrency(response.shippingFee));
-                            updateTotalAmount(response.shippingFee);
+                            const shippingFee = response.shippingFee;
+                            console.log('Shipping fee calculated:', shippingFee);
                             
-                            // Hiển thị thời gian giao hàng dự kiến
-                            if (response.expectedDelivery) {
-                                $('#estimatedDeliveryTime').show();
-                                $('#deliveryTime').text(response.expectedDelivery);
-                            } else {
-                                $('#estimatedDeliveryTime').hide();
-                            }
-                        } else {
-                            $('#shippingFee').text('Không thể tính phí vận chuyển');
-                            $('#estimatedDeliveryTime').hide();
+                            // Cập nhật hiển thị
+                            $('#shippingFee').text(formatCurrency(shippingFee));
+                            
+                            // Lưu vào form data
+                            $('form').append(`<input type="hidden" name="ShipFeeGHN" value="${shippingFee}" />`);
+                            // Hoặc cập nhật nếu đã tồn tại
+                            $('input[name="ShipFeeGHN"]').val(shippingFee);
+                            
+                            console.log('Form data after setting shipping fee:', {
+                                wardCode: $('input[name="WardCode"]').val(),
+                                districtCode: $('input[name="DistrictCode"]').val(),
+                                provinceCode: $('input[name="ProvinceCode"]').val(),
+                                shipFeeGHN: $('input[name="ShipFeeGHN"]').val()
+                            });
+                            
+                            updateTotalAmount();
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        $('#shippingFee').text('Không thể tính phí vận chuyển');
-                        $('#estimatedDeliveryTime').hide();
                     }
                 });
             }
 
             function resetShippingFee() {
+                console.log('Resetting shipping fee'); // Debug log
                 $('#shippingFee').text('Vui lòng chọn địa chỉ');
+                $('#ShipFeeGHN').val(0); // Reset hidden input
                 $('#estimatedDeliveryTime').hide();
-                updateTotalAmount(0);
+                updateTotalAmount();
             }
 
-            function updateTotalAmount(shippingFee) {
+            function updateTotalAmount() {
                 var subTotal = @Model.SubTotal;
-                var discountAmount = @Model.DiscountAmount;
-                var couponDiscount = parseFloat($('#couponDiscountAmount').data('value') || 0);
+                var memberDiscount = @Model.DiscountAmount;
+                var couponDiscount = @Model.CouponDiscountAmount;
+                var shippingFee = parseFloat($('#ShipFeeGHN').val() || 0);  // Dùng id để select
                 
-                var finalTotal = subTotal - discountAmount - couponDiscount + shippingFee;
+                console.log('Updating total amount with values:', {
+                    subTotal,
+                    memberDiscount,
+                    couponDiscount,
+                    shippingFee
+                });
+                
+                var totalDiscount = memberDiscount + couponDiscount;
+                var finalTotal = subTotal - totalDiscount + shippingFee;
+                
                 $('#finalTotal').text(formatCurrency(finalTotal));
             }
 
             function formatCurrency(amount) {
                 return new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
-                    currency: 'VND'
-                }).format(amount);
+                    currency: 'VND',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount).replace('₫', '') + ' ₫';
             }
 
-            // Xử lý mã giảm giá
+            // Xử lý áp dụng mã giảm giá
             $('#applyCoupon').click(function() {
                 var couponCode = $('#couponCode').val();
                 if (!couponCode) {
-                    showCouponMessage('Vui lòng nhập mã giảm giá', 'warning');
+                    $('#couponMessage').html('<span class="text-danger">Vui lòng nhập mã giảm giá</span>');
                     return;
                 }
 
                 $.ajax({
-                    url: '/api/coupon/apply',
-                    method: 'POST',
-                    data: {
-                        code: couponCode,
-                        subTotal: @Model.SubTotal
-                    },
+                    url: '/Cart/ApplyCoupon',
+                    type: 'POST',
+                    data: { couponCode: couponCode },
                     success: function(response) {
                         if (response.success) {
+                            $('#couponMessage').html('<span class="text-success">' + response.message + '</span>');
                             $('#couponDiscount').show();
-                            $('#couponDiscountAmount')
-                                .text('-' + formatCurrency(response.discountAmount))
-                                .data('value', response.discountAmount);
-                            showCouponMessage(response.message, 'success');
-                            calculateShippingFee(); // Tính lại tổng tiền
+                            $('#couponDiscountAmount').text('-' + response.discountAmount + ' ₫');
+                            
+                            // Cập nhật các giá trị
+                            var subtotal = parseFloat(response.subtotal.replace(/[^\d]/g, ''));
+                            var memberDiscount = parseFloat(response.memberDiscountAmount.replace(/[^\d]/g, ''));
+                            var couponDiscount = parseFloat(response.discountAmount.replace(/[^\d]/g, ''));
+                            var shippingFee = parseFloat($('#ShipFeeGHN').val() || 0);
+                            
+                            // Tính tổng tiền mới
+                            var finalTotal = subtotal - memberDiscount - couponDiscount + shippingFee;
+                            
+                            // Cập nhật hiển thị
+                            $('#finalTotal').text(formatCurrency(finalTotal));
+                            
+                            // Lưu giá trị giảm giá để tính toán sau này
+                            $('#couponDiscountAmount').data('value', couponDiscount);
                         } else {
-                            showCouponMessage(response.message, 'danger');
+                            $('#couponMessage').html('<span class="text-danger">' + response.message + '</span>');
                         }
                     },
                     error: function() {
-                        showCouponMessage('Có lỗi xảy ra khi áp dụng mã giảm giá', 'danger');
+                        $('#couponMessage').html('<span class="text-danger">Có lỗi xảy ra, vui lòng thử lại</span>');
                     }
                 });
             });
 
-            function showCouponMessage(message, type) {
-                $('#couponMessage')
-                    .removeClass()
-                    .addClass(`small text-${type} mt-2`)
-                    .text(message);
+            // Xử lý xóa mã giảm giá
+            $('#removeCoupon').click(function() {
+                $.ajax({
+                    url: '/Cart/RemoveCoupon',
+                    type: 'POST',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#couponCode').val('');
+                            $('#couponMessage').html('');
+                            $('#couponDiscount').hide();
+                            $('#finalTotal').text(response.finalTotal + ' ₫');
+                            updateOrderSummary(response);
+                        }
+                    }
+                });
+            });
+
+            function updateOrderSummary(data) {
+                // Cập nhật tạm tính
+                if (data.subtotal) {
+                    $('.subtotal-amount').text(data.subtotal + ' ₫');
+                }
+                
+                // Cập nhật giảm giá thành viên
+                if (data.memberDiscountAmount) {
+                    $('.member-discount-amount').text('-' + data.memberDiscountAmount + ' ₫');
+                }
+                
+                // Cập nhật tổng tiền
+                if (data.finalTotal) {
+                    $('#finalTotal').text(data.finalTotal + ' ₫');
+                }
             }
 
             function updateShippingInfo() {
@@ -527,42 +575,20 @@
 
             // Thêm validation form
             $('form').on('submit', function(e) {
-                // Lấy giá trị hiện tại từ các select
-                const provinceCode = $('#province').val();
-                const districtCode = $('#district').val();
-                const wardCode = $('#ward').val();
-                const addressDetail = $('#AddressDetail').val().trim();
-
-                console.log('Form submission - Address codes:', {
-                    provinceCode,
-                    districtCode,
-                    wardCode,
-                    addressDetail
+                // Log tất cả các giá trị trước khi submit
+                console.log('Form submitting with values:', {
+                    wardCode: $('input[name="WardCode"]').val(),
+                    districtCode: $('input[name="DistrictCode"]').val(),
+                    provinceCode: $('input[name="ProvinceCode"]').val(),
+                    shipFeeGHN: $('input[name="ShipFeeGHN"]').val()
                 });
-
-                if (!provinceCode || !districtCode || !wardCode || !addressDetail) {
+                
+                const shipFeeGHN = $('input[name="ShipFeeGHN"]').val();
+                if (!shipFeeGHN || shipFeeGHN === '0') {
                     e.preventDefault();
-                    alert('Vui lòng nhập đầy đủ thông tin địa chỉ');
+                    alert('Vui lòng chọn địa chỉ để tính phí vận chuyển');
                     return false;
                 }
-
-                // Cập nhật lại các hidden inputs trước khi submit
-                $('#ProvinceCode').val(provinceCode);
-                $('#DistrictCode').val(districtCode);
-                $('#WardCode').val(wardCode);
-
-                // Cập nhật địa chỉ đầy đủ
-                updateFormattedAddress();
-
-                // Log để kiểm tra giá trị cuối cùng
-                console.log('Final form values:', {
-                    provinceCode: $('#ProvinceCode').val(),
-                    districtCode: $('#DistrictCode').val(),
-                    wardCode: $('#WardCode').val(),
-                    formattedAddress: $('#FormattedAddress').val()
-                });
-
-                return true;
             });
 
             $(document).ready(function() {
@@ -633,3 +659,4 @@
 <input type="hidden" name="WardCode" id="WardCode" />
 <input type="hidden" name="DistrictCode" id="DistrictCode" />
 <input type="hidden" name="ProvinceCode" id="ProvinceCode" />
+<input type="hidden" name="ShipFeeGHN" id="ShipFeeGHN" value="0" />

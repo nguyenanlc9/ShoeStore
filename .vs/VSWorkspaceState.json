@@ -2,18 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\ShoeStore",
-    "\\ShoeStore\\Areas",
-    "\\ShoeStore\\Areas\\Admin",
-    "\\ShoeStore\\Areas\\Admin\\Views",
-    "\\ShoeStore\\Areas\\Admin\\Views\\Order",
     "\\ShoeStore\\Controllers",
     "\\ShoeStore\\Services",
     "\\ShoeStore\\Services\\GHN",
     "\\ShoeStore\\Views",
+    "\\ShoeStore\\Views\\Cart",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Controllers\\ShippingController.cs",
+  "SelectedNode": "\\ShoeStore\\Views\\Cart\\Checkout.cshtml",
   "PreviewInSolutionExplorer": false
 }

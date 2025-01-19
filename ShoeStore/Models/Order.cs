@@ -78,9 +78,22 @@ namespace ShoeStore.Models
 
         public string? CancelReason { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal SubTotal { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal ShippingFee { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Discount { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Giảm giá thành viên")]
+        public decimal MemberDiscount { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Giảm giá từ mã")]
+        public decimal CouponDiscount { get; set; }
 
         public DateTime? PaidAt { get; set; }
 
@@ -93,5 +106,8 @@ namespace ShoeStore.Models
         public string? ShippingOrderCode { get; set; }
         public string? ShippingNote { get; set; }
         public string? ShippingOrderResponse { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal ShipFeeGHN { get; set; }
     }
 }

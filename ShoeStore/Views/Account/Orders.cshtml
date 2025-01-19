@@ -150,16 +150,10 @@
                                             <i class="fas fa-truck"></i> Đang vận chuyển
                                         </button>
                                     }
-                                    else if (order.Status == OrderStatus.Cancelled)
+                                    @if (order.Status == OrderStatus.Pending || order.Status == OrderStatus.Processing)
                                     {
-                                        <button class="btn btn-danger btn-sm" disabled>
-                                            <i class="fas fa-times"></i> Đã hủy
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-warning btn-sm" disabled>
-                                            <i class="fas fa-clock"></i> @order.Status.ToString()
+                                        <button class="btn btn-danger btn-sm ms-1" onclick="cancelOrder(@order.OrderId)">
+                                            <i class="fas fa-times"></i> Hủy đơn
                                         </button>
                                     }
                                 </div>

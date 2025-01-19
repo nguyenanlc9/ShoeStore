@@ -565,7 +565,6 @@ C:\Users\USER\ShoeStore\ShoeStore\obj\Debug\net8.0\refint\ShoeStore.dll
 C:\Users\USER\ShoeStore\ShoeStore\obj\Debug\net8.0\ShoeStore.pdb
 C:\Users\USER\ShoeStore\ShoeStore\obj\Debug\net8.0\ShoeStore.genruntimeconfig.cache
 C:\Users\USER\ShoeStore\ShoeStore\obj\Debug\net8.0\ref\ShoeStore.dll
-C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\appsettings.json
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\ShoeStore.staticwebassets.runtime.json
 C:\Users\admin\OneDrive - SAIGON COLLEGE\data hoc\BackEnd\ShoeStore\ShoeStore\bin\Debug\net8.0\ShoeStore.exe

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Services.GHN;
 using ShoeStore.Models.GHN;
+using System.Net.Http.Json;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -621,6 +622,35 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
 
                 return Json(new { success = false, message = message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAvailableServices([FromBody] GetServicesRequest request)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Token", _configuration["GHN:Token"]);
+                
+                var requestContent = new
+                {
+                    shop_id = int.Parse(_configuration["GHN:ShopId"]),
+                    from_district = request.from_district,
+                    to_district = request.to_district
+                };
+
+                var response = await client.PostAsJsonAsync(
+                    "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+                    requestContent
+                );
+
+                var result = await response.Content.ReadFromJsonAsync<GHNResponse<List<GHNServiceInfo>>>();
+                return Json(new { success = true, data = result.Data });
             }
             catch (Exception ex)
             {

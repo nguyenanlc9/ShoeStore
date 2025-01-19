@@ -87,36 +87,46 @@
                             <!-- Tạm tính -->
                             <div class="d-flex justify-content-between mb-3">
                                 <span>Tạm tính:</span>
-                                <span>@Model.OrderDetails.Sum(x => x.Price * x.Quantity).ToString("N0") ₫</span>
+                                <span>@Model.SubTotal.ToString("N0") ₫</span>
                             </div>
 
                             <!-- Giảm giá thành viên (nếu có) -->
                             @if (Model.User?.MemberRank != null)
                             {
-                                var subtotal = Model.OrderDetails.Sum(x => x.Price * x.Quantity);
-                                var memberDiscount = subtotal * (Model.User.MemberRank.DiscountPercent / 100m);
                                 <div class="d-flex justify-content-between mb-3 text-success">
                                     <span>Giảm giá thành viên (@Model.User.MemberRank.RankName - @Model.User.MemberRank.DiscountPercent%):</span>
-                                    <span>-@memberDiscount.ToString("N0") ₫</span>
+                                    <span>-@Model.MemberDiscount.ToString("N0") ₫</span>
                                 </div>
                             }
 
                             <!-- Giảm giá từ mã (nếu có) -->
                             @if (!string.IsNullOrEmpty(Model.OrderCoupon))
                             {
-                                var subtotal = Model.OrderDetails.Sum(x => x.Price * x.Quantity);
-                                var couponDiscount = subtotal * (Model.Coupon?.DiscountPercentage ?? 0 / 100m);
                                 <div class="d-flex justify-content-between mb-3 text-success">
                                     <span>Giảm giá từ mã (@Model.OrderCoupon - @(Model.Coupon?.DiscountPercentage ?? 0)%):</span>
-                                    <span>-@couponDiscount.ToString("N0") ₫</span>
+                                    <span>-@Model.CouponDiscount.ToString("N0") ₫</span>
                                 </div>
                             }
+
+                            <!-- Phí vận chuyển -->
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Phí vận chuyển:</span>
+                                <span>@Model.ShipFeeGHN.ToString("N0") ₫</span>
+                            </div>
 
                             <!-- Tổng tiền -->
                             <div class="d-flex justify-content-between mt-3">
                                 <strong>Tổng tiền:</strong>
                                 <strong class="text-primary h4">@Model.TotalAmount.ToString("N0") ₫</strong>
                             </div>
+
+                            @if (Model.User?.MemberRank != null)
+                            {
+                                <div class="mt-2 text-success small">
+                                    <i class="fas fa-info-circle"></i>
+                                    Bạn được giảm @Model.User.MemberRank.DiscountPercent% với hạng thành viên @Model.User.MemberRank.RankName
+                                </div>
+                            }
                         </div>
 
                         <!-- Thông tin giao hàng -->
@@ -142,7 +152,7 @@
                 </div>
 
                 <div class="text-center mt-5">
-                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Tiếp tục mua sắm</a>
+                    <a href="@Url.Action("Index", "Shop")" class="btn btn-primary">Tiếp tục mua sắm</a>
                     <a href="@Url.Action("Orders", "Account")" class="btn btn-outline-primary">Xem đơn hàng của tôi</a>
                 </div>
             </div>
