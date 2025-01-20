@@ -99,7 +99,12 @@
                                 <span class="badge badge-@badgeClass">@statusText</span>
                             </td>
                             <td>
-                                @{
+                                @if (order.Status == OrderStatus.Cancelled)
+                                {
+                                    <span class="badge bg-danger">Thất bại</span>
+                                }
+                                else
+                                {
                                     var paymentClass = order.PaymentStatus switch
                                     {
                                         PaymentStatus.Pending => "warning",
@@ -107,16 +112,16 @@
                                         PaymentStatus.Failed => "danger",
                                         _ => "secondary"
                                     };
+                                    <span class="badge bg-@paymentClass">
+                                        @(order.PaymentStatus switch
+                                        {
+                                            PaymentStatus.Pending => "Chờ thanh toán",
+                                            PaymentStatus.Completed => "Đã thanh toán",
+                                            PaymentStatus.Failed => "Thất bại",
+                                            _ => "Không xác định"
+                                        })
+                                    </span>
                                 }
-                                <span class="badge bg-@paymentClass">
-                                    @(order.PaymentStatus switch
-                                    {
-                                        PaymentStatus.Pending => "Chờ thanh toán",
-                                        PaymentStatus.Completed => "Đã thanh toán",
-                                        PaymentStatus.Failed => "Thất bại",
-                                        _ => "Không xác định"
-                                    })
-                                </span>
                             </td>
                             <td>
                                 <div class="btn-group">
@@ -131,7 +136,7 @@
                                                 Lịch sử đổi trả
                                             </a>
                                         }
-                                        else
+                                        else      
                                         {
                                             <a href="@Url.Action("Create", "Return", new { orderId = order.OrderId })" class="btn btn-warning btn-sm">
                                                 Yêu cầu đổi trả

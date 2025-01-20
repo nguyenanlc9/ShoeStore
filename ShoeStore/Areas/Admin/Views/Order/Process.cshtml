@@ -61,7 +61,24 @@
                             </tr>
                             <tr>
                                 <th>Trạng thái thanh toán:</th>
-                                <td>@Model.PaymentStatus.ToString()</td>
+                                <td>
+                                    @if (Model.Status == OrderStatus.Cancelled)
+                                    {
+                                        <span class="badge badge-danger">Thất bại</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge @(Model.PaymentStatus == PaymentStatus.Pending ? "badge-warning" : 
+                                            Model.PaymentStatus == PaymentStatus.Completed ? "badge-success" : 
+                                            Model.PaymentStatus == PaymentStatus.Failed ? "badge-danger" : 
+                                            Model.PaymentStatus == PaymentStatus.Refunded ? "badge-info" : "badge-secondary")">
+                                            @(Model.PaymentStatus == PaymentStatus.Pending ? "Đang xác thực" :
+                                              Model.PaymentStatus == PaymentStatus.Completed ? "Thành công" :
+                                              Model.PaymentStatus == PaymentStatus.Failed ? "Thất bại" :
+                                              Model.PaymentStatus == PaymentStatus.Refunded ? "Đã hoàn tiền" : "Không xác định")
+                                        </span>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>Tổng tiền:</th>
@@ -140,7 +157,18 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin giao hàng</h6>
                 </div>
                 <div class="card-body">
-                    @if (string.IsNullOrEmpty(Model.ShippingOrderCode))
+                    @if (Model.Status == OrderStatus.Cancelled)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-times-circle"></i> Đơn hàng đã bị hủy
+                            @if (!string.IsNullOrEmpty(Model.CancelReason))
+                            {
+                                <br/>
+                                <strong>Lý do:</strong> @Model.CancelReason
+                            }
+                        </div>
+                    }
+                    else if (string.IsNullOrEmpty(Model.ShippingOrderCode))
                     {
                         <form asp-action="Process" method="post" id="shippingForm">
                             <input type="hidden" name="id" value="@Model.OrderId" />
@@ -216,16 +244,12 @@
 
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-info mr-2" onclick="calculateShippingFee()">
-                                        <i class="fas fa-calculator"></i> Tính phí vận chuyển
-                                    </button>
-
                                     <button type="button" class="btn btn-primary mr-2" onclick="createShippingOrder()">
                                         <i class="fas fa-truck"></i> Tạo đơn vận chuyển GHN
                                     </button>
 
                                     <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index")'">
-                                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                                        <i class="fas fa-arrow-left"></i> Quay lại
                                     </button>
                                 </div>
                             </div>
@@ -413,25 +437,133 @@
 
             function createShippingOrder() {
                 const wardCode = $('#WardCode').val();
-                const districtId = $('#DistrictId').val();
-                const serviceId = $('#serviceSelect').val();
-                const length = $('#Length').val();
-                const width = $('#Width').val();
-                const height = $('#Height').val();
+                const districtId = parseInt($('#DistrictId').val());
+                const serviceId = parseInt($('#serviceSelect').val());
+                const length = parseInt($('#Length').val()) || 20;
+                const width = parseInt($('#Width').val()) || 20;
+                const height = parseInt($('#Height').val()) || 10;
 
                 if (!wardCode || !districtId || !serviceId) {
-                    alert('Vui lòng chọn đầy đủ địa chỉ giao hàng và gói dịch vụ');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Thông báo',
+                        text: 'Vui lòng chọn đầy đủ địa chỉ giao hàng và gói dịch vụ'
+                    });
                     return;
                 }
 
+                // Gọi API preview trước
+                $.ajax({
+                    url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/preview',
+                    type: 'POST',
+                    headers: {
+                        'Token': '@Configuration["GHN:Token"]',
+                        'ShopId': '@Configuration["GHN:ShopId"]',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({
+                        payment_type_id: 2,
+                        note: "",
+                        required_note: "KHONGCHOXEMHANG",
+                        return_phone: "@Configuration["GHN:ShopPhone"]",
+                        return_address: "@Configuration["GHN:ShopAddress"]",
+                        return_district_id: parseInt(@Configuration["GHN:FromDistrictId"]),
+                        return_ward_code: "@Configuration["GHN:FromWardCode"]",
+                        client_order_code: "@Model.OrderCode",
+                        to_name: "@Model.OrderUsName",
+                        to_phone: "@Model.PhoneNumber",
+                        to_address: "@Model.ShippingAddress",
+                        to_ward_code: wardCode,
+                        to_district_id: districtId,
+                        cod_amount: @(Model.PaymentMethod == PaymentMethod.COD ? Model.TotalAmount : 0),
+                        content: "Đơn hàng từ ShoeStore",
+                        weight: 200,
+                        length: length,
+                        width: width,
+                        height: height,
+                        service_type_id: 2,
+                        service_id: serviceId,
+                        insurance_value: parseInt(@Model.TotalAmount),
+                        items: [
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                @:{ 
+                                @:    name: "@item.Product.Name",
+                                @:    code: "@item.Product.ProductId",
+                                @:    quantity: @item.Quantity,
+                                @:    price: @item.Price,
+                                @:    length: length,
+                                @:    width: width,
+                                @:    height: height,
+                                @:    weight: 200
+                                @:},
+                            }
+                        ]
+                    }),
+                    success: function(response) {
+                        if (response.code === 200) {
+                            // Hiển thị popup xác nhận với thông tin preview
+                            Swal.fire({
+                                title: 'Xác nhận tạo đơn vận chuyển',
+                                html: `
+                                    <div class="text-left">
+                                        <p><strong>Mã đơn hàng:</strong> ${response.data?.client_order_code || '@Model.OrderCode'}</p>
+                                        <p><strong>Người nhận:</strong> ${response.data?.to_name || '@Model.OrderUsName'}</p>
+                                        <p><strong>SĐT:</strong> ${response.data?.to_phone || '@Model.PhoneNumber'}</p>
+                                        <p><strong>Địa chỉ:</strong> ${response.data?.to_address || '@Model.ShippingAddress'}</p>
+                                        <p><strong>Phí vận chuyển:</strong> ${response.data?.total_fee?.toLocaleString() || 0} VNĐ</p>
+                                        <p><strong>Phí thu hộ (COD):</strong> ${response.data?.cod_amount?.toLocaleString() || 0} VNĐ</p>
+                                        <p><strong>Tổng khối lượng:</strong> ${response.data?.weight || 200}g</p>
+                                        <p><strong>Kích thước:</strong> ${response.data?.length || length}x${response.data?.width || width}x${response.data?.height || height}cm</p>
+                                        <p><strong>Ghi chú:</strong> ${response.data?.note || 'Không có'}</p>
+                                        <p><strong>Thời gian dự kiến:</strong> ${new Date(response.data?.expected_delivery_time).toLocaleString('vi-VN', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}</p>
+                                    </div>
+                                `,
+                                icon: 'info',
+                                width: '600px',
+                                showCancelButton: true,
+                                confirmButtonText: 'Xác nhận tạo đơn',
+                                cancelButtonText: 'Hủy'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Gọi API tạo đơn
+                                    submitCreateOrder();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: response.message || 'Không thể tạo đơn vận chuyển'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Preview Error:', xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Không thể kết nối đến server GHN'
+                        });
+                    }
+                });
+            }
+
+            function submitCreateOrder() {
                 const data = {
                     id: '@Model.OrderId',
-                    wardCode: wardCode,
-                    districtId: parseInt(districtId),
-                    serviceId: parseInt(serviceId),
-                    length: parseInt(length),
-                    width: parseInt(width),
-                    height: parseInt(height)
+                    wardCode: $('#WardCode').val(),
+                    districtId: parseInt($('#DistrictId').val()),
+                    serviceId: parseInt($('#serviceSelect').val()),
+                    length: parseInt($('#Length').val()),
+                    width: parseInt($('#Width').val()),
+                    height: parseInt($('#Height').val())
                 };
 
                 $.ajax({
@@ -443,11 +575,19 @@
                         if (response.success) {
                             location.reload();
                         } else {
-                            alert('Lỗi khi tạo đơn vận chuyển: ' + response.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Lỗi khi tạo đơn vận chuyển: ' + response.message
+                            });
                         }
                     },
                     error: function(xhr) {
-                        alert('Có lỗi xảy ra khi tạo đơn vận chuyển');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi tạo đơn vận chuyển'
+                        });
                     }
                 });
             }
