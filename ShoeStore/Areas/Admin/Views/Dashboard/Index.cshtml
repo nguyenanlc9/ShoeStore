@@ -1,0 +1,337 @@
+@model ShoeStore.Models.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Thống kê doanh thu";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-3">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Thống kê doanh thu</h1>
+            </div>
+            <div class="col-sm-6">
+                <div class="float-right">
+                    <div class="btn-group shadow-sm">
+                        <a href="@Url.Action("Index", new { period = "week" })" 
+                           class="btn btn-white @(Model.SelectedPeriod == "week" ? "active" : "")">
+                            <i class="fas fa-calendar-week text-primary"></i> 
+                            <span class="ml-1">Tuần này</span>
+                        </a>
+                        <a href="@Url.Action("Index", new { period = "month" })" 
+                           class="btn btn-white @(Model.SelectedPeriod == "month" ? "active" : "")">
+                            <i class="fas fa-calendar-alt text-info"></i>
+                            <span class="ml-1">Tháng này</span>
+                        </a>
+                        <a href="@Url.Action("Index", new { period = "year" })" 
+                           class="btn btn-white @(Model.SelectedPeriod == "year" ? "active" : "")">
+                            <i class="fas fa-calendar text-success"></i>
+                            <span class="ml-1">Năm nay</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Thống kê tổng quan -->
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Tổng đơn hàng</p>
+                                    <h4 class="card-title">@Model.TotalOrders</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-success bubble-shadow-small">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Doanh thu</p>
+                                    <h4 class="card-title">@Model.TotalRevenue.ToString("N0") đ</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-warning bubble-shadow-small">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Khách hàng</p>
+                                    <h4 class="card-title">@Model.TotalCustomers</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Khách hàng mới</p>
+                                    <h4 class="card-title">@Model.NewCustomers</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Biểu đồ doanh thu -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-head-row">
+                            <div class="card-title">Thống kê doanh thu</div>
+                            <div class="card-tools">
+                                <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
+                                    <span class="btn-label">
+                                        <i class="fas fa-file-excel"></i>
+                                    </span>
+                                    Xuất Excel
+                                </a>
+                                <a href="#" class="btn btn-label-info btn-round btn-sm">
+                                    <span class="btn-label">
+                                        <i class="fas fa-print"></i>
+                                    </span>
+                                    In báo cáo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="min-height: 375px">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                        <div id="chartLegend" class="mt-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thống kê thanh toán -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Phương thức thanh toán</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="paymentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+<style>
+.card {
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 2px 6px 15px 0 rgba(69,65,78,.1);
+    border: 0;
+}
+
+.card .card-header {
+    padding: 1rem 1.25rem;
+    background: white;
+    border-bottom: 1px solid #ebecec;
+}
+
+.card-head-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a2035;
+    margin-bottom: 0;
+}
+
+.btn-label-success {
+    background-color: rgba(31, 203, 101, 0.1) !important;
+    color: #1fcb65 !important;
+}
+
+.btn-label-info {
+    background-color: rgba(73, 182, 245, 0.1) !important;
+    color: #49b6f5 !important;
+}
+
+.btn-round {
+    border-radius: 100px !important;
+}
+
+.btn-label {
+    position: relative;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.chart-container {
+    position: relative;
+}
+
+#chartLegend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#chartLegend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 14px;
+    color: #8d9498;
+}
+
+#chartLegend .legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+}
+</style>
+}
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Biểu đồ doanh thu
+    var revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    var revenueData = @Html.Raw(Json.Serialize(Model.DailyRevenue.Select(x => x.Revenue)));
+    var revenueLabels = @Html.Raw(Json.Serialize(Model.DailyRevenue.Select(x => x.Date.ToString("dd/MM"))));
+
+    var revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: revenueLabels,
+            datasets: [{
+                label: 'Doanh thu',
+                data: revenueData,
+                borderColor: '#1572E8',
+                backgroundColor: 'rgba(21, 114, 232, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString('vi-VN') + ' đ';
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0,0,0,0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Tạo legend tùy chỉnh
+    var legendHtml = '<div class="legend-item">' +
+        '<div class="legend-color" style="background: #1572E8"></div>' +
+        '<span>Doanh thu</span>' +
+    '</div>';
+    document.getElementById('chartLegend').innerHTML = legendHtml;
+
+    // Biểu đồ thanh toán
+    var paymentCtx = document.getElementById('paymentChart').getContext('2d');
+    var paymentData = @Html.Raw(Json.Serialize(Model.PaymentStats.Select(x => x.Revenue)));
+    var paymentLabels = @Html.Raw(Json.Serialize(Model.PaymentStats.Select(x => x.Method.ToString())));
+    var paymentColors = ['#1572E8', '#31CE36', '#FFAD46'];
+
+    var paymentChart = new Chart(paymentCtx, {
+        type: 'doughnut',
+        data: {
+            labels: paymentLabels,
+            datasets: [{
+                data: paymentData,
+                backgroundColor: paymentColors,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        boxWidth: 15,
+                        usePointStyle: true
+                    }
+                }
+            },
+            cutout: '70%'
+        }
+    });
+});
+</script>
+} 

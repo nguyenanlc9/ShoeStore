@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoeStore.Models;
-using ShoeStore.Models.Enums;
-using ShoeStore.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Filters;
-using System.Globalization;
+using ShoeStore.Models;
+using ShoeStore.Models.ViewModels;
+using ShoeStore.Models.Enums;
+using System.Linq;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -19,56 +19,88 @@ namespace ShoeStore.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Daily()
+        public async Task<IActionResult> Index(string period = "month")
         {
             var today = DateTime.Today;
-            var stats = _context.Orders
-                .Where(o => o.OrderDate.Date == today)
-                .GroupBy(o => new { o.OrderDate.Hour })
-                .Select(g => new StatisticsViewModel
-                {
-                    Label = $"{g.Key.Hour}:00",
-                    OrderCount = g.Count(),
-                    Revenue = g.Sum(o => o.TotalAmount)
-                })
-                .ToList();
+            var startDate = today;
+            var endDate = today.AddDays(1);
 
-            return View(stats);
-        }
+            // Xác định khoảng thời gian dựa trên period
+            switch (period.ToLower())
+            {
+                case "week":
+                    startDate = today.AddDays(-7);
+                    break;
+                case "month":
+                    startDate = new DateTime(today.Year, today.Month, 1);
+                    endDate = startDate.AddMonths(1);
+                    break;
+                case "year":
+                    startDate = new DateTime(today.Year, 1, 1);
+                    endDate = startDate.AddYears(1);
+                    break;
+                default:
+                    startDate = DateTime.MinValue;
+                    endDate = DateTime.MaxValue;
+                    break;
+            }
 
-        public IActionResult Monthly()
-        {
-            var currentMonth = DateTime.Today.Month;
-            var currentYear = DateTime.Today.Year;
-            var stats = _context.Orders
-                .Where(o => o.OrderDate.Month == currentMonth && o.OrderDate.Year == currentYear)
+            var orders = await _context.Orders
+                .Where(o => o.OrderDate >= startDate && o.OrderDate < endDate)
+                .ToListAsync();
+
+            // Thống kê doanh thu theo ngày
+            var dailyRevenue = orders
+                .Where(o => o.Status == OrderStatus.Completed)
                 .GroupBy(o => o.OrderDate.Date)
-                .Select(g => new StatisticsViewModel
+                .Select(g => new
                 {
-                    Label = g.Key.ToString("dd/MM"),
-                    OrderCount = g.Count(),
+                    Date = g.Key,
+                    Revenue = g.Sum(o => o.TotalAmount)
+                })
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            // Thống kê đơn hàng theo phương thức thanh toán
+            var paymentStats = orders
+                .GroupBy(o => o.PaymentMethod)
+                .Select(g => new
+                {
+                    Method = g.Key,
+                    Count = g.Count(),
                     Revenue = g.Sum(o => o.TotalAmount)
                 })
                 .ToList();
 
-            return View(stats);
-        }
+            // Thống kê khách hàng mới
+            var newCustomers = await _context.Users
+                .Where(u => u.RoleID == 2 && u.RegisterDate >= startDate && u.RegisterDate < endDate)
+                .CountAsync();
 
-        public IActionResult Yearly()
-        {
-            var currentYear = DateTime.Today.Year;
-            var stats = _context.Orders
-                .Where(o => o.OrderDate.Year == currentYear)
-                .GroupBy(o => o.OrderDate.Month)
-                .Select(g => new StatisticsViewModel
+            var dashboardViewModel = new DashboardViewModel
+            {
+                SelectedPeriod = period,
+                TotalOrders = orders.Count,
+                NewOrders = orders.Count(o => o.Status == OrderStatus.Pending),
+                TotalRevenue = orders
+                    .Where(o => o.Status == OrderStatus.Completed)
+                    .Sum(o => o.TotalAmount),
+                TotalCustomers = await _context.Users.CountAsync(u => u.RoleID == 2),
+                NewCustomers = newCustomers,
+                DailyRevenue = dailyRevenue.Select(x => new DailyRevenueData
                 {
-                    Label = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key),
-                    OrderCount = g.Count(),
-                    Revenue = g.Sum(o => o.TotalAmount)
-                })
-                .ToList();
+                    Date = x.Date,
+                    Revenue = x.Revenue
+                }).ToList(),
+                PaymentStats = paymentStats.Select(x => new PaymentStats
+                {
+                    Method = x.Method,
+                    Count = x.Count,
+                    Revenue = x.Revenue
+                }).ToList()
+            };
 
-            return View(stats);
+            return View(dashboardViewModel);
         }
     }
 }

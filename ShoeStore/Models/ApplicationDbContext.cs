@@ -47,6 +47,10 @@ namespace ShoeStore.Models
         public DbSet<ShippingRate> ShippingRates { get; set; }
         public DbSet<MomoTransaction> MomoTransactions { get; set; }
 
+        public DbSet<VNPayTransaction> VNPayTransactions { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

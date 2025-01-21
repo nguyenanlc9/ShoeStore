@@ -1,0 +1,125 @@
+@model ShoeStore.Models.VNPayTransaction
+@using ShoeStore.Models.Enums
+@{
+    ViewData["Title"] = "Chi tiết giao dịch VNPay";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewData["Title"]</h3>
+            <div class="card-tools">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Thông tin giao dịch</h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <td>@Model.OrderId</td>
+                        </tr>
+                        <tr>
+                            <th>Mã giao dịch VNPay</th>
+                            <td>@Model.TransactionId</td>
+                        </tr>
+                        <tr>
+                            <th>Số tiền</th>
+                            <td>@Model.Amount.ToString("N0") VNĐ</td>
+                        </tr>
+                        <tr>
+                            <th>Thời gian thanh toán</th>
+                            <td>@Model.PaymentTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                        </tr>
+                        <tr>
+                            <th>Ngân hàng</th>
+                            <td>@Model.BankCode</td>
+                        </tr>
+                        <tr>
+                            <th>Mã GD ngân hàng</th>
+                            <td>@Model.BankTranNo</td>
+                        </tr>
+                        <tr>
+                            <th>Loại thẻ</th>
+                            <td>@Model.CardType</td>
+                        </tr>
+                        <tr>
+                            <th>Trạng thái</th>
+                            <td>
+                                @switch (Model.ResponseCode)
+                                {
+                                    case "00":
+                                        <span class="badge badge-success">Thành công</span>
+                                        break;
+                                    case "24":
+                                        <span class="badge badge-warning">Khách hàng hủy GD</span>
+                                        break;
+                                    case "97":
+                                        <span class="badge badge-danger">Chữ ký không hợp lệ</span>
+                                        break;
+                                    default:
+                                        <span class="badge badge-danger">Lỗi</span>
+                                        break;
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h4>Thông tin đơn hàng</h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <td>@Model.OrderRefId</td>
+                        </tr>
+                        <tr>
+                            <th>Tên khách hàng</th>
+                            <td>@Model.Order.OrderUsName</td>
+                        </tr>
+                        <tr>
+                            <th>Số điện thoại</th>
+                            <td>@Model.Order.PhoneNumber</td>
+                        </tr>
+                        <tr>
+                            <th>Địa chỉ</th>
+                            <td>@Model.Order.Address</td>
+                        </tr>
+                        <tr>
+                            <th>Tổng tiền</th>
+                            <td>@Model.Order.TotalAmount.ToString("N0") VNĐ</td>
+                        </tr>
+                        <tr>
+                            <th>Trạng thái đơn hàng</th>
+                            <td>
+                                @switch (Model.Order.Status)
+                                {
+                                    case OrderStatus.Pending:
+                                        <span class="badge badge-warning">Chờ xử lý</span>
+                                        break;
+                                    case OrderStatus.Processing:
+                                        <span class="badge badge-info">Đang xử lý</span>
+                                        break;
+                                    case OrderStatus.Completed:
+                                        <span class="badge badge-success">Hoàn thành</span>
+                                        break;
+                                    case OrderStatus.Cancelled:
+                                        <span class="badge badge-danger">Đã hủy</span>
+                                        break;
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderRefId" class="btn btn-info">
+                        <i class="fas fa-eye"></i> Xem chi tiết đơn hàng
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

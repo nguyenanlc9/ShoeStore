@@ -90,33 +90,17 @@ namespace ShoeStore.Areas.Admin.Controllers
         // POST: Admin/About/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AboutDTO aboutDTO)
+        public async Task<IActionResult> Create([Bind("AboutId,Title,Content,ImagePath,Status")] About about)
         {
             if (ModelState.IsValid)
             {
-                var about = new About
-                {
-                    Title = aboutDTO.Title,
-                    Content = aboutDTO.Content,
-                    Status = aboutDTO.Status,
-                    CreatedAt = DateTime.Now
-                };
-
-                if (aboutDTO.ImageFile != null)
-                {
-                    string fileName = await UploadImage(aboutDTO.ImageFile);
-                    if (!string.IsNullOrEmpty(fileName))
-                    {
-                        about.ImagePath = fileName;
-                    }
-                }
-
+                about.CreatedAt = DateTime.Now;
+                about.Status = 1; // Set default status to 1 (Hiển thị)
                 _context.Add(about);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Thêm trang giới thiệu thành công";
                 return RedirectToAction(nameof(Index));
             }
-            return View(aboutDTO);
+            return View(about);
         }
 
         // GET: Admin/About/Edit/5
@@ -148,9 +132,9 @@ namespace ShoeStore.Areas.Admin.Controllers
         // POST: Admin/About/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AboutDTO aboutDTO)
+        public async Task<IActionResult> Edit(int id, [Bind("AboutId,Title,Content,ImagePath,Status,CreatedAt")] About about)
         {
-            if (id != aboutDTO.AboutId)
+            if (id != about.AboutId)
             {
                 return NotFound();
             }
@@ -159,34 +143,13 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    var about = await _context.Abouts.FindAsync(id);
-                    if (about == null)
-                    {
-                        return NotFound();
-                    }
-
-                    about.Title = aboutDTO.Title;
-                    about.Content = aboutDTO.Content;
-                    about.Status = aboutDTO.Status;
                     about.UpdatedAt = DateTime.Now;
-
-                    if (aboutDTO.ImageFile != null)
-                    {
-                        DeleteImage(about.ImagePath);
-                        string fileName = await UploadImage(aboutDTO.ImageFile);
-                        if (!string.IsNullOrEmpty(fileName))
-                        {
-                            about.ImagePath = fileName;
-                        }
-                    }
-
                     _context.Update(about);
                     await _context.SaveChangesAsync();
-                    TempData["Success"] = "Cập nhật trang giới thiệu thành công";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AboutExists(aboutDTO.AboutId))
+                    if (!AboutExists(about.AboutId))
                     {
                         return NotFound();
                     }
@@ -197,7 +160,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(aboutDTO);
+            return View(about);
         }
 
         // GET: Admin/About/Delete/5

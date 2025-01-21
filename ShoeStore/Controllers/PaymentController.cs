@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using ShoeStore.Models.Payment;
 using ShoeStore.Services.MemberRanking;
 using ShoeStore.Services.Email;
+using ShoeStore.Services;
+using ShoeStore.Utils;
 
 namespace ShoeStore.Controllers
 {
@@ -17,19 +19,22 @@ namespace ShoeStore.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMemberRankService _memberRankService;
         private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
 
         public PaymentController(
             IVnPayService vnPayService,
             ApplicationDbContext context,
             IConfiguration configuration,
             IMemberRankService memberRankService,
-            IEmailService emailService)
+            IEmailService emailService,
+            INotificationService notificationService)
         {
             _vnPayService = vnPayService;
             _context = context;
             _configuration = configuration;
             _memberRankService = memberRankService;
             _emailService = emailService;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -85,89 +90,123 @@ namespace ShoeStore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> PaymentCallback([FromQuery] string vnp_ResponseCode, [FromQuery] string vnp_TxnRef)
+        public async Task<IActionResult> PaymentCallback()
         {
-            try
+            var vnpayData = Request.Query;
+            string orderId = vnpayData["vnp_TxnRef"].ToString();
+            string vnpayTranId = vnpayData["vnp_TransactionNo"].ToString();
+            string vnpayResponseCode = vnpayData["vnp_ResponseCode"].ToString();
+            string vnpayTransactionStatus = vnpayData["vnp_TransactionStatus"].ToString();
+            string vnpaySecureHash = vnpayData["vnp_SecureHash"].ToString();
+            string vnpayBankCode = vnpayData["vnp_BankCode"].ToString();
+            string vnpayBankTranNo = vnpayData["vnp_BankTranNo"].ToString();
+            string vnpayCardType = vnpayData["vnp_CardType"].ToString();
+            string vnpayPayDate = vnpayData["vnp_PayDate"].ToString();
+            decimal amount = decimal.Parse(vnpayData["vnp_Amount"].ToString()) / 100;
+
+            // Tìm đơn hàng
+            var order = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Size)
+                .FirstOrDefaultAsync(o => o.OrderCode == orderId);
+            
+            if (order == null)
             {
-                Console.WriteLine($"=== VNPay Callback Started ===");
-                Console.WriteLine($"Response Code: {vnp_ResponseCode}");
-                Console.WriteLine($"Transaction Ref: {vnp_TxnRef}");
+                return RedirectToAction("Error", "Home", new { message = "Không tìm thấy đơn hàng" });
+            }
 
-                if (!Request.Query.ContainsKey("vnp_SecureHash"))
-                {
-                    Console.WriteLine("Missing secure hash");
-                    TempData["Error"] = "Yêu cầu không hợp lệ";
-                    return RedirectToAction("PaymentFail");
-                }
+            // Lưu thông tin giao dịch VNPay
+            var transaction = new VNPayTransaction
+            {
+                OrderId = orderId,
+                OrderRefId = order.OrderId,
+                TransactionId = vnpayTranId,
+                PaymentMethod = "VNPay",
+                Amount = amount,
+                PaymentTime = DateTime.ParseExact(vnpayPayDate, "yyyyMMddHHmmss", null),
+                BankCode = vnpayBankCode,
+                BankTranNo = vnpayBankTranNo,
+                CardType = vnpayCardType,
+                ResponseCode = vnpayResponseCode,
+                TransactionStatus = vnpayTransactionStatus,
+                SecureHash = vnpaySecureHash
+            };
 
-                var vnpayResponse = _vnPayService.PaymentExecute(Request.Query);
-                Console.WriteLine($"VNPay Response - Success: {vnpayResponse.Success}, ResponseCode: {vnpayResponse.VnPayResponseCode}");
+            _context.VNPayTransactions.Add(transaction);
 
-                var order = await _context.Orders
-                    .Include(o => o.User)
-                    .FirstOrDefaultAsync(o => o.OrderCode == vnp_TxnRef);
-
-                if (order == null)
-                {
-                    Console.WriteLine($"Order not found: {vnp_TxnRef}");
-                    TempData["Error"] = "Không tìm thấy đơn hàng";
-                    return RedirectToAction("PaymentFail");
-                }
-
-                Console.WriteLine($"Order found - ID: {order.OrderId}, Status: {order.Status}, PaymentStatus: {order.PaymentStatus}");
-
-                if (order.PaymentStatus == PaymentStatus.Completed)
-                {
-                    TempData["Error"] = "Đơn hàng này đã được thanh toán trước đó";
-                    return RedirectToAction("PaymentFail");
-                }
-
-                if (!vnpayResponse.Success)
-                {
-                    Console.WriteLine("Payment validation failed");
-                    order.PaymentStatus = PaymentStatus.Failed;
-                    await _context.SaveChangesAsync();
-                    TempData["Error"] = "Xác thực thanh toán thất bại";
-                    return RedirectToAction("PaymentFail");
-                }
-
-                var vnp_Amount = Request.Query["vnp_Amount"].ToString();
-                var orderAmount = ((long)(order.TotalAmount * 100)).ToString();
-                if (vnp_Amount != orderAmount)
-                {
-                    Console.WriteLine($"Amount mismatch - VNPay: {vnp_Amount}, Order: {orderAmount}");
-                    order.PaymentStatus = PaymentStatus.Failed;
-                    await _context.SaveChangesAsync();
-                    TempData["Error"] = "Số tiền thanh toán không khớp";
-                    return RedirectToAction("PaymentFail");
-                }
-
-                if (vnp_ResponseCode != "00")
-                {
-                    Console.WriteLine($"Payment failed with response code: {vnp_ResponseCode}");
-                    order.PaymentStatus = PaymentStatus.Failed;
-                    await _context.SaveChangesAsync();
-                    TempData["Error"] = $"Thanh toán thất bại. Mã lỗi: {vnp_ResponseCode}";
-                    return RedirectToAction("PaymentFail");
-                }
-
-                Console.WriteLine("Payment successful, updating order status...");
-                order.Status = OrderStatus.Processing;
+            // Cập nhật trạng thái đơn hàng
+            if (vnpayResponseCode == "00")
+            {
                 order.PaymentStatus = PaymentStatus.Completed;
+                order.Status = OrderStatus.Processing;
+
+                // Tạo thông báo cho admin
+                var notification = new Notification
+                {
+                    Message = $"Đơn hàng mới #{order.OrderId} - Thanh toán VNPay thành công",
+                    Type = "order_new",
+                    ReferenceId = order.OrderId.ToString(),
+                    CreatedAt = DateTime.Now,
+                    IsRead = false,
+                    Url = $"/Admin/Order/Details/{order.OrderId}"
+                };
+
+                _context.Notifications.Add(notification);
+
+                // Cập nhật rank nếu user đã đăng nhập
+                if (order.UserId > 0)
+                {
+                    await UpdateUserRankAfterPayment(order.UserId, order.TotalAmount);
+                }
+
+                // Send confirmation email
+                if (order.User != null && !string.IsNullOrEmpty(order.User.Email))
+                {
+                    var emailSubject = $"Xác nhận đơn hàng #{order.OrderCode}";
+                    var emailBody = EmailTemplates.GetOrderConfirmationEmail(order);
+                    await _emailService.SendEmailAsync(order.User.Email, emailSubject, emailBody);
+                }
+
                 await _context.SaveChangesAsync();
 
-                if (order.User != null)
-                {
-                    await UpdateUserRankAfterPayment(order.User.UserID, order.TotalAmount);
-                }
+                // Gửi thông báo realtime
+                _notificationService.SendOrderNotification(
+                    notification.Message,
+                    notification.ReferenceId,
+                    notification.Type
+                );
 
                 return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error in PaymentCallback: {ex.Message}");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
-                TempData["Error"] = "Có lỗi xảy ra trong quá trình xử lý thanh toán";
+                order.PaymentStatus = PaymentStatus.Failed;
+                order.Status = OrderStatus.Cancelled;
+
+                // Tạo thông báo cho admin về giao dịch thất bại
+                var notification = new Notification
+                {
+                    Message = $"Đơn hàng #{order.OrderId} - Thanh toán VNPay thất bại",
+                    Type = "order_payment_failed",
+                    ReferenceId = order.OrderId.ToString(),
+                    CreatedAt = DateTime.Now,
+                    IsRead = false,
+                    Url = $"/Admin/Order/Details/{order.OrderId}"
+                };
+
+                _context.Notifications.Add(notification);
+                await _context.SaveChangesAsync();
+
+                // Gửi thông báo realtime
+                _notificationService.SendOrderNotification(
+                    notification.Message,
+                    notification.ReferenceId,
+                    notification.Type
+                );
+
                 return RedirectToAction("PaymentFail");
             }
         }

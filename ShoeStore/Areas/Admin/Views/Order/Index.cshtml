@@ -33,24 +33,64 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <!-- Tìm kiếm và lọc -->
-                    <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <!-- Tìm kiếm -->
-                        <div class="form-group">
-                            <input id="searchBox" type="text" class="form-control" placeholder="Tìm kiếm đơn hàng..." onkeyup="filterTable()" />
-                        </div>
+                    <form method="get" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Tìm kiếm</label>
+                                    <input type="text" name="searchString" class="form-control" placeholder="Mã đơn/Tên/SĐT" value="@ViewBag.CurrentSearch">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Từ ngày</label>
+                                    <input type="date" name="fromDate" class="form-control" value="@ViewBag.FromDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Đến ngày</label>
+                                    <input type="date" name="toDate" class="form-control" value="@ViewBag.ToDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <select name="status" class="form-control">
+                                        <option value="">Tất cả</option>
+                                        @{
+                                            var statuses = new[]
+                                            {
+                                                new { Value = "Pending", Text = "Chờ xử lý" },
+                                                new { Value = "Processing", Text = "Đang xử lý" },
+                                                new { Value = "Shipping", Text = "Đang giao" },
+                                                new { Value = "Completed", Text = "Hoàn thành" },
+                                                new { Value = "Cancelled", Text = "Đã hủy" }
+                                            };
 
-                        <!-- Chọn số lượng hiển thị -->
-                        <div class="form-group">
-                            <label for="recordsPerPage" class="mr-2">Hiển thị:</label>
-                            <select id="recordsPerPage" class="form-control" onchange="changePageSize()">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                            </select>
+                                            foreach (var status in statuses)
+                                            {
+                                                <option value="@status.Value" selected="@(ViewBag.CurrentStatus == status.Value)">
+                                                    @status.Text
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Tìm kiếm
+                                </button>
+                                <a href="@Url.Action("ExportToExcel", new { searchString = ViewBag.CurrentSearch, fromDate = ViewBag.FromDate, toDate = ViewBag.ToDate, status = ViewBag.CurrentStatus })" 
+                                   class="btn btn-success">
+                                    <i class="fas fa-file-excel"></i> Xuất Excel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
 
                     <!-- Bảng hiển thị đơn hàng -->
                     <div class="table-responsive">

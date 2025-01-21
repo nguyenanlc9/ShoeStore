@@ -1,0 +1,120 @@
+@model IEnumerable<ShoeStore.Models.VNPayTransaction>
+@{
+    ViewData["Title"] = "Quản lý giao dịch VNPay";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewData["Title"]</h3>
+            <div class="card-tools">
+                <a asp-action="ExportToExcel" 
+                   asp-route-searchString="@ViewBag.CurrentSearch"
+                   asp-route-fromDate="@ViewBag.FromDate"
+                   asp-route-toDate="@ViewBag.ToDate"
+                   asp-route-status="@ViewBag.CurrentStatus"
+                   class="btn btn-success">
+                    <i class="fas fa-file-excel"></i> Xuất Excel
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tìm kiếm</label>
+                            <input type="text" name="searchString" class="form-control" value="@ViewBag.CurrentSearch" placeholder="Mã đơn hàng, mã giao dịch...">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Từ ngày</label>
+                            <input type="date" name="fromDate" class="form-control" value="@ViewBag.FromDate">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Đến ngày</label>
+                            <input type="date" name="toDate" class="form-control" value="@ViewBag.ToDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select name="status" class="form-control">
+                                <option value="">Tất cả</option>
+                                <option value="00" selected="@(ViewBag.CurrentStatus == "00")">Thành công</option>
+                                <option value="24" selected="@(ViewBag.CurrentStatus == "24")">Khách hàng hủy GD</option>
+                                <option value="97" selected="@(ViewBag.CurrentStatus == "97")">Chữ ký không hợp lệ</option>
+                                <option value="99" selected="@(ViewBag.CurrentStatus == "99")">Các lỗi khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-search"></i> Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Mã giao dịch</th>
+                            <th>Số tiền</th>
+                            <th>Thời gian</th>
+                            <th>Ngân hàng</th>
+                            <th>Mã GD ngân hàng</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.OrderId</td>
+                                <td>@item.TransactionId</td>
+                                <td>@item.Amount.ToString("N0") VNĐ</td>
+                                <td>@item.PaymentTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td>@item.BankCode</td>
+                                <td>@item.BankTranNo</td>
+                                <td>
+                                    @switch (item.ResponseCode)
+                                    {
+                                        case "00":
+                                            <span class="badge badge-success">Thành công</span>
+                                            break;
+                                        case "24":
+                                            <span class="badge badge-warning">Khách hàng hủy GD</span>
+                                            break;
+                                        case "97":
+                                            <span class="badge badge-danger">Chữ ký không hợp lệ</span>
+                                            break;
+                                        default:
+                                            <span class="badge badge-danger">Lỗi</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

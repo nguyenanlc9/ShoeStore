@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 using ShoeStore.Utils;
+using ShoeStore.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ShoeStore.Controllers
@@ -10,10 +11,12 @@ namespace ShoeStore.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotificationService _notificationService;
 
-        public OrderController(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context, INotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -82,7 +85,26 @@ namespace ShoeStore.Controllers
                 }
             }
 
+            // Tạo thông báo hủy đơn
+            var notification = new Notification
+            {
+                Message = $"Đơn hàng #{orderId} đã bị hủy bởi khách hàng",
+                Type = "cancel",
+                ReferenceId = orderId.ToString(),
+                CreatedAt = DateTime.Now,
+                IsRead = false,
+                Url = $"/Admin/Order/Details/{orderId}"
+            };
+
+            _context.Notifications.Add(notification);
             await _context.SaveChangesAsync();
+
+            // Gửi thông báo realtime
+            await _notificationService.SendOrderNotification(
+                notification.Message,
+                notification.ReferenceId,
+                notification.Type
+            );
 
             return Json(new { success = true, message = "Hủy đơn hàng thành công" });
         }
@@ -92,14 +114,52 @@ namespace ShoeStore.Controllers
         {
             try 
             {
-                // ... existing order creation code ...
+                var userInfo = HttpContext.Session.Get<User>("userInfo");
+                if (userInfo == null)
+                    return RedirectToAction("Login", "Auth");
 
+                order.UserId = userInfo.UserID;
+                order.OrderDate = DateTime.Now;
+                order.Status = OrderStatus.Pending;
+
+                // Thêm đơn hàng vào database
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                // Tạo thông báo mới
+                var notification = new Notification
+                {
+                    Message = $"Đơn hàng mới #{order.OrderId} từ {order.OrderUsName}",
+                    Type = "new",
+                    ReferenceId = order.OrderId.ToString(),
+                    CreatedAt = DateTime.Now,
+                    IsRead = false,
+                    Url = $"/Admin/Order/Details/{order.OrderId}"
+                };
+
+                try 
+                {
+                    _context.Notifications.Add(notification);
+                    await _context.SaveChangesAsync();
+
+                    // Gửi thông báo realtime cho admin
+                    await _notificationService.SendOrderNotification(
+                        notification.Message,
+                        notification.ReferenceId,
+                        notification.Type
+                    );
+                    System.Diagnostics.Debug.WriteLine($"Notification sent: {notification.Message}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error sending notification: {ex.Message}");
+                }
 
                 return RedirectToAction("Thankyou", new { orderId = order.OrderId });
             }
             catch (Exception ex)
             {
-                // Log error
+                System.Diagnostics.Debug.WriteLine($"Error in PlaceOrder: {ex.Message}");
                 return RedirectToAction("Error", "Home");
             }
         }

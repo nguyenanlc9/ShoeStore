@@ -48,6 +48,7 @@
 
     <!-- Add Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
@@ -79,197 +80,199 @@
             </div>
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
-                    <ul class="nav nav-secondary">
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "dashboard" ? "active" : "")">
-                            <a asp-area="admin" asp-controller="home" asp-action="Index" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Components</h4>
-                        </li>
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "product" ? "active" : "")">
-                            <a data-bs-toggle="collapse" href="#base" class="nav-link">
-                                <i class="fas fa-box"></i>
-                                <p>Quản lý sản phẩm</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="base">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="product" asp-action="Index">
-                                            <span class="sub-item">Products</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="inventory" asp-action="Index">
-                                            <span class="sub-item">Nhập kho</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="inventory" asp-action="Sizes">
-                                            <span class="sub-item">Quản lý size</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="category" asp-action="Index">
-                                            <span class="sub-item">Category</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="brand" asp-action="Index">
-                                            <span class="sub-item">Brand</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="slider" asp-action="Index" class="nav-link">
-                                <i class="fas fa-images"></i>
-                                <p>Sliders</p>
-                            </a>
-                        </li>
-                        <li class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "content" ? "active" : "")">
-                            <a data-bs-toggle="collapse" href="#content" class="nav-link">
-                                <i class="fas fa-newspaper"></i>
-                                <p>Quản lý nội dung</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="content">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="blog" asp-action="Index">
-                                            <span class="sub-item">Blogs</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="about" asp-action="Index">
-                                            <span class="sub-item">Abouts</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="coupon" asp-action="Index" class="nav-link">
-                                <i class="fas fa-ticket-alt"></i>
-                                <p>Coupons</p>
-                            </a>
-                        </li>
-                        <li class="nav-item @(controller == "User" || controller == "Role" || controller == "MemberRank" ? "active" : "")">
-                            <a data-bs-toggle="collapse" href="#users" class="nav-link">
-                                <i class="fas fa-users"></i>
-                                <p>Quản lý người dùng</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="users">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="User" asp-action="Index">
-                                            <span class="sub-item">Danh sách người dùng</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="Role" asp-action="Index">
-                                            <span class="sub-item">Phân quyền</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="MemberRank" asp-action="Index">
-                                            <span class="sub-item">Hạng thành viên</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#orders" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Quản lý đơn hàng</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="orders">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="Order" asp-action="Index">
-                                            <span class="sub-item">Danh sách đơn hàng</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="MomoTransaction" asp-action="Index">
-                                            <span class="sub-item">Giao dịch MOMO</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="Returnrequest" asp-action="Index">
-                                            <span class="sub-item">Quản lý đổi trả</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item @(controller == "ContactUser" || controller == "Contact" ? "active" : "")">
-                            <a data-bs-toggle="collapse" href="#contacts" class="nav-link">
-                                <i class="fas fa-envelope"></i>
-                                <p>Quản lý liên hệ</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="contacts">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a asp-area="admin" asp-controller="ContactUser" asp-action="Index">
-                                            <span class="sub-item">Liên hệ từ khách hàng</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="admin" asp-controller="Contact" asp-action="Index">
-                                            <span class="sub-item">Thông tin liên hệ</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="statisticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Thống kê</span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="statisticsDropdown">
-                                <li>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Daily">
-                                        Thống kê theo ngày
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Monthly">
-                                        Thống kê theo tháng
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Yearly">
-                                        Thống kê theo năm
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Footer" asp-action="Index" class="nav-link">
-                                <i class="fas fa-shoe-prints"></i>
-                                <p>Footer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="PaymentMethod" asp-action="Index" class="nav-link">
-                                <i class="fas fa-cog"></i>
-                                <p>PaymentMethod</p>
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="sidebar-menu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")" 
+                                   href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                                    <i class="fas fa-home"></i>
+                                    <span>Trang chủ</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Dashboard" ? "active" : "")" 
+                                   href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Thống kê doanh thu</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#productSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                    <i class="fas fa-box"></i>
+                                    <span>Quản lý sản phẩm</span>
+                                    <i class="fas fa-angle-down ms-auto"></i>
+                                </a>
+                                <div class="collapse" id="productSubmenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Product", new { area = "Admin" })">
+                                                <i class="fas fa-list"></i>
+                                                <span>Danh sách sản phẩm</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Inventory", new { area = "Admin" })">
+                                                <i class="fas fa-warehouse"></i>
+                                                <span>Nhập kho</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Sizes", "Inventory", new { area = "Admin" })">
+                                                <i class="fas fa-ruler"></i>
+                                                <span>Quản lý size</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Category", new { area = "Admin" })">
+                                                <i class="fas fa-tags"></i>
+                                                <span>Danh mục</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Brand", new { area = "Admin" })">
+                                                <i class="fas fa-copyright"></i>
+                                                <span>Thương hiệu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#orderSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>Quản lý đơn hàng</span>
+                                    <i class="fas fa-angle-down ms-auto"></i>
+                                </a>
+                                <div class="collapse" id="orderSubmenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Order", new { area = "Admin" })">
+                                                <i class="fas fa-list"></i>
+                                                <span>Danh sách đơn hàng</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "MomoTransaction", new { area = "Admin" })">
+                                                <i class="fas fa-money-bill"></i>
+                                                <span>Giao dịch MOMO</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "VNPayTransaction", new { area = "Admin" })">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span>Giao dịch VNPay</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "ReturnRequest", new { area = "Admin" })">
+                                                <i class="fas fa-undo"></i>
+                                                <span>Quản lý đổi trả</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#userSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                    <i class="fas fa-users"></i>
+                                    <span>Quản lý người dùng</span>
+                                    <i class="fas fa-angle-down ms-auto"></i>
+                                </a>
+                                <div class="collapse" id="userSubmenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "User", new { area = "Admin" })">
+                                                <i class="fas fa-user-friends"></i>
+                                                <span>Danh sách người dùng</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Role", new { area = "Admin" })">
+                                                <i class="fas fa-user-shield"></i>
+                                                <span>Phân quyền</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "MemberRank", new { area = "Admin" })">
+                                                <i class="fas fa-medal"></i>
+                                                <span>Hạng thành viên</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contentSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Quản lý nội dung</span>
+                                    <i class="fas fa-angle-down ms-auto"></i>
+                                </a>
+                                <div class="collapse" id="contentSubmenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Blog", new { area = "Admin" })">
+                                                <i class="fas fa-blog"></i>
+                                                <span>Blogs</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "About", new { area = "Admin" })">
+                                                <i class="fas fa-info-circle"></i>
+                                                <span>Giới thiệu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contactSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Quản lý liên hệ</span>
+                                    <i class="fas fa-angle-down ms-auto"></i>
+                                </a>
+                                <div class="collapse" id="contactSubmenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "ContactUser", new { area = "Admin" })">
+                                                <i class="fas fa-comment-alt"></i>
+                                                <span>Liên hệ từ khách hàng</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Index", "Contact", new { area = "Admin" })">
+                                                <i class="fas fa-address-book"></i>
+                                                <span>Thông tin liên hệ</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Slider", new { area = "Admin" })">
+                                    <i class="fas fa-images"></i>
+                                    <span>Quản lý Slider</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Coupon", new { area = "Admin" })">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    <span>Mã giảm giá</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Footer", new { area = "Admin" })">
+                                    <i class="fas fa-shoe-prints"></i>
+                                    <span>Footer</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "PaymentMethod", new { area = "Admin" })">
+                                    <i class="fas fa-money-check"></i>
+                                    <span>Phương thức thanh toán</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -318,20 +321,32 @@
                         </nav>
 
                         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" data-toggle="dropdown" href="#" role="button">
-                                    <i class="far fa-bell"></i>
-                                    <span class="badge badge-warning navbar-badge notif-count">0</span>
+                            <li class="nav-item topbar-icon dropdown hidden-caret submenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="notification notif-count">0</span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                    <span class="dropdown-item dropdown-header"><span class="notif-count">0</span> Thông báo</span>
-                                    <div class="dropdown-divider"></div>
-                                    <div id="notificationList">
-                                        <!-- Notifications will be inserted here -->
-                                    </div>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item dropdown-footer">Xem tất cả thông báo</a>
-                                </div>
+                                <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                                    <li>
+                                        <div class="dropdown-title">
+                                            Bạn có <span class="notif-count">0</span> thông báo mới
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="scroll-wrapper notif-scroll scrollbar-outer">
+                                            <div class="notif-scroll scrollbar-outer scroll-content" style="max-height: 244px;">
+                                                <div class="notif-center" id="notificationList">
+                                                    <!-- Notifications will be inserted here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="see-all" href="javascript:void(0);" onclick="markAllAsRead(); return false;">
+                                            Đánh dấu tất cả đã đọc<i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic"
@@ -586,17 +601,17 @@
     <script src="~/js/setting-demo.js"></script>
     <script src="~/js/demo.js"></script>
     
-    @await RenderSectionAsync("Scripts", required: false)
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
-    <!-- Add SignalR and Toastr scripts -->
+    <!-- SignalR and Toastr scripts -->
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/js/notification.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 
     <style>
-        /* Notification styles */
         .notification {
             position: absolute;
             top: 0;
@@ -609,44 +624,46 @@
             color: #fff;
             text-align: center;
             line-height: 18px;
+            background: #f25961;
         }
 
-        .dropdown-notif {
+        .notif-box {
             width: 300px;
             padding: 0;
             border: 0;
             box-shadow: 0 0 15px 1px rgba(64, 70, 74, 0.2);
-        }
-
-        .notif-box {
-            background: #fff;
             border-radius: 4px;
         }
 
-        .notif-header {
+        .dropdown-title {
             padding: 15px;
+            text-align: center;
             border-bottom: 1px solid #eee;
+            color: #444;
             font-weight: 600;
+            font-size: 14px;
+            background: #f9fbfd;
         }
 
-        .notif-center {
-            max-height: 350px;
-            overflow-y: auto;
+        .notif-scroll {
+            padding: 0;
+            max-height: 244px;
+            overflow: hidden;
         }
 
-        .notif-item {
+        .notif-center a {
             display: flex;
-            padding: 15px;
+            padding: 12px 15px;
             border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: all .3s;
+            text-decoration: none;
+            transition: all .2s;
         }
 
-        .notif-item:hover {
+        .notif-center a:hover {
             background: #f7f7f7;
         }
 
-        .notif-item .notif-icon {
+        .notif-icon {
             width: 40px;
             height: 40px;
             display: flex;
@@ -657,34 +674,41 @@
             color: #fff;
         }
 
-        .notif-item .notif-content {
+        .notif-content {
             flex: 1;
         }
 
-        .notif-item .notif-content .notif-text {
+        .notif-content .block {
+            display: block;
             font-size: 14px;
             margin-bottom: 5px;
-            font-weight: 500;
+            color: #444;
         }
 
-        .notif-item .notif-content .notif-time {
+        .notif-content .time {
             font-size: 12px;
             color: #777;
         }
 
-        .notif-footer {
+        .see-all {
+            display: block;
             padding: 15px;
             text-align: center;
+            font-size: 13px;
+            font-weight: 400;
+            color: #1572E8;
+            text-decoration: none;
+            background: #f9fbfd;
             border-top: 1px solid #eee;
         }
 
-        .notif-footer a {
-            color: #1572E8;
-            text-decoration: none;
+        .see-all:hover {
+            color: #0056b3;
+            background: #f1f5f9;
         }
 
-        .notif-footer a:hover {
-            text-decoration: underline;
+        .see-all i {
+            margin-left: 5px;
         }
 
         /* Notification types */
@@ -692,115 +716,26 @@
         .notif-success { background: #31CE36 !important; }
         .notif-warning { background: #FFAD46 !important; }
         .notif-danger { background: #F25961 !important; }
-    </style>
 
-    <script>
-        // Cấu hình Toastr
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-
-        // Khởi tạo kết nối SignalR
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl("/notificationHub")
-            .build();
-
-        var notificationCount = 0;
-        
-        function updateNotificationCount() {
-            $('.notif-count').text(notificationCount);
+        .animated {
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
         }
 
-        function addNotification(icon, title, message, time, url) {
-            var notification = `
-                <a href="${url}" class="dropdown-item">
-                    <i class="${icon}"></i> ${title}
-                    <p class="text-sm">${message}</p>
-                    <span class="float-right text-muted text-sm">${time}</span>
-                </a>
-                <div class="dropdown-divider"></div>
-            `;
-            
-            $('#notificationList').prepend(notification);
-            notificationCount++;
-            updateNotificationCount();
-            
-            // Phát âm thanh
-            playNotificationSound();
+        .fadeIn {
+            animation-name: fadeIn;
         }
 
-        // Xử lý sự kiện nhận đơn hàng mới
-        connection.on("ReceiveNewOrder", function (order) {
-            addNotification(
-                'fas fa-shopping-cart text-success',
-                'Đơn hàng mới!',
-                `Mã đơn: ${order.orderCode}<br>Khách hàng: ${order.customerName}<br>Tổng tiền: ${order.total.toLocaleString('vi-VN')}đ`,
-                'Vừa xong',
-                `/Admin/Order/Details/${order.orderId}`
-            );
-        });
-
-        // Xử lý sự kiện đơn hàng bị hủy
-        connection.on("ReceiveOrderCancelled", function (order) {
-            addNotification(
-                'fas fa-times-circle text-danger',
-                'Đơn hàng đã bị hủy!',
-                `Mã đơn: ${order.orderCode}<br>Khách hàng: ${order.customerName}<br>Lý do: ${order.reason}`,
-                'Vừa xong',
-                `/Admin/Order/Details/${order.orderId}`
-            );
-        });
-
-        // Xử lý sự kiện thay đổi trạng thái đơn hàng
-        connection.on("ReceiveOrderStatusChange", function (order) {
-            addNotification(
-                'fas fa-sync text-info',
-                'Cập nhật trạng thái đơn hàng',
-                `Mã đơn: ${order.orderCode}<br>Trạng thái mới: ${getStatusText(order.status)}<br>Cập nhật bởi: ${order.updatedBy}`,
-                'Vừa xong',
-                `/Admin/Order/Details/${order.orderId}`
-            );
-        });
-
-        // Hàm chuyển đổi trạng thái sang text
-        function getStatusText(status) {
-            switch (status) {
-                case 'Pending': return 'Chờ xử lý';
-                case 'Processing': return 'Đang xử lý';
-                case 'Shipping': return 'Đang giao hàng';
-                case 'Completed': return 'Đã hoàn thành';
-                case 'Cancelled': return 'Đã hủy';
-                default: return status;
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate3d(0, -10px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
             }
         }
-
-        // Hàm phát âm thanh thông báo
-        function playNotificationSound() {
-            var audio = new Audio('/sounds/notification.mp3');
-            audio.play();
-        }
-
-        // Kết nối đến SignalR Hub
-        connection.start()
-            .then(function () {
-                console.log("SignalR Connected!");
-            })
-            .catch(function (err) {
-                console.error(err.toString());
-            });
-    </script>
+    </style>
 </body>
 </html>

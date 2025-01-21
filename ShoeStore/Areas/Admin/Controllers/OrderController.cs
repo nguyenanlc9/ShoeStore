@@ -14,6 +14,9 @@ using ShoeStore.Services.GHN;
 using ShoeStore.Models.GHN;
 using System.Net.Http.Json;
 using ShoeStore.Services.Excel;
+using ShoeStore.Services;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
@@ -26,21 +29,60 @@ namespace ShoeStore.Areas.Admin.Controllers
         private readonly IGHNService _ghnService;
         private readonly IConfiguration _configuration;
         private readonly IExcelService _excelService;
+        private readonly INotificationService _notificationService;
 
         public OrderController(ApplicationDbContext context, IServiceProvider serviceProvider, 
-            IGHNService ghnService, IConfiguration configuration, IExcelService excelService)
+            IGHNService ghnService, IConfiguration configuration, IExcelService excelService, INotificationService notificationService)
         {
             _context = context;
             _serviceProvider = serviceProvider;
             _ghnService = ghnService;
             _configuration = configuration;
             _excelService = excelService;
+            _notificationService = notificationService;
         }
 
-        // GET: Admin/Order
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, DateTime? fromDate, DateTime? toDate, string status)
         {
-            return View(await _context.Orders.ToListAsync());
+            ViewBag.CurrentSearch = searchString;
+            ViewBag.FromDate = fromDate?.ToString("yyyy-MM-dd");
+            ViewBag.ToDate = toDate?.ToString("yyyy-MM-dd");
+            ViewBag.CurrentStatus = status;
+
+            var orders = _context.Orders
+                .Include(o => o.User)
+                .AsQueryable();
+
+            // Lọc theo từ khóa
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(o => 
+                    o.OrderCode.Contains(searchString) || 
+                    o.OrderUsName.Contains(searchString) || 
+                    o.PhoneNumber.Contains(searchString));
+            }
+
+            // Lọc theo ngày
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(o => o.OrderDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(o => o.OrderDate <= toDate.Value.AddDays(1));
+            }
+
+            // Lọc theo trạng thái
+            if (!string.IsNullOrEmpty(status))
+            {
+                OrderStatus orderStatus = (OrderStatus)Enum.Parse(typeof(OrderStatus), status);
+                orders = orders.Where(o => o.Status == orderStatus);
+            }
+
+            // Sắp xếp theo ngày đặt hàng mới nhất
+            orders = orders.OrderByDescending(o => o.OrderDate);
+
+            return View(await orders.ToListAsync());
         }
 
         // GET: Admin/Order/Details/5
@@ -78,32 +120,23 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Order request)
+        public async Task<IActionResult> Create([FromBody] Order order)
         {
             if (ModelState.IsValid)
             {
-                var order = new Order
-                {
-                    OrderUsName = request.OrderUsName,
-                    OrderCode = request.OrderCode,
-                    OrderDescription = request.OrderDescription,
-                    OrderCoupon = request.OrderCoupon,
-                    PaymentMethod = request.PaymentMethod,
-                    OrderStatus = request.OrderStatus
-                };
-
-                // Thêm vào context và lưu vào cơ sở dữ liệu
-                _context.Add(order);
+                _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
-                // Tạo thông báo cho đơn hàng mới
+                // Gửi thông báo khi có đơn hàng mới
+                await _notificationService.SendOrderNotification(
+                    $"Đơn hàng mới #{order.OrderId} từ {order.OrderUsName}",
+                    order.OrderId.ToString(),
+                    "new"
+                );
 
-                // Chuyển hướng về trang Index hoặc danh sách đơn hàng
-                return RedirectToAction(nameof(Index));
+                return Ok(new { success = true, message = "Đơn hàng đã được tạo thành công" });
             }
-
-            // Nếu không hợp lệ, trở lại view với dữ liệu request
-            return View(request);
+            return BadRequest(new { success = false, message = "Dữ liệu không hợp lệ" });
         }
 
         // GET: Admin/Order/Edit/5
@@ -619,42 +652,96 @@ namespace ShoeStore.Areas.Admin.Controllers
             }
         }
 
-        // Action xuất danh sách đơn hàng ra Excel
-        [HttpPost]
         public async Task<IActionResult> ExportToExcel(string searchString, DateTime? fromDate, DateTime? toDate, string status)
         {
-            var query = _context.Orders.AsQueryable();
+            var orders = _context.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .Include(o => o.User)
+                .AsQueryable();
 
-            // Áp dụng filter
+            // Áp dụng các điều kiện lọc tương tự như Index
             if (!string.IsNullOrEmpty(searchString))
             {
-                query = query.Where(o => 
+                orders = orders.Where(o => 
                     o.OrderCode.Contains(searchString) || 
-                    o.OrderUsName.Contains(searchString) ||
+                    o.OrderUsName.Contains(searchString) || 
                     o.PhoneNumber.Contains(searchString));
             }
 
             if (fromDate.HasValue)
             {
-                query = query.Where(o => o.OrderDate >= fromDate.Value);
+                orders = orders.Where(o => o.OrderDate >= fromDate.Value);
             }
-
             if (toDate.HasValue)
             {
-                query = query.Where(o => o.OrderDate <= toDate.Value.AddDays(1));
+                orders = orders.Where(o => o.OrderDate <= toDate.Value.AddDays(1));
             }
 
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(o => o.Status.ToString() == status);
+                OrderStatus orderStatus = (OrderStatus)Enum.Parse(typeof(OrderStatus), status);
+                orders = orders.Where(o => o.Status == orderStatus);
             }
 
-            var orders = await query.OrderByDescending(o => o.OrderDate).ToListAsync();
+            var orderList = await orders.OrderByDescending(o => o.OrderDate).ToListAsync();
 
-            var fileBytes = _excelService.ExportOrders(orders);
-            var fileName = $"orders_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Orders");
 
-            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                // Thiết lập header
+                worksheet.Cell(1, 1).Value = "Mã đơn hàng";
+                worksheet.Cell(1, 2).Value = "Ngày đặt";
+                worksheet.Cell(1, 3).Value = "Khách hàng";
+                worksheet.Cell(1, 4).Value = "Số điện thoại";
+                worksheet.Cell(1, 5).Value = "Địa chỉ";
+                worksheet.Cell(1, 6).Value = "Tổng tiền";
+                worksheet.Cell(1, 7).Value = "Trạng thái";
+                worksheet.Cell(1, 8).Value = "Thanh toán";
+                worksheet.Cell(1, 9).Value = "Chi tiết đơn hàng";
+
+                // Style cho header
+                var headerRow = worksheet.Row(1);
+                headerRow.Style.Font.Bold = true;
+                headerRow.Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                // Điền dữ liệu
+                int row = 2;
+                foreach (var order in orderList)
+                {
+                    worksheet.Cell(row, 1).Value = order.OrderCode;
+                    worksheet.Cell(row, 2).Value = order.OrderDate.ToString("dd/MM/yyyy HH:mm");
+                    worksheet.Cell(row, 3).Value = order.OrderUsName;
+                    worksheet.Cell(row, 4).Value = order.PhoneNumber;
+                    worksheet.Cell(row, 5).Value = order.ShippingAddress;
+                    worksheet.Cell(row, 6).Value = order.TotalAmount;
+                    worksheet.Cell(row, 7).Value = order.Status.ToString();
+                    worksheet.Cell(row, 8).Value = order.PaymentStatus.ToString();
+
+                    // Tạo chi tiết đơn hàng
+                    var orderDetails = order.OrderDetails.Select(od => 
+                        $"{od.Product.Name} - SL: {od.Quantity} - Giá: {od.Price:N0}đ");
+                    worksheet.Cell(row, 9).Value = string.Join("\n", orderDetails);
+
+                    row++;
+                }
+
+                // Tự động điều chỉnh độ rộng cột
+                worksheet.Columns().AdjustToContents();
+
+                // Format cột tiền tệ
+                worksheet.Column(6).Style.NumberFormat.Format = "#,##0";
+
+                // Xuất file
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    string fileName = $"Orders_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
         }
 
         // Action xuất báo cáo doanh thu
@@ -694,6 +781,50 @@ namespace ShoeStore.Areas.Admin.Controllers
             var fileName = $"revenue_report_{fromDate:yyyyMMdd}_{toDate:yyyyMMdd}.xlsx";
 
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
+        // Trong phương thức hủy đơn hàng
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
+                order.Status = OrderStatus.Cancelled;
+                await _context.SaveChangesAsync();
+
+                // Gửi thông báo khi đơn hàng bị hủy
+                await _notificationService.SendOrderNotification(
+                    $"Đơn hàng #{id} đã bị hủy",
+                    id.ToString(),
+                    "cancel"
+                );
+
+                return Ok(new { success = true, message = "Đơn hàng đã được hủy" });
+            }
+            return NotFound(new { success = false, message = "Không tìm thấy đơn hàng" });
+        }
+
+        // Trong phương thức xử lý yêu cầu đổi/trả
+        [HttpPost]
+        public async Task<IActionResult> ProcessReturnRequest(int id)
+        {
+            var returnRequest = await _context.ReturnRequests.FindAsync(id);
+            if (returnRequest != null)
+            {
+                // Xử lý logic đổi/trả
+                await _context.SaveChangesAsync();
+
+                // Gửi thông báo khi có yêu cầu đổi/trả
+                await _notificationService.SendOrderNotification(
+                    $"Yêu cầu đổi/trả cho đơn hàng #{returnRequest.OrderId}",
+                    returnRequest.OrderId.ToString(),
+                    "return"
+                );
+
+                return Ok(new { success = true, message = "Yêu cầu đổi/trả đã được xử lý" });
+            }
+            return NotFound(new { success = false, message = "Không tìm thấy yêu cầu đổi/trả" });
         }
     }
 }

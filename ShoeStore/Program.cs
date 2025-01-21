@@ -16,6 +16,7 @@ using ShoeStore.Services.ReCaptcha;
 using ShoeStore.Services.GHN;
 using Microsoft.AspNetCore.SignalR;
 using ShoeStore.Services.Excel;
+using ShoeStore.Hubs;
 
 namespace ShoeStore
 {
@@ -107,6 +108,9 @@ namespace ShoeStore
             // Đăng ký ExcelService
             builder.Services.AddScoped<IExcelService, ExcelService>();
 
+            // Đăng ký NotificationService
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+
             builder.Services.AddSignalR();
 
             var app = builder.Build();
@@ -148,6 +152,9 @@ namespace ShoeStore
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // Add SignalR Hub endpoint
+            app.MapHub<NotificationHub>("/notificationHub");
 
             // Khởi tạo dữ liệu mặc định nếu cần
             using (var scope = app.Services.CreateScope())

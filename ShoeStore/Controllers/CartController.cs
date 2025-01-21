@@ -17,6 +17,7 @@ using ShoeStore.Areas.Admin.Controllers;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.GHN;
 using Microsoft.AspNetCore.SignalR;
+using ShoeStore.Services;
 
 namespace ShoeStore.Controllers
 {
@@ -29,6 +30,7 @@ namespace ShoeStore.Controllers
         private readonly IGHNAddressService _ghnAddressService;
         private readonly IEmailService _emailService;
         private readonly IMomoService _momoService;
+        private readonly INotificationService _notificationService;
 
         public CartController(
             ApplicationDbContext context, 
@@ -37,7 +39,8 @@ namespace ShoeStore.Controllers
             IMemberRankService memberRankService,
             IGHNAddressService ghnAddressService,
             IEmailService emailService,
-            IMomoService momoService)
+            IMomoService momoService,
+            INotificationService notificationService)
         {
             _context = context;
             _configuration = configuration;
@@ -46,6 +49,7 @@ namespace ShoeStore.Controllers
             _ghnAddressService = ghnAddressService;
             _emailService = emailService;
             _momoService = momoService;
+            _notificationService = notificationService;
         }
 
         public IActionResult Index()
@@ -430,18 +434,82 @@ namespace ShoeStore.Controllers
                         order.PaymentStatus = PaymentStatus.Pending;
                         await _context.SaveChangesAsync();
 
+                        // Tạo thông báo mới
+                        var notification = new Notification
+                        {
+                            Message = $"Đơn hàng COD mới #{order.OrderId} từ {order.OrderUsName}",
+                            Type = "new",
+                            ReferenceId = order.OrderId.ToString(),
+                            CreatedAt = DateTime.Now,
+                            IsRead = false,
+                            Url = $"/Admin/Order/Details/{order.OrderId}"
+                        };
+
+                        _context.Notifications.Add(notification);
+                        await _context.SaveChangesAsync();
+
+                        // Gửi thông báo realtime cho admin
+                        await _notificationService.SendOrderNotification(
+                            notification.Message,
+                            notification.ReferenceId,
+                            notification.Type
+                        );
 
                         return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
 
                     case PaymentMethod.VNPay:
                         await _context.SaveChangesAsync(); // Lưu order trước khi chuyển sang VNPay
+
+                        // Tạo thông báo mới cho VNPay
+                        var vnpayNotification = new Notification
+                        {
+                            Message = $"Đơn hàng VNPay mới #{order.OrderId} từ {order.OrderUsName}",
+                            Type = "new",
+                            ReferenceId = order.OrderId.ToString(),
+                            CreatedAt = DateTime.Now,
+                            IsRead = false,
+                            Url = $"/Admin/Order/Details/{order.OrderId}"
+                        };
+
+                        _context.Notifications.Add(vnpayNotification);
+                        await _context.SaveChangesAsync();
+
+                        // Gửi thông báo realtime cho admin
+                        await _notificationService.SendOrderNotification(
+                            vnpayNotification.Message,
+                            vnpayNotification.ReferenceId,
+                            vnpayNotification.Type
+                        );
+
                         return RedirectToAction("ProcessVnPay", "Payment", new { 
                             orderId = order.OrderId,
-                            amount = finalTotal // Truyền tổng tiền đã tính cả giảm giá
+                            amount = finalTotal
                         });
 
                     case PaymentMethod.Momo:
                         await _context.SaveChangesAsync();
+
+                        // Tạo thông báo mới cho Momo
+                        var momoNotification = new Notification
+                        {
+                            Message = $"Đơn hàng Momo mới #{order.OrderId} từ {order.OrderUsName}",
+                            Type = "new",
+                            ReferenceId = order.OrderId.ToString(),
+                            CreatedAt = DateTime.Now,
+                            IsRead = false,
+                            Url = $"/Admin/Order/Details/{order.OrderId}"
+                        };
+
+                        _context.Notifications.Add(momoNotification);
+                        await _context.SaveChangesAsync();
+
+                        // Gửi thông báo realtime cho admin
+                        await _notificationService.SendOrderNotification(
+                            momoNotification.Message,
+                            momoNotification.ReferenceId,
+                            momoNotification.Type
+                        );
+
                         var orderInfo = new OrderInfoModel
                         {
                             OrderId = order.OrderCode,

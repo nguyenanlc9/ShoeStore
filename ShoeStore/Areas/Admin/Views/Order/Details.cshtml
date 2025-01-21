@@ -51,7 +51,7 @@
                         <div class="col-md-6">
                             <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod.ToString()</p>
                             <p><strong>Tạm tính:</strong> @Model.SubTotal.ToString("N0")₫</p>
-                            <p><strong>Phí vận chuyển:</strong> @Model.ShippingFee.ToString("N0")₫</p>
+                            <p><strong>Phí vận chuyển:</strong> @Model.ShipFeeGHN.ToString("N0")₫</p>
                             @if (Model.Discount > 0)
                             {
                                 <p><strong>Giảm giá:</strong> @Model.Discount.ToString("N0")₫</p>
@@ -130,23 +130,6 @@
                     }
                 </div>
             </div>
-
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Cập nhật trạng thái</h6>
-                </div>
-                <div class="card-body">
-                    <form asp-action="UpdateStatus" method="post">
-                        <input type="hidden" name="orderId" value="@Model.OrderId" />
-                        <div class="form-group">
-                            <label>Trạng thái đơn hàng</label>
-                            <select name="status" class="form-control" asp-items="Html.GetEnumSelectList<OrderStatus>()">
-                                <option value="@Model.Status" selected>@Model.Status</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
