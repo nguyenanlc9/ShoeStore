@@ -163,7 +163,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 ModelState.AddModelError("", $"Có lỗi xảy ra: {ex.Message}");
                 return View(sliderDTO);
             }
-        }
+            }
 
         // GET: Admin/Slider/Edit/5
         public async Task<IActionResult> Edit(int? id)

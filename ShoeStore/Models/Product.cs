@@ -81,7 +81,7 @@ namespace ShoeStore.Models
         public string ProductCode { get; set; }
 
         public string Code { get; set; } = string.Empty;
-        public int Weight { get; set; } = 500; // Default weight in grams
+        public int Weight { get; set; } = 1200; // Default weight in grams
         public int Length { get; set; } = 20; // Default length in cm
         public int Width { get; set; } = 20; // Default width in cm
         public int Height { get; set; } = 10; // Default height in cm

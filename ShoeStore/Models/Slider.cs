@@ -16,7 +16,7 @@ namespace ShoeStore.Models
         [StringLength(50)]
         public string Title { get; set; }
 
-        [StringLength(50)] 
+        [Column(TypeName = "nvarchar(max)")]
         public string Description { get; set; }
 
         [Required]

@@ -156,7 +156,7 @@ namespace ShoeStore.Services.GHN
                     to_ward_code = toWardCode,
                     service_id = serviceId,
                     shop_id = shopId,
-                    weight = 200, // Giả sử trọng lượng mặc định là 200g
+                    weight = 1200, // Giả sử trọng lượng mặc định là 1200g
                     insurance_value = 0
                 };
 

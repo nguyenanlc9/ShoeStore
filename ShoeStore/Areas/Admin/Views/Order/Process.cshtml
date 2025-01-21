@@ -222,33 +222,40 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Gói dịch vụ</label>
-                                        <select class="form-control" id="serviceSelect" name="ServiceId" disabled>
-                                            <option value="">Chọn gói dịch vụ</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Chiều dài (cm)</label>
                                         <input type="number" class="form-control" id="Length" name="Length" value="20">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Chiều rộng (cm)</label>
                                         <input type="number" class="form-control" id="Width" name="Width" value="20">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Chiều cao (cm)</label>
                                         <input type="number" class="form-control" id="Height" name="Height" value="10">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Cân nặng (gram)</label>
+                                        <input type="number" class="form-control" id="Weight" name="Weight" value="1000" min="1" max="30000">
+                                        <small class="form-text text-muted">Tối đa 30kg (30,000g)</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Gói dịch vụ</label>
+                                        <select class="form-control" id="serviceSelect" name="ServiceId" disabled>
+                                            <option value="">Chọn gói dịch vụ</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -394,12 +401,22 @@
                 const wardCode = $('#wardSelect').val();
                 const districtId = parseInt($('#districtSelect').val());
                 const serviceId = parseInt($('#serviceSelect').val());
+                const weight = parseInt($('#Weight').val()) || 1000;
 
                 if (!wardCode || !districtId || !serviceId) {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Thông báo',
                         text: 'Vui lòng chọn đầy đủ địa chỉ giao hàng và gói dịch vụ'
+                    });
+                    return;
+                }
+
+                if (weight > 30000) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Thông báo',
+                        text: 'Trọng lượng không được vượt quá 30kg (30,000g)'
                     });
                     return;
                 }
@@ -428,7 +445,7 @@
                         to_ward_code: wardCode,
                         height: height,
                         length: length,
-                        weight: 200,
+                        weight: weight,
                         width: width
                     }),
                     success: function(response) {
@@ -496,7 +513,7 @@
                         to_district_id: districtId,
                         cod_amount: @(Model.PaymentMethod == PaymentMethod.COD ? Model.TotalAmount : 0),
                         content: "Đơn hàng từ ShoeStore",
-                        weight: 200,
+                        weight: parseInt($('#Weight').val()) || 1000,
                         length: length,
                         width: width,
                         height: height,
@@ -514,7 +531,7 @@
                                 @:    length: length,
                                 @:    width: width,
                                 @:    height: height,
-                                @:    weight: 200
+                                @:    weight: parseInt($('#Weight').val()) || 1000
                                 @:},
                             }
                         ]
@@ -532,7 +549,7 @@
                                         <p><strong>Địa chỉ:</strong> ${response.data?.to_address || '@Model.ShippingAddress'}</p>
                                         <p><strong>Phí vận chuyển:</strong> ${response.data?.total_fee?.toLocaleString() || 0} VNĐ</p>
                                         <p><strong>Phí thu hộ (COD):</strong> ${response.data?.cod_amount?.toLocaleString() || 0} VNĐ</p>
-                                        <p><strong>Tổng khối lượng:</strong> ${response.data?.weight || 200}g</p>
+                                        <p><strong>Tổng khối lượng:</strong> ${response.data?.weight || parseInt($('#Weight').val()) || 1000}g</p>
                                         <p><strong>Kích thước:</strong> ${response.data?.length || length}x${response.data?.width || width}x${response.data?.height || height}cm</p>
                                         <p><strong>Ghi chú:</strong> ${response.data?.note || 'Không có'}</p>
                                         <p><strong>Thời gian dự kiến:</strong> ${new Date(response.data?.expected_delivery_time).toLocaleString('vi-VN', {
@@ -746,6 +763,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.code === 200) {
                     const token = data.data.token;
                     let printUrl = '';
