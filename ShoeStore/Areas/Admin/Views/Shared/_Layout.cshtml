@@ -9,6 +9,11 @@
     }
 }
 
+@{
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+    var action = ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +45,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
     <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <!-- Add Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
@@ -66,6 +74,7 @@
                         <i class="gg-more-vertical-alt"></i>
                     </button>
                 </div>
+
                 <!-- End Logo Header -->
             </div>
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
@@ -167,16 +176,30 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Order" asp-action="Index" class="nav-link">
+                            <a data-bs-toggle="collapse" href="#orders" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i>
-                                <p>Order</p>
+                                <p>Quản lý đơn hàng</p>
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Returnrequest" asp-action="Index" class="nav-link">
-                                <i class="fas fa-exchange-alt"></i>
-                                <p>Quản lý đổi trả</p>
-                            </a>
+                            <div class="collapse" id="orders">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a asp-area="admin" asp-controller="Order" asp-action="Index">
+                                            <span class="sub-item">Danh sách đơn hàng</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="MomoTransaction" asp-action="Index">
+                                            <span class="sub-item">Giao dịch MOMO</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="Returnrequest" asp-action="Index">
+                                            <span class="sub-item">Quản lý đổi trả</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a asp-area="admin" asp-controller="ContactUser" asp-action="Index" class="nav-link">
@@ -274,25 +297,21 @@
                             </div>
                         </nav>
 
-                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                            <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
-                                <a class="nav-link dropdown-toggle"
-                                   data-bs-toggle="dropdown"
-                                   href="#"
-                                   role="button"
-                                   aria-expanded="false"
-                                   aria-haspopup="true">
-                                    <i class="fa fa-search"></i>
+                        <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" data-toggle="dropdown" href="#" role="button">
+                                    <i class="far fa-bell"></i>
+                                    <span class="badge badge-warning navbar-badge notif-count">0</span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-search animated fadeIn">
-                                    <form class="navbar-left navbar-form nav-search">
-                                        <div class="input-group">
-                                            <input type="text"
-                                                   placeholder="Search ..."
-                                                   class="form-control" />
-                                        </div>
-                                    </form>
-                                </ul>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <span class="dropdown-item dropdown-header"><span class="notif-count">0</span> Thông báo</span>
+                                    <div class="dropdown-divider"></div>
+                                    <div id="notificationList">
+                                        <!-- Notifications will be inserted here -->
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item dropdown-footer">Xem tất cả thông báo</a>
+                                </div>
                             </li>
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic"
@@ -346,7 +365,7 @@
 
         <div class="container">
             <main role="main" class="pb-3">
-                    @RenderBody()
+                @RenderBody()
             </main>
         </div>
 
@@ -544,37 +563,222 @@
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="~/js/setting-demo.js"></script>
     <script src="~/js/demo.js"></script>
-    <script>
-        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#177dff",
-            fillColor: "rgba(23, 125, 255, 0.14)",
-        });
-
-        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#f3545d",
-            fillColor: "rgba(243, 84, 93, .14)",
-        });
-
-        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-            type: "line",
-            height: "70",
-            width: "100%",
-            lineWidth: "2",
-            lineColor: "#ffa534",
-            fillColor: "rgba(255, 165, 52, .14)",
-        });
-    </script>
+    
     @await RenderSectionAsync("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Add SignalR and Toastr scripts -->
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <style>
+        /* Notification styles */
+        .notification {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 300;
+            color: #fff;
+            text-align: center;
+            line-height: 18px;
+        }
+
+        .dropdown-notif {
+            width: 300px;
+            padding: 0;
+            border: 0;
+            box-shadow: 0 0 15px 1px rgba(64, 70, 74, 0.2);
+        }
+
+        .notif-box {
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .notif-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+
+        .notif-center {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .notif-item:hover {
+            background: #f7f7f7;
+        }
+
+        .notif-item .notif-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            color: #fff;
+        }
+
+        .notif-item .notif-content {
+            flex: 1;
+        }
+
+        .notif-item .notif-content .notif-text {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .notif-item .notif-content .notif-time {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .notif-footer {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .notif-footer a {
+            color: #1572E8;
+            text-decoration: none;
+        }
+
+        .notif-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Notification types */
+        .notif-primary { background: #1572E8 !important; }
+        .notif-success { background: #31CE36 !important; }
+        .notif-warning { background: #FFAD46 !important; }
+        .notif-danger { background: #F25961 !important; }
+    </style>
+
+    <script>
+        // Cấu hình Toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        // Khởi tạo kết nối SignalR
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .build();
+
+        var notificationCount = 0;
+        
+        function updateNotificationCount() {
+            $('.notif-count').text(notificationCount);
+        }
+
+        function addNotification(icon, title, message, time, url) {
+            var notification = `
+                <a href="${url}" class="dropdown-item">
+                    <i class="${icon}"></i> ${title}
+                    <p class="text-sm">${message}</p>
+                    <span class="float-right text-muted text-sm">${time}</span>
+                </a>
+                <div class="dropdown-divider"></div>
+            `;
+            
+            $('#notificationList').prepend(notification);
+            notificationCount++;
+            updateNotificationCount();
+            
+            // Phát âm thanh
+            playNotificationSound();
+        }
+
+        // Xử lý sự kiện nhận đơn hàng mới
+        connection.on("ReceiveNewOrder", function (order) {
+            addNotification(
+                'fas fa-shopping-cart text-success',
+                'Đơn hàng mới!',
+                `Mã đơn: ${order.orderCode}<br>Khách hàng: ${order.customerName}<br>Tổng tiền: ${order.total.toLocaleString('vi-VN')}đ`,
+                'Vừa xong',
+                `/Admin/Order/Details/${order.orderId}`
+            );
+        });
+
+        // Xử lý sự kiện đơn hàng bị hủy
+        connection.on("ReceiveOrderCancelled", function (order) {
+            addNotification(
+                'fas fa-times-circle text-danger',
+                'Đơn hàng đã bị hủy!',
+                `Mã đơn: ${order.orderCode}<br>Khách hàng: ${order.customerName}<br>Lý do: ${order.reason}`,
+                'Vừa xong',
+                `/Admin/Order/Details/${order.orderId}`
+            );
+        });
+
+        // Xử lý sự kiện thay đổi trạng thái đơn hàng
+        connection.on("ReceiveOrderStatusChange", function (order) {
+            addNotification(
+                'fas fa-sync text-info',
+                'Cập nhật trạng thái đơn hàng',
+                `Mã đơn: ${order.orderCode}<br>Trạng thái mới: ${getStatusText(order.status)}<br>Cập nhật bởi: ${order.updatedBy}`,
+                'Vừa xong',
+                `/Admin/Order/Details/${order.orderId}`
+            );
+        });
+
+        // Hàm chuyển đổi trạng thái sang text
+        function getStatusText(status) {
+            switch (status) {
+                case 'Pending': return 'Chờ xử lý';
+                case 'Processing': return 'Đang xử lý';
+                case 'Shipping': return 'Đang giao hàng';
+                case 'Completed': return 'Đã hoàn thành';
+                case 'Cancelled': return 'Đã hủy';
+                default: return status;
+            }
+        }
+
+        // Hàm phát âm thanh thông báo
+        function playNotificationSound() {
+            var audio = new Audio('/sounds/notification.mp3');
+            audio.play();
+        }
+
+        // Kết nối đến SignalR Hub
+        connection.start()
+            .then(function () {
+                console.log("SignalR Connected!");
+            })
+            .catch(function (err) {
+                console.error(err.toString());
+            });
+    </script>
 </body>
 </html>

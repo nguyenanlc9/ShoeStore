@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 using ShoeStore.Utils;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ShoeStore.Controllers
 {
@@ -84,6 +85,23 @@ namespace ShoeStore.Controllers
             await _context.SaveChangesAsync();
 
             return Json(new { success = true, message = "Hủy đơn hàng thành công" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder(Order order)
+        {
+            try 
+            {
+                // ... existing order creation code ...
+
+
+                return RedirectToAction("Thankyou", new { orderId = order.OrderId });
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 } 

@@ -14,6 +14,8 @@ using ShoeStore.Models.Payment.Momo;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.ReCaptcha;
 using ShoeStore.Services.GHN;
+using Microsoft.AspNetCore.SignalR;
+using ShoeStore.Services.Excel;
 
 namespace ShoeStore
 {
@@ -102,6 +104,11 @@ namespace ShoeStore
             builder.Services.AddScoped<IGHNService, GHNService>();
             builder.Services.AddScoped<IGHNAddressService, GHNAddressService>();
 
+            // Đăng ký ExcelService
+            builder.Services.AddScoped<IExcelService, ExcelService>();
+
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -179,6 +186,7 @@ namespace ShoeStore
             {
                 Directory.CreateDirectory(returnsImagePath);
             }
+
 
             app.Run();
         }

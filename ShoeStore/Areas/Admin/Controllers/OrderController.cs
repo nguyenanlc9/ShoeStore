@@ -13,26 +13,28 @@ using ShoeStore.Services.MemberRanking;
 using ShoeStore.Services.GHN;
 using ShoeStore.Models.GHN;
 using System.Net.Http.Json;
+using ShoeStore.Services.Excel;
 
 namespace ShoeStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [AdminAuthorize]
-
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IServiceProvider _serviceProvider;
         private readonly IGHNService _ghnService;
         private readonly IConfiguration _configuration;
+        private readonly IExcelService _excelService;
 
         public OrderController(ApplicationDbContext context, IServiceProvider serviceProvider, 
-            IGHNService ghnService, IConfiguration configuration)
+            IGHNService ghnService, IConfiguration configuration, IExcelService excelService)
         {
             _context = context;
             _serviceProvider = serviceProvider;
             _ghnService = ghnService;
             _configuration = configuration;
+            _excelService = excelService;
         }
 
         // GET: Admin/Order
@@ -194,70 +196,29 @@ namespace ShoeStore.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(int orderId, OrderStatus status)
+        public async Task<IActionResult> UpdateStatus(int orderId, OrderStatus status, string reason = null)
         {
-            var order = await _context.Orders.FindAsync(orderId);
-            if (order != null)
+            try
             {
-                order.Status = status;
-                if (order.PaymentMethod == PaymentMethod.VNPay)
+                var order = await _context.Orders.FindAsync(orderId);
+                if (order == null)
                 {
-                    if (status == OrderStatus.Cancelled)
-                    {
-                        order.PaymentStatus = PaymentStatus.Failed;
-                    }
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng" });
                 }
-                else if (order.PaymentMethod == PaymentMethod.COD)
+
+                order.Status = status;
+                if (status == OrderStatus.Cancelled)
                 {
-                    switch (status)
-                    {
-                        case OrderStatus.Completed:
-                            order.PaymentStatus = PaymentStatus.Completed;
-                            break;
-                        case OrderStatus.Cancelled:
-                            order.PaymentStatus = PaymentStatus.Failed;
-                            break;
-                    }
+                    order.CancelReason = reason;
                 }
 
                 await _context.SaveChangesAsync();
-
-                // Cập nhật TotalSpent và rank khi đơn hàng hoàn thành và đã thanh toán
-                if (status == OrderStatus.Completed && order.PaymentStatus == PaymentStatus.Completed)
-                {
-                    var user = await _context.Users.FindAsync(order.UserId);
-                    if (user != null)
-                    {
-                        // Tính tổng tiền từ các đơn hàng đã hoàn thành
-                        var completedOrders = await _context.Orders
-                            .Where(o => o.UserId == user.UserID 
-                                && o.Status == OrderStatus.Completed 
-                                && o.PaymentStatus == PaymentStatus.Completed)
-                            .ToListAsync();
-
-                        user.TotalSpent = completedOrders.Sum(o => o.TotalAmount);
-
-                        // Cập nhật rank dựa trên tổng chi tiêu
-                        if (user.TotalSpent >= 10000000) // 10 triệu
-                        {
-                            user.MemberRankId = 3; // Gold
-                        }
-                        else if (user.TotalSpent >= 5000000) // 5 triệu
-                        {
-                            user.MemberRankId = 2; // Silver
-                        }
-                        else
-                        {
-                            user.MemberRankId = 1; // Bronze
-                        }
-
-                        await _context.SaveChangesAsync();
-                    }
-                }
-
                 return Json(new { success = true });
             }
-            return Json(new { success = false });
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         // Thêm phương thức để xem chi tiết đơn hàng bao gồm thông tin thanh toán
@@ -656,6 +617,83 @@ namespace ShoeStore.Areas.Admin.Controllers
             {
                 return Json(new { success = false, message = ex.Message });
             }
+        }
+
+        // Action xuất danh sách đơn hàng ra Excel
+        [HttpPost]
+        public async Task<IActionResult> ExportToExcel(string searchString, DateTime? fromDate, DateTime? toDate, string status)
+        {
+            var query = _context.Orders.AsQueryable();
+
+            // Áp dụng filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(o => 
+                    o.OrderCode.Contains(searchString) || 
+                    o.OrderUsName.Contains(searchString) ||
+                    o.PhoneNumber.Contains(searchString));
+            }
+
+            if (fromDate.HasValue)
+            {
+                query = query.Where(o => o.OrderDate >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(o => o.OrderDate <= toDate.Value.AddDays(1));
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(o => o.Status.ToString() == status);
+            }
+
+            var orders = await query.OrderByDescending(o => o.OrderDate).ToListAsync();
+
+            var fileBytes = _excelService.ExportOrders(orders);
+            var fileName = $"orders_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
+        // Action xuất báo cáo doanh thu
+        [HttpPost]
+        public async Task<IActionResult> ExportRevenueReport(DateTime fromDate, DateTime toDate)
+        {
+            var reportData = new List<RevenueReportData>();
+            
+            for (var date = fromDate.Date; date <= toDate.Date; date = date.AddDays(1))
+            {
+                var nextDate = date.AddDays(1);
+                
+                var dailyOrders = await _context.Orders
+                    .Where(o => o.OrderDate >= date && o.OrderDate < nextDate)
+                    .ToListAsync();
+
+                var totalOrders = dailyOrders.Count;
+                var revenue = dailyOrders.Where(o => o.Status == OrderStatus.Completed)
+                    .Sum(o => o.TotalAmount);
+                var cancelledOrders = dailyOrders.Count(o => o.Status == OrderStatus.Cancelled);
+                var completionRate = totalOrders > 0 
+                    ? (decimal)(totalOrders - cancelledOrders) / totalOrders 
+                    : 0;
+
+                reportData.Add(new RevenueReportData
+                {
+                    Date = date,
+                    TotalOrders = totalOrders,
+                    Revenue = revenue,
+                    CancelledOrders = cancelledOrders,
+                    CompletionRate = completionRate,
+                    Note = string.Empty
+                });
+            }
+
+            var fileBytes = _excelService.ExportRevenueReport(fromDate, toDate, reportData);
+            var fileName = $"revenue_report_{fromDate:yyyyMMdd}_{toDate:yyyyMMdd}.xlsx";
+
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
     }
 }

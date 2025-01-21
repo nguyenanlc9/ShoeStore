@@ -1,9 +1,13 @@
 @model ShoeStore.Models.Order
+@using Microsoft.EntityFrameworkCore
 @using ShoeStore.Models.Enums
+@using ShoeStore.Models.Payment.Momo
 @inject IConfiguration Configuration
+@inject ShoeStore.Models.ApplicationDbContext _context
 @{
     ViewData["Title"] = "Xử lý đơn hàng";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var momoTransaction = await _context.MomoTransactions.FirstOrDefaultAsync(m => m.OrderId == Model.OrderId);
 }
 
 <div class="container-fluid">
@@ -59,6 +63,21 @@
                                 <th>Phương thức thanh toán:</th>
                                 <td>@Model.PaymentMethod.ToString()</td>
                             </tr>
+                            @if (Model.PaymentMethod == PaymentMethod.Momo && momoTransaction != null)
+                            {
+                                <tr>
+                                    <th>Mã giao dịch MOMO:</th>
+                                    <td>@momoTransaction.TransactionId</td>
+                                </tr>
+                                <tr>
+                                    <th>Thời gian giao dịch:</th>
+                                    <td>@momoTransaction.TransactionDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                </tr>
+                                <tr>
+                                    <th>Loại thanh toán:</th>
+                                    <td>@momoTransaction.PayType</td>
+                                </tr>
+                            }
                             <tr>
                                 <th>Trạng thái thanh toán:</th>
                                 <td>

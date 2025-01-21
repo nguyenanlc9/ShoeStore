@@ -56,15 +56,48 @@ namespace ShoeStore.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleID,RoleName")] Role role)
+        public async Task<IActionResult> Create([Bind("RoleName")] Role role)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(role);
+                // Kiểm tra RoleName
+                if (string.IsNullOrEmpty(role?.RoleName))
+                {
+                    ModelState.AddModelError("RoleName", "Tên vai trò không được để trống");
+                    return View(role);
+                }
+
+                // Kiểm tra độ dài
+                if (role.RoleName.Length > 50)
+                {
+                    ModelState.AddModelError("RoleName", "Tên vai trò không được vượt quá 50 ký tự");
+                    return View(role);
+                }
+
+                // Kiểm tra trùng tên
+                if (await _context.Roles.AnyAsync(r => r.RoleName.ToLower() == role.RoleName.ToLower()))
+                {
+                    ModelState.AddModelError("RoleName", "Tên vai trò đã tồn tại");
+                    return View(role);
+                }
+
+                // Thêm role mới
+                var newRole = new Role
+                {
+                    RoleName = role.RoleName.Trim()
+                };
+
+                _context.Roles.Add(newRole);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Thêm vai trò thành công";
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Có lỗi xảy ra khi thêm vai trò: {ex.Message}");
+                return View(role);
+            }
         }
 
         // GET: Admin/Role/Edit/5

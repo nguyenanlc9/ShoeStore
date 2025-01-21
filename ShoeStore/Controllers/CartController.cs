@@ -16,6 +16,7 @@ using ShoeStore.Services.MemberRanking;
 using ShoeStore.Areas.Admin.Controllers;
 using ShoeStore.Services.Momo;
 using ShoeStore.Services.GHN;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ShoeStore.Controllers
 {
@@ -428,6 +429,8 @@ namespace ShoeStore.Controllers
                         order.Status = OrderStatus.Processing;
                         order.PaymentStatus = PaymentStatus.Pending;
                         await _context.SaveChangesAsync();
+
+
                         return RedirectToAction("Thankyou", "Cart", new { orderId = order.OrderId });
 
                     case PaymentMethod.VNPay:

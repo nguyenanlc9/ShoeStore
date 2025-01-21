@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
+using ShoeStore.Models.Enums;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ShoeStore.Controllers
 {
@@ -84,6 +86,39 @@ namespace ShoeStore.Controllers
         public IActionResult Success()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(Order order)
+        {
+            try
+            {
+                // Existing order creation code...
+
+                // Sau khi lưu đơn hàng thành công
+                await _context.SaveChangesAsync();
+
+
+                if (order.PaymentMethod == PaymentMethod.COD)
+                {
+                    return RedirectToAction("Thankyou", "Order", new { orderId = order.OrderId });
+                }
+                else if (order.PaymentMethod == PaymentMethod.Momo)
+                {
+                    // Xử lý thanh toán MOMO...
+                }
+                else if (order.PaymentMethod == PaymentMethod.VNPay)
+                {
+                    // Xử lý thanh toán VNPay...
+                }
+
+                return RedirectToAction("Error", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 } 

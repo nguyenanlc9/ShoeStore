@@ -5,12 +5,12 @@
     "\\ShoeStore\\Areas",
     "\\ShoeStore\\Areas\\Admin",
     "\\ShoeStore\\Areas\\Admin\\Views",
-    "\\ShoeStore\\Areas\\Admin\\Views\\Order",
+    "\\ShoeStore\\Areas\\Admin\\Views\\Shared",
     "\\ShoeStore\\Views",
     "\\ShoeStore\\Views\\Shared",
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Order\\Process.cshtml",
+  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }

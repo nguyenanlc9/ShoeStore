@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ShoeStore.Models;
+using ShoeStore.Models.Payment.Momo;
 using System.Collections.Generic;
 using static NuGet.Packaging.PackagingConstants;
 
@@ -42,10 +43,9 @@ namespace ShoeStore.Models
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogImage> BlogImages { get; set; }
         public DbSet<About> Abouts { get; set; }
-
         public DbSet<Wishlist> Wishlists { get; set; }
-
         public DbSet<ShippingRate> ShippingRates { get; set; }
+        public DbSet<MomoTransaction> MomoTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

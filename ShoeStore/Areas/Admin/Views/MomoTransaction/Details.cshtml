@@ -1,0 +1,128 @@
+@model ShoeStore.Models.Payment.Momo.MomoTransaction
+
+@{
+    ViewData["Title"] = "Chi tiết giao dịch MOMO";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết giao dịch MOMO</h1>
+
+    <div class="row">
+        <!-- Thông tin giao dịch -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin giao dịch</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Mã giao dịch MOMO:</th>
+                                <td>@Model.TransactionId</td>
+                            </tr>
+                            <tr>
+                                <th>Request ID:</th>
+                                <td>@Model.RequestId</td>
+                            </tr>
+                            <tr>
+                                <th>Số tiền:</th>
+                                <td>@Model.Amount.ToString("N0") đ</td>
+                            </tr>
+                            <tr>
+                                <th>Thời gian:</th>
+                                <td>@Model.TransactionDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            </tr>
+                            <tr>
+                                <th>Phương thức:</th>
+                                <td>@Model.PayType</td>
+                            </tr>
+                            <tr>
+                                <th>Trạng thái:</th>
+                                <td>
+                                    @if (Model.ResultCode == 0)
+                                    {
+                                        <span class="badge badge-success">Thành công</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Thất bại</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Message:</th>
+                                <td>@Model.ResponseMessage</td>
+                            </tr>
+                            @if (!string.IsNullOrEmpty(Model.ExtraData))
+                            {
+                                <tr>
+                                    <th>Extra Data:</th>
+                                    <td>@Model.ExtraData</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thông tin đơn hàng -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin đơn hàng</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Mã đơn hàng:</th>
+                                <td>@Model.OrderCode</td>
+                            </tr>
+                            <tr>
+                                <th>Khách hàng:</th>
+                                <td>@Model.Order?.OrderUsName</td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại:</th>
+                                <td>@Model.Order?.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ:</th>
+                                <td>@Model.Order?.ShippingAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Trạng thái đơn hàng:</th>
+                                <td>
+                                    <span class="badge badge-@(Model.Order?.Status switch {
+                                        ShoeStore.Models.Enums.OrderStatus.Completed => "success",
+                                        ShoeStore.Models.Enums.OrderStatus.Shipping => "info",
+                                        ShoeStore.Models.Enums.OrderStatus.Cancelled => "danger",
+                                        _ => "warning"
+                                    })">
+                                        @Model.Order?.Status.ToString()
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="@Url.Action("Process", "Order", new { id = Model.Order?.OrderId })" 
+                           class="btn btn-primary">
+                            <i class="fas fa-cog"></i> Xử lý đơn hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</div> 

@@ -1,34 +1,67 @@
 ﻿@model ShoeStore.Models.Role
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm vai trò mới";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
 }
 
-<h1>Create</h1>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Thêm vai trò mới</h1>
 
-<h4>Role</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">
+            @errorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success">
+            @successMessage
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin vai trò</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                
+                <div class="form-group">
+                    <label asp-for="RoleName" class="control-label">Tên vai trò</label>
+                    <input asp-for="RoleName" class="form-control" required />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary">Thêm mới</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Client-side validation
+            $('form').submit(function(e) {
+                var roleName = $('#RoleName').val();
+                if (!roleName || roleName.trim() === '') {
+                    e.preventDefault();
+                    alert('Vui lòng nhập tên vai trò');
+                    return false;
+                }
+                return true;
+            });
+        });
+    </script>
 }

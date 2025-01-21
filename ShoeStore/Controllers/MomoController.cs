@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoeStore.Models;
 using ShoeStore.Models.Enums;
 using ShoeStore.Models.Payment;
+using ShoeStore.Models.Payment.Momo;
 using ShoeStore.Services.Email;
 using ShoeStore.Services.Momo;
 using ShoeStore.Utils;
@@ -78,6 +79,23 @@ namespace ShoeStore.Controllers
                 {
                     return RedirectToAction("Error", "Home", new { message = "Order not found" });
                 }
+
+                // Lưu thông tin giao dịch MOMO
+                var momoTransaction = new MomoTransaction
+                {
+                    OrderCode = orderId,
+                    OrderId = order.OrderId,
+                    TransactionId = queryParams["transId"],
+                    RequestId = queryParams.GetValueOrDefault("requestId", ""),
+                    Amount = decimal.Parse(queryParams["amount"]),
+                    TransactionDate = DateTime.Now,
+                    PayType = queryParams.GetValueOrDefault("payType", ""),
+                    ResponseMessage = queryParams["message"],
+                    ResultCode = int.Parse(resultCode),
+                    ExtraData = queryParams.GetValueOrDefault("extraData", "")
+                };
+
+                _context.MomoTransactions.Add(momoTransaction);
 
                 if (resultCode == "0")
                 {

@@ -1,0 +1,171 @@
+@model IEnumerable<ShoeStore.Models.Payment.Momo.MomoTransaction>
+@{
+    ViewData["Title"] = "Quản lý giao dịch MOMO";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Quản lý giao dịch MOMO</h1>
+
+    <!-- Filter Section -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bộ lọc</h6>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" name="searchString" class="form-control" value="@ViewBag.SearchString" 
+                           placeholder="Mã đơn hàng, mã giao dịch...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Từ ngày</label>
+                    <input type="date" name="fromDate" class="form-control" value="@ViewBag.FromDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Đến ngày</label>
+                    <input type="date" name="toDate" class="form-control" value="@ViewBag.ToDate">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="exportToExcel()">
+                        <i class="fas fa-file-excel"></i> Xuất Excel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách giao dịch</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="transactionTable">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Mã giao dịch MOMO</th>
+                            <th>Số tiền</th>
+                            <th>Thời gian</th>
+                            <th>Phương thức</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.OrderCode</td>
+                                <td>@item.TransactionId</td>
+                                <td>@item.Amount.ToString("N0") đ</td>
+                                <td>@item.TransactionDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td>@item.PayType</td>
+                                <td>
+                                    @if (item.ResultCode == 0)
+                                    {
+                                        <span class="badge badge-success">Thành công</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Thất bại</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" 
+                                       class="btn btn-info btn-sm">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Realtime Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-bell text-primary me-2"></i>
+                <strong class="me-auto">Thông báo mới</strong>
+                <small class="text-muted">vừa xong</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <!-- Notification content will be inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable
+            $('#transactionTable').DataTable({
+                "order": [[3, "desc"]], // Sort by transaction date
+                "pageLength": 10,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
+                }
+            });
+
+            // Setup realtime notifications
+            function checkNewTransactions() {
+                $.get('@Url.Action("GetRealtimeNotifications")', function(data) {
+                    if (data && data.length > 0) {
+                        const latestTransaction = data[0];
+                        const toast = $('#liveToast');
+                        toast.find('.toast-body').html(`
+                            Giao dịch mới: ${latestTransaction.orderCode}<br>
+                            Số tiền: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(latestTransaction.amount)}<br>
+                            Trạng thái: ${latestTransaction.resultCode === 0 ? 'Thành công' : 'Thất bại'}
+                        `);
+                        toast.toast('show');
+                    }
+                });
+            }
+
+            // Check for new transactions every 30 seconds
+            setInterval(checkNewTransactions, 30000);
+        });
+
+        function exportToExcel() {
+            const searchString = $('input[name="searchString"]').val();
+            const fromDate = $('input[name="fromDate"]').val();
+            const toDate = $('input[name="toDate"]').val();
+
+            $.ajax({
+                url: '@Url.Action("ExportToExcel")',
+                method: 'POST',
+                data: {
+                    searchString: searchString,
+                    fromDate: fromDate,
+                    toDate: toDate
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(data) {
+                    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = `momo_transactions_${new Date().toISOString().slice(0,19).replace(/[:]/g, '')}.xlsx`;
+                    link.click();
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi xuất file Excel');
+                }
+            });
+        }
+    </script>
+} 
