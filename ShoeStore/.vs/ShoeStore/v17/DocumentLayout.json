@@ -68,7 +68,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\admin\\OneDrive - SAIGON COLLEGE\\data hoc\\BackEnd\\ShoeStore\\ShoeStore\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAKQAAAAAAAAAAAAewL0AAAAAAAAA",
+              "ViewState": "AQIAAJ4AAAAAAAAAAAAmwL0AAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-21T09:08:27.073Z",
               "EditorCaption": ""
@@ -83,8 +83,7 @@
               "RelativeToolTip": "Controllers\\CheckoutController.cs",
               "ViewState": "AQIAAE0AAAAAAAAAAIAwwGMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-21T09:08:14.443Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-21T09:08:14.443Z"
             },
             {
               "$type": "Document",
@@ -96,8 +95,7 @@
               "RelativeToolTip": "Controllers\\MomoController.cs",
               "ViewState": "AQIAAEkAAAAAAAAAAAAewEMAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-21T08:20:52.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-21T08:20:52.935Z"
             },
             {
               "$type": "Document",
@@ -109,8 +107,7 @@
               "RelativeToolTip": "Controllers\\OrderController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-21T08:06:48.752Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-21T08:06:48.752Z"
             },
             {
               "$type": "Document",
@@ -122,8 +119,7 @@
               "RelativeToolTip": "Controllers\\CartController.cs",
               "ViewState": "AQIAABgAAAAAAAAAAAAEwCcAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-21T07:00:02.546Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-21T07:00:02.546Z"
             },
             {
               "$type": "Document",
@@ -135,8 +131,7 @@
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AQIAAB4CAAAAAAAAAAAkwEsCAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-01-21T06:57:20.55Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-21T06:57:20.55Z"
             }
           ]
         }

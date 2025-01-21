@@ -11,6 +11,6 @@
     "\\ShoeStore\\Views\\Shop",
     "\\ShoeStore\\Views\\Wishlist"
   ],
-  "SelectedNode": "\\ShoeStore\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\ShoeStore\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

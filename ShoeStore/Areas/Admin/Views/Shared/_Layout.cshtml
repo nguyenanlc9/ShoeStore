@@ -161,19 +161,31 @@
                                 <p>Coupons</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="User" asp-action="Index" class="nav-link">
+                        <li class="nav-item @(controller == "User" || controller == "Role" || controller == "MemberRank" ? "active" : "")">
+                            <a data-bs-toggle="collapse" href="#users" class="nav-link">
                                 <i class="fas fa-users"></i>
-                                <p>User</p>
-                                <span class="badge badge-success"></span>
+                                <p>Quản lý người dùng</p>
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Role" asp-action="Index" class="nav-link">
-                                <i class="fas fa-user-shield"></i>
-                                <p>Role</p>
-                                <span class="badge badge-secondary"></span>
-                            </a>
+                            <div class="collapse" id="users">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a asp-area="admin" asp-controller="User" asp-action="Index">
+                                            <span class="sub-item">Danh sách người dùng</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="Role" asp-action="Index">
+                                            <span class="sub-item">Phân quyền</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="MemberRank" asp-action="Index">
+                                            <span class="sub-item">Hạng thành viên</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#orders" class="nav-link">
@@ -201,18 +213,26 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="ContactUser" asp-action="Index" class="nav-link">
+                        <li class="nav-item @(controller == "ContactUser" || controller == "Contact" ? "active" : "")">
+                            <a data-bs-toggle="collapse" href="#contacts" class="nav-link">
                                 <i class="fas fa-envelope"></i>
-                                <p>ContactUser</p>
+                                <p>Quản lý liên hệ</p>
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="admin" asp-controller="Contact" asp-action="Index" class="nav-link">
-                                <i class="fas fa-address-book"></i>
-                                <p>Contact</p>
-                                <span class="badge badge-secondary"></span>
-                            </a>
+                            <div class="collapse" id="contacts">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a asp-area="admin" asp-controller="ContactUser" asp-action="Index">
+                                            <span class="sub-item">Liên hệ từ khách hàng</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="admin" asp-controller="Contact" asp-action="Index">
+                                            <span class="sub-item">Thông tin liên hệ</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="statisticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -368,6 +388,8 @@
                 @RenderBody()
             </main>
         </div>
+
+        @await Html.PartialAsync("_Notifications")
 
         <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
