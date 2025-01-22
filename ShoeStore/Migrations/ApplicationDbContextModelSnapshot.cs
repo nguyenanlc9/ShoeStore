@@ -243,6 +243,32 @@ namespace ShoeStore.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("ShoeStore.Models.CompareProduct", b =>
+                {
+                    b.Property<int>("CompareProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompareProductId"));
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompareProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CompareProducts");
+                });
+
             modelBuilder.Entity("ShoeStore.Models.Contact", b =>
                 {
                     b.Property<string>("ContactName")
@@ -1101,8 +1127,7 @@ namespace ShoeStore.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Img")
                         .IsRequired()
@@ -1330,6 +1355,25 @@ namespace ShoeStore.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Size");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ShoeStore.Models.CompareProduct", b =>
+                {
+                    b.HasOne("ShoeStore.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoeStore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });

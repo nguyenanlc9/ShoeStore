@@ -1,0 +1,182 @@
+﻿
+@model IEnumerable<ShoeStore.Models.CompareProduct>
+@{
+    ViewData["Title"] = "So sánh sản phẩm";
+}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">So sánh sản phẩm</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="text-center mb-5">
+                <h3>Chưa có sản phẩm nào trong danh sách so sánh</h3>
+                <a asp-controller="Shop" asp-action="Index" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
+            </div>
+        }
+        else
+        {
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="h3 mb-0">So sánh sản phẩm</h2>
+                        <button class="btn btn-outline-danger" onclick="clearCompare()">Xóa tất cả</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%">Thông tin</th>
+                                    @foreach (var item in Model)
+                                    {
+                                        <th style="width: @(80/Model.Count())%">
+                                            <button type="button" class="close float-right" onclick="removeFromCompare(@item.ProductId)">
+                                                <span>&times;</span>
+                                            </button>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Hình ảnh</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>
+                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name" class="img-fluid" style="max-width: 200px;">
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Tên sản phẩm</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("Detail", "Shop", new { id = item.ProductId })" class="text-dark">
+                                                @item.Product.Name
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Giá</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>
+                                            @if (item.Product.DiscountPrice > 0)
+                                            {
+                                                <del class="text-muted">@String.Format("{0:N0}đ", item.Product.Price)</del>
+                                                <br />
+                                                <span class="text-primary">@String.Format("{0:N0}đ", item.Product.Price - item.Product.DiscountPrice)</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-primary">@String.Format("{0:N0}đ", item.Product.Price)</span>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Thương hiệu</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>@item.Product.Brands?.Name</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Danh mục</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>@item.Product.Categories?.Name</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Size có sẵn</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>
+                                            @string.Join(", ", item.Product.ProductSizeStocks
+                                                     .Where(pss => pss.StockQuantity > 0)
+                                                     .Select(pss => pss.Size.SizeValue))
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Mô tả</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>@item.Product.Description</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Thao tác</td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("Detail", "Shop", new { id = item.ProductId })" class="btn btn-primary btn-sm">
+                                                Xem chi tiết
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function removeFromCompare(productId) {
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách so sánh?')) {
+                $.ajax({
+                    url: '@Url.Action("RemoveFromCompare", "Compare")',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: function (result) {
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        function clearCompare() {
+            if (confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi danh sách so sánh?')) {
+                $.ajax({
+                    url: '@Url.Action("ClearCompare", "Compare")',
+                    type: 'POST',
+                    success: function (result) {
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+} 

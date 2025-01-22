@@ -46,7 +46,7 @@ namespace ShoeStore.Models
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<ShippingRate> ShippingRates { get; set; }
         public DbSet<MomoTransaction> MomoTransactions { get; set; }
-
+        public DbSet<CompareProduct> CompareProducts { get; set; }
         public DbSet<VNPayTransaction> VNPayTransactions { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }

@@ -1,11 +1,12 @@
-﻿@using ShoeStore.Models
+﻿
+@using ShoeStore.Models
 @using ShoeStore.Utils
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.DependencyInjection
 
 @{
     var userInfo = Context.Session.Get<User>("userInfo");
-    
+
     // Kiểm tra cookie nếu session null
     if (userInfo == null)
     {
@@ -121,6 +122,12 @@
                                         <a asp-controller="Wishlist" asp-action="Index" class="site-wishlist">
                                             <span class="icon icon-heart-o"></span>
                                             @await Component.InvokeAsync("WishlistCount")
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Compare" asp-action="Index" class="site-compare">
+                                            <span class="icon"><i class="fas fa-exchange-alt"></i></span>
+                                            <span class="count">@(Context.Session.Get<List<int>>("CompareList")?.Count ?? 0)</span>
                                         </a>
                                     </li>
                                     <li>
@@ -271,20 +278,20 @@
         position: relative;
     }
 
-    .site-wishlist .count {
-        position: absolute;
-        display: inline-block;
-        right: -5px;
-        top: -5px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #7971ea;
-        color: #fff;
-        font-size: 12px;
-        line-height: 20px;
-        text-align: center;
-    }
+        .site-wishlist .count {
+            position: absolute;
+            display: inline-block;
+            right: -5px;
+            top: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #7971ea;
+            color: #fff;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+        }
 
     .progress-bar {
         background-color: #007bff;
@@ -326,14 +333,38 @@
         transition: all 0.3s ease;
     }
 
-    .messenger-btn i {
-        font-size: 30px;
+        .messenger-btn i {
+            font-size: 30px;
+        }
+
+        .messenger-btn:hover {
+            transform: scale(1.1);
+            color: white;
+            background: #0070db;
+        }
+
+    /* Compare Icon Style */
+    .site-compare {
+        position: relative;
     }
 
-    .messenger-btn:hover {
-        transform: scale(1.1);
-        color: white;
-        background: #0070db;
-    }
+        .site-compare .count {
+            position: absolute;
+            display: inline-block;
+            right: -5px;
+            top: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #7971ea;
+            color: #fff;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .site-compare .icon {
+            font-size: 20px;
+        }
 </style>
 
