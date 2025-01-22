@@ -155,12 +155,6 @@
                                             <i class="fas fa-truck"></i> Đang vận chuyển
                                         </button>
                                     }
-                                    @if (order.Status == OrderStatus.Pending || order.Status == OrderStatus.Processing)
-                                    {
-                                        <button class="btn btn-danger btn-sm ms-1" onclick="cancelOrder(@order.OrderId)">
-                                            <i class="fas fa-times"></i> Hủy đơn
-                                        </button>
-                                    }
                                 </div>
                             </td>
                         </tr>

@@ -49,7 +49,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("RankId");
 
-                    b.ToTable("MemberRanks");
+                    b.ToTable("MemberRanks", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.About", b =>
@@ -82,7 +82,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("AboutId");
 
-                    b.ToTable("Abouts");
+                    b.ToTable("Abouts", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Blog", b =>
@@ -117,7 +117,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("BlogId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>
@@ -142,7 +142,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("BlogId");
 
-                    b.ToTable("BlogImages");
+                    b.ToTable("BlogImages", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Brand", b =>
@@ -174,7 +174,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CartItem", b =>
@@ -208,7 +208,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Category", b =>
@@ -240,7 +240,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.CompareProduct", b =>
@@ -266,7 +266,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CompareProducts");
+                    b.ToTable("CompareProducts", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Contact", b =>
@@ -293,7 +293,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("ContactName");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ContactUser", b =>
@@ -334,7 +334,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("ContactUId");
 
-                    b.ToTable("ContactUsers");
+                    b.ToTable("ContactUsers", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Coupon", b =>
@@ -376,7 +376,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("CouponId");
 
-                    b.ToTable("Coupons");
+                    b.ToTable("Coupons", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Footer", b =>
@@ -401,7 +401,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("FooterId");
 
-                    b.ToTable("Footers");
+                    b.ToTable("Footers", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Notification", b =>
@@ -436,7 +436,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Order", b =>
@@ -560,7 +560,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.OrderDetail", b =>
@@ -594,7 +594,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Payment.Momo.MomoTransaction", b =>
@@ -651,7 +651,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("MomoTransactions");
+                    b.ToTable("MomoTransactions", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.PaymentMethodConfig", b =>
@@ -688,7 +688,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethodConfigs");
+                    b.ToTable("PaymentMethodConfigs", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Product", b =>
@@ -794,7 +794,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductHistory", b =>
@@ -863,7 +863,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductHistories");
+                    b.ToTable("ProductHistories", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductImage", b =>
@@ -891,7 +891,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductSizeStock", b =>
@@ -931,7 +931,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeID");
 
-                    b.ToTable("ProductSizeStocks");
+                    b.ToTable("ProductSizeStocks", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ProductSizeStockHistory", b =>
@@ -971,7 +971,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("ProductSizeStockHistories");
+                    b.ToTable("ProductSizeStockHistories", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ReturnRequest", b =>
@@ -1009,7 +1009,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("ReturnRequests");
+                    b.ToTable("ReturnRequests", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Review", b =>
@@ -1042,7 +1042,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Role", b =>
@@ -1060,7 +1060,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("RoleID");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.ShippingRate", b =>
@@ -1093,7 +1093,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingRates");
+                    b.ToTable("ShippingRates", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Size", b =>
@@ -1114,7 +1114,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("SizeID");
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Slider", b =>
@@ -1157,7 +1157,7 @@ namespace ShoeStore.Migrations
 
                     b.HasKey("Slider_ID");
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.User", b =>
@@ -1229,7 +1229,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.VNPayTransaction", b =>
@@ -1289,7 +1289,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("OrderRefId");
 
-                    b.ToTable("VNPayTransactions");
+                    b.ToTable("VNPayTransactions", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.Wishlist", b =>
@@ -1318,7 +1318,7 @@ namespace ShoeStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wishlists");
+                    b.ToTable("Wishlists", (string)null);
                 });
 
             modelBuilder.Entity("ShoeStore.Models.BlogImage", b =>

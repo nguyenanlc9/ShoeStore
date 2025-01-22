@@ -74,7 +74,7 @@ namespace ShoeStore.Areas.Admin.Controllers
 
             // Thống kê khách hàng mới
             var newCustomers = await _context.Users
-                .Where(u => u.RoleID == 2 && u.RegisterDate >= startDate && u.RegisterDate < endDate)
+                .Where(u => u.RoleID == 1 && u.RegisterDate >= startDate && u.RegisterDate < endDate)
                 .CountAsync();
 
             var dashboardViewModel = new DashboardViewModel
@@ -85,7 +85,7 @@ namespace ShoeStore.Areas.Admin.Controllers
                 TotalRevenue = orders
                     .Where(o => o.Status == OrderStatus.Completed)
                     .Sum(o => o.TotalAmount),
-                TotalCustomers = await _context.Users.CountAsync(u => u.RoleID == 2),
+                TotalCustomers = await _context.Users.CountAsync(u => u.RoleID == 1),
                 NewCustomers = newCustomers,
                 DailyRevenue = dailyRevenue.Select(x => new DailyRevenueData
                 {
